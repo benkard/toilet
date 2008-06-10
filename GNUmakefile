@@ -19,7 +19,8 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 TOOL_NAME = etoilisp
 etoilisp_OBJC_FILES = MLKCons.m MLKEnvironment.m MLKLinkedList.m	\
-                      MLKLispValue.m MLKUndefinedVariableException.m
+                      MLKLispValue.m MLKSymbol.m			\
+                      MLKUndefinedVariableException.m
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/tool.make
