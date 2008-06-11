@@ -22,6 +22,14 @@ etoilisp_OBJC_FILES = MLKCons.m MLKEnvironment.m MLKLinkedList.m	\
                       MLKLispValue.m MLKSymbol.m			\
                       MLKUndefinedVariableException.m
 
+BUNDLE_NAME = Test
+Test_OBJC_FILES = $(etoilisp_OBJC_FILES) MLKLowLevelTests.m
+Test_OBJC_LIBS = -lUnitKit
+
 -include GNUmakefile.preamble
+include $(GNUSTEP_MAKEFILES)/bundle.make
 include $(GNUSTEP_MAKEFILES)/tool.make
 -include GNUmakefile.postamble
+
+test: Test
+	ukrun Test.bundle
