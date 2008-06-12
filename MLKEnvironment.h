@@ -3,12 +3,13 @@
 
 #import "MLKLispValue.h"
 
-@class NSMutableDictionary, MLKLinkedList, MLKSymbol;
+@class NSMutableDictionary, MLKSymbol;
 
 
 @interface MLKEnvironment : MLKLispValue
 {
-  MLKLinkedList *_bindings;
+  MLKEnvironment *_parent;
+  NSMutableDictionary *_bindings;
 }
 
 -(MLKEnvironment *) init;
@@ -20,4 +21,8 @@
 -(void) addBinding:(MLKSymbol *)symbol to:(id)value;
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value;
 -(id) valueForBinding:(MLKSymbol *)symbol;
+
+// Private methods.
+-(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;
+-(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
 @end

@@ -5,22 +5,19 @@
 #import <Foundation/NSArray.h>
 
 #import "MLKEnvironment.h"
-#import "MLKLinkedList.h"
-#import "MLKCons.h"
 #import "MLKUndefinedVariableException.h"
 
 
 @implementation MLKEnvironment
 -(MLKEnvironment *) init
 {
-  _bindings = [[MLKLinkedList alloc] init];
-  return self;
+  return [self initWithParent:nil bindings:nil];
 }
 
 -(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent bindings:(NSDictionary *)bindings
 {
-  _bindings = [[MLKLinkedList alloc] initWithCons:[parent->_bindings firstCons]];
-  [_bindings push: [NSMutableDictionary dictionaryWithCapacity:10]];
+  _bindings = [[NSMutableDictionary alloc] initWithCapacity:10];
+  ASSIGN (_parent, parent);
   [self addBindings: bindings];
   return self;
 }
@@ -37,54 +34,49 @@
 
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value
 {
-  MLKCons *cons;
-  for (cons = [_bindings firstCons]; cons; cons = [cons cdr])
-    {
-      NSMutableDictionary *dict = [cons car];
-      if ([[dict allKeys] containsObject:symbol])
-        {
-          [dict setObject:value forKey:symbol];
-          break;
-        }
-    }
-  
-  [[[MLKUndefinedVariableException alloc] initWithEnvironment: self
-                                          variableName: symbol]
-    raise];
+  [self setBinding:symbol to:value inEnvironment:self];
+}
+
+-(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env
+{
+  if ([[_bindings allKeys] containsObject:symbol])
+    [_bindings setObject:value forKey:symbol];
+  else
+    if (_parent)
+      [_parent setBinding:symbol to:value inEnvironment:env];
+    else
+      [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
+                                              variableName:symbol]
+        raise];
 }
 
 -(id) valueForBinding:(MLKSymbol *)symbol
 {
-  MLKCons *cons;
-  for (cons = [_bindings firstCons]; cons; cons = [cons cdr])
-    {
-      NSMutableDictionary *dict = [cons car];
-      if ([[dict allKeys] containsObject:symbol])
-        {
-          return [dict objectForKey:symbol];
-        }
-    }
+  return [self valueForBinding:symbol];
+}
 
-  [[[MLKUndefinedVariableException alloc] initWithEnvironment: self
-                                          variableName: symbol]
-    raise];
-  return nil;
+-(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
+{
+  if ([[_bindings allKeys] containsObject:symbol])
+    return [_bindings objectForKey:symbol];
+  else
+    if (_parent)
+      return [_parent valueForBinding:symbol];
+    else
+      [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
+                                              variableName:symbol]
+        raise];;
+  
+  return nil;  // avoid a stupid compiler warning
 }
 
 -(void) addBindings:(NSDictionary *)bindings
 {
-  int i;
-  NSArray *keys = [bindings allKeys];
-  int count = [keys count];
-  for (i = 0; i < count; i++)
-    {
-      [self addBinding:[keys objectAtIndex:i] to:[bindings objectForKey:[keys objectAtIndex:i]]];
-    }
+  [_bindings addEntriesFromDictionary:bindings];
 }
 
 -(void) addBinding:(MLKSymbol *)symbol to:(id)value
 {
-  NSMutableDictionary *dict = [[_bindings firstCons] car];
-  [dict setObject:value forKey:symbol];
+  [_bindings setObject:value forKey:symbol];
 }
 @end
