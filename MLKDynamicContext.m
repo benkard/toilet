@@ -25,6 +25,7 @@
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
+                            catchTags:(NSDictionary *)catchTags
                        currentHandler:(MLKClosure *)handler
 {
   _parent = (aContext ? aContext : [MLKDynamicContext currentContext]);
@@ -33,6 +34,7 @@
                                         _parent,
                                         _parent->_conditionHandlers);
   _restarts = MAKE_ENVIRONMENT(restarts, _parent, _parent->_restarts);
+  _catchTags = MAKE_ENVIRONMENT(catchTags, _parent, _parent->_catchTags);
   _currentConditionHandler = (handler
                               ? (id) handler
                               : (_parent

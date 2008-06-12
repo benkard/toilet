@@ -8,6 +8,7 @@
 {
   MLKEnvironment *_conditionHandlers;
   MLKEnvironment *_restarts;
+  MLKEnvironment *_catchTags;
   MLKClosure *_currentConditionHandler;
   MLKEnvironment *_environment;
   MLKDynamicContext *_parent;
@@ -17,6 +18,7 @@
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
+                            catchTags:(NSDictionary *)catchTags
                        currentHandler:(MLKClosure *)handler;
 
 -(MLKDynamicContext *) pushContext;
