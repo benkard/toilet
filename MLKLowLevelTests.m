@@ -17,21 +17,17 @@
                            
 #include <UnitKit/UnitKit.h>
 
-@interface MLKLowLevelTests <UKTest>
-//-(id) initForTest;
+@interface MLKLowLevelTests : NSObject <UKTest>
 @end
 
 
 @implementation MLKLowLevelTests
-/*
 -(id) initForTest
 {
   return self;
 }
-*/
 
 
-/*
 -(id) testStuff
 {
   // UKPass(); UKFail();
@@ -40,6 +36,5 @@
   //  UKStringsNotEqual (@"a", @"b");
   // UKPass();
   return nil;
-  }
-*/
+}
 @end
