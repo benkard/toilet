@@ -37,5 +37,11 @@
 {
   ASSIGN (_cdr, value);
 }
-@end
 
+-(void) dealloc
+{
+  RELEASE (_car);
+  RELEASE (_cdr);
+  [super dealloc];
+}
+@end

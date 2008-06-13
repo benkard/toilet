@@ -61,4 +61,10 @@
     return 0;
 }
 #endif
+
+-(void) dealloc
+{
+  RELEASE (_firstCons);
+  [super dealloc];
+}
 @end

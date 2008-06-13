@@ -12,4 +12,11 @@
   environment = anEnvironment;
   return self;
 }
+
+-(void) dealloc
+{
+  RELEASE (variableName);
+  RELEASE (environment);
+  [super dealloc];
+}
 @end

@@ -8,8 +8,8 @@
 -(MLKThrowException *) initWithCatchTag:(MLKSymbol *)catchTag
                                   value:(id)value
 {
-  _catchTag = catchTag;
-  _value = value;
+  ASSIGN (_catchTag, catchTag);
+  ASSIGN (_value, value);
   return self;
 }
 
@@ -21,5 +21,12 @@
 -(id) value
 {
   return _value;
+}
+
+-(void) dealloc
+{
+  RELEASE (_catchTag);
+  RELEASE (_value);
+  [super dealloc];
 }
 @end

@@ -17,7 +17,7 @@
                             ? (id) parent_member                        \
                             : nil)                                      \
                   bindings:vars]                                        \
-   : (id) (parent ? (id) parent_member : nil));
+   : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
 @implementation MLKDynamicContext
@@ -28,7 +28,7 @@
                             catchTags:(NSDictionary *)catchTags
                        currentHandler:(MLKClosure *)handler
 {
-  _parent = (aContext ? aContext : [MLKDynamicContext currentContext]);
+  ASSIGN (_parent, (aContext ? aContext : [MLKDynamicContext currentContext]));
   _environment = MAKE_ENVIRONMENT(vars, _parent, _parent->_environment);
   _conditionHandlers = MAKE_ENVIRONMENT(handlers,
                                         _parent,
@@ -61,5 +61,16 @@
   [[[NSThread currentThread] threadDictionary] setObject:context->_parent
                                                forKey:@"MLKDynamicContext"];
   return context;
+}
+
+-(void) dealloc
+{
+  RELEASE (_conditionHandlers);
+  RELEASE (_restarts);
+  RELEASE (_catchTags);
+  RELEASE (_currentConditionHandler);
+  RELEASE (_environment);
+  RELEASE (_parent);
+  [super dealloc];
 }
 @end

@@ -23,4 +23,6 @@
 #ifdef __OBJC2__
 -(NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len;
 #endif
+
+-(void) dealloc;
 @end

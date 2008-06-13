@@ -18,4 +18,6 @@
 -(id) cdr;
 -(void) setCar:(id)value;
 -(void) setCdr:(id)value;
+
+-(void) dealloc;
 @end

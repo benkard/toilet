@@ -4,12 +4,12 @@
 @class MLKClosure, MLKEnvironment, NSLinkedList, NSMutableDictionary, NSString;
 
 
-@interface MLKDynamicContext
+@interface MLKDynamicContext : NSObject
 {
   MLKEnvironment *_conditionHandlers;
   MLKEnvironment *_restarts;
   MLKEnvironment *_catchTags;
-  MLKClosure *_currentConditionHandler;
+  MLKClosure *_currentConditionHandler;  // needed for the Condition Firewall
   MLKEnvironment *_environment;
   MLKDynamicContext *_parent;
 }
@@ -25,4 +25,6 @@
 
 +(MLKDynamicContext *) currentContext;
 +(MLKDynamicContext *) popContext;
+
+-(void) dealloc;
 @end

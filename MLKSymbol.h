@@ -17,4 +17,6 @@
 -(NSString *) name;
 -(MLKPackage *) homePackage;
 -(void) setHomePackage:(MLKPackage *)aPackage;
+
+-(void) dealloc;
 @end

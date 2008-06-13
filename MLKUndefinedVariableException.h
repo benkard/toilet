@@ -14,4 +14,6 @@
 
 -(MLKUndefinedVariableException *) initWithEnvironment:(id)environment
                                           variableName:(id)symbol;
+
+-(void) dealloc;
 @end

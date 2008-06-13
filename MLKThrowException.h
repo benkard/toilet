@@ -17,4 +17,6 @@
 
 -(MLKSymbol *) catchTag;
 -(id) value;
+
+-(void) dealloc;
 @end

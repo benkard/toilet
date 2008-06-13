@@ -25,4 +25,6 @@
 // Private methods.
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;
 -(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
+
+-(void) dealloc;
 @end

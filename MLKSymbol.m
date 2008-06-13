@@ -26,5 +26,11 @@
 {
   ASSIGN (homePackage, aPackage);
 }
-@end
 
+-(void) dealloc
+{
+  RELEASE (name);
+  RELEASE (homePackage);
+  [super dealloc];
+}
+@end

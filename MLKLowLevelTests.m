@@ -38,7 +38,7 @@
 -(id) testCons
 {
   id obj1 = @"Mulk.";
-  id obj2 = [[NSMutableDictionary alloc] init];
+  id obj2 = AUTORELEASE ([[NSMutableDictionary alloc] init]);
 
   MLKCons *cons2 = [MLKCons cons:obj1 with:obj2];
   MLKCons *cons3 = [MLKCons cons:obj1 with:nil];

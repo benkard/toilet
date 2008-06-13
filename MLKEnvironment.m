@@ -79,4 +79,11 @@
 {
   [_bindings setObject:value forKey:symbol];
 }
+
+-(void) dealloc
+{
+  RELEASE (_bindings);
+  RELEASE (_parent);
+  [super dealloc];
+}
 @end
