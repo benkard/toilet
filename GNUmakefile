@@ -20,6 +20,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 TOOL_NAME = etoilisp
 etoilisp_OBJC_FILES = MLKCons.m MLKDynamicContext.m MLKEnvironment.m	\
                       MLKLinkedList.m MLKLispValue.m MLKSymbol.m	\
+                      MLKThrowException.m				\
                       MLKUndefinedVariableException.m
 
 BUNDLE_NAME = Test
