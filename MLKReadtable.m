@@ -31,6 +31,11 @@
 
 
 @implementation MLKReadtable
+-(MLKReadtable *) initSuper
+{
+  return [super init];
+}
+
 -(MLKReadtable *) init
 {
   self = [super init];
@@ -42,7 +47,7 @@
 
 -(MLKReadtable *) copyWithZone:(NSZone *)zone
 {
-  MLKReadtable *copy = [MLKReadtable allocWithZone:zone];
+  MLKReadtable *copy = [[MLKReadtable allocWithZone:zone] initSuper];
   copy->_syntaxTable = [_syntaxTable mutableCopyWithZone:zone];
   copy->_readerMacros = [_readerMacros mutableCopyWithZone:zone];
   copy->_case = _case;
