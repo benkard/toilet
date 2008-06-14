@@ -132,19 +132,18 @@
           [stream unreadChar:ch];
           break;
         }
+      else if ([readtable isInvalidConstituent:ch])
+        {
+          [[[MLKReaderError alloc] initWithStream:stream] raise];
+        }
       else if ([readtable isWhitespaceCharacter:ch])
         {
           if (preserveWhitespace)
             [stream unreadChar:ch];
           break;
         }
-      else if ([readtable isInvalidCharacter:ch])
-        {
-          [[[MLKReaderError alloc] initWithStream:stream] raise];
-        }
     }
 
-  // FIXME: Check the token for invalid syntax.
-  return token;
+  // FIXME: Check the token for meaning.
 }
 @end
