@@ -1,0 +1,73 @@
+#author Matthias Benkard
+#date 2008-06-14 - <lisp>(format-time-string "%Y-%m-%d")</lisp>
+#title Mulklisp Development Diary
+#desc Random news and stuff about just another random pet project
+
+; Time-stamp: <2008-06-14 17:00:29 mulk>
+; 
+; C-c i t	insert-time-stamp
+; C-c C-t	muse-project-publish-this-file
+; C-c C-e	muse-edit-link-at-point
+; C-c C-i	muse-insert-thing
+
+
+----
+
+Context: [[http://matthias.benkard.de/mulklisp][The Mulklisp Project]].
+
+----
+
+
+* 2008-06-14, 16:41:55 CEST
+
+**  Another Random Piece of Vaporware is Born
+
+Here I go again, starting yet another little pet software project whose
+chance of surviving for more than a few months is limited, but hey, it'd
+not be me if I didn't start bragging about it before having written even
+a single line of code, right?  So here we go!
+
+I intend Mulklisp (which is obviously a preliminary, WebShaka-style
+proto-name) to become a Lisp compiler for the Étoilé runtime (and maybe
+Mac OS X as well, but that's of a lower priority) with the following
+features:
+
+ * A proper subset of ANSI Common Lisp, with an eye towards full ANSI
+   compliance in the far future.
+ * CFFI support.
+ * Lexical **and** dynamic scoping.
+ * Integration with the Étoilé object system.
+ * DEFMACRO.
+ * Hygienic macros by way of Explicit Renaming and Syntactic Closures.
+ * Read macros. (?)
+ * TAGBODY and GO. (?)
+ * CATCH and THROW. (?)
+ * Places (that is, SETF).
+ * A package system.
+ * Arrays and hash tables compatible with their Common Lisp counterparts,
+   but based on the Étoilé/GNUstep ones.
+ * Direct compilation to Étoilé runtime code (as with Étoilé Smalltalk).
+ * A REPL.
+ * Conditions and restarts.
+ * Multiple namespaces.
+ * Bignums and rationals.
+ * JIT and explicit compilation (COMPILE) via LLVM. (?)
+ * Optional static typing with Cells-based/Hindley-Milner/whatever type
+   inference. (?)
+
+Well, that's what I'm dreaming of.  At least now you have something new
+to joke about in place of Duke Nukem Forever (which is coming out
+Practically Tomorrow!  Preorder today!).
+
+Maybe I ought to change my nickname from Kompottkin to Vaporwarepottkin.
+
+
+----
+
+*Matthias Benkard, <lisp>(format-time-string "%Y-%m-%d, %k:%M %Z")</lisp>*
+
+http://matthias.benkard.de/
+
+; Local Variables:
+; mode: muse
+; End:
