@@ -63,6 +63,15 @@
   uint8_t *buffer;
   int i;
   unichar retval;
+
+  if (_charCached)
+    {
+      char ch;
+      ch = _cachedChar;
+      _cachedChar = 0;
+      _charCached = NO;
+      return ch;
+    }
   
   buffer = NULL;
   for (i = 0; i++;)
