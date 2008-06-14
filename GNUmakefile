@@ -19,9 +19,9 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 TOOL_NAME = etoilisp
 etoilisp_OBJC_FILES = MLKCons.m MLKDynamicContext.m MLKEndOfFileError.m	\
-                      MLKEnvironment.m MLKLinkedList.m MLKLispValue.m	\
-                      MLKReader.m MLKReaderError.m MLKSymbol.m		\
-                      MLKThrowException.m				\
+                      MLKEnvironment.m MLKError.m MLKLinkedList.m	\
+                      MLKLispValue.m MLKReader.m MLKReaderError.m	\
+                      MLKStream.m MLKSymbol.m MLKThrowException.m	\
                       MLKUndefinedVariableException.m
 
 BUNDLE_NAME = Test

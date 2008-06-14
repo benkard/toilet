@@ -25,6 +25,7 @@
 #import "MLKEnvironment.h"
 #import "MLKPackage.h"
 #import "MLKClosure.h"
+#import "MLKStream.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
@@ -128,13 +129,13 @@
         escaped = !escaped;
       else if ([readtable isTerminatingMacroCharacter:ch])
         {
-          [stream unreadChar];
+          [stream unreadChar:ch];
           break;
         }
       else if ([readtable isWhitespaceCharacter:ch])
         {
           if (preserveWhitespace)
-            [stream unreadChar];
+            [stream unreadChar:ch];
           break;
         }
       else if ([readtable isInvalidCharacter:ch])
