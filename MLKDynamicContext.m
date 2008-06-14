@@ -28,6 +28,7 @@
                             catchTags:(NSDictionary *)catchTags
                        currentHandler:(MLKClosure *)handler
 {
+  self = [super init];
   ASSIGN (_parent, (aContext ? aContext : [MLKDynamicContext currentContext]));
   _environment = MAKE_ENVIRONMENT(vars, _parent, _parent->_environment);
   _conditionHandlers = MAKE_ENVIRONMENT(handlers,

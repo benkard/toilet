@@ -12,6 +12,7 @@
 
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr
 {
+  self = [super init];
   ASSIGN (_car, car);
   ASSIGN (_cdr, cdr);
   return self;

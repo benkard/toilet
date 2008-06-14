@@ -8,12 +8,14 @@
 @implementation MLKLinkedList
 -(MLKLinkedList*) init
 {
+  self = [super init];
   _firstCons = nil;
   return self;
 }
 
 -(MLKLinkedList*) initWithCons:(MLKCons*)cons
 {
+  self = [super init];
   ASSIGN (_firstCons, cons);
   return self;
 }

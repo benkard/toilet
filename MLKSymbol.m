@@ -7,6 +7,7 @@
 @implementation MLKSymbol
 -(MLKSymbol *) initWithName:(id)aName package:(id)aPackage
 {
+  self = [super init];
   ASSIGN (name, aName);
   ASSIGN (homePackage, aPackage);
   return self;

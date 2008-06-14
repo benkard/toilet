@@ -16,6 +16,7 @@
 
 -(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent bindings:(NSDictionary *)bindings
 {
+  self = [super init];
   _bindings = [[NSMutableDictionary alloc] initWithCapacity:10];
   ASSIGN (_parent, parent);
   [self addBindings: bindings];

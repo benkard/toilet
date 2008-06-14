@@ -1,4 +1,4 @@
-/* Étoilisp, a Common Lisp subset for Étoilé.
+/* Étoilisp/Mulklisp, a Common Lisp subset for the Étoilé runtime.
  * Copyright (C) 2008  Matthias Andreas Benkard.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@
 @implementation MLKLowLevelTests
 -(id) initForTest
 {
+  self = [super init];
   return self;
 }
 

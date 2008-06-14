@@ -8,6 +8,7 @@
 -(MLKThrowException *) initWithCatchTag:(MLKSymbol *)catchTag
                                   value:(id)value
 {
+  self = [super init];
   ASSIGN (_catchTag, catchTag);
   ASSIGN (_value, value);
   return self;

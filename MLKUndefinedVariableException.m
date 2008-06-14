@@ -8,6 +8,7 @@
 -(MLKUndefinedVariableException *) initWithEnvironment:(id)anEnvironment
                                           variableName:(id)aSymbol
 {
+  self = [super init];
   variableName = aSymbol;
   environment = anEnvironment;
   return self;
