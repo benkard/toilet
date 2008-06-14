@@ -32,10 +32,14 @@
 -(MLKEnvironment *) initWithBindings:(NSDictionary *)bindings;
 -(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent bindings:(NSDictionary *)bindings;
 
+-(MLKEnvironment *) parent;
+
 -(void) addBindings:(NSDictionary *)bindings;
 -(void) addBinding:(MLKSymbol *)symbol to:(id)value;
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value;
 -(id) valueForBinding:(MLKSymbol *)symbol;
+
+-(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol;
 
 // Private methods.
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;

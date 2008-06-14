@@ -48,6 +48,11 @@
   return [self initWithParent:nil bindings:bindings];
 }
 
+-(MLKEnvironment *) parent
+{
+  return _parent;
+}
+
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value
 {
   [self setBinding:symbol to:value inEnvironment:self];
@@ -81,7 +86,7 @@
     else
       [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
                                               variableName:symbol]
-        raise];;
+        raise];
   
   return nil;  // avoid a stupid compiler warning
 }
@@ -94,6 +99,16 @@
 -(void) addBinding:(MLKSymbol *)symbol to:(id)value
 {
   [_bindings setObject:value forKey:symbol];
+}
+
+-(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol
+{
+  if ([[_bindings allKeys] containsObject:symbol])
+    return self;
+  else if (_parent)
+    return [_parent environmentForBinding:symbol];
+  else
+    return nil;
 }
 
 -(void) dealloc

@@ -41,7 +41,7 @@
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
                             catchTags:(NSDictionary *)catchTags
-                       currentHandler:(MLKClosure *)handler
+             activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 {
   self = [super init];
   ASSIGN (_parent, (aContext ? aContext : [MLKDynamicContext currentContext]));
@@ -51,11 +51,12 @@
                                         _parent->_conditionHandlers);
   _restarts = MAKE_ENVIRONMENT(restarts, _parent, _parent->_restarts);
   _catchTags = MAKE_ENVIRONMENT(catchTags, _parent, _parent->_catchTags);
-  _currentConditionHandler = (handler
-                              ? (id) handler
-                              : (_parent
-                                 ? (id) _parent->_currentConditionHandler
-                                 : nil));
+  ASSIGN (_activeHandlerEnvironment,
+          handlerEnv
+          ? (id) handlerEnv
+          : (_parent
+             ? (id) (_parent->_activeHandlerEnvironment)
+             : nil));
   return self;
 }
 
@@ -86,19 +87,59 @@
 
 -(id) findRestart:(MLKSymbol *)symbol
 {
-  return [_restarts valueForBinding:symbol];
+  NS_DURING
+    {
+      return [_restarts valueForBinding:symbol];
+    }
+  NS_HANDLER
+    {
+      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+        NS_VALUERETURN (nil, id);
+      else
+        [localException raise];
+    }
+  NS_ENDHANDLER;
+
+  return nil;
 }
 
-/*
 -(id) findHandler:(MLKSymbol *)symbol
 {
-  // ???
+  NS_DURING
+    {
+      if (_activeHandlerEnvironment)
+        return [[_activeHandlerEnvironment parent] valueForBinding:symbol];
+      else
+        return [_conditionHandlers valueForBinding:symbol];
+    }
+  NS_HANDLER
+    {
+      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+        NS_VALUERETURN (nil, id);
+      else
+        [localException raise];
+    }
+  NS_ENDHANDLER;
+
+  return nil;
 }
-*/
 
 -(id) findCatchTag:(MLKSymbol *)symbol
 {
-  return [_catchTags valueForBinding:symbol];
+  NS_DURING
+    {
+      return [_catchTags valueForBinding:symbol];
+    }
+  NS_HANDLER
+    {
+      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+        NS_VALUERETURN (nil, id);
+      else
+        [localException raise];
+    }
+  NS_ENDHANDLER;
+
+  return nil;
 }
 
 -(void) dealloc
@@ -106,7 +147,7 @@
   RELEASE (_conditionHandlers);
   RELEASE (_restarts);
   RELEASE (_catchTags);
-  RELEASE (_currentConditionHandler);
+  RELEASE (_activeHandlerEnvironment);
   RELEASE (_environment);
   RELEASE (_parent);
   [super dealloc];

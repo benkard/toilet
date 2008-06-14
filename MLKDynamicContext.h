@@ -25,8 +25,8 @@
   MLKEnvironment *_conditionHandlers;
   MLKEnvironment *_restarts;
   MLKEnvironment *_catchTags;
-  MLKClosure *_currentConditionHandler;  // needed for the Condition Firewall
   MLKEnvironment *_environment;
+  MLKEnvironment *_activeHandlerEnvironment;  // needed for the Condition Firewall
   MLKDynamicContext *_parent;
 }
 
@@ -35,7 +35,7 @@
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
                             catchTags:(NSDictionary *)catchTags
-                       currentHandler:(MLKClosure *)handler;
+             activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 
 -(MLKDynamicContext *) pushContext;
 
