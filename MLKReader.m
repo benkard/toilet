@@ -24,6 +24,7 @@
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
 #import "MLKPackage.h"
+#import "MLKClosure.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
@@ -42,7 +43,7 @@
   BOOL escaped;
 
   readtable = [[[MLKDynamicContext currentContext] environment]
-                valueForBinding:[[MLKPackage commonLisp]
+                valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
   
  start:

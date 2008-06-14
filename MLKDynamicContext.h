@@ -16,7 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@class MLKClosure, MLKEnvironment, NSLinkedList, NSMutableDictionary, NSString;
+@class MLKClosure, MLKEnvironment, MLKSymbol, NSLinkedList,
+       NSMutableDictionary, NSString;
 
 
 @interface MLKDynamicContext : NSObject
@@ -40,6 +41,12 @@
 
 +(MLKDynamicContext *) currentContext;
 +(MLKDynamicContext *) popContext;
+
+-(MLKEnvironment *) environment;
+
+-(id) findRestart:(MLKSymbol *)symbol;
+-(id) findHandler:(MLKSymbol *)symbol;
+-(id) findCatchTag:(MLKSymbol *)symbol;
 
 -(void) dealloc;
 @end

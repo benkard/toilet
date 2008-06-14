@@ -79,6 +79,28 @@
   return context;
 }
 
+-(MLKEnvironment *) environment
+{
+  return _environment;
+}
+
+-(id) findRestart:(MLKSymbol *)symbol
+{
+  return [_restarts valueForBinding:symbol];
+}
+
+/*
+-(id) findHandler:(MLKSymbol *)symbol
+{
+  // ???
+}
+*/
+
+-(id) findCatchTag:(MLKSymbol *)symbol
+{
+  return [_catchTags valueForBinding:symbol];
+}
+
 -(void) dealloc
 {
   RELEASE (_conditionHandlers);

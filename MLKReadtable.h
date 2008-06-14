@@ -18,7 +18,7 @@
 
 #import "MLKLispValue.h"
 
-@class NSMutableDictionary;
+@class MLKClosure, NSMutableDictionary;
 
 
 enum MLKReadtableCase
@@ -40,4 +40,17 @@ enum MLKReadtableCase
 
 -(MLKReadtable *) init;
 -(MLKReadtable *) copy;
+
+-(BOOL) isWhitespaceCharacter:(unichar)ch;
+-(BOOL) isMacroCharacter:(unichar)ch;
+-(BOOL) isNonTerminatingMacroCharacter:(unichar)ch;
+-(BOOL) isTerminatingMacroCharacter:(unichar)ch;
+-(BOOL) isSingleEscapeCharacter:(unichar)ch;
+-(BOOL) isMultipleEscapeCharacter:(unichar)ch;
+-(BOOL) isConstituentCharacter:(unichar)ch;
+-(BOOL) isInvalidCharacter:(unichar)ch;
+-(BOOL) characterHasCase:(unichar)ch;
+
+-(MLKClosure *) macroFunctionForCharacter:(unichar)ch;
+-(unichar) charWithReadtableCase:(unichar)ch;
 @end
