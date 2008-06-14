@@ -18,6 +18,9 @@
 
 #import "MLKLispValue.h"
 
+#import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
+
 @class MLKClosure, NSMutableDictionary;
 
 
@@ -30,7 +33,7 @@ enum MLKReadtableCase
 };
 
 
-@interface MLKReadtable : MLKLispValue
+@interface MLKReadtable : MLKLispValue <NSCopying>
 {
   NSMutableDictionary *_syntaxTable;
   NSMutableDictionary *_readerMacros;
@@ -39,7 +42,8 @@ enum MLKReadtableCase
 }
 
 -(MLKReadtable *) init;
--(MLKReadtable *) copy;
+
+-(MLKReadtable *) copyWithZone:(NSZone *)zone;
 
 -(BOOL) isWhitespaceCharacter:(unichar)ch;
 -(BOOL) isMacroCharacter:(unichar)ch;

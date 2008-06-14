@@ -21,8 +21,8 @@ TOOL_NAME = etoilisp
 etoilisp_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDynamicContext.m	\
                       MLKEndOfFileError.m MLKEnvironment.m MLKError.m	\
                       MLKLinkedList.m MLKLispValue.m MLKPackage.m	\
-                      MLKReader.m MLKReaderError.m MLKStream.m		\
-                      MLKSymbol.m MLKThrowException.m			\
+                      MLKReader.m MLKReadtable.m MLKReaderError.m	\
+                      MLKStream.m MLKSymbol.m MLKThrowException.m	\
                       MLKUndefinedVariableException.m
 
 BUNDLE_NAME = Test
