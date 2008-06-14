@@ -95,7 +95,7 @@
 
   if ([readtable isMultipleEscapeCharacter:ch])
     {
-      token = [NSMutableString stringWithCapacity:8];      
+      token = [NSMutableString stringWithCapacity:8];
       escaped = YES;
     }
 
