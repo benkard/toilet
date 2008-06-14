@@ -1,3 +1,4 @@
+/* -*- mode: objc; coding: utf-8 -*- */
 /* Étoilisp/Mulklisp, a Common Lisp subset for the Étoilé runtime.
  * Copyright (C) 2008  Matthias Andreas Benkard.
  *
