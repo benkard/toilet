@@ -91,11 +91,6 @@
             isEqual:[NSNumber numberWithShort:CONSTITUENT]]);
 }
 
--(BOOL) isInvalidCharacter:(unichar)ch;
-{
-  return ([_syntaxTable objectForKey:[NSNumber numberWithLong:ch]] == nil);
-}
-
 -(BOOL) characterHasCase:(unichar)ch
 {
   return (![[[NSString stringWithFormat:@"%C", ch] uppercaseString]

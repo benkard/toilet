@@ -52,8 +52,18 @@ enum MLKReadtableCase
 -(BOOL) isSingleEscapeCharacter:(unichar)ch;
 -(BOOL) isMultipleEscapeCharacter:(unichar)ch;
 -(BOOL) isConstituentCharacter:(unichar)ch;
--(BOOL) isInvalidCharacter:(unichar)ch;
 -(BOOL) characterHasCase:(unichar)ch;
+
+-(BOOL) isInvalidConstituent:(unichar)ch;
+-(BOOL) isAlphabeticConstituent:(unichar)ch;
+-(BOOL) isPackageMarkerConstituent:(unichar)ch;
+-(BOOL) isAlphaDigitConstituent:(unichar)ch;
+-(BOOL) isExponentMarkerConstituent:(unichar)ch;
+-(BOOL) isRatioMarkerConstituent:(unichar)ch;
+-(BOOL) isDecimalPointConstituent:(unichar)ch;
+-(BOOL) isMinusSignConstituent:(unichar)ch;
+-(BOOL) isPlusSignConstituent:(unichar)ch;
+-(BOOL) isDotConstituent:(unichar)ch;
 
 -(MLKClosure *) macroFunctionForCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
