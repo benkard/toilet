@@ -26,7 +26,7 @@
   MLKStream *stream;
 }
 
--(MLKReaderError *) initWithStream:(id)aStream;
+-(MLKReaderError *) initWithStream:(MLKStream *)aStream;
 
 -(void) dealloc;
 @end

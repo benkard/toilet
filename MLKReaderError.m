@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKEndOfFileError.h"
+#import "MLKReaderError.h"
 
 
 @implementation MLKReaderError
