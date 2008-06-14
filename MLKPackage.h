@@ -23,11 +23,11 @@
 
 @interface MLKPackage : MLKLispValue
 {
-  NSMutableDictionary *symbols;
-  NSMutableSet *exported_symbols;
-  NSMutableSet *shadowed_symbols;
-  NSMutableSet *nicknames;
-  NSString *name;
+  NSMutableDictionary *_symbols;
+  NSMutableSet *_exported_symbols;
+  NSMutableSet *_shadowed_symbols;
+  NSMutableSet *_nicknames;
+  NSString *_name;
 }
 
 -(MLKPackage *) initWithName:(NSString *)name
@@ -37,7 +37,7 @@
 
 -(void) usePackage:(MLKPackage *)aPackage;
 -(void) import:(MLKSymbol *)aSymbol;
--(void) shadow:(MLKPackage *)aPackage;
+-(void) shadow:(MLKSymbol *)aSymbol;
 -(void) unintern:(MLKSymbol *)aSymbol;
 -(MLKSymbol *) intern:(NSString*)symbolName;
 -(MLKSymbol *) findSymbol:(NSString*)symbolName;
@@ -47,9 +47,4 @@
 -(NSSet *) exportedSymbols;
 -(NSSet *) shadowedSymbols;
 -(NSSet *) allSymbols;
-
-// [clUser cons: @"Mulk", [clUser __intern: @"NIL"]] ought to do the
-// Right Thing.
--(void) forwardInvocation:(NSInvocation *)anInvocation;
--(BOOL) respondsToSelector:(SEL)selector;
 @end
