@@ -142,6 +142,19 @@
   return nil;
 }
 
+-(id) valueForBinding:(MLKSymbol *)symbol
+{
+  return [[[MLKDynamicContext currentContext] environment]
+           valueForBinding:symbol];
+}
+
+-(void) setValue:(id)value forBinding:(MLKSymbol *)symbol
+{
+  [[[MLKDynamicContext currentContext] environment]
+    setValue:value
+    forBinding:symbol];
+}
+
 -(void) dealloc
 {
   RELEASE (_conditionHandlers);

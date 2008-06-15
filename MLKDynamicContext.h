@@ -47,6 +47,8 @@
 -(id) findRestart:(MLKSymbol *)symbol;
 -(id) findHandler:(MLKSymbol *)symbol;
 -(id) findCatchTag:(MLKSymbol *)symbol;
+-(id) valueForBinding:(MLKSymbol *)symbol;
+-(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
 
 -(void) dealloc;
 @end

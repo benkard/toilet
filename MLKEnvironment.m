@@ -53,7 +53,7 @@
   return _parent;
 }
 
--(void) setBinding:(MLKSymbol *)symbol to:(id)value
+-(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
 {
   [self setBinding:symbol to:value inEnvironment:self];
 }
@@ -96,7 +96,7 @@
   [_bindings addEntriesFromDictionary:bindings];
 }
 
--(void) addBinding:(MLKSymbol *)symbol to:(id)value
+-(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
 {
   [_bindings setObject:value forKey:symbol];
 }

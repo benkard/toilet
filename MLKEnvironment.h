@@ -35,8 +35,8 @@
 -(MLKEnvironment *) parent;
 
 -(void) addBindings:(NSDictionary *)bindings;
--(void) addBinding:(MLKSymbol *)symbol to:(id)value;
--(void) setBinding:(MLKSymbol *)symbol to:(id)value;
+-(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
+-(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
 -(id) valueForBinding:(MLKSymbol *)symbol;
 
 -(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol;
