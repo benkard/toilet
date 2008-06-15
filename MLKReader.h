@@ -18,7 +18,7 @@
 
 #include <Foundation/NSObject.h>
 
-@class MLKStream;
+@class MLKStream, MLKReadtable;
 
 
 @interface MLKReader : NSObject
@@ -27,4 +27,8 @@
             eofValue:(id)eofValue
            recursive:(BOOL)recursive
   preserveWhitespace:(BOOL)preserveWhitespace;
+
++(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)table;
+
++(BOOL) isPotentialNumber:(NSString *)token readtable:(MLKReadtable *)table;
 @end

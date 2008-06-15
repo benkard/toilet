@@ -43,7 +43,7 @@
   MLKReadtable *readtable;
   BOOL escaped;
 
-  readtable = [[[MLKDynamicContext currentContext] environment]
+  readtable = [[MLKDynamicContext currentContext]
                 valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
   
@@ -132,7 +132,7 @@
           [stream unreadChar:ch];
           break;
         }
-      else if ([readtable isInvalidConstituent:ch])
+      else if ([readtable isInvalid:ch])
         {
           [[[MLKReaderError alloc] initWithStream:stream] raise];
         }
@@ -144,6 +144,72 @@
         }
     }
 
-  // FIXME: Check the token for meaning.
+  return [self interpretToken:token readtable:readtable];
+}
+
++(BOOL) isPotentialNumber:(NSString *)token readtable:(MLKReadtable *)readtable
+{
+  // Check whether the token is a potential number.
+  //
+  // See CLHS 2.3.1.1.
+  int i;
+  unichar first;
+
+  // 1. Does it consist solely of characters allowed in a potential
+  // number?
+  for (i = 0; i < [token length]; i++)
+    {
+      unichar ch = [token characterAtIndex:i];
+      if (!([readtable isDigit:ch]
+            || [readtable isSign:ch]
+            || [readtable isRatioMarker:ch]
+            || [readtable isDecimalPoint:ch]
+            || ch == '^'
+            || ch == '_'
+            || ([readtable isNumberMarker:ch]
+                // Adjacent number markers aren't to be considered number
+                // markers at all.
+                && (i == 0
+                    || ![readtable
+                          isNumberMarker:[token characterAtIndex:(i-1)]]))))
+        return NO;
+    }
+
+  // 2. Does the token contain a digit?
+  for (i = 0; i < [token length]; i++)
+    {
+      unichar ch = [token characterAtIndex:i];
+      if ([readtable isDigit:ch])
+        goto digitFound;
+    }
+  return NO;
+
+ digitFound:
+  // 3. Is the first character okay?
+  first = [token characterAtIndex:0];
+  if (!([readtable isDigit:first]
+        || [readtable isSign:first]
+        || [readtable isDecimalPoint:first]
+        || first == '^'
+        || first == '_'))
+    return NO;
+
+  // 4. Does the token not end with a sign?
+  if ([readtable isSign:[token characterAtIndex:([token length]-1)]])
+    return NO;
+
+  return YES;
+}
+
++(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)readtable
+{
+  if ([self isPotentialNumber:token readtable:readtable])
+    {
+      // ???
+    }
+  else
+    {
+      
+    }
 }
 @end
