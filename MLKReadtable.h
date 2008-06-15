@@ -69,6 +69,7 @@ enum MLKReadtableCase
 -(BOOL) isDot:(unichar)ch;
 
 // Read-base-dependent digit properties.
+-(BOOL) isDecimalDigit:(unichar)ch;
 -(BOOL) isDigit:(unichar)ch;
 -(int) digitWeight:(unichar)ch;
 

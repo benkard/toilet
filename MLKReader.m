@@ -26,8 +26,12 @@
 #import "MLKPackage.h"
 #import "MLKClosure.h"
 #import "MLKStream.h"
+#import "MLKFloat.h"
+#import "MLKInteger.h"
+#import "MLKRatio.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSRange.h>
 #import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
 
@@ -206,7 +210,157 @@
 {
   if ([self isPotentialNumber:token readtable:readtable])
     {
-      // ???
+      unsigned long i, firstNum, secondNum, exponent, exponentMarkerPos;
+      unichar sign, exponentSign;
+      unichar firstSeparator, exponentMarker;
+      BOOL negative;
+      MLKInteger *base;
+
+      base = [[MLKDynamicContext currentContext]
+               valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
+                                 intern:@"*READ-BASE*"]];
+
+      // Read the sign (if present).
+      if ([readtable isSign:[token characterAtIndex:0]])
+        {
+          sign = [token characterAtIndex:0];
+          i = 1;
+          firstNum = 1;
+        }
+      else
+        {
+          i = 0;
+          firstNum = 0;
+        }
+
+      negative = (firstNum > 0 && sign == '-');
+ 
+      while ((i < [token length])
+             && [readtable isDecimalDigit:[token characterAtIndex:i]])
+        i++;
+
+      if (i == [token length])
+        {
+          return [MLKInteger integerWithString:
+                               [token substringWithRange:
+                                        NSMakeRange (firstNum, [token length] - firstNum)]
+                             negative:negative
+                             base:10];
+        }
+
+      firstSeparator = [token characterAtIndex:i];
+
+      if (!([readtable isDecimalPoint:firstSeparator]
+            || [readtable isExponentMarker:[token characterAtIndex:i]]))
+        goto digits;
+
+      i++;
+      secondNum = i;
+
+      if (i == [token length] && [readtable isDecimalPoint:firstSeparator])
+        {
+          return [MLKInteger integerWithString:
+                               [token substringWithRange:
+                                        NSMakeRange (firstNum, [token length] - firstNum - 1)]
+                             negative:negative
+                             base:10];
+        }
+      else
+        {
+          // We're dealing with a floating point number.  Bah.  I hate
+          // floating point numbers.
+          if ([readtable isExponentMarker:firstSeparator])
+            {
+              exponentMarkerPos = i;
+              if ([readtable isSign:[token characterAtIndex:i]])
+                {
+                  exponentSign = [token characterAtIndex:i];
+                  i++;
+                }
+              else
+                exponentSign = '+';
+
+              exponent = i;
+
+              while ((i < [token length])
+                     && [readtable isDecimalDigit:[token characterAtIndex:i]])
+                i++;
+
+              return [MLKFloat floatWithExponentMarker:firstSeparator
+                               integerPart:[token substringWithRange:NSMakeRange(firstNum, exponentMarkerPos - firstNum - 1)]
+                               negative:negative
+                               fractionalPart:@""
+                               exponent:[token substringFromIndex:exponent]
+                               exponentNegative:(exponentSign == '-')];
+            }
+          else
+            {
+              while ((i < [token length])
+                     && [readtable isDecimalDigit:[token characterAtIndex:i]])
+                i++;
+              
+              if (i == [token length])
+                {
+                  return [MLKFloat floatWithExponentMarker:firstSeparator
+                                   integerPart:[token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)]
+                                   negative:negative
+                                   fractionalPart:[token substringFromIndex:secondNum]
+                                   exponent:@""
+                                   exponentNegative:NO];
+                }
+
+              // Assume token[i] is an exponent marker.
+              exponentMarkerPos = i;
+              exponentMarker = [token characterAtIndex:i];
+              i++;
+
+              if ([readtable isSign:[token characterAtIndex:i]])
+                {
+                  exponentSign = [token characterAtIndex:i];
+                  i++;
+                }
+              else
+                exponentSign = '+';
+
+              exponent = i;
+
+              while ((i < [token length])
+                     && [readtable isDecimalDigit:[token characterAtIndex:i]])
+                i++;
+
+              return [MLKFloat floatWithExponentMarker:exponentMarker
+                               integerPart:[token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)]
+                               negative:negative
+                               fractionalPart:[token substringWithRange:NSMakeRange (secondNum, exponentMarkerPos - secondNum)]
+                               exponent:[token substringFromIndex:exponent]
+                               exponentNegative:(exponentSign == '-')];              
+            }
+        }
+
+    digits:
+      i = firstNum;
+      while ((i < [token length])
+             && [readtable isDigit:[token characterAtIndex:0]])
+        i++;
+
+      if (i == [token length])
+        {
+          return [MLKInteger integerWithString:
+                               [token substringWithRange:
+                                        NSMakeRange (firstNum, [token length] - firstNum)]
+                             negative:negative
+                             base:[base intValue]];
+        }
+
+      // Assume token[i] is a slash.
+      i++;
+      secondNum = i;
+      
+      return [MLKRatio ratioWithNumeratorString:
+                         [token substringWithRange:
+                                  NSMakeRange (firstNum,
+                                               secondNum - firstNum - 1)]
+                       denominatorString:[token substringFromIndex:secondNum]];
     }
   else
     {
