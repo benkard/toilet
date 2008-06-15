@@ -61,9 +61,9 @@
                         integerWithMPZ:)
 
 DEFINE_MPZ_TWOARG_OPERATION (add:, mpz_add)
-DEFINE_MPZ_TWOARG_OPERATION (subtract:, mpz_add)
-DEFINE_MPZ_TWOARG_OPERATION (multiplyWith:, mpz_add)
-DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_add)
+DEFINE_MPZ_TWOARG_OPERATION (subtract:, mpz_sub)
+DEFINE_MPZ_TWOARG_OPERATION (multiplyWith:, mpz_mul)
+DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_div)
 
 -(int) intValue
 {

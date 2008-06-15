@@ -355,12 +355,13 @@
       // Assume token[i] is a slash.
       i++;
       secondNum = i;
-      
+
       return [MLKRatio ratioWithNumeratorString:
                          [token substringWithRange:
                                   NSMakeRange (firstNum,
                                                secondNum - firstNum - 1)]
                        denominatorString:[token substringFromIndex:secondNum]
+                       negative:negative
                        base:[base intValue]];
     }
   else

@@ -30,9 +30,25 @@
   mpq_t value;
 }
 
+-(MLKRatio *) initWithString:(NSString *)string
+                        base:(unsigned int)base;
+-(MLKRatio *) initWithNumeratorString:(NSString *)numerString
+                    denominatorString:(NSString *)denomString
+                             negative:(BOOL)negative
+                                 base:(unsigned int)base;
+
 +(MLKRatio *) ratioWithNumeratorString:(NSString *)numerString
                      denominatorString:(NSString *)denomString
+                              negative:(BOOL)negative
                                   base:(unsigned int)base;
+
+-(MLKRatio *) add:(MLKRatio *)arg;
+-(MLKRatio *) subtract:(MLKRatio *)arg;
+-(MLKRatio *) multiplyWith:(MLKRatio *)arg;
+-(MLKRatio *) divideBy:(MLKRatio *)arg;
+
+-(NSString *) description;
+-(NSString *) descriptionWithBase:(int)base;
 
 -(void) dealloc;
 @end
