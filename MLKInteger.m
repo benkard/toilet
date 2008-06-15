@@ -53,24 +53,31 @@
                                           base:base]);
 }
 
-#define DEFINE_MPZ_OPERATION(selector, mpzop)           \
-  -(MLKInteger *) selector (MLKInteger *)arg            \
-  {                                                     \
-    mpz_t mpz;                                          \
-    MLKInteger *result;                                 \
-                                                        \
-    mpz_init (mpz);                                     \
-    mpzop (mpz, self->value, arg->value);               \
-    result = [MLKInteger integerWithMPZ:mpz];           \
-    mpz_clear (mpz);                                    \
-                                                        \
-    return result;                                      \
+#define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, OBJTYPE, CONSTRUCTOR) \
+  -(OBJTYPE *) SIGNATURE                                                \
+  {                                                                     \
+    TYPE##_t mpval;                                                     \
+    OBJTYPE *result;                                                    \
+                                                                        \
+    TYPE##_init (mpval);                                                \
+    GMPOP;                                                              \
+    result = [OBJTYPE CONSTRUCTOR mpval];                               \
+    TYPE##_clear (mpval);                                               \
+                                                                        \
+    return result;                                                      \
   }
 
-DEFINE_MPZ_OPERATION (add:, mpz_add)
-DEFINE_MPZ_OPERATION (subtract:, mpz_sub)
-DEFINE_MPZ_OPERATION (multiplyWith:, mpz_mul)
-DEFINE_MPZ_OPERATION (divideBy:, mpz_div)
+#define DEFINE_MPZ_TWOARG_OPERATION(SELECTOR, GMPFUN)                   \
+  DEFINE_GMP_OPERATION (SELECTOR (MLKInteger *)arg,                     \
+                        mpz,                                            \
+                        GMPFUN (mpval, self->value, arg->value),        \
+                        MLKInteger,                                     \
+                        integerWithMPZ:)
+
+DEFINE_MPZ_TWOARG_OPERATION (add:, mpz_add)
+DEFINE_MPZ_TWOARG_OPERATION (subtract:, mpz_add)
+DEFINE_MPZ_TWOARG_OPERATION (multiplyWith:, mpz_add)
+DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_add)
 
 -(int) intValue
 {
