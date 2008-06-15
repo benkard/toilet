@@ -18,17 +18,21 @@
 
 #import "MLKLispValue.h"
 
+#include <stdarg.h>
+#include <stdio.h>
+#include <gmp.h>
+
 @class NSString, MLKInteger;
 
 
 @interface MLKRatio : MLKLispValue
 {
-  MLKInteger *numerator;
-  MLKInteger *denominator;
+  mpq_t value;
 }
 
 +(MLKRatio *) ratioWithNumeratorString:(NSString *)numerString
-                     denominatorString:(NSString *)denomString;
+                     denominatorString:(NSString *)denomString
+                                  base:(unsigned int)base;
 
 -(void) dealloc;
 @end

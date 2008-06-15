@@ -18,18 +18,37 @@
 
 #import "MLKLispValue.h"
 
+#include <stdarg.h>
+#include <stdio.h>
+#include <gmp.h>
+
 @class NSString;
 
 
 @interface MLKInteger : MLKLispValue
 {
+  mpz_t value;
 }
 
+-(MLKInteger *) initWithMPZ:(mpz_t)mpz;
+-(MLKInteger *) initWithString:(NSString *)string
+                      negative:(BOOL)negative
+                          base:(unsigned int)base;
+
++(MLKInteger *) integerWithMPZ:(mpz_t)mpz;
 +(MLKInteger *) integerWithString:(NSString *)string
                          negative:(BOOL)negative
                              base:(unsigned int)base;
 
 -(int) intValue;
+
+-(MLKInteger *) add:(MLKInteger *)arg;
+-(MLKInteger *) subtract:(MLKInteger *)arg;
+-(MLKInteger *) multiplyWith:(MLKInteger *)arg;
+-(MLKInteger *) divideBy:(MLKInteger *)arg;
+
+-(NSString *) description;
+-(NSString *) descriptionWithBase:(int)base;
 
 -(void) dealloc;
 @end

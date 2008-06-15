@@ -360,7 +360,8 @@
                          [token substringWithRange:
                                   NSMakeRange (firstNum,
                                                secondNum - firstNum - 1)]
-                       denominatorString:[token substringFromIndex:secondNum]];
+                       denominatorString:[token substringFromIndex:secondNum]
+                       base:[base intValue]];
     }
   else
     {
