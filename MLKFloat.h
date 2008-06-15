@@ -18,19 +18,14 @@
 
 #import "MLKLispValue.h"
 
-@class NSString;
+#import <Foundation/NSString.h>
 
 
 @interface MLKFloat : MLKLispValue
-{
-}
-
 +(MLKFloat *) floatWithExponentMarker:(unichar)exponentMarker
                           integerPart:(NSString *)intPart
                              negative:(BOOL)negative
                        fractionalPart:(NSString *)fractPart
                              exponent:(NSString *)exponent
                      exponentNegative:(BOOL)exponentNegative;
-
--(void) dealloc;
 @end
