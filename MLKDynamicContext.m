@@ -144,15 +144,17 @@
 
 -(id) valueForBinding:(MLKSymbol *)symbol
 {
-  return [[[MLKDynamicContext currentContext] environment]
-           valueForBinding:symbol];
+  return [[self environment] valueForBinding:symbol];
 }
 
 -(void) setValue:(id)value forBinding:(MLKSymbol *)symbol
 {
-  [[[MLKDynamicContext currentContext] environment]
-    setValue:value
-    forBinding:symbol];
+  [[self environment] setValue:value forBinding:symbol];
+}
+
+-(void) addValue:(id)value forBinding:(MLKSymbol *)symbol
+{
+  [[self environment] addValue:value forBinding:symbol];
 }
 
 -(void) dealloc

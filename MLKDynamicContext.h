@@ -49,6 +49,7 @@
 -(id) findCatchTag:(MLKSymbol *)symbol;
 -(id) valueForBinding:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
+-(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
 
 -(void) dealloc;
 @end
