@@ -17,9 +17,9 @@
  */
 
 #import "MLKInteger.h"
+#import "util.h"
 
 #import <Foundation/NSString.h>
-
 
 @implementation MLKInteger
 -(MLKInteger *) initWithMPZ:(mpz_t)mpz
@@ -52,20 +52,6 @@
                                           negative:negative
                                           base:base]);
 }
-
-#define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, OBJTYPE, CONSTRUCTOR) \
-  -(OBJTYPE *) SIGNATURE                                                \
-  {                                                                     \
-    TYPE##_t mpval;                                                     \
-    OBJTYPE *result;                                                    \
-                                                                        \
-    TYPE##_init (mpval);                                                \
-    GMPOP;                                                              \
-    result = [OBJTYPE CONSTRUCTOR mpval];                               \
-    TYPE##_clear (mpval);                                               \
-                                                                        \
-    return result;                                                      \
-  }
 
 #define DEFINE_MPZ_TWOARG_OPERATION(SELECTOR, GMPFUN)                   \
   DEFINE_GMP_OPERATION (SELECTOR (MLKInteger *)arg,                     \
