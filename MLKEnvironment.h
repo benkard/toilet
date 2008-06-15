@@ -27,6 +27,8 @@
   NSMutableDictionary *_bindings;
 }
 
++(void) initialize;
+
 -(MLKEnvironment *) init;
 -(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent;
 -(MLKEnvironment *) initWithBindings:(NSDictionary *)bindings;
@@ -34,6 +36,7 @@
 
 -(MLKEnvironment *) parent;
 
+-(void) addBinding:(MLKSymbol *)symbol;
 -(void) addBindings:(NSDictionary *)bindings;
 -(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
@@ -44,6 +47,9 @@
 // Private methods.
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;
 -(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
+
+-(BOOL) boundp:(MLKSymbol *)symbol;
+-(void) makunbound:(MLKSymbol *)symbol;
 
 -(void) dealloc;
 @end

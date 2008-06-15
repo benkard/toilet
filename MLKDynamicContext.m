@@ -157,6 +157,21 @@
   [[self environment] addValue:value forBinding:symbol];
 }
 
+-(void) addBinding:(MLKSymbol *)symbol
+{
+  [[self environment] addBinding:symbol];
+}
+
+-(BOOL) boundp:(MLKSymbol *)symbol
+{
+  return [[self environment] boundp:symbol];
+}
+
+-(void) makunbound:(MLKSymbol *)symbol
+{
+  [[self environment] makunbound:symbol];
+}
+
 -(void) dealloc
 {
   RELEASE (_conditionHandlers);

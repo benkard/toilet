@@ -16,14 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/NSDictionary.h>
 #import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSNull.h>
 
 #import "MLKEnvironment.h"
 #import "MLKUndefinedVariableException.h"
 
 
+static id UNBOUND;
+
+
 @implementation MLKEnvironment
++(void) initialize
+{
+  UNBOUND = [[NSObject alloc] init];
+}
+
 -(MLKEnvironment *) init
 {
   return [self initWithParent:nil bindings:nil];
@@ -60,7 +69,7 @@
 
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env
 {
-  if ([[_bindings allKeys] containsObject:symbol])
+  if ([_bindings objectForKey:symbol])
     [_bindings setObject:value forKey:symbol];
   else
     if (_parent)
@@ -78,8 +87,18 @@
 
 -(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
 {
-  if ([[_bindings allKeys] containsObject:symbol])
-    return [_bindings objectForKey:symbol];
+  id value;
+  if ((value = [_bindings objectForKey:symbol]))
+    {
+      if (value == [NSNull null])
+        return nil;
+      else if (value == UNBOUND)
+        [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
+                                                variableName:symbol]
+          raise];
+      else
+        return value;
+    }
   else
     if (_parent)
       return [_parent valueForBinding:symbol];
@@ -87,7 +106,7 @@
       [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
                                               variableName:symbol]
         raise];
-  
+
   return nil;  // avoid a stupid compiler warning
 }
 
@@ -101,14 +120,38 @@
   [_bindings setObject:value forKey:symbol];
 }
 
+-(void) addBinding:(MLKSymbol *)symbol
+{
+  [_bindings setObject:UNBOUND forKey:symbol];
+}
+
 -(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol
 {
-  if ([[_bindings allKeys] containsObject:symbol])
+  if ([_bindings objectForKey:symbol])
     return self;
   else if (_parent)
     return [_parent environmentForBinding:symbol];
   else
     return nil;
+}
+
+-(BOOL) boundp:(MLKSymbol *)symbol
+{
+  id value;
+  if ((value = [_bindings objectForKey:symbol]))
+    return (value != UNBOUND);
+  else if (_parent)
+    return [_parent boundp:symbol];
+  else
+    return NO;
+}
+
+-(void) makunbound:(MLKSymbol *)symbol
+{
+  if ([_bindings objectForKey:symbol])
+    [_bindings setObject:UNBOUND forKey:symbol];
+  else if (_parent)
+    return [_parent makunbound:symbol];
 }
 
 -(void) dealloc
