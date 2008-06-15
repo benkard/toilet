@@ -54,16 +54,23 @@ enum MLKReadtableCase
 -(BOOL) isConstituentCharacter:(unichar)ch;
 -(BOOL) characterHasCase:(unichar)ch;
 
--(BOOL) isInvalidConstituent:(unichar)ch;
--(BOOL) isAlphabeticConstituent:(unichar)ch;
--(BOOL) isPackageMarkerConstituent:(unichar)ch;
--(BOOL) isAlphaDigitConstituent:(unichar)ch;
--(BOOL) isExponentMarkerConstituent:(unichar)ch;
--(BOOL) isRatioMarkerConstituent:(unichar)ch;
--(BOOL) isDecimalPointConstituent:(unichar)ch;
--(BOOL) isMinusSignConstituent:(unichar)ch;
--(BOOL) isPlusSignConstituent:(unichar)ch;
--(BOOL) isDotConstituent:(unichar)ch;
+// Constituent traits.
+-(BOOL) isInvalid:(unichar)ch;
+-(BOOL) isAlphabetic:(unichar)ch;
+-(BOOL) isPackageMarker:(unichar)ch;
+-(BOOL) isAlphaDigit:(unichar)ch;
+-(BOOL) isExponentMarker:(unichar)ch;
+-(BOOL) isNumberMarker:(unichar)ch;
+-(BOOL) isRatioMarker:(unichar)ch;
+-(BOOL) isDecimalPoint:(unichar)ch;
+-(BOOL) isMinusSign:(unichar)ch;
+-(BOOL) isPlusSign:(unichar)ch;
+-(BOOL) isSign:(unichar)ch;
+-(BOOL) isDot:(unichar)ch;
+
+// Read-base-dependent digit properties.
+-(BOOL) isDigit:(unichar)ch;
+-(int) digitWeight:(unichar)ch;
 
 -(MLKClosure *) macroFunctionForCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
