@@ -26,7 +26,16 @@
   unichar unichar;
 }
 
--(MLKCharacter*) initWithUnichar:(unichar)anUnichar;
+-(MLKCharacter *) initWithUnichar:(unichar)anUnichar;
 
-+(MLKCharacter*) characterWithUnichar:(unichar)anUnichar;
++(MLKCharacter *) characterWithUnichar:(unichar)anUnichar;
+
+-(MLKCharacter *) uppercaseCharacter;
+-(MLKCharacter *) lowercaseCharacter;
+
+-(unichar) uppercaseChar;
+-(unichar) lowercaseChar;
+
++(unichar) uppercaseCharForChar:(unichar)ch;
++(unichar) lowercaseCharForChar:(unichar)ch;
 @end

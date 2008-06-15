@@ -17,6 +17,7 @@
  */
 
 #import "MLKReadtable.h"
+#import "MLKCharacter.h"
 
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSValue.h>
@@ -114,19 +115,15 @@
     case MLKReadtableCase_PRESERVE:
       return ch;
     case MLKReadtableCase_UPCASE:
-      return [[[NSString stringWithFormat:@"%C", ch] uppercaseString]
-               characterAtIndex:0];
+      return [MLKCharacter uppercaseCharForChar:ch];
     case MLKReadtableCase_DOWNCASE:
-      return [[[NSString stringWithFormat:@"%C", ch] lowercaseString]
-               characterAtIndex:0];
+      return [MLKCharacter lowercaseCharForChar:ch];
     case MLKReadtableCase_INVERT:
       {
         unichar upCh;
-        upCh = [[[NSString stringWithFormat:@"%C", ch] uppercaseString]
-                characterAtIndex:0];
+        upCh = [MLKCharacter uppercaseCharForChar:ch];
         if (ch == upCh)
-          return [[[NSString stringWithFormat:@"%C", ch] lowercaseString]
-                   characterAtIndex:0];
+          return [MLKCharacter lowercaseCharForChar:ch];
         else
           return upCh;
       }

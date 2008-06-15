@@ -31,4 +31,36 @@
 {
   return [[MLKCharacter alloc] initWithUnichar:anUnichar];
 }
+
+-(MLKCharacter *) uppercaseCharacter
+{
+  return [MLKCharacter characterWithUnichar:[self uppercaseChar]];
+}
+
+-(MLKCharacter *) lowercaseCharacter
+{
+  return [MLKCharacter characterWithUnichar:[self lowercaseChar]];
+}
+
+-(unichar) uppercaseChar
+{
+  return [[[NSString stringWithFormat:@"%C", self->unichar] uppercaseString]
+           characterAtIndex:0];
+}
+
+-(unichar) lowercaseChar
+{
+  return [[[NSString stringWithFormat:@"%C", self->unichar] lowercaseString]
+           characterAtIndex:0];
+}
+
++(unichar) uppercaseCharForChar:(unichar)ch
+{
+  return [[MLKCharacter characterWithUnichar:ch] uppercaseChar];
+}
+
++(unichar) lowercaseCharForChar:(unichar)ch
+{
+  return [[MLKCharacter characterWithUnichar:ch] lowercaseChar];
+}
 @end
