@@ -152,7 +152,7 @@
   // Check whether the token is a potential number.
   //
   // See CLHS 2.3.1.1.
-  int i;
+  unsigned long i;
   unichar first;
 
   // 1. Does it consist solely of characters allowed in a potential
@@ -209,7 +209,52 @@
     }
   else
     {
+      unsigned long i, packageMarker;
+      MLKPackage *package;
+      NSString *symbolName;
+      MLKSymbol *symbol;
+
+      // Look for the package marker.
+      packageMarker = -1;
+      for (i = 0; i < [token length]; i++)
+        {
+          if ([readtable isPackageMarker:[token characterAtIndex:i]])
+            {
+              packageMarker = i;
+              break;
+            }
+        }
       
+      // Extract the package and symbol name.
+      if (packageMarker == -1)
+        {
+          package = [[MLKDynamicContext currentContext]
+                      valueForBinding:[[MLKPackage
+                                         findPackage:@"COMMON-LISP"]
+                                        intern:@"*PACKAGE*"]];
+          symbolName = token;
+        }
+      else if (packageMarker == 0)
+        {
+          package = [MLKPackage findPackage:@"KEYWORD"];
+          symbolName = [token substringFromIndex:1];
+        }
+      else
+        {
+          package = [MLKPackage
+                      findPackage:[token substringToIndex:packageMarker]];
+          symbolName = [token substringFromIndex:(packageMarker+1)];
+        }
+
+      symbol = [package intern:token];
+      
+      if (packageMarker == 0)
+        {
+          // Make keyword symbols self-evaluate.
+          [[MLKDynamicContext currentContext] setValue:symbol forBinding:symbol];
+        }
+
+      return symbol;
     }
 }
 @end
