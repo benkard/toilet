@@ -28,6 +28,7 @@
 #import "MLKStream.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
 
 
@@ -243,10 +244,19 @@
         {
           package = [MLKPackage
                       findPackage:[token substringToIndex:packageMarker]];
-          symbolName = [token substringFromIndex:(packageMarker+1)];
+          if ([readtable isPackageMarker:[token characterAtIndex:(i+1)]])
+            symbolName = [token substringFromIndex:(packageMarker+2)];
+          else
+            {
+              // A single package marker means we have to check whether
+              // the symbol is external in the package.
+              symbolName = [token substringFromIndex:(packageMarker+1)];
+              if (![[package exportedSymbols] containsObject:[package intern:token]])
+                [[[MLKReaderError alloc] init] raise];
+            }
         }
 
-      symbol = [package intern:token];
+      symbol = [package intern:symbolName];
       
       if (packageMarker == 0)
         {
