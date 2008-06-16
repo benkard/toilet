@@ -30,5 +30,7 @@
 
 +(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)table;
 
-+(BOOL) isPotentialNumber:(NSString *)token readtable:(MLKReadtable *)table;
++(BOOL) isPotentialNumber:(NSString *)token
+                readtable:(MLKReadtable *)table
+                     base:(int)base;
 @end

@@ -70,7 +70,7 @@ enum MLKReadtableCase
 
 // Read-base-dependent digit properties.
 -(BOOL) isDecimalDigit:(unichar)ch;
--(BOOL) isDigit:(unichar)ch;
+-(BOOL) isDigit:(unichar)ch inBase:(int)base;
 -(int) digitWeight:(unichar)ch;
 
 -(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;

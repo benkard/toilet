@@ -152,7 +152,9 @@
   return [self interpretToken:token readtable:readtable];
 }
 
-+(BOOL) isPotentialNumber:(NSString *)token readtable:(MLKReadtable *)readtable
++(BOOL) isPotentialNumber:(NSString *)token
+                readtable:(MLKReadtable *)readtable
+                     base:(int)base
 {
   // Check whether the token is a potential number.
   //
@@ -165,7 +167,7 @@
   for (i = 0; i < [token length]; i++)
     {
       unichar ch = [token characterAtIndex:i];
-      if (!([readtable isDigit:ch]
+      if (!([readtable isDigit:ch inBase:base]
             || [readtable isSign:ch]
             || [readtable isRatioMarker:ch]
             || [readtable isDecimalPoint:ch]
@@ -184,7 +186,7 @@
   for (i = 0; i < [token length]; i++)
     {
       unichar ch = [token characterAtIndex:i];
-      if ([readtable isDigit:ch])
+      if ([readtable isDigit:ch inBase:base])
         goto digitFound;
     }
   return NO;
@@ -192,7 +194,7 @@
  digitFound:
   // 3. Is the first character okay?
   first = [token characterAtIndex:0];
-  if (!([readtable isDigit:first]
+  if (!([readtable isDigit:first inBase:base]
         || [readtable isSign:first]
         || [readtable isDecimalPoint:first]
         || first == '^'
@@ -208,17 +210,20 @@
 
 +(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)readtable
 {
-  if ([self isPotentialNumber:token readtable:readtable])
+  int base;
+  
+  base = [[[MLKDynamicContext currentContext]
+            valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
+                              intern:@"*READ-BASE*"]]
+           intValue];
+
+  if ([self isPotentialNumber:token readtable:readtable base:base])
     {
       unsigned long i, firstNum, secondNum, exponent, exponentMarkerPos;
       unichar sign, exponentSign;
       unichar firstSeparator, exponentMarker;
       BOOL negative;
-      MLKInteger *base;
 
-      base = [[MLKDynamicContext currentContext]
-               valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
-                                 intern:@"*READ-BASE*"]];
 
       // Read the sign (if present).
       if ([readtable isSign:[token characterAtIndex:0]])
@@ -340,7 +345,7 @@
     digits:
       i = firstNum;
       while ((i < [token length])
-             && [readtable isDigit:[token characterAtIndex:0]])
+             && [readtable isDigit:[token characterAtIndex:0] inBase:base])
         i++;
 
       if (i == [token length])
@@ -349,7 +354,7 @@
                                [token substringWithRange:
                                         NSMakeRange (firstNum, [token length] - firstNum)]
                              negative:negative
-                             base:[base intValue]];
+                             base:base];
         }
 
       // Assume token[i] is a slash.
@@ -362,7 +367,7 @@
                                                secondNum - firstNum - 1)]
                        denominatorString:[token substringFromIndex:secondNum]
                        negative:negative
-                       base:[base intValue]];
+                       base:base];
     }
   else
     {
