@@ -21,6 +21,7 @@
 #import "MLKDoubleFloat.h"
 #import "MLKPackage.h"
 #import "MLKDynamicContext.h"
+#import "MLKError.h"
 
 
 @implementation MLKFloat : MLKLispValue
@@ -32,9 +33,13 @@
                      exponentNegative:(BOOL)exponentNegative
 {
   MLKSymbol *defaultFormat;
-  MLKPackage *cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  MLKPackage *cl;
+
+  cl = [MLKPackage findPackage:@"COMMON-LISP"];
   defaultFormat = [[MLKDynamicContext currentContext]
                     valueForBinding:[cl intern:@"*READ-DEFAULT-FLOAT-FORMAT*"]];
+
+  // FIXME: Shouldn't the readtable decide which exponent markers do what?
   if (exponentMarker == 'd' || exponentMarker == 'D'
       || exponentMarker == 'l' || exponentMarker == 'L'
       || ((exponentMarker == 'e' || exponentMarker == 'E')
@@ -51,5 +56,24 @@
                            fractionalPart:fractPart
                            exponent:exponent
                            exponentNegative:exponentNegative];
+}
+
+#define DECLARE_ABSTRACT(SIGNATURE, RETURN_VALUE)                       \
+  SIGNATURE                                                             \
+  {                                                                     \
+    [[MLKError errorWithMessage:@"Tried to invoke an abstract method."] raise]; \
+    return RETURN_VALUE;                                                \
+  }
+
+DECLARE_ABSTRACT (-(float) floatValue, 0.0)
+DECLARE_ABSTRACT (-(double) doubleValue, 0.0)
+DECLARE_ABSTRACT (-(MLKFloat *) add:(MLKFloat *)arg, nil)
+DECLARE_ABSTRACT (-(MLKFloat *) subtract:(MLKFloat *)arg, nil)
+DECLARE_ABSTRACT (-(MLKFloat *) multiplyWith:(MLKFloat *)arg, nil)
+DECLARE_ABSTRACT (-(MLKFloat *) divideBy:(MLKFloat *)arg, nil)
+
+-(NSString *) description
+{
+  return [super description];
 }
 @end

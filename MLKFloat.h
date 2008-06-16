@@ -20,7 +20,12 @@
 
 #import <Foundation/NSString.h>
 
-
+// An MLKFloat can represent any kind of CL floating-point number.
+//
+// MLKFloat itself is not instantiable.  It is a class cluster whose
+// instances are of one of its subclasses (currently MLKSingleFloat und
+// MLKDoubleFloat; an arbitrary-precision, GMP-backed type is planned
+// for the future).
 @interface MLKFloat : MLKLispValue
 +(MLKFloat *) floatWithExponentMarker:(unichar)exponentMarker
                           integerPart:(NSString *)intPart
@@ -28,4 +33,15 @@
                        fractionalPart:(NSString *)fractPart
                              exponent:(NSString *)exponent
                      exponentNegative:(BOOL)exponentNegative;
+
+// Abstract methods.
+-(float) floatValue;
+-(double) doubleValue;
+
+-(MLKFloat *) add:(MLKFloat *)arg;
+-(MLKFloat *) subtract:(MLKFloat *)arg;
+-(MLKFloat *) multiplyWith:(MLKFloat *)arg;
+-(MLKFloat *) divideBy:(MLKFloat *)arg;
+
+-(NSString *) description;
 @end
