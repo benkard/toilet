@@ -24,7 +24,7 @@
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
 #import "MLKPackage.h"
-#import "MLKClosure.h"
+#import "MLKFuncallable.h"
 #import "MLKStream.h"
 #import "MLKFloat.h"
 #import "MLKInteger.h"
@@ -68,7 +68,7 @@
   if ([readtable isMacroCharacter:ch])
     {
       NSArray *returnValues;
-      MLKClosure *macrofun = [readtable macroFunctionForCharacter:ch];
+      MLKFuncallable *macrofun = [readtable macroFunctionForCharacter:ch];
       NSArray *args = [NSArray arrayWithObjects:
                                  stream,
                                  [MLKCharacter characterWithUnichar:ch],

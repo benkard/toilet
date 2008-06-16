@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@class MLKClosure, MLKEnvironment, MLKSymbol, NSLinkedList,
+@class MLKEnvironment, MLKSymbol, NSLinkedList,
        NSMutableDictionary, NSString;
 
 

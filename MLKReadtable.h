@@ -21,7 +21,7 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
-@class MLKClosure, NSMutableDictionary;
+@class MLKFuncallable, NSMutableDictionary;
 
 
 enum MLKReadtableCase
@@ -37,7 +37,7 @@ enum MLKReadtableCase
 {
   NSMutableDictionary *_syntaxTable;
   NSMutableDictionary *_readerMacros;
-  //MLKClosure *_caseConverter;
+  //MLKFuncallable *_caseConverter;
   enum MLKReadtableCase _case;
 }
 
@@ -73,6 +73,6 @@ enum MLKReadtableCase
 -(BOOL) isDigit:(unichar)ch;
 -(int) digitWeight:(unichar)ch;
 
--(MLKClosure *) macroFunctionForCharacter:(unichar)ch;
+-(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
 @end

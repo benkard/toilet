@@ -103,7 +103,7 @@
              isEqual:[[NSString stringWithFormat:@"%C", ch] lowercaseString]]);
 }
 
--(MLKClosure *) macroFunctionForCharacter:(unichar)ch;
+-(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
 {
   return [_readerMacros objectForKey:[NSNumber numberWithLong:ch]];
 }

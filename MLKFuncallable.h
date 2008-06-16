@@ -16,22 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-#import "MLKFuncallable.h"
-
-@class MLKFunction, NSArray, NSData;
+@class NSArray;
 
 
-@interface MLKClosure : MLKLispValue <MLKFuncallable>
-{
-  MLKFunction *_code;
-  NSData *_closedOverVariableVector;
-}
-
--(MLKClosure *) initWithFunction:(MLKFunction *)code
-                     environment:(MLKEnvironment *)lexenv;
-
+@protocol MLKFuncallable
 -(NSArray *) applyToArray:(NSArray *)arguments;
-
--(void) dealloc;
 @end
