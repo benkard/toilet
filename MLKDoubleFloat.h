@@ -38,6 +38,9 @@
                                       exponent:(NSString *)exponent
                               exponentNegative:(BOOL)exponentNegative;
 
+-(MLKDoubleFloat *) initWithDouble:(double)aDouble;
++(MLKDoubleFloat *) doubleFloatWithDouble:(double)aDouble;
+
 -(float) floatValue;
 -(double) doubleValue;
 
