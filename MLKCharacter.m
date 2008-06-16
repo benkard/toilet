@@ -32,6 +32,11 @@
   return [[MLKCharacter alloc] initWithUnichar:anUnichar];
 }
 
+-(unichar) unicharValue
+{
+  return self->unichar;
+}
+
 -(MLKCharacter *) uppercaseCharacter
 {
   return [MLKCharacter characterWithUnichar:[self uppercaseChar]];

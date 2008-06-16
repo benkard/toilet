@@ -16,28 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKFuncallable.h"
 #import "MLKLispValue.h"
 
-#import <Foundation/NSString.h>
+@class NSArray;
 
 
-@interface MLKCharacter : MLKLispValue
-{
-  unichar unichar;
-}
-
--(MLKCharacter *) initWithUnichar:(unichar)anUnichar;
-
-+(MLKCharacter *) characterWithUnichar:(unichar)anUnichar;
-
--(unichar) unicharValue;
-
--(MLKCharacter *) uppercaseCharacter;
--(MLKCharacter *) lowercaseCharacter;
-
--(unichar) uppercaseChar;
--(unichar) lowercaseChar;
-
-+(unichar) uppercaseCharForChar:(unichar)ch;
-+(unichar) lowercaseCharForChar:(unichar)ch;
+@interface MLKParenReader : MLKLispValue <MLKFuncallable>
+-(NSArray *) applyToArray:(NSArray *)arguments;
 @end

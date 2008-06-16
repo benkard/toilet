@@ -21,4 +21,5 @@
 
 @protocol MLKFuncallable
 -(NSArray *) applyToArray:(NSArray *)arguments;
+//FIXME?  -(MLKCons) lambdaList;
 @end
