@@ -72,14 +72,21 @@
       _charCached = NO;
       return ch;
     }
-  
+
   buffer = NULL;
-  for (i = 0; i++;)
+  for (i = 0;; i++)
     {
       NSString *tmpstr;
+      ssize_t bytes_read;
 
       buffer = realloc (buffer, i+1);
-      [_input read:(buffer+i) maxLength:1];
+      bytes_read = [_input read:(buffer+i) maxLength:1];
+      // NSLog (@"%d bytes read", bytes_read);
+      if (!bytes_read)
+        {
+          [[MLKError errorWithMessage:@"Tried to read beyond end of file."] raise];
+        }
+
       tmpstr = [[NSString alloc] initWithBytesNoCopy:buffer
                                  length:(i+1)
                                  encoding:_encoding
@@ -87,17 +94,21 @@
       if ([tmpstr length] == 1)
         {
           retval = [tmpstr characterAtIndex:0];
+          [tmpstr release];
+          return retval;
         }
-      [tmpstr release];
     }
 
-  return retval;
+  return -1;
 }
 
 -(void) unreadChar:(unichar)ch
 {
   if (_charCached)
     [[MLKError errorWithMessage:@"Attempted to UNREAD-CHAR twice in a row."] raise];
+
+  _charCached = YES;
+  _cachedChar = ch;
 }
 
 -(BOOL) isEOF
