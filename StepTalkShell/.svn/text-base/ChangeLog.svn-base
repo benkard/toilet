@@ -1,0 +1,58 @@
+2005 Aug 30
+
+    * use STLanguageManager instead of removed STLanguage
+
+2005 Aug 15
+
+    * Added distant environments
+    * Removed named objects as they were causing troubles with distant
+    environments
+    * Suspend completion for distant environments
+    
+    Warning: option 'environment' has different meaning. See stshell --help.
+
+2003 Sep 21
+
+    * Added named objects FileManager, LastCommand and LastObject
+
+2003 Jun 19
+
+    * Renamed stshell.m to stshell_tool.m. MS Windows was causing problems with
+    case insensitive file system. 
+    (Reported by Michael Adams <mdmkolbe@yahoo.com>)
+
+2003 Apr 04  David Ayers  <d.ayers@inode.at>
+
+    * GNUmakefile: Added flags to show all warnings except for import.
+    * STShell.m: Unified name for private categories.
+
+2003 Jan 16  Stefan Urbanek <urbanek@host.sk>
+
+    * GNUmakefile: Added -lncurses
+
+2002 Jun 21  Stefan Urbanek <urbanek@host.sk>
+
+    * Added executeScriptNamed:
+    
+2002 Jun 8  Stefan Urbanek <urbanek@host.sk>
+
+    * Reflect STEnvironment changes
+    * Removed loading of Foundation module as this is handleb by the 
+    STEnvironment
+    
+2002 Jun 7  Stefan Urbanek <urbanek@host.sk>
+
+    * Changed printing of result object (handle arrays, dictionaries and sets
+    different way)
+
+2002 Jun 6  Stefan Urbanek <urbanek@host.sk>
+
+    * Update completition list lazily (only when needed)
+    
+2002 Jun 4  Stefan Urbanek <urbanek@host.sk>
+
+    * add DistributedFinder object finder to the environment
+
+2002 May 30  Stefan Urbanek <urbanek@host.sk>
+
+    * added Environment object.

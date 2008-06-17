@@ -1,0 +1,194 @@
+Unix shell equivalents
+----------------------
+
+StepTalk is not meant to be used for tasks that can be done using ordinary Unix
+shells. But this does not mean, that it cannot be used for such tasks. In this
+file you may find list of unix commands and tasks and their Smalltalk
+equivalents.
+
+Contents:
+
+    File Manipulation
+    Output
+    Paths and filenames
+    Network
+    Math
+    Date and Time
+
+File manipulation
+-----------------
+
+> fm := NSFileManager defaultManager
+
+ls
+
+    > (fm directoryContentsAtPath: '.') sortedArrayUsingSelector:#compare:
+
+pwd
+
+    > fm currentDirectoryPath
+    
+cd path
+
+    > fm changeCurrentDirectoryPath: 'path'
+
+ln -s path other
+
+    > fm createSymbolicLinkAtPath:'path' pathContent:'other'
+    
+cp src dest
+    
+    > fm copyPath:'src' toPath:'dest' handler: nil
+    
+cp file_list dest
+
+    > file_list do: [ :file | fm copyPath:file toPath:'dest' handler: nil ]
+    
+mv - as cp, movePath:toPath:handler: 
+ln - as cp, linkPath:toPath:handler: 
+rm - removeFileAtPath:handler:
+
+mkdir dir
+
+    > fm createDirectoryAtPath:'dir' attributes:nil
+
+df path
+
+    > fm fileSystemAttributesAtPath:'path'   
+
+Output
+------
+
+echo 'string'
+
+    > Transcript show:'string'
+    
+cat file
+
+    > Transcript show: (NSString stringWithContentsOfFile:'file')
+
+"write a string to a file"
+
+    > ('string' writeToFile:'file' atomically:YES)
+
+"create a string from a file"
+
+    > str := NSString stringWithContentsOfFile:'file'
+
+
+Paths and filenames
+--------------------------------
+For more information, refer to the NSString documentation.
+NSString methods for path manipulation:
+
+    - fileSystemRepresentation 
+    - isAbsolutePath 
+
+    - pathComponents 
+    - lastPathComponent 
+    - pathExtension 
+
+    - stringByAbbreviatingWithTildeInPath 
+    - stringByAppendingPathComponent: 
+    - stringByAppendingPathExtension: 
+    - stringByDeletingLastPathComponent 
+    - stringByDeletingPathExtension 
+    - stringByExpandingTildeInPath 
+    - stringByResolvingSymlinksInPath 
+    - stringByStandardizingPath 
+    - stringsByAppendingPaths:
+
+Examples:
+
+    > path := '/usr/GNUstep/System/Applications/Ink.app'
+    > path pathComponents
+    (?) GSArray
+    0  /
+    1  usr
+    2  GNUstep
+    3  System
+    4  Applications
+    5  Ink.app
+
+    > path lastPathComponent 
+    (?) Ink.app
+
+    > path pathExtension 
+    (?) app
+
+In Smalltalk there is a symbolic selector '/' for NSString that is equivalent to
+the 'stringByAppendingPathComponent:'.
+
+    > path := 'somePath'
+    > filename := 'someFilename'
+    > fullPath := path / filename
+
+Network
+-------
+
+localhost
+
+    > NSHost currentHost name
+    
+nslookup host_name
+
+    > (NSHost hostWithName:'host_name') addresses
+    
+nslookup host_address
+
+    > (NSHost hostWithAddress:'host_address') names
+
+"download a file from the web"
+
+    > data := NSData dataWithContentsOfURL:'url'
+    > data writeToFile:'file' atomically:YES
+    
+"read a file from the web"
+
+    > string := NSString stringWithContentsOfURL:'url'
+
+
+Math
+----
+Just like in:
+    > 1 + 1
+or in:
+    > a := b * c
+
+
+Date and Time
+-------------
+
+date
+    > NSDate date
+...or...
+date
+    > NSCalendarDate date
+
+
+For more information read the NSDate and NSCalendarDate documentation
+
+NSCalendarDate methods:
+
+Creating a date
+    
+    + calendarDate
+    + dateWithString:calendarFormat: 
+    + dateWithString:calendarFormat:locale: 
+    + dateWithYear:month:day:hour:minute:second:timeZone: 
+    
+Retrieving date elements 
+
+    - dayOfCommonEra 
+    - dayOfMonth 
+    - dayOfWeek 
+    - dayOfYear 
+    - hourOfDay 
+    - minuteOfHour 
+    - monthOfYear 
+    - secondOfMinute 
+    - yearOfCommonEra
+
+Adjusting a date 
+
+    - dateByAddingYears:months:days:hours:minutes:seconds:

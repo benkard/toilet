@@ -1,0 +1,40 @@
+Simple AppKit Examples
+----------------------
+To be able to try following examples you have to load the AppKit module:
+
+    > Environment loadModule: 'AppKit'
+
+
+How to get a filename using the Open panel
+
+    > NSOpenPanel openPanel runModal ; filename
+
+Applications and files
+----------------------
+
+> Workspace := NSWorkspace sharedWorkspace
+
+How to launch an application
+
+    > Workspace launchApplication:'application name'
+
+How to open a file
+
+    > Workspace openFile:'file name'
+
+How to open a file with specified application
+
+    > Workspace openFile:'file name' withApplication:'application name'
+    
+How to open a file using the open panel
+
+    > Workspace openFile:(NSOpenPanel openPanel runModal ; filename)
+
+Text
+----
+
+How to display a RTF file
+
+    > text := NSAttributedString alloc
+    > text initWithPath: file documentAttributes:nil
+    > Transcript show: (text string)

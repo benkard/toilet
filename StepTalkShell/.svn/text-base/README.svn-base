@@ -1,0 +1,88 @@
+stshell
+-------
+
+Author: Stefan Urbanek <urbanek@host.sk>
+
+
+What is stshell?
+-----------------
+StepTalk Shell is an interactive tool for communicating with objects.
+
+Features
+--------
+    - GNUstep classes and objects
+    - command-line editing
+    - TAB completition of named objects and selectors
+
+For more information read included *.txt files.
+
+Installation
+------------
+Requirements: StepTalk and the readline library (development files)
+
+    > make 
+    > make install
+
+Running
+-------
+To run stshell with default language, run just
+
+    > stshell
+    
+If you would like to use another language, then use
+
+    > stshell -language AnotherLanguage
+    
+To use AppKit
+
+    > stshell -environment AppKit
+
+To use it as a distributed objects 'glue'
+
+    > stshell -environment Distributed
+
+The shell will greet you with 'Welcome to the StepTalk shell.' message.
+
+    Welcome to the StepTalk shell.
+    StepTalk > _
+
+Now you may write statements in the language you have specified.
+
+    StepTalk > Transcript showLine:'Current date is ', ((NSDate date) description)
+    
+If the line is too long, then you may use the backslash '\' character at the end
+of the line to continue on the next line.
+
+    StepTalk > Transcript showLine:'Current date is ', \
+    ... ? ((NSDate date) description)
+
+Objects history array
+---------------------
+All results from the expressions are stored in the 'Objects' array. The example
+above can be written in more steps:
+
+    StepTalk > ((NSDate date) description)
+    0: 2002-05-29 22:41:57 +0200
+    StepTalk > 'Current date is ', (Objects @ 0)
+    1: Current date is 2002-05-29 22:41:57 +0200
+    StepTalk > Transcript showLine: (Objects @ 1)
+    Current date is 2002-05-29 22:41:57 +0200
+    
+To show all objects type:
+
+    StepTalk > Shell listObjects
+    Objects
+       0: '2002-05-29 22:41:57 +0200' (GSCInlineString)
+       1: 'Current date is 2002-05-29 22:41:57 +020...' (GSUnicodeString)
+
+TAB completition
+----------------
+Here is an example of TAB completition.
+    StepTalk > Tr<TAB> showL<TAB>:'Current date is ', ((NSDate date) desc<TAB>i<TAB>)
+
+Feedback
+--------
+Any questions, comments and bug reports are velcome at
+    
+    urbanek@host.sk
+

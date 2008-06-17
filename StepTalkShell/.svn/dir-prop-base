@@ -1,0 +1,11 @@
+K 10
+svn:ignore
+V 68
+*.app
+*.debug
+*.profile
+shared_*obj
+*.bundle
+*.stmodule
+*.stlanguage
+END
