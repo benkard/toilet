@@ -18,6 +18,8 @@
 
 #import "MLKSymbol.h"
 
+#import <Foundation/NSString.h>
+
 
 @implementation MLKSymbol
 -(MLKSymbol *) initWithName:(id)aName package:(id)aPackage
@@ -41,6 +43,12 @@
 -(void) setHomePackage:(MLKPackage *)aPackage
 {
   ASSIGN (homePackage, aPackage);
+}
+
+-(NSString *)descriptionForLisp
+{
+  // FIXME: This is wrong in more than one way.
+  return [NSString stringWithFormat:@"|%@|", name];
 }
 
 -(void) dealloc

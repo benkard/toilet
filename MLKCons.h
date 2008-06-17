@@ -34,5 +34,10 @@
 -(void) setCar:(id)value;
 -(void) setCdr:(id)value;
 
+-(NSString *)bareDescriptionForLisp;  // description without
+                                      // parentheses, for internal use
+                                      // only
+-(NSString *)descriptionForLisp;
+
 -(void) dealloc;
 @end

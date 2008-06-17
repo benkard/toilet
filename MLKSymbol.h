@@ -33,5 +33,7 @@
 -(MLKPackage *) homePackage;
 -(void) setHomePackage:(MLKPackage *)aPackage;
 
+-(NSString *)descriptionForLisp;
+
 -(void) dealloc;
 @end

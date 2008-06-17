@@ -18,6 +18,8 @@
 
 #import "MLKCons.h"
 
+#import <Foundation/NSString.h>
+
 
 @implementation MLKCons
 +(MLKCons*) cons:(id)car with:(id)cdr
@@ -52,6 +54,25 @@
 -(void) setCdr:(id)value
 {
   ASSIGN (_cdr, value);
+}
+
+-(NSString *)bareDescriptionForLisp
+{
+  if (!_cdr)
+    return [NSString stringWithFormat:@"%@", [_car descriptionForLisp]];
+  else if (![_cdr isKindOfClass:[MLKCons class]])
+    return [NSString stringWithFormat:@"%@ %@",
+                     [_car descriptionForLisp],
+                     [_cdr bareDescriptionForLisp]];
+  else
+    return [NSString stringWithFormat:@"%@ . %@",
+                     [_car descriptionForLisp],
+                     [_cdr descriptionForLisp]];
+}
+
+-(NSString *)descriptionForLisp
+{
+  return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
 }
 
 -(void) dealloc
