@@ -37,6 +37,7 @@ enum MLKReadtableCase
 {
   NSMutableDictionary *_syntaxTable;
   NSMutableDictionary *_readerMacros;
+  NSMutableDictionary *_traits;
   //MLKFuncallable *_caseConverter;
   enum MLKReadtableCase _case;
 }

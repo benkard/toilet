@@ -31,6 +31,23 @@
 #define MULTI_ESCAPE 5
 
 
+enum MLKCharacterTrait
+{
+  ALPHABETIC = 0,
+  INVALID,
+  PACKAGE_MARKER,
+  ALPHA_DIGIT,
+  EXPONENT_MARKER,
+  NUMBER_MARKER,
+  RATIO_MARKER,
+  DECIMAL_POINT,
+  MINUS_SIGN,
+  PLUS_SIGN,
+  SIGN,
+  DOT
+};
+
+
 @implementation MLKReadtable
 -(MLKReadtable *) initSuper
 {
@@ -130,4 +147,51 @@
     }
   return 0;
 }
+
+
+#define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)                 \
+-(BOOL) SELECTOR (unichar)ch                                    \
+{                                                               \
+  return ([[_traits objectForKey:[NSNumber numberWithLong:ch]]  \
+            isEqual:[NSNumber numberWithShort:TRAIT]]);         \
+}
+
+DEFINE_TRAIT_PREDICATE(isInvalid:, INVALID)
+DEFINE_TRAIT_PREDICATE(isAlphabetic:, ALPHABETIC)
+DEFINE_TRAIT_PREDICATE(isPackageMarker:, PACKAGE_MARKER)
+DEFINE_TRAIT_PREDICATE(isAlphaDigit:, ALPHA_DIGIT)
+DEFINE_TRAIT_PREDICATE(isExponentMarker:, EXPONENT_MARKER)
+DEFINE_TRAIT_PREDICATE(isNumberMarker:, NUMBER_MARKER)
+DEFINE_TRAIT_PREDICATE(isRatioMarker:, RATIO_MARKER)
+DEFINE_TRAIT_PREDICATE(isDecimalPoint:, DECIMAL_POINT)
+DEFINE_TRAIT_PREDICATE(isMinusSign:, MINUS_SIGN)
+DEFINE_TRAIT_PREDICATE(isPlusSign:, PLUS_SIGN)
+DEFINE_TRAIT_PREDICATE(isSign:, SIGN)
+DEFINE_TRAIT_PREDICATE(isDot:, DOT)
+
+-(BOOL) isDecimalDigit:(unichar)ch
+{
+  return [self isDigit:ch inBase:10];
+}
+
+-(BOOL) isDigit:(unichar)ch inBase:(int)base
+{
+  if (base < 11)
+    return (ch < '0' + base);
+  else
+    return (ch <= '9'
+            || ('A' <= ch && ch < 'A' + base - 10)
+            || ('a' <= ch && ch < 'a' + base - 10));
+}
+
+-(int) digitWeight:(unichar)ch
+{
+  if ('0' <= ch && ch <= '9')
+    return (ch - '0');
+  else if ('A' <= ch && ch <= 'Z')
+    return (ch - 'A' + 10);
+  else
+    return (ch - 'a' + 10);
+}
+
 @end
