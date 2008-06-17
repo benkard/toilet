@@ -30,6 +30,8 @@
   MLKDynamicContext *_parent;
 }
 
++(void) initialize;
+
 -(MLKDynamicContext *) initWithParent:(MLKDynamicContext *)aContext
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers

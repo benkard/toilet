@@ -35,7 +35,24 @@
    : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
+static MLKDynamicContext *global_context;
+
+
 @implementation MLKDynamicContext
++(void) initialize
+{
+  NSMutableDictionary *vars = [NSMutableDictionary dictionary];
+
+  // FIXME: Initialise stuff.
+
+  global_context = [[self alloc] initWithParent:nil
+                                 variables:vars
+                                 handlers:nil
+                                 restarts:nil
+                                 catchTags:nil
+                                 activeHandlerEnvironment:nil];
+}
+
 -(MLKDynamicContext *) initWithParent:(MLKDynamicContext *)aContext
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers
@@ -62,14 +79,19 @@
 
 -(MLKDynamicContext *) pushContext
 {
-  return [[[NSThread currentThread] threadDictionary]
-           objectForKey:@"MLKDynamicContext"];
+  [[[NSThread currentThread] threadDictionary] setObject:self
+                                               forKey:@"MLKDynamicContext"];
+  return self;
 }
 
 +(MLKDynamicContext *) currentContext
 {
-  return [[[NSThread currentThread] threadDictionary]
-           objectForKey:@"MLKDynamicContext"];
+  MLKDynamicContext *context = [[[NSThread currentThread] threadDictionary]
+                                 objectForKey:@"MLKDynamicContext"];
+  if (context)
+    return context;
+  else
+    return global_context;
 }
 
 +(MLKDynamicContext *) popContext
