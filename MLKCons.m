@@ -60,7 +60,7 @@
 {
   if (!_cdr)
     return [NSString stringWithFormat:@"%@", [_car descriptionForLisp]];
-  else if (![_cdr isKindOfClass:[MLKCons class]])
+  else if ([_cdr isKindOfClass:[MLKCons class]])
     return [NSString stringWithFormat:@"%@ %@",
                      [_car descriptionForLisp],
                      [_cdr bareDescriptionForLisp]];
