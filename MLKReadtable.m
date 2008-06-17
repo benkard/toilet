@@ -84,35 +84,20 @@ enum MLKCharacterTrait
           [self isTerminatingMacroCharacter:ch]);
 }
 
--(BOOL) isNonTerminatingMacroCharacter:(unichar)ch;
-{
-  return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]
-            isEqual:[NSNumber numberWithShort:NONTERMINATING_MACRO]]);
-}
 
--(BOOL) isTerminatingMacroCharacter:(unichar)ch;
-{
-  return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]
-            isEqual:[NSNumber numberWithShort:TERMINATING_MACRO]]);
-}
+#define DEFINE_SYNTAX_PREDICATE(SELECTOR, SYNTAX_TYPE)                  \
+  -(BOOL) SELECTOR (unichar)ch                                          \
+  {                                                                     \
+    return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]   \
+              isEqual:[NSNumber numberWithShort:SYNTAX_TYPE]]);         \
+  }
 
--(BOOL) isSingleEscapeCharacter:(unichar)ch;
-{
-  return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]
-            isEqual:[NSNumber numberWithShort:SINGLE_ESCAPE]]);
-}
+DEFINE_SYNTAX_PREDICATE(isNonTerminatingMacroCharacter:, NONTERMINATING_MACRO)
+DEFINE_SYNTAX_PREDICATE(isTerminatingMacroCharacter:, TERMINATING_MACRO)
+DEFINE_SYNTAX_PREDICATE(isSingleEscapeCharacter:, SINGLE_ESCAPE)
+DEFINE_SYNTAX_PREDICATE(isMultipleEscapeCharacter:, MULTI_ESCAPE)
+DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
 
--(BOOL) isMultipleEscapeCharacter:(unichar)ch;
-{
-  return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]
-            isEqual:[NSNumber numberWithShort:MULTI_ESCAPE]]);
-}
-
--(BOOL) isConstituentCharacter:(unichar)ch;
-{
-  return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]
-            isEqual:[NSNumber numberWithShort:CONSTITUENT]]);
-}
 
 -(BOOL) characterHasCase:(unichar)ch
 {
@@ -149,12 +134,12 @@ enum MLKCharacterTrait
 }
 
 
-#define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)                 \
--(BOOL) SELECTOR (unichar)ch                                    \
-{                                                               \
-  return ([[_traits objectForKey:[NSNumber numberWithLong:ch]]  \
-            isEqual:[NSNumber numberWithShort:TRAIT]]);         \
-}
+#define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)                   \
+  -(BOOL) SELECTOR (unichar)ch                                    \
+  {                                                               \
+    return ([[_traits objectForKey:[NSNumber numberWithLong:ch]]  \
+              isEqual:[NSNumber numberWithShort:TRAIT]]);         \
+  }
 
 DEFINE_TRAIT_PREDICATE(isInvalid:, INVALID)
 DEFINE_TRAIT_PREDICATE(isAlphabetic:, ALPHABETIC)
@@ -168,6 +153,7 @@ DEFINE_TRAIT_PREDICATE(isMinusSign:, MINUS_SIGN)
 DEFINE_TRAIT_PREDICATE(isPlusSign:, PLUS_SIGN)
 DEFINE_TRAIT_PREDICATE(isSign:, SIGN)
 DEFINE_TRAIT_PREDICATE(isDot:, DOT)
+
 
 -(BOOL) isDecimalDigit:(unichar)ch
 {
@@ -193,5 +179,4 @@ DEFINE_TRAIT_PREDICATE(isDot:, DOT)
   else
     return (ch - 'a' + 10);
 }
-
 @end
