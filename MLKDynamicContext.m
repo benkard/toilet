@@ -18,6 +18,7 @@
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
+#import <Foundation/NSNull.h>
 #import <Foundation/NSSet.h>
 #import <Foundation/NSThread.h>
 
@@ -47,7 +48,7 @@ static MLKDynamicContext *global_context;
 @implementation MLKDynamicContext
 +(void) initialize
 {
-  NSMutableDictionary *vars = [NSMutableDictionary dictionary];
+  NSMutableDictionary *vars = [NSMutableDictionary dictionaryWithCapacity:64];
   MLKPackage *cl = [MLKPackage packageWithName:@"COMMON-LISP"
                                nicknames:[NSSet setWithObject:@"CL"]];
   MLKPackage *clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
@@ -57,16 +58,18 @@ static MLKDynamicContext *global_context;
   MLKSymbol *t = [cl intern:@"T"];
   MLKReadtable *readtable = [[MLKReadtable alloc] init];
 
+  id NIL = [NSNull null];
+
   // FIXME: Initialise stuff.
 #define INIT(VARNAME, VALUE) [vars setObject:VALUE forKey:[cl intern:VARNAME]]
 
-  INIT(@"*BREAK-ON-SIGNALS*", nil);
-  INIT(@"*COMPILE-FILE-PATHNAME*", nil);
-  INIT(@"*COMPILE-FILE-TRUENAME*", nil);
-  INIT(@"*COMPILE-PRINT*", nil);
+  INIT(@"*BREAK-ON-SIGNALS*", NIL);
+  INIT(@"*COMPILE-FILE-PATHNAME*", NIL);
+  INIT(@"*COMPILE-FILE-TRUENAME*", NIL);
+  INIT(@"*COMPILE-PRINT*", NIL);
   INIT(@"*COMPILE-VERBOSE*", t);
   //  INIT(@"*DEBUG-IO*", );
-  INIT(@"*DEBUGGER-HOOK*", nil);
+  INIT(@"*DEBUGGER-HOOK*", NIL);
   //  INIT(@"*DEFAULT-PATHNAME-DEFAULTS*", );
   //  INIT(@"*ERROR-OUTPUT*", );
   INIT(@"*FEATURES*", [MLKCons
@@ -77,34 +80,34 @@ static MLKDynamicContext *global_context;
                                       cons:[keyword intern:@"ANSI-CL"]
                                       with:nil]]]);
   INIT(@"*GENSYM-COUNTER*", [MLKInteger integerWithInt:0]);
-  INIT(@"*LOAD-PATHNAME*", nil);
-  INIT(@"*LOAD-PRINT*", nil);
-  INIT(@"*LOAD-TRUENAME*", nil);
+  INIT(@"*LOAD-PATHNAME*", NIL);
+  INIT(@"*LOAD-PRINT*", NIL);
+  INIT(@"*LOAD-TRUENAME*", NIL);
   INIT(@"*LOAD-VERBOSE*", t);
   //  INIT(@"*MACROEXPAND-HOOK*", );
-  INIT(@"*MODULES*", nil);
+  INIT(@"*MODULES*", NIL);
   INIT(@"*PACKAGE*", clUser);
   INIT(@"*PRINT-ARRAY*", t);
   INIT(@"*PRINT-BASE*", [MLKInteger integerWithInt:10]);
   INIT(@"*PRINT-CASE*", [keyword intern:@"UPCASE"]);
-  INIT(@"*PRINT-CIRCLE*", nil);
+  INIT(@"*PRINT-CIRCLE*", NIL);
   INIT(@"*PRINT-ESCAPE*", t);
   INIT(@"*PRINT-GENSYM*", t);
-  INIT(@"*PRINT-LENGTH*", nil);
-  INIT(@"*PRINT-LEVEL*", nil);
-  INIT(@"*PRINT-LINES*", nil);
-  INIT(@"*PRINT-MISER-WIDTH*", nil);
+  INIT(@"*PRINT-LENGTH*", NIL);
+  INIT(@"*PRINT-LEVEL*", NIL);
+  INIT(@"*PRINT-LINES*", NIL);
+  INIT(@"*PRINT-MISER-WIDTH*", NIL);
   //  INIT(@"*PRINT-PPRINT-DISPATCH*", );
   INIT(@"*PRINT-PRETTY*", t);
-  INIT(@"*PRINT-RADIX*", nil);
-  INIT(@"*PRINT-READABLY*", nil);
-  INIT(@"*PRINT-RIGHT-MARGIN*", nil);
+  INIT(@"*PRINT-RADIX*", NIL);
+  INIT(@"*PRINT-READABLY*", NIL);
+  INIT(@"*PRINT-RIGHT-MARGIN*", NIL);
   //  INIT(@"*QUERY-IO*", );
   //  INIT(@"*RANDOM-STATE*", );
   INIT(@"*READ-BASE*", [MLKInteger integerWithInt:10]);
   INIT(@"*READ-DEFAULT-FLOAT-FORMAT*", [cl intern:@"SINGLE-FLOAT"]);
   INIT(@"*READ-EVAL*", t);
-  INIT(@"*READ-SUPPRESS*", nil);  //FIXME: Support in reader
+  INIT(@"*READ-SUPPRESS*", NIL);  //FIXME: Support in reader
   INIT(@"*READTABLE*", readtable);
   //  INIT(@"*STANDARD-INPUT*", );
   //  INIT(@"*STANDARD-OUTPUT*", );

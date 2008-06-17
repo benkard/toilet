@@ -30,6 +30,8 @@
   NSString *_name;
 }
 
++(void) initialize;
+  
 -(MLKPackage *) initWithName:(NSString *)name
                    nicknames:(NSSet *)nicknames;
 

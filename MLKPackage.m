@@ -29,18 +29,19 @@
 static NSMutableDictionary *packages = nil;
 
 
-@implementation MLKPackage : MLKLispValue
+@implementation MLKPackage
++(void) initialize
+{
+  packages = [[NSMutableDictionary alloc] init];
+}
+
 -(MLKPackage *) initWithName:(NSString *)name
                    nicknames:(NSSet *)nicknames
 {
   int i;
   NSArray *e;
 
-  self = [self init];
-
-  // FIXME: Make this thread-safe.
-  if (!packages)
-    packages = [[NSMutableDictionary alloc] init];
+  self = [super init];
 
   [packages setObject:self forKey:name];
 

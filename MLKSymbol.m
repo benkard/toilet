@@ -27,7 +27,17 @@
   self = [super init];
   ASSIGN (name, aName);
   ASSIGN (homePackage, aPackage);
+  real_identity = nil;
   return self;
+}
+
+-(id) copyWithZone:(NSZone *)zone
+{
+  MLKSymbol *copy = [MLKSymbol allocWithZone:zone];
+  ASSIGN (copy->name, name);
+  ASSIGN (copy->homePackage, homePackage);
+  ASSIGN (copy->real_identity, self);
+  return copy;
 }
 
 -(NSString *) name
@@ -51,6 +61,22 @@
   //
   // FIXME: This is wrong in more than one way.
   return [NSString stringWithFormat:@"|%@|", name];
+}
+
+-(BOOL) isEqual:(id)object
+{
+  if (object == self)
+    return YES;
+
+  if (!([object isKindOfClass:[MLKSymbol class]]))
+    return NO;
+
+  return ((((MLKSymbol *)object)->real_identity
+           ? ((MLKSymbol *)object)->real_identity
+           : (MLKSymbol *)object)
+          == ((self->real_identity != nil
+               ? self->real_identity
+               : self)));
 }
 
 -(void) dealloc

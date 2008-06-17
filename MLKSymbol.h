@@ -18,13 +18,16 @@
 
 #import "MLKLispValue.h"
 
+#import <Foundation/NSObject.h>
+
 @class MLKPackage;
 
 
-@interface MLKSymbol : MLKLispValue
+@interface MLKSymbol : MLKLispValue <NSCopying>
 {
   NSString *name;
   MLKPackage *homePackage;
+  MLKSymbol *real_identity;
 }
 
 -(MLKSymbol *) initWithName:(id)aName package:(id)aPackage;
@@ -34,6 +37,21 @@
 -(void) setHomePackage:(MLKPackage *)aPackage;
 
 -(NSString *)descriptionForLisp;
+
+// PLEASE DO NOT USE THIS.
+//
+// Symbols should never be copied.  MLKSymbol needs to implement
+// NSCopying as well as suitable version of isEqual: so that symbols can
+// be used as dictionary keys.  Don't call -copy on a symbol manually,
+// please.
+-(id) copyWithZone:(NSZone *)zone;
+
+// PLEASE DO NOT USE THIS.
+//
+// It uses an ugly hack for determining symbol identity in the face of
+// copying.  (The hack is called real_identity and it's an ivar of this
+// class.)  See the comment above copyWithZone: for why it even exists.
+-(BOOL) isEqual:(id)object;
 
 -(void) dealloc;
 @end

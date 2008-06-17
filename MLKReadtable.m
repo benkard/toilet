@@ -59,6 +59,7 @@ enum MLKCharacterTrait
   self = [super init];
   _syntaxTable = [[NSMutableDictionary alloc] init];
   _readerMacros = [[NSMutableDictionary alloc] init];
+  _traits = [[NSMutableDictionary alloc] init];
   _case = MLKReadtableCase_UPCASE;
   return self;
 }
@@ -68,6 +69,7 @@ enum MLKCharacterTrait
   MLKReadtable *copy = [[MLKReadtable allocWithZone:zone] initSuper];
   copy->_syntaxTable = [_syntaxTable mutableCopyWithZone:zone];
   copy->_readerMacros = [_readerMacros mutableCopyWithZone:zone];
+  copy->_traits = [_traits mutableCopyWithZone:zone];
   copy->_case = _case;
   return copy;
 }
