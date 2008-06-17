@@ -26,7 +26,8 @@ etoilisp_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDoubleFloat.m		\
                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
                       MLKSingleFloat.m MLKStream.m MLKSymbol.m		\
                       MLKThrowException.m				\
-                      MLKUndefinedVariableException.m
+                      MLKUndefinedVariableException.m			\
+                      NSObject-MLKPrinting.m
 
 BUNDLE_NAME = Test
 Test_OBJC_FILES = $(etoilisp_OBJC_FILES) MLKLowLevelTests.m
