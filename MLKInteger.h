@@ -34,11 +34,13 @@
 -(MLKInteger *) initWithString:(NSString *)string
                       negative:(BOOL)negative
                           base:(unsigned int)base;
+-(MLKInteger *) initWithInt:(int)intValue;
 
 +(MLKInteger *) integerWithMPZ:(mpz_t)mpz;
 +(MLKInteger *) integerWithString:(NSString *)string
                          negative:(BOOL)negative
                              base:(unsigned int)base;
++(MLKInteger *) integerWithInt:(int)intValue;
 
 -(int) intValue;
 

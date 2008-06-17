@@ -33,7 +33,10 @@
 -(MLKPackage *) initWithName:(NSString *)name
                    nicknames:(NSSet *)nicknames;
 
-+(MLKPackage *)findPackage:(NSString *)name;
++(MLKPackage *) packageWithName:(NSString *)name
+                      nicknames:(NSSet *)nicknames;
+
++(MLKPackage *) findPackage:(NSString *)name;
 
 -(void) usePackage:(MLKPackage *)aPackage;
 -(void) import:(MLKSymbol *)aSymbol;

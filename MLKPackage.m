@@ -59,7 +59,13 @@ static NSMutableDictionary *packages = nil;
   return self;
 }
 
-+(MLKPackage *)findPackage:(NSString *)name
++(MLKPackage *) packageWithName:(NSString *)name
+                      nicknames:(NSSet *)nicknames
+{
+  return AUTORELEASE ([[self alloc] initWithName:name nicknames:nicknames]);
+}
+
++(MLKPackage *) findPackage:(NSString *)name
 {
   return [packages objectForKey:name];
 }

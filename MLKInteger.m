@@ -29,6 +29,13 @@
   return self;
 }
 
+-(MLKInteger *) initWithInt:(int)intValue
+{
+  self = [super init];
+  mpz_init_set_si (value, intValue);
+  return self;
+}
+
 -(MLKInteger *) initWithString:(NSString *)string
                       negative:(BOOL)negative
                           base:(unsigned int)base
@@ -53,6 +60,12 @@
                                           base:base]);
 }
 
++(MLKInteger *) integerWithInt:(int)intValue
+{
+  return AUTORELEASE ([[MLKInteger alloc] initWithInt:intValue]);
+}
+
+
 #define DEFINE_MPZ_TWOARG_OPERATION(SELECTOR, GMPFUN)                   \
   DEFINE_GMP_OPERATION (SELECTOR (MLKInteger *)arg,                     \
                         mpz,                                            \
@@ -64,6 +77,7 @@ DEFINE_MPZ_TWOARG_OPERATION (add:, mpz_add)
 DEFINE_MPZ_TWOARG_OPERATION (subtract:, mpz_sub)
 DEFINE_MPZ_TWOARG_OPERATION (multiplyWith:, mpz_mul)
 DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_div)
+
 
 -(int) intValue
 {

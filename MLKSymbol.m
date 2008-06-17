@@ -47,6 +47,8 @@
 
 -(NSString *)descriptionForLisp
 {
+  // NOTE: Need to take *PRINT-GENSYM* into account.
+  //
   // FIXME: This is wrong in more than one way.
   return [NSString stringWithFormat:@"|%@|", name];
 }

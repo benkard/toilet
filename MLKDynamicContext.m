@@ -16,13 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/NSDictionary.h>
 #import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSSet.h>
 #import <Foundation/NSThread.h>
 
+#import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
 #import "MLKLinkedList.h"
+#import "MLKPackage.h"
+#import "MLKReadtable.h"
+#import "MLKSymbol.h"
+#import "MLKInteger.h"
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
@@ -42,8 +48,68 @@ static MLKDynamicContext *global_context;
 +(void) initialize
 {
   NSMutableDictionary *vars = [NSMutableDictionary dictionary];
+  MLKPackage *cl = [MLKPackage packageWithName:@"COMMON-LISP"
+                               nicknames:[NSSet setWithObject:@"CL"]];
+  MLKPackage *clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
+                                   nicknames:[NSSet setWithObject:@"CL-USER"]];
+  MLKPackage *keyword = [MLKPackage packageWithName:@"KEYWORD"
+                                    nicknames:[NSSet set]];
+  MLKSymbol *t = [cl intern:@"T"];
+  MLKReadtable *readtable = [[MLKReadtable alloc] init];
 
   // FIXME: Initialise stuff.
+#define INIT(VARNAME, VALUE) [vars setObject:VALUE forKey:[cl intern:VARNAME]]
+
+  INIT(@"*BREAK-ON-SIGNALS*", nil);
+  INIT(@"*COMPILE-FILE-PATHNAME*", nil);
+  INIT(@"*COMPILE-FILE-TRUENAME*", nil);
+  INIT(@"*COMPILE-PRINT*", nil);
+  INIT(@"*COMPILE-VERBOSE*", t);
+  //  INIT(@"*DEBUG-IO*", );
+  INIT(@"*DEBUGGER-HOOK*", nil);
+  //  INIT(@"*DEFAULT-PATHNAME-DEFAULTS*", );
+  //  INIT(@"*ERROR-OUTPUT*", );
+  INIT(@"*FEATURES*", [MLKCons
+                        cons:[keyword intern:@"ETOILET"]
+                        with:[MLKCons
+                               cons:[keyword intern:@"COMMON-LISP"]
+                               with:[MLKCons
+                                      cons:[keyword intern:@"ANSI-CL"]
+                                      with:nil]]]);
+  INIT(@"*GENSYM-COUNTER*", [MLKInteger integerWithInt:0]);
+  INIT(@"*LOAD-PATHNAME*", nil);
+  INIT(@"*LOAD-PRINT*", nil);
+  INIT(@"*LOAD-TRUENAME*", nil);
+  INIT(@"*LOAD-VERBOSE*", t);
+  //  INIT(@"*MACROEXPAND-HOOK*", );
+  INIT(@"*MODULES*", nil);
+  INIT(@"*PACKAGE*", clUser);
+  INIT(@"*PRINT-ARRAY*", t);
+  INIT(@"*PRINT-BASE*", [MLKInteger integerWithInt:10]);
+  INIT(@"*PRINT-CASE*", [keyword intern:@"UPCASE"]);
+  INIT(@"*PRINT-CIRCLE*", nil);
+  INIT(@"*PRINT-ESCAPE*", t);
+  INIT(@"*PRINT-GENSYM*", t);
+  INIT(@"*PRINT-LENGTH*", nil);
+  INIT(@"*PRINT-LEVEL*", nil);
+  INIT(@"*PRINT-LINES*", nil);
+  INIT(@"*PRINT-MISER-WIDTH*", nil);
+  //  INIT(@"*PRINT-PPRINT-DISPATCH*", );
+  INIT(@"*PRINT-PRETTY*", t);
+  INIT(@"*PRINT-RADIX*", nil);
+  INIT(@"*PRINT-READABLY*", nil);
+  INIT(@"*PRINT-RIGHT-MARGIN*", nil);
+  //  INIT(@"*QUERY-IO*", );
+  //  INIT(@"*RANDOM-STATE*", );
+  INIT(@"*READ-BASE*", [MLKInteger integerWithInt:10]);
+  INIT(@"*READ-DEFAULT-FLOAT-FORMAT*", [cl intern:@"SINGLE-FLOAT"]);
+  INIT(@"*READ-EVAL*", t);
+  INIT(@"*READ-SUPPRESS*", nil);  //FIXME: Support in reader
+  INIT(@"*READTABLE*", readtable);
+  //  INIT(@"*STANDARD-INPUT*", );
+  //  INIT(@"*STANDARD-OUTPUT*", );
+  //  INIT(@"*TERMINAL-IO*", );
+  //  INIT(@"*TRACE-OUTPUT* ", );
 
   global_context = [[self alloc] initWithParent:nil
                                  variables:vars
