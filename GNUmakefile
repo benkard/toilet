@@ -34,6 +34,7 @@ ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDoubleFloat.m	\
                        MLKUndefinedVariableException.m			\
                        NSObject-MLKPrinting.m
 ToiletKit_LDFLAGS = -lgmp
+#LIBRARIES_DEPEND_UPON
 
 #TOOL_NAME = etoilet
 #etoilet_OBJC_FILES = main.m
@@ -57,7 +58,10 @@ include $(GNUSTEP_MAKEFILES)/framework.make
 include $(GNUSTEP_MAKEFILES)/tool.make
 -include GNUmakefile.postamble
 
-before-all::
+before-all:: before-etshell
+
+before-etshell::
+	rm -f obj/etshell
 	mkdir -p $(GNUSTEP_OBJ_DIR)/StepTalkShell
 
 #after-clean::
@@ -66,5 +70,5 @@ before-all::
 test: Test
 	ukrun Test.bundle
 
-run: ToiletKit etshell
+run: before-etshell ToiletKit etshell
 	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/etshell
