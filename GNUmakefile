@@ -24,7 +24,8 @@ etoilisp_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDoubleFloat.m		\
                       MLKInteger.m MLKLinkedList.m MLKLispValue.m	\
                       MLKPackage.m MLKParenReader.m MLKRatio.m		\
                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
-                      MLKSingleFloat.m MLKStream.m MLKSymbol.m		\
+                      MLKSingleFloat.m MLKStream.m			\
+                      MLKStringInputStream.m MLKSymbol.m		\
                       MLKThrowException.m				\
                       MLKUndefinedVariableException.m			\
                       NSObject-MLKPrinting.m
