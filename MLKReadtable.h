@@ -76,4 +76,8 @@ enum MLKReadtableCase
 
 -(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
+
+// For internal use.
+-(int) characterConstituentTraits:(unichar)ch;
+-(int) characterSyntaxType:(unichar)ch;
 @end

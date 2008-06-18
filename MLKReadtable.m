@@ -23,28 +23,31 @@
 #import <Foundation/NSValue.h>
 
 
-#define CONSTITUENT 0
-#define WHITESPACE 1
-#define TERMINATING_MACRO 2
-#define NONTERMINATING_MACRO 3
-#define SINGLE_ESCAPE 4
-#define MULTI_ESCAPE 5
-
-
-enum MLKCharacterTrait
+enum MLKSyntaxType
 {
-  ALPHABETIC = 0,
-  INVALID,
-  PACKAGE_MARKER,
-  ALPHA_DIGIT,
-  EXPONENT_MARKER,
-  NUMBER_MARKER,
-  RATIO_MARKER,
-  DECIMAL_POINT,
-  MINUS_SIGN,
-  PLUS_SIGN,
-  SIGN,
-  DOT
+  CONSTITUENT = 0,
+  WHITESPACE = 1,
+  TERMINATING_MACRO = 2,
+  NONTERMINATING_MACRO = 3,
+  SINGLE_ESCAPE = 4,
+  MULTI_ESCAPE = 5
+};
+
+
+enum MLKConstituentTrait
+{
+  ALPHABETIC = 1,
+  INVALID = 2,
+  PACKAGE_MARKER = 4,
+  ALPHA_DIGIT = 8,
+  EXPONENT_MARKER = 16,
+  NUMBER_MARKER = 32,
+  RATIO_MARKER = 64,
+  DECIMAL_POINT = 128,
+  MINUS_SIGN = 256,
+  PLUS_SIGN = 512,
+  SIGN = 1024,
+  DOT = 2048
 };
 
 
@@ -86,12 +89,21 @@ enum MLKCharacterTrait
           [self isTerminatingMacroCharacter:ch]);
 }
 
+-(int) characterSyntaxType:(unichar)ch
+{
+  NSNumber *type = [_traits objectForKey:[NSNumber numberWithLong:ch]];
+  if (!type)
+    return CONSTITUENT;
+  else
+    return [type intValue];
+}
+
 
 #define DEFINE_SYNTAX_PREDICATE(SELECTOR, SYNTAX_TYPE)                  \
   -(BOOL) SELECTOR (unichar)ch                                          \
   {                                                                     \
-    return ([[_syntaxTable objectForKey:[NSNumber numberWithLong:ch]]   \
-              isEqual:[NSNumber numberWithShort:SYNTAX_TYPE]]);         \
+    return ([self characterSyntaxType:ch]                               \
+            == SYNTAX_TYPE);                                            \
   }
 
 DEFINE_SYNTAX_PREDICATE(isNonTerminatingMacroCharacter:, NONTERMINATING_MACRO)
@@ -136,11 +148,21 @@ DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
 }
 
 
-#define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)                   \
-  -(BOOL) SELECTOR (unichar)ch                                    \
-  {                                                               \
-    return ([[_traits objectForKey:[NSNumber numberWithLong:ch]]  \
-              isEqual:[NSNumber numberWithShort:TRAIT]]);         \
+-(int) characterConstituentTraits:(unichar)ch
+{
+  NSNumber *traits = [_traits objectForKey:[NSNumber numberWithLong:ch]];
+  if (!traits)
+    return ALPHABETIC;
+  else
+    return [traits intValue];
+}
+
+
+#define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)         \
+  -(BOOL) SELECTOR (unichar)ch                          \
+  {                                                     \
+    return ([self characterConstituentTraits:ch]        \
+            & TRAIT);                                   \
   }
 
 DEFINE_TRAIT_PREDICATE(isInvalid:, INVALID)
