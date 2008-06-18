@@ -36,7 +36,10 @@
   MLKSymbol *copy = [MLKSymbol allocWithZone:zone];
   ASSIGN (copy->name, name);
   ASSIGN (copy->homePackage, homePackage);
-  ASSIGN (copy->real_identity, self);
+  if (real_identity)
+    ASSIGN (copy->real_identity, real_identity);
+  else
+    ASSIGN (copy->real_identity, self);
   return copy;
 }
 
@@ -77,6 +80,14 @@
           == ((self->real_identity != nil
                ? self->real_identity
                : self)));
+}
+
+-(unsigned) hash
+{
+  if (real_identity)
+    return [real_identity hash];
+  else
+    return [super hash];
 }
 
 -(void) dealloc
