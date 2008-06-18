@@ -20,6 +20,7 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSSet.h>
+#import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
 #import "MLKCons.h"
@@ -57,8 +58,109 @@ static MLKDynamicContext *global_context;
                                     nicknames:[NSSet set]];
   MLKSymbol *t = [cl intern:@"T"];
   MLKReadtable *readtable = [[MLKReadtable alloc] init];
+  unichar ch;
 
   id NIL = [NSNull null];
+  
+  // Build the initial readtable.
+  [readtable setSyntaxType:WHITESPACE forCharacter:'\t'];
+  [readtable setConstituentTrait:INVALID forCharacter:'\t'];
+  [readtable setSyntaxType:WHITESPACE forCharacter:'\n'];
+  [readtable setConstituentTrait:INVALID forCharacter:'\n'];
+  [readtable setSyntaxType:WHITESPACE forCharacter:'\f'];  // linefeed == newline?
+  [readtable setConstituentTrait:INVALID forCharacter:'\f'];
+  [readtable setSyntaxType:WHITESPACE forCharacter:'\r'];
+  [readtable setConstituentTrait:INVALID forCharacter:'\r'];
+  [readtable setSyntaxType:WHITESPACE forCharacter:' '];
+  [readtable setConstituentTrait:INVALID forCharacter:' '];
+  //  [readtable setSyntaxType:WHITESPACE forCharacter:'\Page'];
+  //  [readtable setConstituentTrait:INVALID forCharacter:'\Page'];
+  
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'\b'];
+  [readtable setConstituentTrait:INVALID forCharacter:'\b'];
+  //  [readtable setSyntaxType:CONSTITUENT forCharacter:'\Rubout'];
+  //  [readtable setConstituentTrait:INVALID forCharacter:'\Rubout'];
+
+  [readtable setSyntaxType:CONSTITUENT forCharacter:':'];
+  [readtable setConstituentTrait:PACKAGE_MARKER forCharacter:':'];
+  [readtable unsetConstituentTrait:ALPHABETIC forCharacter:':'];
+
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'<'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'='];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'>'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'?'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'!'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'@'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'['];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'$'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'%'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:']'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'&'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'^'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'_'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'*'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'{'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'}'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'~'];
+  
+  
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'+'];
+  [readtable setConstituentTrait:PLUS_SIGN forCharacter:'+'];
+
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'-'];
+  [readtable setConstituentTrait:MINUS_SIGN forCharacter:'-'];
+  
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'.'];
+  [readtable setConstituentTrait:DOT forCharacter:'.'];
+  [readtable setConstituentTrait:DECIMAL_POINT forCharacter:'.'];
+  
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'/'];
+  [readtable setConstituentTrait:RATIO_MARKER forCharacter:'/'];
+  
+  // Maybe distinguish different types of exponent markers as the CLHS
+  // does?
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'d'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'e'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'f'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'l'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'s'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'D'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'E'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'F'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'L'];
+  [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'S'];
+
+  [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
+  
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'"'];
+  //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'('];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:')'];
+  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
+
+  [readtable setSyntaxType:SINGLE_ESCAPE forCharacter:'\\'];
+
+  for (ch = '0'; ch <= '9'; ch++)
+    {
+      [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
+      [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+    }
+  
+  for (ch = 'A'; ch <= 'Z'; ch++)
+    {
+      [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
+      [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+    }
+  
+  for (ch = 'a'; ch <= 'z'; ch++)
+    {
+      [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
+      [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+    }
+
 
   // FIXME: Initialise stuff.
 #define INIT(VARNAME, VALUE) [vars setObject:VALUE forKey:[cl intern:VARNAME]]
