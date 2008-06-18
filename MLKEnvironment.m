@@ -69,6 +69,7 @@ static id UNBOUND;
 
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env
 {
+  value = value ? value : (id) [NSNull null];
   if ([_bindings objectForKey:symbol])
     [_bindings setObject:value forKey:symbol];
   else
@@ -117,6 +118,7 @@ static id UNBOUND;
 
 -(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
 {
+  value = value ? value : (id) [NSNull null];
   [_bindings setObject:value forKey:symbol];
 }
 
