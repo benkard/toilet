@@ -83,7 +83,7 @@ static id UNBOUND;
 
 -(id) valueForBinding:(MLKSymbol *)symbol
 {
-  return [self valueForBinding:symbol];
+  return [self valueForBinding:symbol inEnvironment:self];
 }
 
 -(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
