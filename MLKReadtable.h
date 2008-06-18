@@ -32,6 +32,32 @@ enum MLKReadtableCase
   MLKReadtableCase_PRESERVE
 };
 
+enum MLKSyntaxType
+{
+  CONSTITUENT = 0,
+  WHITESPACE = 1,
+  TERMINATING_MACRO = 2,
+  NONTERMINATING_MACRO = 3,
+  SINGLE_ESCAPE = 4,
+  MULTI_ESCAPE = 5
+};
+
+enum MLKConstituentTrait
+{
+  ALPHABETIC = 1,
+  INVALID = 2,
+  PACKAGE_MARKER = 4,
+  ALPHA_DIGIT = 8,
+  EXPONENT_MARKER = 16,
+  NUMBER_MARKER = 32,
+  RATIO_MARKER = 64,
+  DECIMAL_POINT = 128,
+  MINUS_SIGN = 256,
+  PLUS_SIGN = 512,
+  SIGN = 1024,
+  DOT = 2048
+};
+
 
 @interface MLKReadtable : MLKLispValue <NSCopying>
 {
@@ -77,7 +103,15 @@ enum MLKReadtableCase
 -(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
 
-// For internal use.
 -(int) characterConstituentTraits:(unichar)ch;
--(int) characterSyntaxType:(unichar)ch;
+-(BOOL) character:(unichar)ch
+         hasTrait:(enum MLKConstituentTrait)trait;
+-(enum MLKSyntaxType) characterSyntaxType:(unichar)ch;
+
+-(void) setSyntaxType:(enum MLKSyntaxType)type
+         forCharacter:(unichar)ch;
+-(void) setConstituentTrait:(enum MLKConstituentTrait)trait
+               forCharacter:(unichar)ch;
+-(void) unsetConstituentTrait:(enum MLKConstituentTrait)trait
+                 forCharacter:(unichar)ch;
 @end

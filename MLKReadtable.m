@@ -23,34 +23,6 @@
 #import <Foundation/NSValue.h>
 
 
-enum MLKSyntaxType
-{
-  CONSTITUENT = 0,
-  WHITESPACE = 1,
-  TERMINATING_MACRO = 2,
-  NONTERMINATING_MACRO = 3,
-  SINGLE_ESCAPE = 4,
-  MULTI_ESCAPE = 5
-};
-
-
-enum MLKConstituentTrait
-{
-  ALPHABETIC = 1,
-  INVALID = 2,
-  PACKAGE_MARKER = 4,
-  ALPHA_DIGIT = 8,
-  EXPONENT_MARKER = 16,
-  NUMBER_MARKER = 32,
-  RATIO_MARKER = 64,
-  DECIMAL_POINT = 128,
-  MINUS_SIGN = 256,
-  PLUS_SIGN = 512,
-  SIGN = 1024,
-  DOT = 2048
-};
-
-
 @implementation MLKReadtable
 -(MLKReadtable *) initSuper
 {
@@ -89,7 +61,7 @@ enum MLKConstituentTrait
           [self isTerminatingMacroCharacter:ch]);
 }
 
--(int) characterSyntaxType:(unichar)ch
+-(enum MLKSyntaxType) characterSyntaxType:(unichar)ch
 {
   NSNumber *type = [_traits objectForKey:[NSNumber numberWithLong:ch]];
   if (!type)
@@ -157,12 +129,21 @@ DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
     return [traits intValue];
 }
 
+-(BOOL) character:(unichar)ch
+         hasTrait:(enum MLKConstituentTrait)trait
+{
+  NSNumber *traits = [_traits objectForKey:[NSNumber numberWithLong:ch]];
+  if (!traits)
+    return (trait == ALPHABETIC);
+  else
+    return [traits intValue] & trait;
+}
+
 
 #define DEFINE_TRAIT_PREDICATE(SELECTOR, TRAIT)         \
   -(BOOL) SELECTOR (unichar)ch                          \
   {                                                     \
-    return ([self characterConstituentTraits:ch]        \
-            & TRAIT);                                   \
+    return ([self character:ch hasTrait:TRAIT]);        \
   }
 
 DEFINE_TRAIT_PREDICATE(isInvalid:, INVALID)
@@ -178,6 +159,31 @@ DEFINE_TRAIT_PREDICATE(isPlusSign:, PLUS_SIGN)
 DEFINE_TRAIT_PREDICATE(isSign:, SIGN)
 DEFINE_TRAIT_PREDICATE(isDot:, DOT)
 
+
+-(void) setSyntaxType:(enum MLKSyntaxType)type
+         forCharacter:(unichar)ch
+{
+  [_syntaxTable setObject:[NSNumber numberWithInt:type]
+                forKey:[NSNumber numberWithLong:ch]];
+}
+
+-(void) setConstituentTrait:(enum MLKConstituentTrait)trait
+               forCharacter:(unichar)ch
+{
+  int traits = [self characterConstituentTraits:ch];
+  traits = traits | trait;
+  [_traits setObject:[NSNumber numberWithInt:traits]
+           forKey:[NSNumber numberWithLong:ch]];
+}
+
+-(void) unsetConstituentTrait:(enum MLKConstituentTrait)trait
+                 forCharacter:(unichar)ch
+{
+  int traits = [self characterConstituentTraits:ch];
+  traits = traits & ~trait;
+  [_traits setObject:[NSNumber numberWithInt:traits]
+           forKey:[NSNumber numberWithLong:ch]];
+}
 
 -(BOOL) isDecimalDigit:(unichar)ch
 {
