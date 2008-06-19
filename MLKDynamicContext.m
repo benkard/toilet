@@ -61,7 +61,7 @@ static MLKDynamicContext *global_context;
   unichar ch;
 
   id NIL = [NSNull null];
-  
+
   // Build the initial readtable.
   [readtable setSyntaxType:WHITESPACE forCharacter:'\t'];
   [readtable setConstituentTrait:INVALID forCharacter:'\t'];
@@ -75,11 +75,11 @@ static MLKDynamicContext *global_context;
   [readtable setConstituentTrait:INVALID forCharacter:' '];
   //  [readtable setSyntaxType:WHITESPACE forCharacter:'\Page'];
   //  [readtable setConstituentTrait:INVALID forCharacter:'\Page'];
-  
+
   [readtable setSyntaxType:CONSTITUENT forCharacter:'\b'];
   [readtable setConstituentTrait:INVALID forCharacter:'\b'];
-  //  [readtable setSyntaxType:CONSTITUENT forCharacter:'\Rubout'];
-  //  [readtable setConstituentTrait:INVALID forCharacter:'\Rubout'];
+  [readtable setSyntaxType:CONSTITUENT forCharacter:'\177'];  // Rubout
+  [readtable setConstituentTrait:INVALID forCharacter:'\177'];
 
   [readtable setSyntaxType:CONSTITUENT forCharacter:':'];
   [readtable setConstituentTrait:PACKAGE_MARKER forCharacter:':'];
@@ -102,8 +102,7 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:CONSTITUENT forCharacter:'{'];
   [readtable setSyntaxType:CONSTITUENT forCharacter:'}'];
   [readtable setSyntaxType:CONSTITUENT forCharacter:'~'];
-  
-  
+
   [readtable setSyntaxType:CONSTITUENT forCharacter:'+'];
   [readtable setConstituentTrait:PLUS_SIGN forCharacter:'+'];
 
@@ -118,7 +117,8 @@ static MLKDynamicContext *global_context;
   [readtable setConstituentTrait:RATIO_MARKER forCharacter:'/'];
   
   // Maybe distinguish different types of exponent markers as the CLHS
-  // does?
+  // does?  For now, the MLKFloat class cluster's string-parsing
+  // constructor does the discrimination.
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'d'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'e'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'f'];
@@ -147,18 +147,21 @@ static MLKDynamicContext *global_context;
     {
       [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
       [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+      [readtable unsetConstituentTrait:ALPHABETIC forCharacter:ch];
     }
   
   for (ch = 'A'; ch <= 'Z'; ch++)
     {
       [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
       [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+      [readtable unsetConstituentTrait:ALPHABETIC forCharacter:ch];
     }
   
   for (ch = 'a'; ch <= 'z'; ch++)
     {
       [readtable setSyntaxType:CONSTITUENT forCharacter:ch];
       [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
+      [readtable unsetConstituentTrait:ALPHABETIC forCharacter:ch];
     }
 
 
