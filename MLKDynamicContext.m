@@ -264,6 +264,11 @@ static MLKDynamicContext *global_context;
   return self;
 }
 
++(MLKDynamicContext *) globalContext
+{
+  return global_context;
+}
+
 -(MLKDynamicContext *) pushContext
 {
   [[[NSThread currentThread] threadDictionary] setObject:self

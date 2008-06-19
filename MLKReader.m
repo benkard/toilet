@@ -107,7 +107,8 @@
   if ([readtable isConstituentCharacter:ch])
     {
       token = [NSMutableString stringWithCapacity:8];
-      [token appendFormat:@"%C", [stream readChar]];
+      [token appendFormat:@"%C", [readtable charWithReadtableCase:
+                                              [stream readChar]]];
     }
 
   while (![stream isEOF])
@@ -407,7 +408,7 @@
               break;
             }
         }
-      
+
       // Extract the package and symbol name.
       if (packageMarker == -1)
         {
@@ -443,7 +444,7 @@
       if (packageMarker == 0)
         {
           // Make keyword symbols self-evaluate.
-          [[MLKDynamicContext currentContext] setValue:symbol forBinding:symbol];
+          [[MLKDynamicContext globalContext] addValue:symbol forBinding:symbol];
         }
 
       return symbol;

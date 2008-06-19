@@ -39,6 +39,8 @@
                             catchTags:(NSDictionary *)catchTags
              activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 
++(MLKDynamicContext *) globalContext;
+
 -(MLKDynamicContext *) pushContext;
 
 +(MLKDynamicContext *) currentContext;
