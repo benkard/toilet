@@ -55,8 +55,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
   cons = nil;
   tail = nil;
 
-  nextChar = slurpWhitespaceAndPeek(stream, readtable);
-  while (nextChar != ')')
+  while ((nextChar = slurpWhitespaceAndPeek(stream, readtable)) != ')')
     {
       id item;
 
@@ -78,7 +77,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
           tail = [tail cdr];
         }
     }
-
-  return [NSArray arrayWithObject:cons];
+  
+  return [NSArray arrayWithObject:(cons ? (id)cons : (id)[NSNull null])];
 }
 @end

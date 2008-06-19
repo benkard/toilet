@@ -28,6 +28,7 @@
 #import "MLKEnvironment.h"
 #import "MLKLinkedList.h"
 #import "MLKPackage.h"
+#import "MLKParenReader.h"
 #import "MLKReadtable.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
@@ -110,14 +111,14 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:CONSTITUENT forCharacter:'-'];
   [readtable setConstituentTrait:MINUS_SIGN forCharacter:'-'];
   [readtable setConstituentTrait:SIGN forCharacter:'-'];
-  
+
   [readtable setSyntaxType:CONSTITUENT forCharacter:'.'];
   [readtable setConstituentTrait:DOT forCharacter:'.'];
   [readtable setConstituentTrait:DECIMAL_POINT forCharacter:'.'];
-  
+
   [readtable setSyntaxType:CONSTITUENT forCharacter:'/'];
   [readtable setConstituentTrait:RATIO_MARKER forCharacter:'/'];
-  
+
   // Maybe distinguish different types of exponent markers as the CLHS
   // does?  For now, the MLKFloat class cluster's string-parsing
   // constructor does the discrimination.
@@ -131,7 +132,7 @@ static MLKDynamicContext *global_context;
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'F'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'L'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'S'];
-  
+
   [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'d'];
   [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'e'];
   [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'f'];
@@ -144,17 +145,20 @@ static MLKDynamicContext *global_context;
   [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'S'];
 
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
-  
+
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'"'];
   //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'('];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:')'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
 
   [readtable setSyntaxType:SINGLE_ESCAPE forCharacter:'\\'];
+  
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'('];
+  [readtable setMacroFunction:[[MLKParenReader alloc] init]
+             forCharacter:'('];
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:')'];
 
   for (ch = '0'; ch <= '9'; ch++)
     {
@@ -162,7 +166,7 @@ static MLKDynamicContext *global_context;
       [readtable setConstituentTrait:ALPHA_DIGIT forCharacter:ch];
       [readtable unsetConstituentTrait:ALPHABETIC forCharacter:ch];
     }
-  
+
   for (ch = 'A'; ch <= 'Z'; ch++)
     {
       [readtable setSyntaxType:CONSTITUENT forCharacter:ch];

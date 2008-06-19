@@ -96,6 +96,12 @@ DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
   return [_readerMacros objectForKey:[NSNumber numberWithLong:ch]];
 }
 
+-(void) setMacroFunction:(MLKFuncallable *)function forCharacter:(unichar)ch
+{
+  [_readerMacros setObject:function
+                 forKey:[NSNumber numberWithLong:ch]];
+}
+
 -(unichar) charWithReadtableCase:(unichar)ch
 {
   switch (_case)

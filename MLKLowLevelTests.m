@@ -170,6 +170,28 @@
   UKStringsEqual ([[MLKReader readFromString:@"|Class Name|"] name], @"Class Name");
   UKStringsEqual ([[MLKReader readFromString:@"class\\ name"] name], @"CLASS NAME");
   UKStringsEqual ([[MLKReader readFromString:@"\\100"] name], @"100");
+  
+  UKStringsEqual ([[MLKReader readFromString:@"a b c d e"] name], @"A");
+
+  return nil;
+}
+
+
+-(id) testParenReading
+{
+  UKObjectKindOf ([MLKReader readFromString:@"(1 2)"], MLKCons);
+  UKObjectKindOf ([MLKReader readFromString:@"(1 . 2)"], MLKCons);
+  UKObjectKindOf ([MLKReader readFromString:@"(a b)"], MLKCons);
+
+  UKNil ([MLKReader readFromString:@"()"]);
+
+  UKObjectKindOf ([[MLKReader readFromString:@"(1 . 2)"] car], MLKInteger);
+  UKObjectKindOf ([[MLKReader readFromString:@"(1 . 2)"] cdr], MLKInteger);
+  
+  UKObjectKindOf ([[MLKReader readFromString:@"(a b)"] car], MLKSymbol);
+  UKObjectKindOf ([[MLKReader readFromString:@"(a b)"] cdr], MLKCons);
+  
+  UKObjectKindOf ([[MLKReader readFromString:@"((a) b)"] car], MLKCons);
 
   return nil;
 }

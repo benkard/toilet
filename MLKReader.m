@@ -55,7 +55,7 @@
   readtable = [[MLKDynamicContext currentContext]
                 valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
-  
+
  start:
   if ([stream isEOF])
     {
@@ -86,7 +86,9 @@
         }
       returnValues = [macrofun applyToArray:args];
       if ([returnValues count])
-        return [returnValues objectAtIndex:0];
+        return ([returnValues objectAtIndex:0] == [NSNull null]
+                ? nil
+                : [returnValues objectAtIndex:0]);
       else
         goto start;
     }
@@ -123,7 +125,8 @@
       ch = [stream readChar];
       if ([readtable isConstituentCharacter:ch] ||
           [readtable isNonTerminatingMacroCharacter:ch] ||
-          (escaped && [readtable isWhitespaceCharacter:ch]))
+          (escaped && (![readtable isMultipleEscapeCharacter:ch]
+                       && ![readtable isSingleEscapeCharacter:ch])))
         {
           if (escaped)
             [token appendFormat:@"%C", ch];
@@ -148,9 +151,12 @@
           [stream unreadChar:ch];
           break;
         }
-      else if ([readtable isInvalid:ch])
+      else if ([readtable isConstituentCharacter:ch]
+               && [readtable isInvalid:ch])
         {
-          [[[MLKReaderError alloc] initWithStream:stream] raise];
+          //[[[MLKReaderError alloc] initWithStream:stream] raise];
+          [NSException raise:@"MLKReaderError"
+                       format:@"'%c' is an invalid constituent character.", ch];
         }
       else if ([readtable isWhitespaceCharacter:ch])
         {

@@ -101,6 +101,7 @@ enum MLKConstituentTrait
 -(int) digitWeight:(unichar)ch;
 
 -(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
+-(void) setMacroFunction:(MLKFuncallable *)function forCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
 
 -(int) characterConstituentTraits:(unichar)ch;
