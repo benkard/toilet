@@ -20,21 +20,37 @@
 #include <Foundation/Foundation.h>
 
 #include "MLKCons.h"
+#include "MLKDoubleFloat.h"
 #include "MLKDynamicContext.h"
 #include "MLKEnvironment.h"
 #include "MLKLinkedList.h"
 #include "MLKPackage.h"
+#include "MLKRatio.h"
+#include "MLKReader.h"
 #include "MLKReadtable.h"
+#include "MLKSingleFloat.h"
 #include "MLKSymbol.h"
 
 @interface MLKLowLevelTests : NSObject <UKTest>
 @end
 
 
+// static void MLKNSUncaughtExceptionHandler (NSException *exception)
+// {
+//   NSLog (@"Caught unhandled exception.\nName:%@\nReason:%@",
+//          [exception name],
+//          [exception reason]);
+// }
+
+
 @implementation MLKLowLevelTests
 -(id) initForTest
 {
   self = [super init];
+  [MLKDynamicContext currentContext];
+
+  //  NSSetUncaughtExceptionHandler (MLKNSUncaughtExceptionHandler);
+
   return self;
 }
 
@@ -99,6 +115,47 @@
 
   return nil;
 }
+
+
+-(id) testTokens
+{
+  UKObjectKindOf ([MLKReader readFromString:@"a"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"MULK"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"+"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"0AA0A"], MLKSymbol);
+  
+  UKObjectKindOf ([MLKReader readFromString:@"134651234"], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"223555."], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"-134651234"], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"-223555."], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"+134651234"], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"+223555."], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"-1."], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"+2"], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"3."], MLKInteger);
+  UKObjectKindOf ([MLKReader readFromString:@"3"], MLKInteger);
+  
+  UKObjectKindOf ([MLKReader readFromString:@"55/11"], MLKRatio);
+  UKObjectKindOf ([MLKReader readFromString:@"-55/11"], MLKRatio);
+
+  UKObjectKindOf ([MLKReader readFromString:@"1234.5678e99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"-1234.5678e99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"+1234.5678e99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"1234.5678e-99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"1234.5678e+99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"-1234.5678e-99"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"1234.5678"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"-1234.5678"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@".5678"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"-.5678"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"+.5678"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@".5678e3"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"-.5678e3"], MLKSingleFloat);
+  UKObjectKindOf ([MLKReader readFromString:@"+.5678e3"], MLKSingleFloat);
+
+  return nil;
+}
+
 
 -(id) testStuff
 {
