@@ -32,6 +32,11 @@
   return AUTORELEASE ([[MLKError alloc] initWithMessage:aString]);
 }
 
+-(NSString *) reason
+{
+  return message;
+}
+
 -(void) dealloc
 {
   RELEASE (message);

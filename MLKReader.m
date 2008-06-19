@@ -29,6 +29,7 @@
 #import "MLKFloat.h"
 #import "MLKInteger.h"
 #import "MLKRatio.h"
+#import "MLKStringInputStream.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSRange.h>
@@ -106,13 +107,14 @@
 
   if ([readtable isConstituentCharacter:ch])
     {
+      //NSLog (@"--> Constituent");
       token = [NSMutableString stringWithCapacity:8];
-      [token appendFormat:@"%C", [readtable charWithReadtableCase:
-                                              [stream readChar]]];
+      [token appendFormat:@"%C", [readtable charWithReadtableCase:ch]];
     }
 
   while (![stream isEOF])
     {
+      //NSLog (@"...");
       ch = [stream readChar];
       if ([readtable isConstituentCharacter:ch] ||
           [readtable isNonTerminatingMacroCharacter:ch] ||
@@ -150,6 +152,7 @@
         }
     }
 
+  //NSLog (@"--> Interpret token: %@", token);
   return [self interpretToken:token readtable:readtable];
 }
 
@@ -449,5 +452,15 @@
 
       return symbol;
     }
+}
+
++(id) readFromString:(NSString *)string
+{
+  return [self readFromStream:[[MLKStringInputStream alloc]
+                                initWithString:string]
+               eofError:YES
+               eofValue:nil
+               recursive:NO
+               preserveWhitespace:NO];
 }
 @end

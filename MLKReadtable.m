@@ -63,7 +63,7 @@
 
 -(enum MLKSyntaxType) characterSyntaxType:(unichar)ch
 {
-  NSNumber *type = [_traits objectForKey:[NSNumber numberWithLong:ch]];
+  NSNumber *type = [_syntaxTable objectForKey:[NSNumber numberWithLong:ch]];
   if (!type)
     return CONSTITUENT;
   else

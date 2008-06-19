@@ -28,6 +28,8 @@
            recursive:(BOOL)recursive
   preserveWhitespace:(BOOL)preserveWhitespace;
 
++(id) readFromString:(NSString *)string;
+
 +(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)table;
 
 +(BOOL) isPotentialNumber:(NSString *)token
