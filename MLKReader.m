@@ -48,6 +48,9 @@
   NSMutableString *token;
   MLKReadtable *readtable;
   BOOL escaped;
+  BOOL ever_escaped;
+
+  ever_escaped = NO;
 
   readtable = [[MLKDynamicContext currentContext]
                 valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
@@ -97,12 +100,14 @@
 
       token = [NSMutableString stringWithCapacity:8];
       [token appendFormat:@"%C", [stream readChar]];
+      ever_escaped = YES;
     }
 
   if ([readtable isMultipleEscapeCharacter:ch])
     {
       token = [NSMutableString stringWithCapacity:8];
       escaped = YES;
+      ever_escaped = YES;
     }
 
   if ([readtable isConstituentCharacter:ch])
@@ -130,11 +135,14 @@
           if ([stream isEOF])
             [[[MLKEndOfFileError alloc] initWithStream:stream] raise];
           
-          token = [NSMutableString stringWithCapacity:8];
           [token appendFormat:@"%C", [stream readChar]];
+          ever_escaped = YES;
         }
       else if ([readtable isMultipleEscapeCharacter:ch])
-        escaped = !escaped;
+        {
+          ever_escaped = YES;
+          escaped = !escaped;
+        }
       else if ([readtable isTerminatingMacroCharacter:ch])
         {
           [stream unreadChar:ch];
@@ -153,7 +161,9 @@
     }
 
   //NSLog (@"--> Interpret token: %@", token);
-  return [self interpretToken:token readtable:readtable];
+  return [self interpretToken:token
+               readtable:readtable
+               escaped:ever_escaped];
 }
 
 +(BOOL) isPotentialNumber:(NSString *)token
@@ -212,7 +222,9 @@
   return YES;
 }
 
-+(id) interpretToken:(NSString *)token readtable:(MLKReadtable *)readtable
++(id) interpretToken:(NSString *)token
+           readtable:(MLKReadtable *)readtable
+             escaped:(BOOL)escaped
 {
   int base;
   
@@ -221,7 +233,7 @@
                               intern:@"*READ-BASE*"]]
            intValue];
 
-  if ([self isPotentialNumber:token readtable:readtable base:base])
+  if (!escaped && [self isPotentialNumber:token readtable:readtable base:base])
     {
       unsigned long i, firstNum, secondNum, exponent, exponentMarkerPos;
       unichar sign, exponentSign;

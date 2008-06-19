@@ -122,8 +122,16 @@
   UKObjectKindOf ([MLKReader readFromString:@"a"], MLKSymbol);
   UKObjectKindOf ([MLKReader readFromString:@"MULK"], MLKSymbol);
   UKObjectKindOf ([MLKReader readFromString:@"+"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"1-"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"1+"], MLKSymbol);
   UKObjectKindOf ([MLKReader readFromString:@"0AA0A"], MLKSymbol);
   
+  UKObjectKindOf ([MLKReader readFromString:@"0AA0A"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"0\\aA0A"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"\\0"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"|abc def (mulk!)|"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"0\\.3"], MLKSymbol);
+
   UKObjectKindOf ([MLKReader readFromString:@"134651234"], MLKInteger);
   UKObjectKindOf ([MLKReader readFromString:@"223555."], MLKInteger);
   UKObjectKindOf ([MLKReader readFromString:@"-134651234"], MLKInteger);
@@ -152,6 +160,16 @@
   UKObjectKindOf ([MLKReader readFromString:@".5678e3"], MLKSingleFloat);
   UKObjectKindOf ([MLKReader readFromString:@"-.5678e3"], MLKSingleFloat);
   UKObjectKindOf ([MLKReader readFromString:@"+.5678e3"], MLKSingleFloat);
+
+  UKStringsEqual ([[MLKReader readFromString:@"a"] name], @"A");
+  UKStringsEqual ([[MLKReader readFromString:@"1+"] name], @"1+");
+  UKStringsEqual ([[MLKReader readFromString:@"mulkmulk"] name], @"MULKMULK");
+  UKStringsEqual ([[MLKReader readFromString:@"ABCDefghIJKL"] name], @"ABCDEFGHIJKL");
+  UKStringsEqual ([[MLKReader readFromString:@"class-name"] name], @"CLASS-NAME");
+  UKStringsEqual ([[MLKReader readFromString:@"\\class-\\name"] name], @"cLASS-nAME");
+  UKStringsEqual ([[MLKReader readFromString:@"|Class Name|"] name], @"Class Name");
+  UKStringsEqual ([[MLKReader readFromString:@"class\\ name"] name], @"CLASS NAME");
+  UKStringsEqual ([[MLKReader readFromString:@"\\100"] name], @"100");
 
   return nil;
 }
