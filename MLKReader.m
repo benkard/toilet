@@ -238,7 +238,7 @@
           firstNum = 0;
         }
 
-      negative = (firstNum > 0 && sign == '-');
+      negative = (firstNum > 0 && [readtable isMinusSign:sign]);
  
       while ((i < [token length])
              && [readtable isDecimalDigit:[token characterAtIndex:i]])
@@ -246,6 +246,7 @@
 
       if (i == [token length])
         {
+          //NSLog (@"...");
           return [MLKInteger integerWithString:
                                [token substringWithRange:
                                         NSMakeRange (firstNum, [token length] - firstNum)]
@@ -264,6 +265,7 @@
 
       if (i == [token length] && [readtable isDecimalPoint:firstSeparator])
         {
+          //NSLog (@"+++");
           return [MLKInteger integerWithString:
                                [token substringWithRange:
                                         NSMakeRange (firstNum, [token length] - firstNum - 1)]
@@ -291,6 +293,10 @@
                      && [readtable isDecimalDigit:[token characterAtIndex:i]])
                 i++;
 
+              //NSLog (@"...2");
+              //NSLog (@"%@, %@",
+              //       [token substringWithRange:NSMakeRange (firstNum, exponentMarkerPos - firstNum - 1)],
+              //       [token substringFromIndex:exponent]);
               return [MLKFloat floatWithExponentMarker:firstSeparator
                                integerPart:[token substringWithRange:NSMakeRange(firstNum, exponentMarkerPos - firstNum - 1)]
                                negative:negative
@@ -306,6 +312,10 @@
               
               if (i == [token length])
                 {
+                  //NSLog (@"...3");
+                  //NSLog (@"%@, %@",
+                  //       [token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)],
+                  //       [token substringFromIndex:secondNum]);
                   return [MLKFloat floatWithExponentMarker:firstSeparator
                                    integerPart:[token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)]
                                    negative:negative
@@ -333,6 +343,11 @@
                      && [readtable isDecimalDigit:[token characterAtIndex:i]])
                 i++;
 
+              //NSLog (@"...4");
+              //NSLog (@"%@, %@, %@",
+              //       [token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)],
+              //       [token substringWithRange:NSMakeRange (secondNum, exponentMarkerPos - secondNum)],
+              //       [token substringFromIndex:exponent]);
               return [MLKFloat floatWithExponentMarker:exponentMarker
                                integerPart:[token substringWithRange:NSMakeRange (firstNum, secondNum - firstNum - 1)]
                                negative:negative
@@ -345,11 +360,12 @@
     digits:
       i = firstNum;
       while ((i < [token length])
-             && [readtable isDigit:[token characterAtIndex:0] inBase:base])
+             && [readtable isDigit:[token characterAtIndex:i] inBase:base])
         i++;
 
       if (i == [token length])
         {
+          //NSLog (@"###");
           return [MLKInteger integerWithString:
                                [token substringWithRange:
                                         NSMakeRange (firstNum, [token length] - firstNum)]
@@ -361,6 +377,11 @@
       i++;
       secondNum = i;
 
+      //NSLog (@"RRR");
+      //NSLog (@"n: %@", [token substringWithRange:
+      //                          NSMakeRange (firstNum,
+      //                                       secondNum - firstNum - 1)]);
+      //NSLog (@"d: %@", [token substringFromIndex:secondNum]);
       return [MLKRatio ratioWithNumeratorString:
                          [token substringWithRange:
                                   NSMakeRange (firstNum,

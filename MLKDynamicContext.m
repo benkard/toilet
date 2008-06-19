@@ -105,9 +105,11 @@ static MLKDynamicContext *global_context;
 
   [readtable setSyntaxType:CONSTITUENT forCharacter:'+'];
   [readtable setConstituentTrait:PLUS_SIGN forCharacter:'+'];
+  [readtable setConstituentTrait:SIGN forCharacter:'+'];
 
   [readtable setSyntaxType:CONSTITUENT forCharacter:'-'];
   [readtable setConstituentTrait:MINUS_SIGN forCharacter:'-'];
+  [readtable setConstituentTrait:SIGN forCharacter:'-'];
   
   [readtable setSyntaxType:CONSTITUENT forCharacter:'.'];
   [readtable setConstituentTrait:DOT forCharacter:'.'];
@@ -129,6 +131,17 @@ static MLKDynamicContext *global_context;
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'F'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'L'];
   [readtable setConstituentTrait:EXPONENT_MARKER forCharacter:'S'];
+  
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'d'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'e'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'f'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'l'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'s'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'D'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'E'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'F'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'L'];
+  [readtable setConstituentTrait:NUMBER_MARKER forCharacter:'S'];
 
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
   

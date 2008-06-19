@@ -16,12 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define _XOPEN_SOURCE 600  // strtof
+
 #import "MLKSingleFloat.h"
 #import "MLKDoubleFloat.h"
 
 #import <Foundation/NSString.h>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
 
 
 @implementation MLKSingleFloat
@@ -32,6 +36,13 @@
                        exponentNegative:(BOOL)exponentNegative
 {
   self = [super init];
+  char *locale;
+
+  // FIXME: This is probably not thread-safe.
+  locale = setlocale (LC_NUMERIC, NULL);
+  setlocale (LC_NUMERIC, "C");
+  
+  // strtof or sscanf -- is there a difference?
   sscanf ([[NSString stringWithFormat:@"%c%@.%@e%c%@",
                      (negative ? '-' : '+'),
                      intPart,
@@ -41,6 +52,9 @@
             UTF8String],
           "%f",
           &value);
+
+  setlocale (LC_NUMERIC, locale);
+
   return self;
 }
 

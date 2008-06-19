@@ -132,11 +132,8 @@ DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
 -(BOOL) character:(unichar)ch
          hasTrait:(enum MLKConstituentTrait)trait
 {
-  NSNumber *traits = [_traits objectForKey:[NSNumber numberWithLong:ch]];
-  if (!traits)
-    return (trait == ALPHABETIC);
-  else
-    return [traits intValue] & trait;
+  int traits = [self characterConstituentTraits:ch];
+  return (traits & trait) != 0;
 }
 
 
@@ -193,9 +190,9 @@ DEFINE_TRAIT_PREDICATE(isDot:, DOT)
 -(BOOL) isDigit:(unichar)ch inBase:(int)base
 {
   if (base < 11)
-    return (ch < '0' + base);
+    return ('0' <= ch && ch < '0' + base);
   else
-    return (ch <= '9'
+    return (('0' <= ch && ch <= '9')
             || ('A' <= ch && ch < 'A' + base - 10)
             || ('a' <= ch && ch < 'a' + base - 10));
 }

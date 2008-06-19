@@ -41,6 +41,7 @@
   self = [super init];
   mpq_init (value);
   mpq_set_str (value, [string UTF8String], 10);
+  mpq_canonicalize (value);
   return self;
 }
 
@@ -49,8 +50,8 @@
                              negative:(BOOL)negative
                                  base:(unsigned int)base
 {
-  return [self initWithString:[NSString stringWithFormat:@"%c%@/%@",
-                                        (negative ? '-' : '+'),
+  return [self initWithString:[NSString stringWithFormat:@"%s%@/%@",
+                                        (negative ? "-" : ""),
                                         numerString,
                                         denomString]
                base:base];
