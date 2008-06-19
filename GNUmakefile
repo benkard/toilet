@@ -49,8 +49,8 @@ etshell_OBJC_LIBS += -lStepTalk -lreadline -lncurses -lToiletKit	\
 etshell_OBJCFLAGS = -w
 
 BUNDLE_NAME = Test
-Test_OBJC_FILES = $(ToiletKit_OBJC_FILES) MLKLowLevelTests.m
-Test_OBJC_LIBS = -lUnitKit
+Test_OBJC_FILES = MLKLowLevelTests.m
+Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/bundle.make
@@ -67,8 +67,8 @@ before-etshell::
 #after-clean::
 #	-rmdir $(GNUSTEP_OBJ_DIR)/StepTalkShell
 
-test: Test
-	ukrun Test.bundle
+test: ToiletKit Test
+	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib ukrun Test.bundle
 
 run: before-etshell ToiletKit etshell
 	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/etshell

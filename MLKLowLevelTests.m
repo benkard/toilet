@@ -23,6 +23,8 @@
 #include "MLKDynamicContext.h"
 #include "MLKEnvironment.h"
 #include "MLKLinkedList.h"
+#include "MLKPackage.h"
+#include "MLKReadtable.h"
 #include "MLKSymbol.h"
 
 @interface MLKLowLevelTests : NSObject <UKTest>
@@ -79,6 +81,24 @@
   return nil;
 }
 
+
+-(id) testInitialReadtable
+{
+  MLKDynamicContext *ctx = [MLKDynamicContext currentContext];
+  MLKReadtable *readtable = [ctx valueForBinding:
+                                   [[MLKPackage findPackage:@"COMMON-LISP"]
+                                     intern:@"*READTABLE*"]];
+  UKTrue ([readtable characterHasCase:'a']);
+  UKTrue ([readtable characterHasCase:'x']);
+  UKTrue ([readtable characterHasCase:'F']);
+  UKTrue ([readtable characterHasCase:228]);  // ä
+  UKTrue ([readtable characterHasCase:196]);  // Ä
+  UKFalse ([readtable characterHasCase:'=']);
+  UKFalse ([readtable characterHasCase:'.']);
+  UKFalse ([readtable characterHasCase:223]);  // ß
+
+  return nil;
+}
 
 -(id) testStuff
 {
