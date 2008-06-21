@@ -30,6 +30,7 @@
 #import "MLKInteger.h"
 #import "MLKRatio.h"
 #import "MLKStringInputStream.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSRange.h>

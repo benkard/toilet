@@ -17,6 +17,7 @@
  */
 
 #import "MLKStringInputStream.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSString.h>
 #import <Foundation/NSStream.h>

@@ -17,6 +17,7 @@
  */
 
 #import "MLKInteger.h"
+#import "runtime-compatibility.h"
 #import "util.h"
 
 #import <Foundation/NSString.h>

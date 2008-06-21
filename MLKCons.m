@@ -17,6 +17,7 @@
  */
 
 #import "MLKCons.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSString.h>
 

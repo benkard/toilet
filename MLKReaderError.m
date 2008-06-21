@@ -17,6 +17,7 @@
  */
 
 #import "MLKReaderError.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKReaderError

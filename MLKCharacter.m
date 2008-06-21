@@ -17,7 +17,7 @@
  */
 
 #import "MLKCharacter.h"
-
+#import "runtime-compatibility.h"
 
 @implementation MLKCharacter
 -(MLKCharacter*) initWithUnichar:(unichar)anUnichar

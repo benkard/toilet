@@ -18,6 +18,7 @@
 
 #import "MLKLinkedList.h"
 #import "MLKCons.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKLinkedList

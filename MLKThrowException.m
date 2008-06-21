@@ -17,6 +17,7 @@
  */
 
 #include "MLKThrowException.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKThrowException

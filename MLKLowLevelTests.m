@@ -30,6 +30,7 @@
 #include "MLKReadtable.h"
 #include "MLKSingleFloat.h"
 #include "MLKSymbol.h"
+#import "runtime-compatibility.h"
 
 @interface MLKLowLevelTests : NSObject <UKTest>
 @end

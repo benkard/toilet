@@ -17,6 +17,7 @@
  */
 
 #import "MLKEndOfFileError.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKEndOfFileError

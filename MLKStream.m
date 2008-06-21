@@ -18,6 +18,7 @@
 
 #import "MLKStream.h"
 #import "MLKError.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKStream

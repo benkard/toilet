@@ -22,6 +22,7 @@
 
 #import "MLKEnvironment.h"
 #import "MLKUndefinedVariableException.h"
+#import "runtime-compatibility.h"
 
 
 static id UNBOUND;

@@ -19,6 +19,7 @@
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "MLKError.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>

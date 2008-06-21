@@ -22,6 +22,7 @@
 #import "MLKPackage.h"
 #import "MLKDynamicContext.h"
 #import "MLKError.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKFloat : MLKLispValue

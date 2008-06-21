@@ -20,6 +20,7 @@
 
 #import "MLKSingleFloat.h"
 #import "MLKDoubleFloat.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSString.h>
 

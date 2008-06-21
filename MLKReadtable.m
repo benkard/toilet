@@ -18,6 +18,7 @@
 
 #import "MLKReadtable.h"
 #import "MLKCharacter.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSValue.h>

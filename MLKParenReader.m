@@ -25,6 +25,7 @@
 #import "MLKReadtable.h"
 #import "MLKPackage.h"
 #import "MLKStream.h"
+#import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
 

@@ -17,6 +17,7 @@
  */
 
 #import "MLKUndefinedVariableException.h"
+#import "runtime-compatibility.h"
 
 
 @implementation MLKUndefinedVariableException

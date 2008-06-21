@@ -18,6 +18,7 @@
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
+#import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
@@ -32,6 +33,7 @@
 #import "MLKReadtable.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
+#import "runtime-compatibility.h"
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
