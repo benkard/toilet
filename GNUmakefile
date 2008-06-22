@@ -25,10 +25,10 @@ FRAMEWORK_NAME = ToiletKit
 ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDoubleFloat.m	\
                        MLKDynamicContext.m MLKEndOfFileError.m		\
                        MLKEnvironment.m MLKError.m MLKFloat.m		\
-                       MLKInteger.m MLKLinkedList.m MLKLispValue.m	\
-                       MLKPackage.m MLKParenReader.m MLKRatio.m		\
-                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
-                       MLKSingleFloat.m MLKStream.m			\
+                       MLKInteger.m MLKInterpreter.m MLKLinkedList.m	\
+                       MLKLispValue.m MLKPackage.m MLKParenReader.m	\
+                       MLKRatio.m MLKReader.m MLKReadtable.m		\
+                       MLKReaderError.m MLKSingleFloat.m MLKStream.m	\
                        MLKStringInputStream.m MLKSymbol.m		\
                        MLKThrowException.m				\
                        MLKUndefinedVariableException.m			\

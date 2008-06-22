@@ -59,11 +59,26 @@ static MLKDynamicContext *global_context;
                                    nicknames:[NSSet setWithObject:@"CL-USER"]];
   MLKPackage *keyword = [MLKPackage packageWithName:@"KEYWORD"
                                     nicknames:[NSSet set]];
+  MLKPackage *sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
+                                nicknames:[NSSet setWithObjects:
+                                                   @"TL-SYS", nil]];
+  MLKPackage *toilet = [MLKPackage packageWithName:@"TOILET-LISP"
+                                   nicknames:[NSSet setWithObjects:
+                                                      @"TL", @"TOILET", nil]];
+  MLKPackage *tlUser = [MLKPackage packageWithName:@"TOILET-LISP-USER"
+                                   nicknames:[NSSet setWithObjects:
+                                                      @"TL-USER",
+                                                      @"TOILET-USER",
+                                                      nil]];
   MLKSymbol *t = [cl intern:@"T"];
   MLKReadtable *readtable = [[MLKReadtable alloc] init];
   unichar ch;
 
   id NIL = [NSNull null];
+
+  [sys intern:@"%DEFMACRO"];
+  [tlUser usePackage:clUser];
+  [toilet import:nil];
 
   // Build the initial readtable.
   [readtable setSyntaxType:WHITESPACE forCharacter:'\t'];

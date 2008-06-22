@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Foundation/NSObject.h>
+
 @class MLKEnvironment, MLKSymbol, NSLinkedList,
        NSMutableDictionary, NSString;
 

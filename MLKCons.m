@@ -19,6 +19,7 @@
 #import "MLKCons.h"
 #import "runtime-compatibility.h"
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
 
 
@@ -55,6 +56,20 @@
 -(void) setCdr:(id)value
 {
   ASSIGN (_cdr, value);
+}
+
+-(NSArray *)array
+{
+  NSMutableArray *array = [NSMutableArray array];
+  id rest = self;
+  
+  while (rest)
+    {
+      [array addObject:[rest car]];
+      rest = [rest cdr];
+    }
+
+  return array;
 }
 
 -(NSString *)bareDescriptionForLisp

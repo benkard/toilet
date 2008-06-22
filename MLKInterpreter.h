@@ -16,32 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
+#import <Foundation/NSObject.h>
 
-@class NSArray;
+@class MLKLexicalContext, MLKEnvironment;
 
 
-@interface MLKCons : MLKLispValue
-{
-  id _car;
-  id _cdr;
-}
-
-+(MLKCons*) cons:(id)car with:(id)cdr;
-
--(MLKCons*) initWithCar:(id)car cdr:(id)cdr;
-
--(id) car;
--(id) cdr;
--(void) setCar:(id)value;
--(void) setCdr:(id)value;
-
--(NSArray *)array;
-
--(NSString *)bareDescriptionForLisp;  // description without
-                                      // parentheses, for internal use
-                                      // only
--(NSString *)descriptionForLisp;
-
--(void) dealloc;
+@interface MLKInterpreter : NSObject
++(void) initialize;
+  
++(id) eval:(id)program
+      inLexicalContext:(MLKLexicalContext *)context
+      withEnvironment:(MLKEnvironment *)lexenv;
 @end
