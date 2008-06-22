@@ -92,8 +92,11 @@ static const char *prompt (EditLine *e) {
                                                           globalContext]
                                        withEnvironment:[MLKLexicalEnvironment
                                                          globalEnvironment]];
-
-              printf ("%s\n", [[result descriptionForLisp] UTF8String]);
+              
+              if (result)
+                printf ("%s\n", [[result descriptionForLisp] UTF8String]);
+              else
+                printf ("()\n");
             }
           NS_HANDLER
             {
