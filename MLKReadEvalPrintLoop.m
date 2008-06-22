@@ -22,7 +22,9 @@
 #import "MLKPackage.h"
 #import "MLKReadEvalPrintLoop.h"
 #import "MLKReader.h"
+#import "runtime-compatibility.h"
 
+#import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSString.h>
 
 #import <editline/history.h>
@@ -68,8 +70,11 @@ static const char *prompt (EditLine *e) {
 
       if (line_length > 0)
         {
+          NSAutoreleasePool *pool;
           NSString *result;
           id code;
+
+          pool = [[NSAutoreleasePool alloc] init];
 
           history (commands, &event, H_ENTER, line);
           code = [MLKReader readFromString:result];
@@ -78,6 +83,8 @@ static const char *prompt (EditLine *e) {
                                                       globalContext]
                                    withEnvironment:[MLKLexicalEnvironment
                                                      globalEnvironment]];
+
+          RELEASE (pool);
         }
 
       //free (line);
