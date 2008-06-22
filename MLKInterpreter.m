@@ -28,6 +28,7 @@
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
@@ -45,6 +46,7 @@ static MLKSymbol *LET;
 static MLKSymbol *APPLY;
 static MLKSymbol *FUNCALL;
 static MLKSymbol *EVAL;
+static MLKSymbol *QUOTE;
 static MLKSymbol *_DEFMACRO;
 
 
@@ -64,6 +66,7 @@ static MLKSymbol *_DEFMACRO;
   LET = [cl intern:@"LET"];
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
+  QUOTE = [cl intern:@"QUOTE"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
 }
 
@@ -128,6 +131,10 @@ static MLKSymbol *_DEFMACRO;
 
               return result;
             }
+          else if (car == QUOTE)
+            {
+              return [program cdr];
+            }
           else if (car == TAGBODY)
             {
               //FIXME: ...
@@ -160,6 +167,12 @@ static MLKSymbol *_DEFMACRO;
                   return [self eval:expansion
                                inLexicalContext:context
                                withEnvironment:lexenv];
+                }
+              else
+                {
+                  [NSException raise:@"MLKNoSuchOperatorException"
+                               format:@"%@ does not name an known operator.",
+                                      [car descriptionForLisp]];
                 }
             }
         }
