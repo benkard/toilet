@@ -16,7 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKDynamicContext.h"
 #import "MLKInteger.h"
+#import "MLKPackage.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -99,6 +101,15 @@ DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_div)
   str = [NSString stringWithUTF8String:cstr];
   
   return str;
+}
+
+-(NSString *) descriptionForLisp
+{
+  MLKInteger *base = [[MLKDynamicContext currentContext]
+                       valueForBinding:[[MLKPackage
+                                          findPackage:@"COMMON-LISP"]
+                                         intern:@"*PRINT-BASE*"]];
+  return [self descriptionWithBase:[base intValue]];
 }
 
 -(void) dealloc

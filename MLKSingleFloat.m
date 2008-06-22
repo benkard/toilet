@@ -144,4 +144,9 @@
 
   return [NSString stringWithFormat:@"%@s0",str];
 }
+
+-(NSString *) descriptionForLisp
+{
+  return [self description];
+}
 @end

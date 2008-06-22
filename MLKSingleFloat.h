@@ -47,4 +47,5 @@
 -(MLKFloat *) divideBy:(MLKFloat *)arg;
 
 -(NSString *) description;
+-(NSString *) descriptionForLisp;
 @end

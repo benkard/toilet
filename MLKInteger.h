@@ -51,6 +51,7 @@
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;
+-(NSString *) descriptionForLisp;
 
 -(void) dealloc;
 @end
