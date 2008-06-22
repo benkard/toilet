@@ -36,6 +36,7 @@
 -(MLKPackage *) homePackage;
 -(void) setHomePackage:(MLKPackage *)aPackage;
 
+-(NSString *)description;
 -(NSString *)descriptionForLisp;
 
 // PLEASE DO NOT USE THIS.

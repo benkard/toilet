@@ -42,6 +42,7 @@
 
 -(void) usePackage:(MLKPackage *)aPackage;
 -(void) import:(MLKSymbol *)aSymbol;
+-(void) export:(MLKSymbol *)aSymbol;
 -(void) shadow:(MLKSymbol *)aSymbol;
 -(void) unintern:(MLKSymbol *)aSymbol;
 -(MLKSymbol *) intern:(NSString*)symbolName;

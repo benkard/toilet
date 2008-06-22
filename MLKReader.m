@@ -456,8 +456,11 @@
               // A single package marker means we have to check whether
               // the symbol is external in the package.
               symbolName = [token substringFromIndex:(packageMarker+1)];
-              if (![[package exportedSymbols] containsObject:[package intern:token]])
-                [[[MLKReaderError alloc] init] raise];
+              symbol = [package intern:symbolName];
+              if (![[package exportedSymbols] containsObject:symbol])
+                [NSException raise:@"MLKReaderError"
+                             format:@"Package %@ does not export symbol %@.",
+                                    package, symbol];
             }
         }
 

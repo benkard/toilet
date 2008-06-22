@@ -92,6 +92,11 @@ static NSMutableDictionary *packages = nil;
   [_symbols setObject:aSymbol forKey:[aSymbol name]];
 }
 
+-(void) export:(MLKSymbol *)aSymbol
+{
+  [_exported_symbols addObject:aSymbol];
+}
+
 -(void) shadow:(MLKSymbol *)aSymbol
 {
   [_shadowed_symbols addObject:aSymbol];

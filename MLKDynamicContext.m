@@ -76,6 +76,8 @@ static MLKDynamicContext *global_context;
 
   id NIL = [NSNull null];
 
+  [cl export:[cl intern:@"IF"]];
+
   [sys intern:@"%DEFMACRO"];
   [tlUser usePackage:clUser];
   //[toilet import:nil];

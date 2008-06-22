@@ -171,8 +171,16 @@
   UKStringsEqual ([[MLKReader readFromString:@"|Class Name|"] name], @"Class Name");
   UKStringsEqual ([[MLKReader readFromString:@"class\\ name"] name], @"CLASS NAME");
   UKStringsEqual ([[MLKReader readFromString:@"\\100"] name], @"100");
-  
+
   UKStringsEqual ([[MLKReader readFromString:@"a b c d e"] name], @"A");
+
+  UKObjectKindOf ([MLKReader readFromString:@"cl::if"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"cl:if"], MLKSymbol);
+  UKObjectKindOf ([MLKReader readFromString:@"cl-user::mulk"], MLKSymbol);
+  UKObjectsSame ([MLKReader readFromString:@"common-lisp-user::a"],
+                 [MLKReader readFromString:@"cl-user::a"]);
+  UKObjectsSame ([MLKReader readFromString:@"a"],
+                 [MLKReader readFromString:@"cl-user::a"]);
 
   return nil;
 }
