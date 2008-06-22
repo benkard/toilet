@@ -25,6 +25,7 @@
 @interface MLKLexicalContext : MLKLispValue
 {
   NSArray *_knownMacros;
+  NSArray *_knownSymbolMacros;
   MLKEnvironment *_macros;
   MLKEnvironment *_symbolMacros;
   MLKEnvironment *_goTags;
@@ -45,6 +46,7 @@
 
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol;
 -(BOOL) symbolNamesMacro:(MLKSymbol *)symbol;
+-(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol;
 
 -(id) macroForSymbol:(MLKSymbol *)symbol;
 -(void) setMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;

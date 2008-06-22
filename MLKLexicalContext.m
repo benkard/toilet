@@ -95,6 +95,7 @@ static MLKSymbol *LEXICAL;
   _symbolMacros = MAKE_ENVIRONMENT (macros, _parent, _parent->_symbolMacros);
 
   _knownMacros = [macros allKeys];
+  _knownSymbolMacros = [symbolMacros allKeys];
 
   ASSIGN (_declarations, declarations);
   return self;  
@@ -150,6 +151,16 @@ static MLKSymbol *LEXICAL;
     return (_parent && [_parent symbolNamesMacro:symbol]);  
 }
 
+-(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol
+{
+  if ([_variableLocations objectForKey:(symbol ? (id)symbol : (id)[NSNull null])])
+    return NO;
+  else if ([_knownSymbolMacros containsObject:(symbol ? (id)symbol : (id)[NSNull null])])
+    return YES;
+  else
+    return (_parent && [_parent symbolNamesSymbolMacro:symbol]);  
+}
+
 -(BOOL) variableIsLexical:(MLKSymbol *)symbol
 {
   id rest;
@@ -200,6 +211,7 @@ static MLKSymbol *LEXICAL;
 {
   RELEASE (_macros);
   RELEASE (_knownMacros);
+  RELEASE (_knownSymbolMacros);
   RELEASE (_symbolMacros);
   RELEASE (_goTags);
   RELEASE (_functionLocations);
