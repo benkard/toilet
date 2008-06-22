@@ -120,7 +120,7 @@ static MLKSymbol *_DEFMACRO;
             }
           else if (car == PROGN)
             {
-              id result;
+              id result = nil;
               id rest = program;
               while ((rest = [rest cdr]))
                 {
@@ -133,7 +133,7 @@ static MLKSymbol *_DEFMACRO;
             }
           else if (car == QUOTE)
             {
-              return [program cdr];
+              return [[program cdr] car];
             }
           else if (car == TAGBODY)
             {
@@ -171,7 +171,7 @@ static MLKSymbol *_DEFMACRO;
               else
                 {
                   [NSException raise:@"MLKNoSuchOperatorException"
-                               format:@"%@ does not name an known operator.",
+                               format:@"%@ does not name a known operator.",
                                       [car descriptionForLisp]];
                 }
             }
