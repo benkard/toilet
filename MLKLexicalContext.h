@@ -18,38 +18,48 @@
 
 #import "MLKLispValue.h"
 
-@class MLKEnvironment, MLKSymbol, NSLinkedList, NSSet,
-       NSMutableDictionary, NSString, MLKCons;
+@class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSLinkedList, NSSet,
+       NSMutableDictionary, NSString, MLKCons, MLKFuncallable;
 
 
 @interface MLKLexicalContext : MLKLispValue
 {
-  MLKEnvironment *_macroBindings;
+  NSArray *_knownMacros;
+  MLKEnvironment *_macros;
+  MLKEnvironment *_symbolMacros;
   MLKEnvironment *_goTags;
+  NSMutableDictionary *_functionLocations;
   NSMutableDictionary *_variableLocations;
-  MLKCons *_declarations;
+  id _declarations;
   MLKLexicalContext *_parent;
 }
 
 -(MLKLexicalContext *) initWithParent:(MLKLexicalContext *)aContext
                             variables:(NSSet *)vars
+                            functions:(NSSet *)functions
                                goTags:(NSDictionary *)goTags
                                macros:(NSDictionary *)macros
                          declarations:(NSDictionary *)declarations;
 
 +(MLKLexicalContext *) globalContext;
-+(MLKLexicalContext *) nullContext;
-
--(MLKEnvironment *) environment;
 
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol;
 -(BOOL) symbolNamesMacro:(MLKSymbol *)symbol;
 
 -(id) macroForSymbol:(MLKSymbol *)symbol;
+-(void) setMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;
+
+-(id) symbolMacroForSymbol:(MLKSymbol *)symbol;
+-(void) setSymbolMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;
+
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
 -(id) variableLocationForSymbol:(MLKSymbol *)symbol;
 
+-(MLKLexicalEnvironment *) instantiateWithVariables:(NSDictionary *)variables
+                                          functions:(NSDictionary *)functions;
+
 -(void) addVariable:(MLKSymbol *)symbol;
+-(void) addFunction:(MLKSymbol *)symbol;
 
 -(BOOL) variableIsLexical:(MLKSymbol *)symbol;
 
