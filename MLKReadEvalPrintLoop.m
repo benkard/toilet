@@ -22,9 +22,11 @@
 #import "MLKPackage.h"
 #import "MLKReadEvalPrintLoop.h"
 #import "MLKReader.h"
+#import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSAutoreleasePool.h>
+#import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
 
 #import <editline/history.h>
@@ -41,7 +43,7 @@ static const char *prompt (EditLine *e) {
                           valueForBinding:[[MLKPackage
                                              findPackage:@"COMMON-LISP"]
                                             intern:@"*PACKAGE*"]];
-
+  
   return [[NSString stringWithFormat:@"%@> ", [package name]] UTF8String];
 }
 
@@ -56,10 +58,13 @@ static const char *prompt (EditLine *e) {
   editline = el_init (_argv[0], stdin, stdout, stderr);
   el_set (editline, EL_PROMPT, &prompt);
   el_set (editline, EL_EDITOR, "emacs");
-  
+
   commands = history_init();
   history (commands, &event, H_SETSIZE, 1000);
   el_set (editline, EL_HIST, history, commands);
+  
+  printf ("This is Toilet Lisp, version 0.0.1.\n");
+  printf ("Please make yourself at home.\n");
 
   while (1)
     {
@@ -68,28 +73,42 @@ static const char *prompt (EditLine *e) {
 
       line = el_gets (editline, &line_length);
 
-      if (line_length > 0)
+      if (line_length > 1)
         {
           NSAutoreleasePool *pool;
-          NSString *result;
+          id result;
           id code;
 
           pool = [[NSAutoreleasePool alloc] init];
 
           history (commands, &event, H_ENTER, line);
-          code = [MLKReader readFromString:result];
-          result = [MLKInterpreter eval:code
-                                   inLexicalContext:[MLKLexicalContext
-                                                      globalContext]
-                                   withEnvironment:[MLKLexicalEnvironment
-                                                     globalEnvironment]];
+
+          NS_DURING
+            {
+              code = [MLKReader readFromString:[NSString stringWithUTF8String:line]];
+
+              result = [MLKInterpreter eval:code
+                                       inLexicalContext:[MLKLexicalContext
+                                                          globalContext]
+                                       withEnvironment:[MLKLexicalEnvironment
+                                                         globalEnvironment]];
+
+              printf ("%s\n", [[result descriptionForLisp] UTF8String]);
+            }
+          NS_HANDLER
+            {
+              printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
+                      [[localException name] UTF8String],
+                      [[localException reason] UTF8String]);
+            }
+          NS_ENDHANDLER
 
           RELEASE (pool);
         }
 
       //free (line);
     }
-  
+
   history_end (commands);
   el_end (editline);
 }
@@ -100,6 +119,9 @@ int main (int argc, char **argv)
 {
   _argc = argc;
   _argv = argv;
+  NSAutoreleasePool *pool;
+  pool = [[NSAutoreleasePool alloc] init];
   [MLKReadEvalPrintLoop run];
+  RELEASE (pool);
   return 0;
 }
