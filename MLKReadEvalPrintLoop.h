@@ -18,13 +18,6 @@
 
 #import <Foundation/NSObject.h>
 
-@class MLKLexicalContext, MLKLexicalEnvironment;
-
-
-@interface MLKInterpreter : NSObject
-+(void) initialize;
-  
-+(id) eval:(id)program
-      inLexicalContext:(MLKLexicalContext *)context
-      withEnvironment:(MLKLexicalEnvironment *)lexenv;
+@interface MLKReadEvalPrintLoop : NSObject
++(void) run;
 @end

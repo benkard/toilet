@@ -42,6 +42,9 @@
 
 -(MLKEnvironment *) environment;
 
+-(BOOL) symbolNamesFunction:(MLKSymbol *)symbol;
+-(BOOL) symbolNamesMacro:(MLKSymbol *)symbol;
+
 -(id) macroForSymbol:(MLKSymbol *)symbol;
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
 -(id) variableLocationForSymbol:(MLKSymbol *)symbol;

@@ -19,16 +19,20 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 #all:: ToiletKit etshell Test
 
+TOOL_NAME = etshell toilet
+FRAMEWORK_NAME = ToiletKit
+BUNDLE_NAME = Test
+
 ADDITIONAL_OBJCFLAGS = -Wall
 
-FRAMEWORK_NAME = ToiletKit
 ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKDoubleFloat.m	\
                        MLKDynamicContext.m MLKEndOfFileError.m		\
                        MLKEnvironment.m MLKError.m MLKFloat.m		\
                        MLKInteger.m MLKInterpreter.m MLKLinkedList.m	\
-                       MLKLispValue.m MLKPackage.m MLKParenReader.m	\
-                       MLKRatio.m MLKReader.m MLKReadtable.m		\
-                       MLKReaderError.m MLKSingleFloat.m MLKStream.m	\
+                       MLKLexicalEnvironment.m MLKLispValue.m		\
+                       MLKPackage.m MLKParenReader.m MLKRatio.m		\
+                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
+                       MLKSingleFloat.m MLKStream.m			\
                        MLKStringInputStream.m MLKSymbol.m		\
                        MLKThrowException.m				\
                        MLKUndefinedVariableException.m			\
@@ -40,7 +44,6 @@ ToiletKit_LDFLAGS = -lgmp
 #etoilet_OBJC_FILES = main.m
 #etoilet_OBJC_LIBS = -lToiletKit -LToiletKit.framework
 
-TOOL_NAME = etshell
 etshell_OBJC_FILES = StepTalkShell/STShell.m		\
                      StepTalkShell/STShell+output.m	\
                      StepTalkShell/stshell_tool.m
@@ -48,7 +51,9 @@ etshell_OBJC_LIBS += -lStepTalk -lreadline -lncurses -lToiletKit	\
                      -LToiletKit.framework
 etshell_OBJCFLAGS = -w
 
-BUNDLE_NAME = Test
+toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
+toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework
+
 Test_OBJC_FILES = MLKLowLevelTests.m
 Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
 
@@ -58,7 +63,10 @@ include $(GNUSTEP_MAKEFILES)/framework.make
 include $(GNUSTEP_MAKEFILES)/tool.make
 -include GNUmakefile.postamble
 
-before-all:: before-etshell
+before-all:: before-etshell before-toilet
+
+before-toilet::
+	rm -f obj/toilet
 
 before-etshell::
 	rm -f obj/etshell
@@ -70,5 +78,10 @@ before-etshell::
 test: ToiletKit Test
 	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib ukrun Test.bundle
 
-run: before-etshell ToiletKit etshell
+run-et: before-etshell ToiletKit etshell
 	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/etshell
+
+run-toilet: before-toilet ToiletKit toilet
+	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/toilet
+
+run: run-toilet

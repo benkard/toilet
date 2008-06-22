@@ -22,11 +22,13 @@
 #import "MLKFuncallable.h"
 #import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
+#import "MLKLexicalEnvironment.h"
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
 
@@ -68,7 +70,7 @@ static MLKSymbol *_DEFMACRO;
 
 +(id) eval:(id)program
       inLexicalContext:(MLKLexicalContext *)context
-      withEnvironment:(MLKEnvironment *)lexenv
+      withEnvironment:(MLKLexicalEnvironment *)lexenv
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
@@ -76,7 +78,7 @@ static MLKSymbol *_DEFMACRO;
     {
       if ([context variableIsLexical:program])
         {
-          return [lexenv valueForBinding:program];
+          return [lexenv valueForSymbol:program];
         }
       else
         {
@@ -101,17 +103,17 @@ static MLKSymbol *_DEFMACRO;
                                     withEnvironment:lexenv];
 
               return [[[program cdr] car] applyToArray:(rest
-                                                        ? [rest array]
-                                                        : [NSArray array])];
+                                                        ? (id)[rest array]
+                                                        : (id)[NSArray array])];
             }
           else if (car == EVAL)
             {
               return [self eval:[self eval:[program cdr]
                                       inLexicalContext:context
                                       withEnvironment:lexenv]
-                           inLexicalContext:[MLKLexicalContext nullContext]
-                           withEnvironment:
-                             AUTORELEASE([[MLKEnvironment alloc] init])];
+                           inLexicalContext:[MLKLexicalContext globalContext]
+                           withEnvironment:[MLKLexicalEnvironment
+                                             globalEnvironment]];
             }
           else if (car == PROGN)
             {
@@ -132,7 +134,33 @@ static MLKSymbol *_DEFMACRO;
             }
           else
             {
-              //FIXME: ...
+              if ([context symbolNamesFunction:car])
+                {
+                  id function = [lexenv functionForSymbol:car];
+                  MLKCons *rest = [program cdr];
+                  NSMutableArray *args = [NSMutableArray array];
+                  
+                  while (rest)
+                    {
+                      id result = [self eval:[rest car]
+                                        inLexicalContext:context
+                                        withEnvironment:lexenv];
+                      [args addObject:(result ? (id)result : (id)[NSNull null])];
+                      rest = [rest cdr];
+                    }
+                  
+                  return [function applyToArray:args];
+                }
+              else if ([context symbolNamesMacro:car])
+                {
+                  id macrofun = [context macroForSymbol:car];
+                  id expansion = [macrofun applyToArray:
+                                             [NSArray arrayWithObjects:
+                                                        program, context, nil]];
+                  return [self eval:expansion
+                               inLexicalContext:context
+                               withEnvironment:lexenv];
+                }
             }
         }
       else if (![car isKindOfClass:[MLKCons class]] && [car car] == LAMBDA)
