@@ -42,7 +42,7 @@
             initWithParent:(parent                                      \
                             ? (id) parent_member                        \
                             : nil)                                      \
-                  bindings:vars]                                        \
+                  bindings:variable]                                    \
    : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
@@ -78,7 +78,7 @@ static MLKDynamicContext *global_context;
 
   [sys intern:@"%DEFMACRO"];
   [tlUser usePackage:clUser];
-  [toilet import:nil];
+  //[toilet import:nil];
 
   // Build the initial readtable.
   [readtable setSyntaxType:WHITESPACE forCharacter:'\t'];

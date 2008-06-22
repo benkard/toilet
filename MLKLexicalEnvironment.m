@@ -42,7 +42,7 @@
             initWithParent:(parent                                      \
                             ? (id) parent_member                        \
                             : nil)                                      \
-                  bindings:vars]                                        \
+                  bindings:variable]                                    \
    : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
