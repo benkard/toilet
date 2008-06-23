@@ -74,7 +74,9 @@ static id UNBOUND;
 
 -(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
 {
-  [self setBinding:symbol to:value inEnvironment:self];
+  [self setBinding:(symbol ? (id)symbol : (id)[NSNull null])
+        to:value
+        inEnvironment:self];
 }
 
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env
@@ -93,7 +95,8 @@ static id UNBOUND;
 
 -(id) valueForBinding:(MLKSymbol *)symbol
 {
-  return [self valueForBinding:symbol inEnvironment:self];
+  return [self valueForBinding:(symbol ? (id)symbol : (id)[NSNull null])
+               inEnvironment:self];
 }
 
 -(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
@@ -134,7 +137,7 @@ static id UNBOUND;
 
 -(void) addBinding:(MLKSymbol *)symbol
 {
-  [_bindings setObject:UNBOUND forKey:symbol];
+  [_bindings setObject:UNBOUND forKey:(symbol ? (id)symbol : (id)[NSNull null])];
 }
 
 -(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol

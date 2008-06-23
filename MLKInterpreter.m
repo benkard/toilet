@@ -48,6 +48,7 @@ static MLKSymbol *FUNCALL;
 static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
+static MLKSymbol *PROGV;
 static MLKSymbol *_DEFMACRO;
 
 
@@ -69,6 +70,7 @@ static MLKSymbol *_DEFMACRO;
   EVAL = [cl intern:@"EVAL"];
   QUOTE = [cl intern:@"QUOTE"];
   SETQ = [cl intern:@"SETQ"];
+  PROGV = [cl intern:@"PROGV"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
 }
 
