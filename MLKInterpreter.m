@@ -47,6 +47,7 @@ static MLKSymbol *APPLY;
 static MLKSymbol *FUNCALL;
 static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
+static MLKSymbol *SETQ;
 static MLKSymbol *_DEFMACRO;
 
 
@@ -67,6 +68,7 @@ static MLKSymbol *_DEFMACRO;
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
   QUOTE = [cl intern:@"QUOTE"];
+  SETQ = [cl intern:@"SETQ"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
 }
 
@@ -79,7 +81,17 @@ static MLKSymbol *_DEFMACRO;
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
-      if ([context variableIsLexical:program])
+      if ([context symbolNamesSymbolMacro:program])
+        {
+          id macrofun = [context macroForSymbol:program];
+          id expansion = [macrofun applyToArray:
+                                     [NSArray arrayWithObjects:
+                                                program, context, nil]];
+          return [self eval:expansion
+                       inLexicalContext:context
+                       withEnvironment:lexenv];
+        }
+      else if ([context variableIsLexical:program])
         {
           return [lexenv valueForSymbol:program];
         }
@@ -134,6 +146,11 @@ static MLKSymbol *_DEFMACRO;
           else if (car == QUOTE)
             {
               return [[program cdr] car];
+            }
+          else if (car == SETQ)
+            {
+              //FIXME: ...
+              //FIXME: Don't forget handling symbol macros correctly.
             }
           else if (car == TAGBODY)
             {
