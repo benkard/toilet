@@ -449,6 +449,12 @@
         {
           package = [MLKPackage
                       findPackage:[token substringToIndex:packageMarker]];
+
+          if (!package)
+            [NSException raise:@"MLKReaderError"
+                         format:@"Can't find package %@.",
+                         [token substringToIndex:packageMarker]];
+
           if ([readtable isPackageMarker:[token characterAtIndex:(i+1)]])
             symbolName = [token substringFromIndex:(packageMarker+2)];
           else
