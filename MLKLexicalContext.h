@@ -35,12 +35,15 @@
   MLKLexicalContext *_parent;
 }
 
++(void) initialize;
+  
 -(MLKLexicalContext *) initWithParent:(MLKLexicalContext *)aContext
                             variables:(NSSet *)vars
                             functions:(NSSet *)functions
                                goTags:(NSDictionary *)goTags
                                macros:(NSDictionary *)macros
-                         declarations:(NSDictionary *)declarations;
+                         symbolMacros:(NSDictionary *)symbolMacros
+                         declarations:(id)declarations;
 
 +(MLKLexicalContext *) globalContext;
 

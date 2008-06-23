@@ -24,7 +24,9 @@
 #import <Foundation/NSString.h>
 
 #import "MLKCons.h"
+#import "MLKDynamicContext.h"
 #import "MLKLexicalContext.h"
+#import "MLKLexicalEnvironment.h"
 #import "MLKEnvironment.h"
 #import "MLKLinkedList.h"
 #import "MLKPackage.h"
@@ -57,8 +59,18 @@ static MLKSymbol *LEXICAL;
 @implementation MLKLexicalContext
 +(void) initialize
 {
+  MLKDynamicContext *dynamic_context = [MLKDynamicContext globalContext];
+  MLKLexicalEnvironment *globalenv = [MLKLexicalEnvironment globalEnvironment];
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+
+  global_context = [[self alloc] initWithParent:nil
+                                 variables:[globalenv variables]
+                                 functions:[globalenv functions]
+                                 goTags:nil
+                                 macros:nil
+                                 symbolMacros:nil
+                                 declarations:nil];
 
   SPECIAL = [cl intern:@"SPECIAL"];
   LEXICAL = [sys intern:@"LEXICAL"];
@@ -76,26 +88,29 @@ static MLKSymbol *LEXICAL;
   NSArray *e;
 
   self = [super init];
-  ASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
 
+  ASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
+  
+  ASSIGN (_variableLocations, [NSMutableDictionary dictionary]);
   e = [vars allObjects];
   for (i = 0; i < [e count]; i++)
     {
       [self addVariable:[e objectAtIndex:i]];
     }
   
+  ASSIGN (_functionLocations, [NSMutableDictionary dictionary]);
   e = [functions allObjects];
   for (i = 0; i < [e count]; i++)
     {
-      [self addVariable:[e objectAtIndex:i]];
+      [self addFunction:[e objectAtIndex:i]];
     }
 
   _goTags = MAKE_ENVIRONMENT (goTags, _parent, _parent->_goTags);
   _macros = MAKE_ENVIRONMENT (macros, _parent, _parent->_macros);
   _symbolMacros = MAKE_ENVIRONMENT (macros, _parent, _parent->_symbolMacros);
 
-  _knownMacros = [macros allKeys];
-  _knownSymbolMacros = [symbolMacros allKeys];
+  ASSIGN (_knownMacros, [macros allKeys]);
+  ASSIGN (_knownSymbolMacros, [symbolMacros allKeys]);
 
   ASSIGN (_declarations, declarations);
   return self;  
@@ -197,15 +212,15 @@ static MLKSymbol *LEXICAL;
   return YES;
 }
 
+-(void) addVariable:(MLKSymbol *)symbol
+{
+  [_variableLocations setObject:[NSNull null] forKey:symbol];
+}
 
-
-// -(void) addVariable:(MLKSymbol *)symbol
-// {
-// }
-
-// -(void) addFunction:(MLKSymbol *)symbol
-// {
-// }
+-(void) addFunction:(MLKSymbol *)symbol
+{
+  [_functionLocations setObject:[NSNull null] forKey:symbol];
+}
 
 -(void) dealloc
 {

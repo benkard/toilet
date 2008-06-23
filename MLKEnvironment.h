@@ -18,7 +18,7 @@
 
 #import "MLKLispValue.h"
 
-@class NSMutableDictionary, MLKSymbol;
+@class NSMutableDictionary, MLKSymbol, NSSet;
 
 
 @interface MLKEnvironment : MLKLispValue
@@ -36,6 +36,7 @@
 
 -(MLKEnvironment *) parent;
 
+-(NSSet *) bindings;
 -(void) addBinding:(MLKSymbol *)symbol;
 -(void) addBindings:(NSDictionary *)bindings;
 -(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;

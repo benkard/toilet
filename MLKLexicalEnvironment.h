@@ -19,7 +19,7 @@
 #include <Foundation/NSObject.h>
 
 @class MLKEnvironment, MLKSymbol, NSLinkedList,
-       NSMutableDictionary, NSString;
+       NSMutableDictionary, NSString, NSSet;
 
 
 @interface MLKLexicalEnvironment : NSObject
@@ -29,11 +29,16 @@
   MLKLexicalEnvironment *_parent;
 }
 
++(void) initialize;
+  
 -(MLKLexicalEnvironment *) initWithParent:(MLKLexicalEnvironment *)aContext
                                 variables:(NSDictionary *)vars
                                 functions:(NSDictionary *)handlers;
 
 +(MLKLexicalEnvironment *) globalEnvironment;
+
+-(NSSet *) variables;
+-(NSSet *) functions;
 
 -(id) valueForSymbol:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;

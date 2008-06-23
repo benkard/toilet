@@ -460,7 +460,7 @@
               if (![[package exportedSymbols] containsObject:symbol])
                 [NSException raise:@"MLKReaderError"
                              format:@"Package %@ does not export symbol %@.",
-                                    package, symbol];
+                                    [package name], [symbol descriptionForLisp]];
             }
         }
 

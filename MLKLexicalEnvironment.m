@@ -50,6 +50,22 @@ static MLKLexicalEnvironment *global_environment;
 
 
 @implementation MLKLexicalEnvironment
++(void) initialize
+{
+  NSMutableDictionary *vars = [NSMutableDictionary dictionary];
+  NSMutableDictionary *funs = [NSMutableDictionary dictionary];
+
+  MLKPackage *cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  //  MLKPackage *sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+
+  [vars setObject:[NSNull null] forKey:[NSNull null]];
+  [vars setObject:[cl intern:@"T"] forKey:[cl intern:@"T"]];
+
+  global_environment = [[self alloc] initWithParent:nil
+                                     variables:vars
+                                     functions:funs];
+}
+
 -(MLKLexicalEnvironment *) initWithParent:(MLKLexicalEnvironment *)aContext
                                 variables:(NSDictionary *)vars
                                 functions:(NSDictionary *)handlers
@@ -64,6 +80,16 @@ static MLKLexicalEnvironment *global_environment;
 +(MLKLexicalEnvironment *) globalEnvironment
 {
   return global_environment;
+}
+
+-(NSSet *) variables
+{
+  return [_variables bindings];
+}
+
+-(NSSet *) functions
+{
+  return [_functions bindings];
 }
 
 -(id) valueForSymbol:(MLKSymbol *)symbol

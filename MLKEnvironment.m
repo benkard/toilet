@@ -19,6 +19,7 @@
 #import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSNull.h>
+#import <Foundation/NSSet.h>
 
 #import "MLKEnvironment.h"
 #import "MLKUndefinedVariableException.h"
@@ -61,6 +62,14 @@ static id UNBOUND;
 -(MLKEnvironment *) parent
 {
   return _parent;
+}
+
+-(NSSet *) bindings
+{
+  NSSet *set = [NSSet setWithArray:[_bindings allKeys]];
+  return (_parent
+          ? (id)[set setByAddingObjectsFromSet:[_parent bindings]]
+          : (id)set);
 }
 
 -(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;

@@ -81,6 +81,7 @@ static MLKSymbol *_DEFMACRO;
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
+      //NSLog (@"Processing symbol.");
       if ([context symbolNamesSymbolMacro:program])
         {
           id macrofun = [context macroForSymbol:program];
@@ -93,10 +94,12 @@ static MLKSymbol *_DEFMACRO;
         }
       else if ([context variableIsLexical:program])
         {
+          //NSLog (@"Processing lexical variable.");
           return [lexenv valueForSymbol:program];
         }
       else
         {
+          //NSLog (@"Processing special variable.");
           return [dynamicContext valueForBinding:program];
         }
     }
