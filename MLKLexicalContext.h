@@ -18,6 +18,8 @@
 
 #import "MLKLispValue.h"
 
+#import <Foundation/NSSet.h>
+
 @class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSLinkedList, NSSet,
        NSMutableDictionary, NSString, MLKCons, MLKFuncallable;
 
@@ -29,8 +31,8 @@
   MLKEnvironment *_macros;
   MLKEnvironment *_symbolMacros;
   MLKEnvironment *_goTags;
-  NSMutableDictionary *_functionLocations;
-  NSMutableDictionary *_variableLocations;
+  NSMutableSet *_functions;
+  NSMutableSet *_variables;
   id _declarations;
   MLKLexicalContext *_parent;
 }
@@ -58,10 +60,10 @@
 -(void) setSymbolMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;
 
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
--(id) variableLocationForSymbol:(MLKSymbol *)symbol;
 
--(MLKLexicalEnvironment *) instantiateWithVariables:(NSDictionary *)variables
-                                          functions:(NSDictionary *)functions;
+// FIXME?
+//-(MLKLexicalEnvironment *) instantiateWithVariables:(NSDictionary *)variables
+//                                          functions:(NSDictionary *)functions;
 
 -(void) addVariable:(MLKSymbol *)symbol;
 -(void) addFunction:(MLKSymbol *)symbol;

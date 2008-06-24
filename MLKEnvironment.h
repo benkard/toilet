@@ -17,6 +17,7 @@
  */
 
 #import "MLKLispValue.h"
+#import "MLKBinding.h"
 
 @class NSMutableDictionary, MLKSymbol, NSSet;
 
@@ -27,27 +28,24 @@
   NSMutableDictionary *_bindings;
 }
 
-+(void) initialize;
-
 -(MLKEnvironment *) init;
 -(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent;
--(MLKEnvironment *) initWithBindings:(NSDictionary *)bindings;
--(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent bindings:(NSDictionary *)bindings;
+-(MLKEnvironment *) initWithValues:(NSDictionary *)bindings;
+-(MLKEnvironment *) initWithParent:(MLKEnvironment *)parent
+                            values:(NSDictionary *)bindings;
 
 -(MLKEnvironment *) parent;
 
 -(NSSet *) bindings;
 -(void) addBindingForSymbol:(MLKSymbol *)symbol;
 -(void) addBindings:(NSDictionary *)bindings;
+-(void) addValues:(NSDictionary *)bindings;
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
+-(MLKBinding *) bindingForSymbol:(MLKSymbol *)symbol;
 -(id) valueForSymbol:(MLKSymbol *)symbol;
 
 -(MLKEnvironment *) environmentForSymbol:(MLKSymbol *)symbol;
-
-// Private methods.
--(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;
--(id) valueForSymbol:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
 
 -(BOOL) boundp:(MLKSymbol *)symbol;
 -(void) makunbound:(MLKSymbol *)symbol;

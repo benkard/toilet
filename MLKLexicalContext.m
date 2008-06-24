@@ -43,7 +43,7 @@
             initWithParent:(parent                                      \
                             ? (id) parent_member                        \
                             : nil)                                      \
-                  bindings:variable]                                    \
+                    values:variable]                                    \
    : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
@@ -59,7 +59,7 @@ static MLKSymbol *LEXICAL;
 @implementation MLKLexicalContext
 +(void) initialize
 {
-  MLKDynamicContext *dynamic_context = [MLKDynamicContext globalContext];
+  /* MLKDynamicContext *dynamic_context = */ [MLKDynamicContext globalContext];
   MLKLexicalEnvironment *globalenv = [MLKLexicalEnvironment globalEnvironment];
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
@@ -84,26 +84,12 @@ static MLKSymbol *LEXICAL;
                          symbolMacros:(NSDictionary *)symbolMacros
                          declarations:(id)declarations
 {
-  int i;
-  NSArray *e;
-
   self = [super init];
 
   ASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
   
-  ASSIGN (_variableLocations, [NSMutableDictionary dictionary]);
-  e = [vars allObjects];
-  for (i = 0; i < [e count]; i++)
-    {
-      [self addVariable:[e objectAtIndex:i]];
-    }
-  
-  ASSIGN (_functionLocations, [NSMutableDictionary dictionary]);
-  e = [functions allObjects];
-  for (i = 0; i < [e count]; i++)
-    {
-      [self addFunction:[e objectAtIndex:i]];
-    }
+  ASSIGN (_variables, [NSMutableSet setWithSet:vars]);
+  ASSIGN (_functions, [NSMutableSet setWithSet:functions]);
 
   _goTags = MAKE_ENVIRONMENT (goTags, _parent, _parent->_goTags);
   _macros = MAKE_ENVIRONMENT (macros, _parent, _parent->_macros);
@@ -148,9 +134,10 @@ static MLKSymbol *LEXICAL;
 
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol
 {
-  if ([_functionLocations objectForKey:(symbol ? (id)symbol : (id)[NSNull null])])
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  if ([_functions containsObject:symbol])
     return YES;
-  else if ([_knownMacros containsObject:(symbol ? (id)symbol : (id)[NSNull null])])
+  else if ([_knownMacros containsObject:symbol])
     return NO;
   else
     return (_parent && [_parent symbolNamesFunction:symbol]);  
@@ -158,9 +145,10 @@ static MLKSymbol *LEXICAL;
 
 -(BOOL) symbolNamesMacro:(MLKSymbol *)symbol
 {
-  if ([_functionLocations objectForKey:(symbol ? (id)symbol : (id)[NSNull null])])
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  if ([_functions containsObject:symbol])
     return NO;
-  else if ([_knownMacros containsObject:(symbol ? (id)symbol : (id)[NSNull null])])
+  else if ([_knownMacros containsObject:symbol])
     return YES;
   else
     return (_parent && [_parent symbolNamesMacro:symbol]);  
@@ -168,9 +156,10 @@ static MLKSymbol *LEXICAL;
 
 -(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol
 {
-  if ([_variableLocations objectForKey:(symbol ? (id)symbol : (id)[NSNull null])])
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  if ([_variables containsObject:symbol])
     return NO;
-  else if ([_knownSymbolMacros containsObject:(symbol ? (id)symbol : (id)[NSNull null])])
+  else if ([_knownSymbolMacros containsObject:symbol])
     return YES;
   else
     return (_parent && [_parent symbolNamesSymbolMacro:symbol]);  
@@ -214,12 +203,14 @@ static MLKSymbol *LEXICAL;
 
 -(void) addVariable:(MLKSymbol *)symbol
 {
-  [_variableLocations setObject:[NSNull null] forKey:symbol];
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  [_variables addObject:symbol];
 }
 
 -(void) addFunction:(MLKSymbol *)symbol
 {
-  [_functionLocations setObject:[NSNull null] forKey:symbol];
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  [_functions addObject:symbol];
 }
 
 -(void) dealloc
@@ -229,7 +220,8 @@ static MLKSymbol *LEXICAL;
   RELEASE (_knownSymbolMacros);
   RELEASE (_symbolMacros);
   RELEASE (_goTags);
-  RELEASE (_functionLocations);
+  RELEASE (_functions);
+  RELEASE (_variables);
   RELEASE (_declarations);
   RELEASE (_parent);
   [super dealloc];

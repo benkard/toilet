@@ -36,7 +36,6 @@ ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBinding.m		\
                        MLKSingleFloat.m MLKStream.m			\
                        MLKStringInputStream.m MLKSymbol.m		\
                        MLKThrowException.m				\
-                       MLKUndefinedVariableException.m			\
                        NSObject-MLKPrinting.m NSString-MLKPrinting.m
 ToiletKit_LDFLAGS = -lgmp
 #LIBRARIES_DEPEND_UPON

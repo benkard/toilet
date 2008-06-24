@@ -42,7 +42,7 @@
             initWithParent:(parent                                      \
                             ? (id) parent_member                        \
                             : nil)                                      \
-                  bindings:variable]                                    \
+                    values:variable]                                    \
    : (id) (parent ? (id) RETAIN (parent_member) : nil));
 
 
@@ -330,7 +330,7 @@ static MLKDynamicContext *global_context;
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
         NS_VALUERETURN (nil, id);
       else
         [localException raise];
@@ -351,7 +351,7 @@ static MLKDynamicContext *global_context;
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
         NS_VALUERETURN (nil, id);
       else
         [localException raise];
@@ -369,7 +369,7 @@ static MLKDynamicContext *global_context;
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUndefinedVariableException"])
+      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
         NS_VALUERETURN (nil, id);
       else
         [localException raise];
