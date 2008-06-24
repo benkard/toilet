@@ -39,12 +39,23 @@ static char **_argv;
 
 
 static const char *prompt (EditLine *e) {
-  MLKPackage *package = [[MLKDynamicContext currentContext]
-                          valueForSymbol:[[MLKPackage
-                                             findPackage:@"COMMON-LISP"]
-                                            intern:@"*PACKAGE*"]];
-  
-  return [[NSString stringWithFormat:@"%@> ", [package name]] UTF8String];
+  NS_DURING
+    {
+      MLKPackage *package = [[MLKDynamicContext currentContext]
+                              valueForSymbol:[[MLKPackage
+                                                findPackage:@"COMMON-LISP"]
+                                               intern:@"*PACKAGE*"]];
+
+      return [[NSString stringWithFormat:@"%@> ", [package name]] UTF8String];
+    }
+  NS_HANDLER
+    {
+      printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
+              [[localException name] UTF8String],
+              [[localException reason] UTF8String]);
+      return "> ";
+    }
+  NS_ENDHANDLER
 }
 
 
