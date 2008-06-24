@@ -1,0 +1,5 @@
+obj/
+derived_src/
+Test.bundle/
+ToiletKit.framework/
+*~
