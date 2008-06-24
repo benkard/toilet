@@ -27,7 +27,7 @@ ADDITIONAL_OBJCFLAGS = -Wall
 
 ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBinding.m		\
                        MLKDoubleFloat.m MLKDynamicContext.m		\
-                       MLKEndOfFileError.m MLKEnvironment.m MLKError.m	\
+                       MLKEndOfFileError.m MLKEnvironment.m		\
                        MLKFloat.m MLKInteger.m MLKInterpreter.m		\
                        MLKLinkedList.m MLKLexicalContext.m		\
                        MLKLexicalEnvironment.m MLKLispValue.m		\

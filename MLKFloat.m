@@ -21,8 +21,9 @@
 #import "MLKDoubleFloat.h"
 #import "MLKPackage.h"
 #import "MLKDynamicContext.h"
-#import "MLKError.h"
 #import "runtime-compatibility.h"
+
+#import <Foundation/NSException.h>
 
 
 @implementation MLKFloat : MLKLispValue
@@ -62,7 +63,8 @@
 #define DECLARE_ABSTRACT(SIGNATURE, RETURN_VALUE)                       \
   SIGNATURE                                                             \
   {                                                                     \
-    [[MLKError errorWithMessage:@"Tried to invoke an abstract method."] raise]; \
+    [NSException raise:@"MLKInternalInconsistencyError"                 \
+                 format:@"Tried to invoke an abstract method."];        \
     return RETURN_VALUE;                                                \
   }
 

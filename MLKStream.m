@@ -17,8 +17,9 @@
  */
 
 #import "MLKStream.h"
-#import "MLKError.h"
 #import "runtime-compatibility.h"
+
+#import <Foundation/NSException.h>
 
 
 @implementation MLKStream
@@ -85,7 +86,8 @@
       // NSLog (@"%d bytes read", bytes_read);
       if (!bytes_read)
         {
-          [[MLKError errorWithMessage:@"Tried to read beyond end of file."] raise];
+          [NSException raise:@"MLKStreamError"
+                       format:@"Tried to read beyond end of file."];
         }
 
       tmpstr = [[NSString alloc] initWithBytesNoCopy:buffer
@@ -106,7 +108,8 @@
 -(void) unreadChar:(unichar)ch
 {
   if (_charCached)
-    [[MLKError errorWithMessage:@"Attempted to UNREAD-CHAR twice in a row."] raise];
+    [NSException raise:@"MLKInvalidOperationError"
+                 format:@"Attempted to UNREAD-CHAR twice in a row."];
 
   _charCached = YES;
   _cachedChar = ch;
