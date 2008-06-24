@@ -18,15 +18,24 @@
 
 #import "MLKLispValue.h"
 
-@class MLKSymbol, NSMutableDictionary, NSMutableSet, NSSet, NSString;
+#import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSSet.h>
+#import <Foundation/NSString.h>
+
+@class MLKSymbol;
 
 
 @interface MLKPackage : MLKLispValue
 {
-  NSMutableDictionary *_symbols;
+  NSMutableDictionary *_accessible_symbols;
+  NSMutableSet *_present_symbols;
+  //  NSMutableSet *_inherited_symbols;
   NSMutableSet *_exported_symbols;
-  NSMutableSet *_shadowed_symbols;
+  NSMutableSet *_shadowing_symbols;
   NSMutableSet *_nicknames;
+  NSMutableArray *_used_packages;
+  NSMutableArray *_using_packages;
   NSString *_name;
 }
 
@@ -40,10 +49,14 @@
 
 +(MLKPackage *) findPackage:(NSString *)name;
 
--(void) usePackage:(MLKPackage *)aPackage;
--(void) import:(MLKSymbol *)aSymbol;
--(void) export:(MLKSymbol *)aSymbol;
--(void) shadow:(MLKSymbol *)aSymbol;
+-(void) usePackage:(MLKPackage *)package;
+-(void) unusePackage:(MLKPackage *)package;
+-(void) import:(MLKSymbol *)symbol;
+-(void) inherit:(MLKSymbol *)symbol;
+-(void) uninherit:(MLKSymbol *)symbol;
+-(void) export:(MLKSymbol *)symbol;
+-(void) unexport:(MLKSymbol *)symbol;
+-(void) shadow:(NSString *)symbolName;
 -(void) unintern:(MLKSymbol *)aSymbol;
 -(MLKSymbol *) intern:(NSString*)symbolName;
 -(MLKSymbol *) findSymbol:(NSString*)symbolName;
@@ -51,6 +64,10 @@
 -(NSString *) name;
 -(NSSet *) nicknames;
 -(NSSet *) exportedSymbols;
--(NSSet *) shadowedSymbols;
+-(NSSet *) shadowingSymbols;
 -(NSSet *) allSymbols;
+-(NSArray *) usedPackages;
+-(NSArray *) usingPackages;
+
+-(void) dealloc;
 @end

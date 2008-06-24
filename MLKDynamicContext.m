@@ -53,34 +53,14 @@ static MLKDynamicContext *global_context;
 +(void) initialize
 {
   NSMutableDictionary *vars = [NSMutableDictionary dictionaryWithCapacity:64];
-  MLKPackage *cl = [MLKPackage packageWithName:@"COMMON-LISP"
-                               nicknames:[NSSet setWithObject:@"CL"]];
-  MLKPackage *clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
-                                   nicknames:[NSSet setWithObject:@"CL-USER"]];
-  MLKPackage *keyword = [MLKPackage packageWithName:@"KEYWORD"
-                                    nicknames:[NSSet set]];
-  MLKPackage *sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
-                                nicknames:[NSSet setWithObjects:
-                                                   @"TL-SYS", nil]];
-  MLKPackage *toilet = [MLKPackage packageWithName:@"TOILET-LISP"
-                                   nicknames:[NSSet setWithObjects:
-                                                      @"TL", @"TOILET", nil]];
-  MLKPackage *tlUser = [MLKPackage packageWithName:@"TOILET-LISP-USER"
-                                   nicknames:[NSSet setWithObjects:
-                                                      @"TL-USER",
-                                                      @"TOILET-USER",
-                                                      nil]];
+  MLKPackage *cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  MLKPackage *clUser = [MLKPackage findPackage:@"COMMON-LISP-USER"];
+  MLKPackage *keyword = [MLKPackage findPackage:@"KEYWORD"];
   MLKSymbol *t = [cl intern:@"T"];
   MLKReadtable *readtable = [[MLKReadtable alloc] init];
   unichar ch;
 
   id NIL = [NSNull null];
-
-  [cl export:[cl intern:@"IF"]];
-
-  [sys intern:@"%DEFMACRO"];
-  [tlUser usePackage:clUser];
-  //[toilet import:nil];
 
   // Build the initial readtable.
   [readtable setSyntaxType:WHITESPACE forCharacter:'\t'];

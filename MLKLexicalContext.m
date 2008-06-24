@@ -59,7 +59,6 @@ static MLKSymbol *LEXICAL;
 @implementation MLKLexicalContext
 +(void) initialize
 {
-  /* MLKDynamicContext *dynamic_context = */ [MLKDynamicContext globalContext];
   MLKLexicalEnvironment *globalenv = [MLKLexicalEnvironment globalEnvironment];
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];

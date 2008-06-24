@@ -32,6 +32,11 @@
   return self;
 }
 
++(MLKSymbol *) symbolWithName:(id)aName package:(id)aPackage
+{
+  return AUTORELEASE ([[self alloc] initWithName:aName package:aPackage]);
+}
+
 -(id) copyWithZone:(NSZone *)zone
 {
   MLKSymbol *copy = [MLKSymbol allocWithZone:zone];

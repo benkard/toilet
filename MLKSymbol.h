@@ -32,6 +32,8 @@
 
 -(MLKSymbol *) initWithName:(id)aName package:(id)aPackage;
 
++(MLKSymbol *) symbolWithName:(id)aName package:(id)aPackage;
+
 -(NSString *) name;
 -(MLKPackage *) homePackage;
 -(void) setHomePackage:(MLKPackage *)aPackage;

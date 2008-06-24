@@ -19,12 +19,11 @@
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "MLKError.h"
+#import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSSet.h>
-#import <Foundation/NSString.h>
-#import <Foundation/NSArray.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSNull.h>
 
 
 static NSMutableDictionary *packages = nil;
@@ -34,6 +33,36 @@ static NSMutableDictionary *packages = nil;
 +(void) initialize
 {
   packages = [[NSMutableDictionary alloc] init];
+  
+  MLKPackage *cl = [MLKPackage packageWithName:@"COMMON-LISP"
+                               nicknames:[NSSet setWithObject:@"CL"]];
+  MLKPackage *clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
+                                   nicknames:[NSSet setWithObject:@"CL-USER"]];;
+  MLKPackage *sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
+                                nicknames:[NSSet setWithObjects:
+                                                   @"TL-SYS", nil]];
+  MLKPackage *toilet = [MLKPackage packageWithName:@"TOILET-LISP"
+                                   nicknames:[NSSet setWithObjects:
+                                                      @"TL", @"TOILET", nil]];
+  MLKPackage *tlUser = [MLKPackage packageWithName:@"TOILET-LISP-USER"
+                                   nicknames:[NSSet setWithObjects:
+                                                      @"TL-USER",
+                                                      @"TOILET-USER",
+                                                    nil]];
+
+  [MLKPackage packageWithName:@"KEYWORD" nicknames:[NSSet set]];
+
+  [tlUser usePackage:toilet];
+  [tlUser usePackage:cl];
+  [clUser usePackage:cl];
+  
+  [cl import:nil];
+  [cl export:nil];
+  [cl export:[cl intern:@"T"]];
+
+  [sys intern:@"%DEFMACRO"];
+  [tlUser usePackage:clUser];
+  [cl export:[cl intern:@"IF"]];
 }
 
 -(MLKPackage *) initWithName:(NSString *)name
@@ -52,10 +81,13 @@ static NSMutableDictionary *packages = nil;
       [packages setObject:self forKey:[e objectAtIndex:i]];
     }
 
-  _symbols = [[NSMutableDictionary alloc] init];
+  _present_symbols = [[NSMutableSet alloc] init];
+  _accessible_symbols = [[NSMutableDictionary alloc] init];
   _exported_symbols = [[NSMutableSet alloc] init];
-  _shadowed_symbols = [[NSMutableSet alloc] init];
+  _shadowing_symbols = [[NSMutableSet alloc] init];
   _nicknames = [[NSMutableSet alloc] initWithSet:nicknames];
+  _used_packages = [[NSMutableArray alloc] init];
+  _using_packages = [[NSMutableArray alloc] init];
   ASSIGN (_name, name);
 
   return self;
@@ -72,60 +104,185 @@ static NSMutableDictionary *packages = nil;
   return [packages objectForKey:name];
 }
 
--(void) usePackage:(MLKPackage *)aPackage
+-(void) usePackage:(MLKPackage *)package
 {
   int i;
   NSArray *symbols;
 
-  symbols = [[aPackage allSymbols] allObjects];
+  symbols = [[package exportedSymbols] allObjects];
 
   for (i = 0; i < [symbols count]; i++)
-    [self import:[symbols objectAtIndex:i]];
+    {
+      [self inherit:[symbols objectAtIndex:i]];
+    }
+
+  [_used_packages addObject:package];
+  [package->_using_packages addObject:self];
 }
 
--(void) import:(MLKSymbol *)aSymbol
+-(void) unusePackage:(MLKPackage *)package
 {
-  // FIXME: Check for conflicts.
+  int i;
+  NSArray *symbols;
 
-  // FIXME: What to do about exported and shadowed symbols that conflict
-  // with the new one?
-  [_symbols setObject:aSymbol forKey:[aSymbol name]];
+  symbols = [[package exportedSymbols] allObjects];
+
+  for (i = 0; i < [symbols count]; i++)
+    {
+      [self uninherit:[symbols objectAtIndex:i]];
+    }
+
+  [_used_packages removeObject:package];
+  [package->_using_packages removeObject:self];
 }
 
--(void) export:(MLKSymbol *)aSymbol
+-(void) import:(MLKSymbol *)symbol
 {
-  [_exported_symbols addObject:aSymbol];
+  id old_symbol;
+  NSString *name;
+
+  name = symbol ? [symbol name] : (NSString *)@"NIL";
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+
+  if ((old_symbol = [_accessible_symbols objectForKey:name]))
+    {
+      if (old_symbol != symbol)
+        [NSException
+          raise:@"MLKSymbolConflictError"
+          format:@"Imported symbol %@ conflicts with accessible symbol %@.",
+                 [symbol descriptionForLisp],
+                 [old_symbol descriptionForLisp]];
+    }
+
+  [_accessible_symbols setObject:symbol forKey:name];
+  [_present_symbols addObject:symbol];
 }
 
--(void) shadow:(MLKSymbol *)aSymbol
+-(void) inherit:(MLKSymbol *)symbol
 {
-  [_shadowed_symbols addObject:aSymbol];
+  id old_symbol;
+  NSString *name;
+
+  name = symbol ? [symbol name] : (NSString *)@"NIL";
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+
+  if ((old_symbol = [_accessible_symbols objectForKey:name])
+      && old_symbol != symbol
+      && ![_shadowing_symbols containsObject:old_symbol])
+    [NSException
+      raise:@"MLKSymbolConflictError"
+      format:@"Inherited symbol %@ conflicts with accessible symbol %@.",
+             [symbol descriptionForLisp],
+             [old_symbol descriptionForLisp]];
+
+  [_accessible_symbols setObject:symbol forKey:name];
+}
+
+-(void) uninherit:(MLKSymbol *)symbol
+{
+  NSString *name;
+
+  name = symbol ? [symbol name] : (NSString *)@"NIL";
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+
+  if (![_present_symbols containsObject:symbol])
+    [_accessible_symbols removeObjectForKey:name];
+}
+
+-(void) export:(MLKSymbol *)symbol
+{
+  int i;
+  NSString *name;
+
+  name = symbol ? [symbol name] : (NSString *)@"NIL";
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+
+  for (i = 0; i < [_using_packages count]; i++)
+    {
+      MLKPackage *package = [_using_packages objectAtIndex:i];
+      id old_symbol = [package->_accessible_symbols objectForKey:name];
+
+      if (old_symbol
+          && (old_symbol != symbol)
+          && ![_shadowing_symbols containsObject:old_symbol])
+        [NSException
+          raise:@"MLKSymbolConflictError"
+          format:@"Inherited symbol %@ conflicts with accessible symbol %@ in package %@.",
+                 [symbol descriptionForLisp],
+                 [old_symbol descriptionForLisp],
+                 [package descriptionForLisp]];
+    }
+
+  for (i = 0; i < [_using_packages count]; i++)
+    {
+      [[_using_packages objectAtIndex:i]
+        inherit:(symbol == (id)[NSNull null] ? nil : (id)symbol)];
+    }
+
+  [_exported_symbols addObject:symbol];
+}
+
+-(void) unexport:(MLKSymbol *)symbol
+{
+  int i;
+
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
+
+  [_exported_symbols removeObject:symbol];
+
+  for (i = 0; i < [_using_packages count]; i++)
+    {
+      [[_using_packages objectAtIndex:i] uninherit:symbol];
+    }
+}
+
+-(void) shadow:(NSString *)symbolName
+{
+  MLKSymbol *symbol;
+
+  symbol = [_accessible_symbols objectForKey:symbolName];
+  if (!symbol)
+    {
+      symbol = [MLKSymbol symbolWithName:symbolName package:self];
+    }
+  [_shadowing_symbols addObject:symbol];
 }
 
 -(void) unintern:(MLKSymbol *)aSymbol
 {
-  [_symbols removeObjectForKey:[aSymbol name]];
+  // FIXME: Check for conflicts.
+  if ([_present_symbols containsObject:aSymbol])
+    {
+      [_present_symbols removeObject:aSymbol];
+      [_accessible_symbols removeObjectForKey:[aSymbol name]];
+      [_shadowing_symbols removeObject:aSymbol];
+    }
 }
 
 -(MLKSymbol *) intern:(NSString *)symbolName
 {
-  if ([[_symbols allKeys] containsObject:symbolName])
-    return [_symbols objectForKey:symbolName];
+  MLKSymbol *symbol;
+  if ((symbol = [_accessible_symbols objectForKey:symbolName]))
+    return (symbol == (id)[NSNull null] ? nil : (id)symbol);
   else
     {
       MLKSymbol *symbol = [[MLKSymbol alloc] initWithName:symbolName
                                              package:self];
-      [_symbols setObject:symbol forKey:symbolName];
+      [self import:symbol];
       return symbol;
     }
 }
 
 -(MLKSymbol *) findSymbol:(NSString *)symbolName
 {
-  if ([[_symbols allKeys] containsObject:symbolName])
-    return [_symbols objectForKey:symbolName];
+  MLKSymbol *symbol;
+  if ((symbol = [_accessible_symbols objectForKey:symbolName]))
+    return (symbol == (id)[NSNull null] ? nil : (id)symbol);
   else
-    [[MLKError errorWithMessage:@"Symbol not found."] raise];
+    [NSException raise:@"MLKNoSuchSymbolError"
+                 format:@"The package %@ does not contain a symbol named %@.",
+                        self,
+                        symbolName];
 
   return nil;
 }
@@ -145,13 +302,36 @@ static NSMutableDictionary *packages = nil;
   return _exported_symbols;
 }
 
--(NSSet *) shadowedSymbols
+-(NSSet *) shadowingSymbols
 {
-  return _shadowed_symbols;
+  return _shadowing_symbols;
 }
 
 -(NSSet *) allSymbols
 {
-  return [NSSet setWithArray:[_symbols allValues]];
+  return [NSSet setWithArray:[_accessible_symbols allValues]];
+}
+
+-(NSArray *) usedPackages
+{
+  return _used_packages;
+}
+
+-(NSArray *) usingPackages
+{
+  return _using_packages;
+}
+
+-(void) dealloc
+{
+  RELEASE (_present_symbols);
+  RELEASE (_accessible_symbols);
+  RELEASE (_exported_symbols);
+  RELEASE (_shadowing_symbols);
+  RELEASE (_nicknames);
+  RELEASE (_used_packages);
+  RELEASE (_using_packages);
+  RELEASE (_name);
+  [super dealloc];
 }
 @end
