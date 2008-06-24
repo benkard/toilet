@@ -78,6 +78,8 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
           tail = [tail cdr];
         }
     }
+
+  [stream readChar];
   
   return [NSArray arrayWithObject:(cons ? (id)cons : (id)[NSNull null])];
 }
