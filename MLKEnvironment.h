@@ -37,17 +37,17 @@
 -(MLKEnvironment *) parent;
 
 -(NSSet *) bindings;
--(void) addBinding:(MLKSymbol *)symbol;
+-(void) addBindingForSymbol:(MLKSymbol *)symbol;
 -(void) addBindings:(NSDictionary *)bindings;
--(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
--(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
--(id) valueForBinding:(MLKSymbol *)symbol;
+-(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
+-(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
+-(id) valueForSymbol:(MLKSymbol *)symbol;
 
--(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol;
+-(MLKEnvironment *) environmentForSymbol:(MLKSymbol *)symbol;
 
 // Private methods.
 -(void) setBinding:(MLKSymbol *)symbol to:(id)value inEnvironment:(MLKEnvironment *)env;
--(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
+-(id) valueForSymbol:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env;
 
 -(BOOL) boundp:(MLKSymbol *)symbol;
 -(void) makunbound:(MLKSymbol *)symbol;

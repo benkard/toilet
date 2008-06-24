@@ -102,7 +102,7 @@ static MLKSymbol *_DEFMACRO;
       else
         {
           //NSLog (@"Processing special variable.");
-          return [dynamicContext valueForBinding:program];
+          return [dynamicContext valueForSymbol:program];
         }
     }
   else if (![program isKindOfClass:[MLKCons class]])

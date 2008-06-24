@@ -38,7 +38,7 @@
 
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   defaultFormat = [[MLKDynamicContext currentContext]
-                    valueForBinding:[cl intern:@"*READ-DEFAULT-FLOAT-FORMAT*"]];
+                    valueForSymbol:[cl intern:@"*READ-DEFAULT-FLOAT-FORMAT*"]];
 
   // FIXME: Shouldn't the readtable decide which exponent markers do what?
   if (exponentMarker == 'd' || exponentMarker == 'D'

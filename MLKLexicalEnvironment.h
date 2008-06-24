@@ -43,7 +43,7 @@
 -(id) valueForSymbol:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
--(void) addBinding:(MLKSymbol *)symbol;
+-(void) addBindingForSymbol:(MLKSymbol *)symbol;
 
 -(id) functionForSymbol:(MLKSymbol *)symbol;
 -(void) setFunction:(id)value forSymbol:(MLKSymbol *)symbol;

@@ -54,7 +54,7 @@
   ever_escaped = NO;
 
   readtable = [[MLKDynamicContext currentContext]
-                valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
+                valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
 
  start:
@@ -236,7 +236,7 @@
   int base;
   
   base = [[[MLKDynamicContext currentContext]
-            valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
+            valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                               intern:@"*READ-BASE*"]]
            intValue];
 
@@ -435,7 +435,7 @@
       if (packageMarker == -1)
         {
           package = [[MLKDynamicContext currentContext]
-                      valueForBinding:[[MLKPackage
+                      valueForSymbol:[[MLKPackage
                                          findPackage:@"COMMON-LISP"]
                                         intern:@"*PACKAGE*"]];
           symbolName = token;
@@ -475,7 +475,7 @@
       if (packageMarker == 0)
         {
           // Make keyword symbols self-evaluate.
-          [[MLKDynamicContext globalContext] addValue:symbol forBinding:symbol];
+          [[MLKDynamicContext globalContext] addValue:symbol forSymbol:symbol];
         }
 
       return symbol;

@@ -109,7 +109,7 @@ DEFINE_MPQ_TWOARG_OPERATION (divideBy:, mpq_div)
 -(NSString *) descriptionForLisp
 {
   MLKInteger *base = [[MLKDynamicContext currentContext]
-                       valueForBinding:[[MLKPackage
+                       valueForSymbol:[[MLKPackage
                                           findPackage:@"COMMON-LISP"]
                                          intern:@"*PRINT-BASE*"]];
   return [self descriptionWithBase:[base intValue]];

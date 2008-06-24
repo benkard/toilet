@@ -54,10 +54,10 @@
 -(id) findHandler:(MLKSymbol *)symbol;
 -(id) findCatchTag:(MLKSymbol *)symbol;
 
--(id) valueForBinding:(MLKSymbol *)symbol;
--(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
--(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
--(void) addBinding:(MLKSymbol *)symbol;
+-(id) valueForSymbol:(MLKSymbol *)symbol;
+-(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
+-(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
+-(void) addBindingForSymbol:(MLKSymbol *)symbol;
 
 -(BOOL) boundp:(MLKSymbol *)symbol;
 -(void) makunbound:(MLKSymbol *)symbol;

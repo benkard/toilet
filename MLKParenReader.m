@@ -51,7 +51,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
   stream = [arguments objectAtIndex:0];
   ch = [[arguments objectAtIndex:1] unicharValue];
   readtable = [[MLKDynamicContext currentContext]
-                valueForBinding:[[MLKPackage findPackage:@"COMMON-LISP"]
+                valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
   cons = nil;
   tail = nil;

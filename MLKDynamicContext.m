@@ -326,7 +326,7 @@ static MLKDynamicContext *global_context;
 {
   NS_DURING
     {
-      return [_restarts valueForBinding:symbol];
+      return [_restarts valueForSymbol:symbol];
     }
   NS_HANDLER
     {
@@ -345,9 +345,9 @@ static MLKDynamicContext *global_context;
   NS_DURING
     {
       if (_activeHandlerEnvironment)
-        return [[_activeHandlerEnvironment parent] valueForBinding:symbol];
+        return [[_activeHandlerEnvironment parent] valueForSymbol:symbol];
       else
-        return [_conditionHandlers valueForBinding:symbol];
+        return [_conditionHandlers valueForSymbol:symbol];
     }
   NS_HANDLER
     {
@@ -365,7 +365,7 @@ static MLKDynamicContext *global_context;
 {
   NS_DURING
     {
-      return [_catchTags valueForBinding:symbol];
+      return [_catchTags valueForSymbol:symbol];
     }
   NS_HANDLER
     {
@@ -379,24 +379,24 @@ static MLKDynamicContext *global_context;
   return nil;
 }
 
--(id) valueForBinding:(MLKSymbol *)symbol
+-(id) valueForSymbol:(MLKSymbol *)symbol
 {
-  return [[self environment] valueForBinding:symbol];
+  return [[self environment] valueForSymbol:symbol];
 }
 
--(void) setValue:(id)value forBinding:(MLKSymbol *)symbol
+-(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [[self environment] setValue:value forBinding:symbol];
+  [[self environment] setValue:value forSymbol:symbol];
 }
 
--(void) addValue:(id)value forBinding:(MLKSymbol *)symbol
+-(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [[self environment] addValue:value forBinding:symbol];
+  [[self environment] addValue:value forSymbol:symbol];
 }
 
--(void) addBinding:(MLKSymbol *)symbol
+-(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
-  [[self environment] addBinding:symbol];
+  [[self environment] addBindingForSymbol:symbol];
 }
 
 -(BOOL) boundp:(MLKSymbol *)symbol

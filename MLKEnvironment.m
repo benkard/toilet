@@ -72,7 +72,7 @@ static id UNBOUND;
           : (id)set);
 }
 
--(void) setValue:(id)value forBinding:(MLKSymbol *)symbol;
+-(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
 {
   [self setBinding:(symbol ? (id)symbol : (id)[NSNull null])
         to:value
@@ -93,13 +93,13 @@ static id UNBOUND;
         raise];
 }
 
--(id) valueForBinding:(MLKSymbol *)symbol
+-(id) valueForSymbol:(MLKSymbol *)symbol
 {
-  return [self valueForBinding:(symbol ? (id)symbol : (id)[NSNull null])
+  return [self valueForSymbol:(symbol ? (id)symbol : (id)[NSNull null])
                inEnvironment:self];
 }
 
--(id) valueForBinding:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
+-(id) valueForSymbol:(MLKSymbol *)symbol inEnvironment:(MLKEnvironment *)env
 {
   id value;
   if ((value = [_bindings objectForKey:symbol]))
@@ -115,7 +115,7 @@ static id UNBOUND;
     }
   else
     if (_parent)
-      return [_parent valueForBinding:symbol];
+      return [_parent valueForSymbol:symbol];
     else
       [[[MLKUndefinedVariableException alloc] initWithEnvironment:env
                                               variableName:symbol]
@@ -129,23 +129,23 @@ static id UNBOUND;
   [_bindings addEntriesFromDictionary:bindings];
 }
 
--(void) addValue:(id)value forBinding:(MLKSymbol *)symbol;
+-(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
 {
   value = value ? value : (id) [NSNull null];
   [_bindings setObject:value forKey:symbol];
 }
 
--(void) addBinding:(MLKSymbol *)symbol
+-(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
   [_bindings setObject:UNBOUND forKey:(symbol ? (id)symbol : (id)[NSNull null])];
 }
 
--(MLKEnvironment *) environmentForBinding:(MLKSymbol *)symbol
+-(MLKEnvironment *) environmentForSymbol:(MLKSymbol *)symbol
 {
   if ([_bindings objectForKey:symbol])
     return self;
   else if (_parent)
-    return [_parent environmentForBinding:symbol];
+    return [_parent environmentForSymbol:symbol];
   else
     return nil;
 }

@@ -94,22 +94,22 @@ static MLKLexicalEnvironment *global_environment;
 
 -(id) valueForSymbol:(MLKSymbol *)symbol
 {
-  return [_variables valueForBinding:symbol];
+  return [_variables valueForSymbol:symbol];
 }
 
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_variables setValue:value forBinding:symbol];
+  [_variables setValue:value forSymbol:symbol];
 }
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_variables addValue:value forBinding:symbol];
+  [_variables addValue:value forSymbol:symbol];
 }
 
--(void) addBinding:(MLKSymbol *)symbol
+-(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
-  [_variables addBinding:symbol];
+  [_variables addBindingForSymbol:symbol];
 }
 
 -(BOOL) boundp:(MLKSymbol *)symbol
@@ -124,17 +124,17 @@ static MLKLexicalEnvironment *global_environment;
 
 -(id) functionForSymbol:(MLKSymbol *)symbol
 {
-  return [_functions valueForBinding:symbol];
+  return [_functions valueForSymbol:symbol];
 }
 
 -(void) setFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_functions setValue:value forBinding:symbol];
+  [_functions setValue:value forSymbol:symbol];
 }
 
 -(void) addFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_functions addValue:value forBinding:symbol];
+  [_functions addValue:value forSymbol:symbol];
 }
 
 -(BOOL) fboundp:(MLKSymbol *)symbol

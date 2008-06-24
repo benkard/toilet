@@ -123,27 +123,27 @@ static MLKSymbol *LEXICAL;
 
 -(id) macroForSymbol:(MLKSymbol *)symbol
 {
-  return [_macros valueForBinding:symbol];
+  return [_macros valueForSymbol:symbol];
 }
 
 -(void) setMacro:(MLKFuncallable *)value forSymbol:(MLKSymbol *)symbol
 {
-  [_symbolMacros setValue:value forBinding:symbol];
+  [_symbolMacros setValue:value forSymbol:symbol];
 }
 
 -(id) symbolMacroForSymbol:(MLKSymbol *)symbol
 {
-  return [_symbolMacros valueForBinding:symbol];
+  return [_symbolMacros valueForSymbol:symbol];
 }
 
 -(void) setSymbolMacro:(MLKFuncallable *)value forSymbol:(MLKSymbol *)symbol
 {
-  [_symbolMacros setValue:value forBinding:symbol];
+  [_symbolMacros setValue:value forSymbol:symbol];
 }
 
 -(id) goTagForSymbol:(MLKSymbol *)symbol
 {
-  return [_goTags valueForBinding:symbol];
+  return [_goTags valueForSymbol:symbol];
 }
 
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol

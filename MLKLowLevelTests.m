@@ -102,7 +102,7 @@
 -(id) testInitialReadtable
 {
   MLKDynamicContext *ctx = [MLKDynamicContext currentContext];
-  MLKReadtable *readtable = [ctx valueForBinding:
+  MLKReadtable *readtable = [ctx valueForSymbol:
                                    [[MLKPackage findPackage:@"COMMON-LISP"]
                                      intern:@"*READTABLE*"]];
   UKTrue ([readtable characterHasCase:'a']);

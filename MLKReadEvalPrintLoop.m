@@ -40,7 +40,7 @@ static char **_argv;
 
 static const char *prompt (EditLine *e) {
   MLKPackage *package = [[MLKDynamicContext currentContext]
-                          valueForBinding:[[MLKPackage
+                          valueForSymbol:[[MLKPackage
                                              findPackage:@"COMMON-LISP"]
                                             intern:@"*PACKAGE*"]];
   
