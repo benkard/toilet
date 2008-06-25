@@ -137,8 +137,22 @@
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
-  [_bindings setObject:[MLKBinding binding]
+  [self addBinding:[MLKBinding binding] forSymbol:symbol];
+}
+
+-(void) addBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol
+{
+  [_bindings setObject:binding
              forKey:(symbol ? (id)symbol : (id)[NSNull null])];
+}
+
+-(void) setBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol
+{
+  if (![self bindingForSymbol:symbol])
+    [NSException raise:@"MLKUnboundVariableError"
+                 format:@"The variable %@ is unbound.",
+                        [symbol descriptionForLisp]];
+  [self addBinding:binding forSymbol:symbol];
 }
 
 -(MLKEnvironment *) environmentForSymbol:(MLKSymbol *)symbol

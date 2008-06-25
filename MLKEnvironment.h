@@ -37,6 +37,8 @@
 -(MLKEnvironment *) parent;
 
 -(NSSet *) bindings;
+-(void) addBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol;
+-(void) setBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol;
 -(void) addBindingForSymbol:(MLKSymbol *)symbol;
 -(void) addBindings:(NSDictionary *)bindings;
 -(void) addValues:(NSDictionary *)bindings;
