@@ -151,7 +151,7 @@ static MLKSymbol *_DEFMACRO;
               if ([[body car] isKindOfClass:[MLKCons class]]
                   && [[body car] car] == DECLARE)
                 {
-                  declarations = [body car];
+                  declarations = [[body car] cdr];
                   body = [body cdr];
                 }
               else

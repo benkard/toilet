@@ -172,7 +172,7 @@ static MLKSymbol *LEXICAL;
   while (rest)
     {
       id item = [rest car];
-      if ([[item cdr] car] == symbol)
+      if ([item isKindOfClass:[MLKCons class]] && [[item cdr] car] == symbol)
         {
           if ([item car] == LEXICAL)
             return YES;
