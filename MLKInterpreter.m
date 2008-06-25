@@ -36,6 +36,7 @@
 static MLKPackage *cl;
 static MLKPackage *sys;
 static MLKSymbol *IF;
+static MLKSymbol *DECLARE;
 static MLKSymbol *PROGN;
 static MLKSymbol *TAGBODY;
 static MLKSymbol *GO;
@@ -59,6 +60,7 @@ static MLKSymbol *_DEFMACRO;
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
 
   IF = [cl intern:@"IF"];
+  DECLARE = [cl intern:@"DECLARE"];
   PROGN = [cl intern:@"PROGN"];
   TAGBODY = [cl intern:@"TAGBODY"];
   GO = [cl intern:@"GO"];
@@ -134,6 +136,107 @@ static MLKSymbol *_DEFMACRO;
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
+            }
+          else if (car == LET)
+            {
+              id declarations;
+              id clauses;
+              id body;
+              id result;
+              MLKLexicalContext *ctx;
+              MLKLexicalEnvironment *env;
+              MLKDynamicContext *dynctx;
+
+              body = [[program cdr] cdr];
+              if ([[body car] isKindOfClass:[MLKCons class]]
+                  && [[body car] car] == DECLARE)
+                {
+                  declarations = [body car];
+                  body = [body cdr];
+                }
+              else
+                {
+                  declarations = nil;
+                }
+
+              env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
+                                   initWithParent:lexenv
+                                   variables:nil
+                                   functions:nil]);
+
+              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+                                   initWithParent:context
+                                   variables:nil
+                                   functions:nil
+                                   goTags:nil
+                                   macros:nil
+                                   symbolMacros:nil
+                                   declarations:declarations]);
+
+              dynctx = [[MLKDynamicContext alloc]
+                         initWithParent:dynamicContext
+                         variables:nil
+                         handlers:nil
+                         restarts:nil
+                         catchTags:nil
+                         activeHandlerEnvironment:nil];
+
+              clauses = [[program cdr] car];
+              while (clauses)
+                {
+                  id clause = [clauses car];
+                  id variable, value;
+
+                  if (!clause || [clause isKindOfClass:[MLKSymbol class]])
+                    {
+                      variable = clause;
+                      value = nil;
+                    }
+                  else if ([clause cdr] == nil)
+                    {
+                      variable = [clause car];
+                      value = nil;
+                    }
+                  else
+                    {
+                      variable = [clause car];
+                      value = [self eval:[[clause cdr] car]
+                                    inLexicalContext:context
+                                    withEnvironment:lexenv];
+                    }
+
+                  if ([ctx variableIsLexical:variable])
+                    {
+                      [ctx addVariable:variable];
+                      [env addValue:value forSymbol:variable];
+                    }
+                  else
+                    {
+                      [dynctx addValue:value forSymbol:variable];
+                    }
+
+                  clauses = [clauses cdr];
+                }
+
+              [dynctx pushContext];
+
+              NS_DURING
+                {
+                  result = [self eval:[MLKCons cons:PROGN with:body]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv];
+                }
+              NS_HANDLER
+                {
+                  [MLKDynamicContext popContext];
+                  [localException raise];
+                }
+              NS_ENDHANDLER;
+
+              [MLKDynamicContext popContext];
+              RELEASE (dynctx);
+
+              return result;
             }
           else if (car == PROGN)
             {
