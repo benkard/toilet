@@ -51,17 +51,31 @@ static NSMutableDictionary *packages = nil;
 
   [MLKPackage packageWithName:@"KEYWORD" nicknames:[NSSet set]];
 
-  [tlUser usePackage:toilet];
   [tlUser usePackage:cl];
+  [tlUser usePackage:toilet];
+
   [clUser usePackage:cl];
-  
+  [clUser usePackage:toilet];
+  [clUser usePackage:sys];
+
   [cl import:nil];
   [cl export:nil];
   [cl export:[cl intern:@"T"]];
-
-  [sys intern:@"%DEFMACRO"];
-  [tlUser usePackage:clUser];
   [cl export:[cl intern:@"IF"]];
+  [cl export:[cl intern:@"LET"]];
+  [cl export:[cl intern:@"LAMBDA"]];
+  [cl export:[cl intern:@"FUNCALL"]];
+  [cl export:[cl intern:@"PROGN"]];
+  [cl export:[cl intern:@"APPLY"]];
+  [cl export:[cl intern:@"PROGV"]];
+  [cl export:[cl intern:@"SETQ"]];
+  [cl export:[cl intern:@"DECLARE"]];
+  [cl export:[cl intern:@"QUOTE"]];
+
+  [sys export:[sys intern:@"%DEFMACRO"]];
+  [sys export:[sys intern:@"%LAMBDA"]];
+
+  [tlUser usePackage:clUser];
 }
 
 -(MLKPackage *) initWithName:(NSString *)name

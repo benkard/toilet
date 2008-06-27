@@ -101,6 +101,24 @@ static MLKSymbol *LEXICAL;
   return self;  
 }
 
++(MLKLexicalContext *) contextWithParent:(MLKLexicalContext *)context
+                               variables:(NSSet *)vars
+                               functions:(NSSet *)functions
+                                  goTags:(NSDictionary *)goTags
+                                  macros:(NSDictionary *)macros
+                            symbolMacros:(NSDictionary *)symbolMacros
+                            declarations:(id)declarations
+{
+  return AUTORELEASE ([[self alloc]
+                        initWithParent:context
+                        variables:vars
+                        functions:functions
+                        goTags:goTags
+                        macros:macros
+                        symbolMacros:symbolMacros
+                        declarations:declarations]);
+}
+
 +(MLKLexicalContext *) globalContext
 {
   return global_context;
@@ -111,7 +129,12 @@ static MLKSymbol *LEXICAL;
   return [_macros valueForSymbol:symbol];
 }
 
--(void) setMacro:(MLKFuncallable *)value forSymbol:(MLKSymbol *)symbol
+-(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
+{
+  [_symbolMacros addValue:value forSymbol:symbol];
+}
+
+-(void) setMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
   [_symbolMacros setValue:value forSymbol:symbol];
 }
@@ -121,7 +144,7 @@ static MLKSymbol *LEXICAL;
   return [_symbolMacros valueForSymbol:symbol];
 }
 
--(void) setSymbolMacro:(MLKFuncallable *)value forSymbol:(MLKSymbol *)symbol
+-(void) setSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
   [_symbolMacros setValue:value forSymbol:symbol];
 }

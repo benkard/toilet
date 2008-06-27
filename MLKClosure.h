@@ -17,9 +17,12 @@
  */
 
 #import "MLKLispValue.h"
+#import "MLKEnvironment.h"
 #import "MLKFuncallable.h"
+#import "MLKFunction.h"
 
-@class MLKFunction, NSArray, NSData;
+#import <Foundation/NSArray.h>
+#import <Foundation/NSData.h>
 
 
 @interface MLKClosure : MLKLispValue <MLKFuncallable>

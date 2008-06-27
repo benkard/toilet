@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKFuncallable.h"
 #import "MLKLispValue.h"
 
 #import <Foundation/NSSet.h>
 
 @class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSLinkedList, NSSet,
-       NSMutableDictionary, NSString, MLKCons, MLKFuncallable;
+       NSMutableDictionary, NSString, MLKCons;
 
 
 @interface MLKLexicalContext : MLKLispValue
@@ -47,6 +48,14 @@
                          symbolMacros:(NSDictionary *)symbolMacros
                          declarations:(id)declarations;
 
++(MLKLexicalContext *) contextWithParent:(MLKLexicalContext *)aContext
+                               variables:(NSSet *)vars
+                               functions:(NSSet *)functions
+                                  goTags:(NSDictionary *)goTags
+                                  macros:(NSDictionary *)macros
+                            symbolMacros:(NSDictionary *)symbolMacros
+                            declarations:(id)declarations;
+
 +(MLKLexicalContext *) globalContext;
 
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol;
@@ -54,10 +63,11 @@
 -(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol;
 
 -(id) macroForSymbol:(MLKSymbol *)symbol;
--(void) setMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;
+-(void) setMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;
+-(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
 
 -(id) symbolMacroForSymbol:(MLKSymbol *)symbol;
--(void) setSymbolMacro:(MLKFuncallable *)function forSymbol:(MLKSymbol *)symbol;
+-(void) setSymbolMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;
 
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
 

@@ -16,33 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKFuncallable.h"
 #import "MLKLispValue.h"
+#import "MLKLexicalContext.h"
+#import "MLKLexicalEnvironment.h"
 
-@class NSArray;
+#import <Foundation/NSArray.h>
+#import <Foundation/NSString.h>
 
 
-@interface MLKCons : MLKLispValue
+@interface MLKInterpretedClosure : MLKLispValue <MLKFuncallable>
 {
-  id _car;
-  id _cdr;
+  id bodyForm;
+  MLKSymbol *lambdaListName;
+  MLKLexicalContext *context;
+  MLKLexicalEnvironment *environment;
 }
 
-+(MLKCons*) cons:(id)car with:(id)cdr;
-+(MLKCons*) listWithArray:(NSArray *)array;
+-(id) initWithBodyForm:(id)form
+        lambdaListName:(MLKSymbol *)symbol
+               context:(MLKLexicalContext *)lexctx
+           environment:(MLKLexicalEnvironment *)lexenv;
 
--(MLKCons*) initWithCar:(id)car cdr:(id)cdr;
+-(NSArray *) applyToArray:(NSArray *)arguments;
 
--(id) car;
--(id) cdr;
--(void) setCar:(id)value;
--(void) setCdr:(id)value;
-
--(NSArray *)array;
-
--(NSString *)bareDescriptionForLisp;  // description without
-                                      // parentheses, for internal use
-                                      // only
--(NSString *)descriptionForLisp;
-
--(void) dealloc;
+-(NSString *) description;
+-(NSString *) descriptionForLisp;
 @end

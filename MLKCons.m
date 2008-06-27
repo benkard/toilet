@@ -26,7 +26,7 @@
 @implementation MLKCons
 +(MLKCons*) cons:(id)car with:(id)cdr
 {
-  return AUTORELEASE ([[MLKCons alloc] initWithCar:car cdr:cdr]);
+  return AUTORELEASE ([[self alloc] initWithCar:car cdr:cdr]);
 }
 
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr
@@ -37,6 +37,30 @@
   return self;
 }
 
++(MLKCons*) listWithArray:(NSArray *)array
+{
+  MLKCons *cons, *tail;
+  int i;
+
+  cons = nil;
+  tail = nil;
+
+  for (i = 0; i < [array count]; i++)
+    {
+      id item = [array objectAtIndex:i];
+      if (!tail)
+        {
+          cons = tail = [MLKCons cons:item with:nil];
+        }
+      else
+        {
+          [tail setCdr:[MLKCons cons:item with:nil]];
+          tail = [tail cdr];
+        }
+    }
+
+  return cons;
+}
 
 -(id) car
 {

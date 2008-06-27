@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKInterpretedClosure.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
@@ -51,6 +52,7 @@ static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
 static MLKSymbol *PROGV;
 static MLKSymbol *_DEFMACRO;
+static MLKSymbol *_LAMBDA;
 
 
 @implementation MLKInterpreter
@@ -74,6 +76,7 @@ static MLKSymbol *_DEFMACRO;
   SETQ = [cl intern:@"SETQ"];
   PROGV = [cl intern:@"PROGV"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
+  _LAMBDA = [sys intern:@"%LAMBDA"];
 }
 
 
@@ -128,6 +131,23 @@ static MLKSymbol *_DEFMACRO;
                                                         ? (id)[rest array]
                                                         : (id)[NSArray array])];
             }
+          else if (car == _DEFMACRO)
+            {
+              // No real lambda lists here.  This SYS::%DEFMACRO is
+              // really as low-level as it gets.
+              id name = [[program cdr] car];
+              id lambdaListAndBody = [[program cdr] cdr];
+
+              id <MLKFuncallable> function;
+
+              function = [self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
+                               inLexicalContext:context
+                               withEnvironment:lexenv];
+
+              [context addMacro:function forSymbol:name];
+
+              return name;
+            }
           else if (car == EVAL)
             {
               return [self eval:[self eval:[program cdr]
@@ -136,6 +156,22 @@ static MLKSymbol *_DEFMACRO;
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
+            }
+          else if (car == _LAMBDA)
+            {
+              // A bare-bones LAMBDA without a real lambda list.  What
+              // would be a lambda list in a real LAMBDA form must be a
+              // symbol here.
+              id lambdaList = [[program cdr] car];
+              id body = [[[program cdr] cdr] cdr];
+              MLKInterpretedClosure *closure;
+
+              closure = AUTORELEASE ([[MLKInterpretedClosure alloc]
+                                       initWithBodyForm:body
+                                       lambdaListName:lambdaList
+                                       context:context
+                                       environment:lexenv]);
+              return closure;
             }
           else if (car == LET)
             {

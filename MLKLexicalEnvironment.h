@@ -33,7 +33,11 @@
   
 -(MLKLexicalEnvironment *) initWithParent:(MLKLexicalEnvironment *)aContext
                                 variables:(NSDictionary *)vars
-                                functions:(NSDictionary *)handlers;
+                                functions:(NSDictionary *)functions;
+
++(MLKLexicalEnvironment *) environmentWithParent:(MLKLexicalEnvironment *)context
+                                       variables:(NSDictionary *)vars
+                                       functions:(NSDictionary *)functions;
 
 +(MLKLexicalEnvironment *) globalEnvironment;
 

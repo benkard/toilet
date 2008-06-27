@@ -68,13 +68,22 @@ static MLKLexicalEnvironment *global_environment;
 
 -(MLKLexicalEnvironment *) initWithParent:(MLKLexicalEnvironment *)aContext
                                 variables:(NSDictionary *)vars
-                                functions:(NSDictionary *)handlers
+                                functions:(NSDictionary *)functions
 {
   self = [super init];
   ASSIGN (_parent, (aContext ? aContext : global_environment));
   _variables = MAKE_ENVIRONMENT(vars, _parent, _parent->_variables);
-  _functions = MAKE_ENVIRONMENT(handlers, _parent, _parent->_functions);
+  _functions = MAKE_ENVIRONMENT(functions, _parent, _parent->_functions);
   return self;
+}
+
++(MLKLexicalEnvironment *) environmentWithParent:(MLKLexicalEnvironment *)context
+                                       variables:(NSDictionary *)vars
+                                       functions:(NSDictionary *)functions
+{
+  return AUTORELEASE ([[self alloc] initWithParent:context
+                                    variables:vars
+                                    functions:functions]);
 }
 
 +(MLKLexicalEnvironment *) globalEnvironment
