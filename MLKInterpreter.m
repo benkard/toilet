@@ -68,6 +68,7 @@ static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
 static MLKSymbol *PROGV;
+static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_LAMBDA;
 
@@ -92,6 +93,7 @@ static MLKSymbol *_LAMBDA;
   QUOTE = [cl intern:@"QUOTE"];
   SETQ = [cl intern:@"SETQ"];
   PROGV = [cl intern:@"PROGV"];
+  VALUES = [cl intern:@"VALUES"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
 }
@@ -325,6 +327,22 @@ static MLKSymbol *_LAMBDA;
           else if (car == TAGBODY)
             {
               //FIXME: ...
+            }
+          else if (car == VALUES)
+            {
+              id results = [NSMutableArray array];
+              id rest = program;
+
+              while ((rest = [rest cdr]))
+                {
+                  [results addObject:
+                             [[self eval:[rest car]
+                                    inLexicalContext:context
+                                    withEnvironment:lexenv]
+                               objectAtIndex:0]];
+                }
+
+              return results;
             }
           else
             {
