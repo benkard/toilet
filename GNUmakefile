@@ -85,3 +85,9 @@ run-toilet: before-toilet ToiletKit toilet
 	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/toilet
 
 run: run-toilet
+
+debugging-run: before-toilet ToiletKit toilet
+	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib gdb -ex run obj/toilet
+
+ddd-run: before-toilet ToiletKit toilet
+	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib ddd obj/toilet
