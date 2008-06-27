@@ -127,9 +127,13 @@ static MLKSymbol *_LAMBDA;
                                     inLexicalContext:context
                                     withEnvironment:lexenv];
 
-              return [[[program cdr] car] applyToArray:(rest
-                                                        ? (id)[rest array]
-                                                        : (id)[NSArray array])];
+              id <MLKFuncallable> function = [self eval:[[program cdr] car]
+                                                   inLexicalContext:context
+                                                   withEnvironment:lexenv];
+
+              return [function applyToArray:(rest
+                                             ? (id)[rest array]
+                                             : (id)[NSArray array])];
             }
           else if (car == _DEFMACRO)
             {
@@ -163,11 +167,11 @@ static MLKSymbol *_LAMBDA;
               // would be a lambda list in a real LAMBDA form must be a
               // symbol here.
               id lambdaList = [[program cdr] car];
-              id body = [[[program cdr] cdr] cdr];
+              id body = [[program cdr] cdr];
               MLKInterpretedClosure *closure;
 
               closure = AUTORELEASE ([[MLKInterpretedClosure alloc]
-                                       initWithBodyForm:body
+                                       initWithBodyForms:body
                                        lambdaListName:lambdaList
                                        context:context
                                        environment:lexenv]);

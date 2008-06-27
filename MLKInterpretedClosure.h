@@ -33,10 +33,10 @@
   MLKLexicalEnvironment *environment;
 }
 
--(id) initWithBodyForm:(id)form
-        lambdaListName:(MLKSymbol *)symbol
-               context:(MLKLexicalContext *)lexctx
-           environment:(MLKLexicalEnvironment *)lexenv;
+-(id) initWithBodyForms:(id)forms
+         lambdaListName:(MLKSymbol *)symbol
+                context:(MLKLexicalContext *)lexctx
+            environment:(MLKLexicalEnvironment *)lexenv;
 
 -(NSArray *) applyToArray:(NSArray *)arguments;
 

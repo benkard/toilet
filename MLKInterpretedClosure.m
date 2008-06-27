@@ -19,20 +19,31 @@
 #import "MLKCons.h"
 #import "MLKInterpretedClosure.h"
 #import "MLKInterpreter.h"
+#import "MLKPackage.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 
 
+static MLKSymbol *PROGN;
+
+
 @implementation MLKInterpretedClosure
--(id) initWithBodyForm:(id)form
-        lambdaListName:(MLKSymbol *)symbol
-               context:(MLKLexicalContext *)lexctx
-           environment:(MLKLexicalEnvironment *)lexenv
++(void) initialize
+{
+  MLKPackage *cl;
+  cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  PROGN = [cl intern:@"PROGN"];
+}
+
+-(id) initWithBodyForms:(id)forms
+         lambdaListName:(MLKSymbol *)symbol
+                context:(MLKLexicalContext *)lexctx
+            environment:(MLKLexicalEnvironment *)lexenv
 {
   self = [super init];
-  ASSIGN (bodyForm, form);
+  ASSIGN (bodyForm, [MLKCons cons:PROGN with:forms]);
   ASSIGN (context, lexctx);
   ASSIGN (environment, lexenv);
   ASSIGN (lambdaListName, symbol);
