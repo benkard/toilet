@@ -33,8 +33,8 @@ ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBinding.m		\
                        MLKLexicalContext.m MLKLexicalEnvironment.m	\
                        MLKLispValue.m MLKPackage.m MLKParenReader.m	\
                        MLKRatio.m MLKReader.m MLKReadtable.m		\
-                       MLKReaderError.m MLKSingleFloat.m MLKStream.m	\
-                       MLKStringInputStream.m MLKSymbol.m		\
+                       MLKReaderError.m MLKRoot.m MLKSingleFloat.m	\
+                       MLKStream.m MLKStringInputStream.m MLKSymbol.m	\
                        MLKThrowException.m NSObject-MLKPrinting.m	\
                        NSString-MLKPrinting.m
 ToiletKit_LDFLAGS = -lgmp

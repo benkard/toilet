@@ -25,6 +25,7 @@
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 #import "MLKPackage.h"
+#import "MLKRoot.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
 
@@ -376,10 +377,33 @@ static MLKSymbol *_LAMBDA;
                 }
               else
                 {
-                  [NSException raise:@"MLKNoSuchOperatorException"
-                               format:@"%@ does not name a known operator.",
-                                      [car descriptionForLisp]];
-                  return nil;
+                  NSMutableArray *args = [NSMutableArray array];
+                  MLKCons *rest = [program cdr];
+                  NSArray *results;
+
+                  while (rest)
+                    {
+                      id result = [[self eval:[rest car]
+                                         inLexicalContext:context
+                                         withEnvironment:lexenv]
+                                    objectAtIndex:0];
+                      [args addObject:result];
+                      rest = [rest cdr];
+                    }
+
+                  results = [MLKRoot dispatch:car withArguments:args];
+
+                  if (results)
+                    {
+                      return results;
+                    }
+                  else
+                    {
+                      [NSException raise:@"MLKNoSuchOperatorException"
+                                   format:@"%@ does not name a known operator.",
+                                          [car descriptionForLisp]];
+                      return nil;
+                    }
                 }
             }
         }
