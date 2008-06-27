@@ -368,9 +368,12 @@ static MLKSymbol *_LAMBDA;
               else if ([context symbolNamesMacro:car])
                 {
                   id macrofun = [context macroForSymbol:car];
-                  id expansion = [macrofun applyToArray:
-                                             [NSArray arrayWithObjects:
-                                                        program, context, nil]];
+                  id expansion = denullify([[macrofun
+                                              applyToArray:
+                                                [NSArray arrayWithObjects:
+                                                           program, context, nil]]
+                                             objectAtIndex:0]);
+;
                   return [self eval:expansion
                                inLexicalContext:context
                                withEnvironment:lexenv];

@@ -43,7 +43,9 @@
                             ? (id) parent_member                        \
                             : nil)                                      \
                     values:variable]                                    \
-   : (id) (parent ? (id) RETAIN (parent_member) : nil));
+   : (id) (parent                                                       \
+           ? (id) RETAIN (parent_member)                                \
+           : [[MLKEnvironment alloc] init]));
 
 
 static MLKDynamicContext *global_context;

@@ -44,7 +44,9 @@
                             ? (id) parent_member                        \
                             : nil)                                      \
                     values:variable]                                    \
-   : (id) (parent ? (id) RETAIN (parent_member) : nil));
+   : (id) (parent                                                       \
+           ? (id) RETAIN (parent_member)                                \
+           : [[MLKEnvironment alloc] init]));
 
 
 static MLKLexicalContext *global_context;
@@ -92,10 +94,10 @@ static MLKSymbol *LEXICAL;
 
   _goTags = MAKE_ENVIRONMENT (goTags, _parent, _parent->_goTags);
   _macros = MAKE_ENVIRONMENT (macros, _parent, _parent->_macros);
-  _symbolMacros = MAKE_ENVIRONMENT (macros, _parent, _parent->_symbolMacros);
+  _symbolMacros = MAKE_ENVIRONMENT (symbolMacros, _parent, _parent->_symbolMacros);
 
-  ASSIGN (_knownMacros, [macros allKeys]);
-  ASSIGN (_knownSymbolMacros, [symbolMacros allKeys]);
+  ASSIGN (_knownMacros, [NSMutableSet setWithArray:[macros allKeys]]);
+  ASSIGN (_knownSymbolMacros, [NSMutableSet setWithArray:[symbolMacros allKeys]]);
 
   ASSIGN (_declarations, declarations);
   return self;  
@@ -124,24 +126,31 @@ static MLKSymbol *LEXICAL;
   return global_context;
 }
 
--(id) macroForSymbol:(MLKSymbol *)symbol
+-(id <MLKFuncallable>) macroForSymbol:(MLKSymbol *)symbol
 {
   return [_macros valueForSymbol:symbol];
 }
 
 -(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
-  [_symbolMacros addValue:value forSymbol:symbol];
+  [_knownMacros addObject:symbol];
+  [_macros addValue:value forSymbol:symbol];
 }
 
 -(void) setMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
-  [_symbolMacros setValue:value forSymbol:symbol];
+  [_macros setValue:value forSymbol:symbol];
 }
 
--(id) symbolMacroForSymbol:(MLKSymbol *)symbol
+-(id <MLKFuncallable>) symbolMacroForSymbol:(MLKSymbol *)symbol
 {
   return [_symbolMacros valueForSymbol:symbol];
+}
+
+-(void) addSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
+{
+  [_knownSymbolMacros addObject:symbol];
+  [_symbolMacros addValue:value forSymbol:symbol];
 }
 
 -(void) setSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol

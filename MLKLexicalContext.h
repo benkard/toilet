@@ -19,6 +19,7 @@
 #import "MLKFuncallable.h"
 #import "MLKLispValue.h"
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSSet.h>
 
 @class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSLinkedList, NSSet,
@@ -27,8 +28,8 @@
 
 @interface MLKLexicalContext : MLKLispValue
 {
-  NSArray *_knownMacros;
-  NSArray *_knownSymbolMacros;
+  NSMutableSet *_knownMacros;
+  NSMutableSet *_knownSymbolMacros;
   MLKEnvironment *_macros;
   MLKEnvironment *_symbolMacros;
   MLKEnvironment *_goTags;
@@ -62,12 +63,13 @@
 -(BOOL) symbolNamesMacro:(MLKSymbol *)symbol;
 -(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol;
 
--(id) macroForSymbol:(MLKSymbol *)symbol;
+-(id <MLKFuncallable>) macroForSymbol:(MLKSymbol *)symbol;
 -(void) setMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;
 -(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
 
--(id) symbolMacroForSymbol:(MLKSymbol *)symbol;
+-(id <MLKFuncallable>) symbolMacroForSymbol:(MLKSymbol *)symbol;
 -(void) setSymbolMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;
+-(void) addSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
 
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
 
