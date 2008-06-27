@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
 
 @class MLKLexicalContext, MLKLexicalEnvironment;
@@ -24,7 +25,7 @@
 @interface MLKInterpreter : NSObject
 +(void) initialize;
   
-+(id) eval:(id)program
-      inLexicalContext:(MLKLexicalContext *)context
-      withEnvironment:(MLKLexicalEnvironment *)lexenv;
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv;
 @end

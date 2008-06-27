@@ -34,6 +34,23 @@
 #import <Foundation/NSString.h>
 
 
+static id nullify (id value)
+{
+  if (value)
+    return value;
+  else
+    return [NSNull null];
+}
+
+static id denullify (id value)
+{
+  if (value == [NSNull null])
+    return nil;
+  else
+    return value;
+}
+
+
 static MLKPackage *cl;
 static MLKPackage *sys;
 static MLKSymbol *IF;
@@ -80,9 +97,9 @@ static MLKSymbol *_LAMBDA;
 }
 
 
-+(id) eval:(id)program
-      inLexicalContext:(MLKLexicalContext *)context
-      withEnvironment:(MLKLexicalEnvironment *)lexenv
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
@@ -102,18 +119,18 @@ static MLKSymbol *_LAMBDA;
       else if ([context variableIsLexical:program])
         {
           //NSLog (@"Processing lexical variable.");
-          return [lexenv valueForSymbol:program];
+          return [NSArray arrayWithObject:nullify([lexenv valueForSymbol:program])];
         }
       else
         {
           //NSLog (@"Processing special variable.");
-          return [dynamicContext valueForSymbol:program];
+          return [NSArray arrayWithObject:nullify([dynamicContext valueForSymbol:program])];
         }
     }
   else if (![program isKindOfClass:[MLKCons class]])
     {
       // Everything that is not a list or a symbol evaluates to itself.
-      return program;
+      return [NSArray arrayWithObject:nullify(program)];
     }
   else
     {
@@ -123,13 +140,15 @@ static MLKSymbol *_LAMBDA;
         {
           if (car == APPLY)
             {
-              MLKCons *rest = [self eval:[[[program cdr] cdr] car]
-                                    inLexicalContext:context
-                                    withEnvironment:lexenv];
+              MLKCons *rest = denullify([[self eval:[[[program cdr] cdr] car]
+                                               inLexicalContext:context
+                                               withEnvironment:lexenv]
+                                          objectAtIndex:0]);
 
-              id <MLKFuncallable> function = [self eval:[[program cdr] car]
-                                                   inLexicalContext:context
-                                                   withEnvironment:lexenv];
+              id <MLKFuncallable> function = denullify([[self eval:[[program cdr] car]
+                                                              inLexicalContext:context
+                                                              withEnvironment:lexenv]
+                                                         objectAtIndex:0]);
 
               return [function applyToArray:(rest
                                              ? (id)[rest array]
@@ -144,19 +163,21 @@ static MLKSymbol *_LAMBDA;
 
               id <MLKFuncallable> function;
 
-              function = [self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
-                               inLexicalContext:context
-                               withEnvironment:lexenv];
+              function = denullify([[self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
+                                          inLexicalContext:context
+                                          withEnvironment:lexenv]
+                                     objectAtIndex:0]);
 
               [context addMacro:function forSymbol:name];
 
-              return name;
+              return [NSArray arrayWithObject:nullify(name)];
             }
           else if (car == EVAL)
             {
-              return [self eval:[self eval:[program cdr]
-                                      inLexicalContext:context
-                                      withEnvironment:lexenv]
+              return [self eval:denullify([[self eval:[program cdr]
+                                                 inLexicalContext:context
+                                                 withEnvironment:lexenv]
+                                            objectAtIndex:0])
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
@@ -175,14 +196,14 @@ static MLKSymbol *_LAMBDA;
                                        lambdaListName:lambdaList
                                        context:context
                                        environment:lexenv]);
-              return closure;
+              return [NSArray arrayWithObject:nullify(closure)];
             }
           else if (car == LET)
             {
               id declarations;
               id clauses;
               id body;
-              id result;
+              NSArray *result;
               MLKLexicalContext *ctx;
               MLKLexicalEnvironment *env;
               MLKDynamicContext *dynctx;
@@ -240,9 +261,10 @@ static MLKSymbol *_LAMBDA;
                   else
                     {
                       variable = [clause car];
-                      value = [self eval:[[clause cdr] car]
-                                    inLexicalContext:context
-                                    withEnvironment:lexenv];
+                      value = denullify([[self eval:[[clause cdr] car]
+                                               inLexicalContext:context
+                                               withEnvironment:lexenv]
+                                          objectAtIndex:0]);
                     }
 
                   if ([ctx variableIsLexical:variable])
@@ -293,7 +315,7 @@ static MLKSymbol *_LAMBDA;
             }
           else if (car == QUOTE)
             {
-              return [[program cdr] car];
+              return [NSArray arrayWithObject:nullify([[program cdr] car])];
             }
           else if (car == SETQ)
             {
@@ -314,10 +336,11 @@ static MLKSymbol *_LAMBDA;
                   
                   while (rest)
                     {
-                      id result = [self eval:[rest car]
-                                        inLexicalContext:context
-                                        withEnvironment:lexenv];
-                      [args addObject:(result ? (id)result : (id)[NSNull null])];
+                      id result = [[self eval:[rest car]
+                                         inLexicalContext:context
+                                         withEnvironment:lexenv]
+                                    objectAtIndex:0];
+                      [args addObject:result];
                       rest = [rest cdr];
                     }
                   
@@ -338,6 +361,7 @@ static MLKSymbol *_LAMBDA;
                   [NSException raise:@"MLKNoSuchOperatorException"
                                format:@"%@ does not name a known operator.",
                                       [car descriptionForLisp]];
+                  return nil;
                 }
             }
         }

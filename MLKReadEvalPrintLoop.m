@@ -27,6 +27,7 @@
 
 #import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSException.h>
+#import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
 #import <editline/history.h>
@@ -87,7 +88,7 @@ static const char *prompt (EditLine *e) {
       if (line_length > 1)
         {
           NSAutoreleasePool *pool;
-          id result;
+          NSArray *results;
           id code;
 
           pool = [[NSAutoreleasePool alloc] init];
@@ -96,18 +97,25 @@ static const char *prompt (EditLine *e) {
 
           NS_DURING
             {
+              int i;
+
               code = [MLKReader readFromString:[NSString stringWithUTF8String:line]];
 
-              result = [MLKInterpreter eval:code
-                                       inLexicalContext:[MLKLexicalContext
-                                                          globalContext]
-                                       withEnvironment:[MLKLexicalEnvironment
-                                                         globalEnvironment]];
-              
-              if (result)
-                printf ("%s\n", [[result descriptionForLisp] UTF8String]);
-              else
-                printf ("()\n");
+              results = [MLKInterpreter eval:code
+                                        inLexicalContext:[MLKLexicalContext
+                                                           globalContext]
+                                        withEnvironment:[MLKLexicalEnvironment
+                                                          globalEnvironment]];
+
+              for (i = 0; i < [results count]; i++)
+                {
+                  id result = [results objectAtIndex:i];
+                  if (result != [NSNull null])
+                    printf ("%s\n", [[result descriptionForLisp] UTF8String]);
+                  else
+                    printf ("()\n");
+                }
+
             }
           NS_HANDLER
             {
