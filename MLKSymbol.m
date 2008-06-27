@@ -69,12 +69,12 @@
   // NOTE: Need to take *PRINT-GENSYM* into account.
   //
   // FIXME: This is wrong in more than one way.
-  return [NSString stringWithFormat:@"|%@::%@|", [homePackage name], name];
+  return [NSString stringWithFormat:@"|%@|::|%@|", [homePackage name], name];
 }
 
 -(NSString *) description
 {
-  return [NSString stringWithFormat:@"|%@::%@|", [homePackage name], name];
+  return [NSString stringWithFormat:@"|%@|::|%@|", [homePackage name], name];
 }
 
 -(BOOL) isEqual:(id)object
