@@ -29,8 +29,10 @@
 @interface MLKLexicalContext : MLKLispValue
 {
   NSMutableSet *_knownMacros;
+  NSMutableSet *_knownCompilerMacros;
   NSMutableSet *_knownSymbolMacros;
   MLKEnvironment *_macros;
+  MLKEnvironment *_compilerMacros;
   MLKEnvironment *_symbolMacros;
   MLKEnvironment *_goTags;
   NSMutableSet *_functions;
@@ -46,6 +48,7 @@
                             functions:(NSSet *)functions
                                goTags:(NSDictionary *)goTags
                                macros:(NSDictionary *)macros
+                       compilerMacros:(NSDictionary *)compilerMacros
                          symbolMacros:(NSDictionary *)symbolMacros
                          declarations:(id)declarations;
 
@@ -54,6 +57,7 @@
                                functions:(NSSet *)functions
                                   goTags:(NSDictionary *)goTags
                                   macros:(NSDictionary *)macros
+                          compilerMacros:(NSDictionary *)compilerMacros
                             symbolMacros:(NSDictionary *)symbolMacros
                             declarations:(id)declarations;
 
@@ -66,6 +70,10 @@
 -(id <MLKFuncallable>) macroForSymbol:(MLKSymbol *)symbol;
 -(void) setMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;
 -(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
+
+-(id <MLKFuncallable>) compilerMacroForSymbol:(MLKSymbol *)symbol;
+-(void) setCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
+-(void) addCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol;
 
 -(id <MLKFuncallable>) symbolMacroForSymbol:(MLKSymbol *)symbol;
 -(void) setSymbolMacro:(id <MLKFuncallable>)function forSymbol:(MLKSymbol *)symbol;

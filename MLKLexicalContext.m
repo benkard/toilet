@@ -70,6 +70,7 @@ static MLKSymbol *LEXICAL;
                                  functions:[globalenv functions]
                                  goTags:nil
                                  macros:nil
+                                 compilerMacros:nil
                                  symbolMacros:nil
                                  declarations:nil];
 
@@ -82,6 +83,7 @@ static MLKSymbol *LEXICAL;
                             functions:(NSSet *)functions
                                goTags:(NSDictionary *)goTags
                                macros:(NSDictionary *)macros
+                       compilerMacros:(NSDictionary *)compilerMacros
                          symbolMacros:(NSDictionary *)symbolMacros
                          declarations:(id)declarations
 {
@@ -94,6 +96,7 @@ static MLKSymbol *LEXICAL;
 
   _goTags = MAKE_ENVIRONMENT (goTags, _parent, _parent->_goTags);
   _macros = MAKE_ENVIRONMENT (macros, _parent, _parent->_macros);
+  _compilerMacros = MAKE_ENVIRONMENT (compilerMacros, _parent, _parent->_compilerMacros);
   _symbolMacros = MAKE_ENVIRONMENT (symbolMacros, _parent, _parent->_symbolMacros);
 
   ASSIGN (_knownMacros, [NSMutableSet setWithArray:[macros allKeys]]);
@@ -108,6 +111,7 @@ static MLKSymbol *LEXICAL;
                                functions:(NSSet *)functions
                                   goTags:(NSDictionary *)goTags
                                   macros:(NSDictionary *)macros
+                          compilerMacros:(NSDictionary *)compilerMacros
                             symbolMacros:(NSDictionary *)symbolMacros
                             declarations:(id)declarations
 {
@@ -117,6 +121,7 @@ static MLKSymbol *LEXICAL;
                         functions:functions
                         goTags:goTags
                         macros:macros
+                        compilerMacros:compilerMacros
                         symbolMacros:symbolMacros
                         declarations:declarations]);
 }
@@ -140,6 +145,22 @@ static MLKSymbol *LEXICAL;
 -(void) setMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
   [_macros setValue:value forSymbol:symbol];
+}
+
+-(id <MLKFuncallable>) compilerMacroForSymbol:(MLKSymbol *)symbol
+{
+  return [_compilerMacros valueForSymbol:symbol];
+}
+
+-(void) addCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
+{
+  [_knownCompilerMacros addObject:symbol];
+  [_compilerMacros addValue:value forSymbol:symbol];
+}
+
+-(void) setCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
+{
+  [_compilerMacros setValue:value forSymbol:symbol];
 }
 
 -(id <MLKFuncallable>) symbolMacroForSymbol:(MLKSymbol *)symbol
@@ -247,9 +268,11 @@ static MLKSymbol *LEXICAL;
 -(void) dealloc
 {
   RELEASE (_macros);
-  RELEASE (_knownMacros);
-  RELEASE (_knownSymbolMacros);
+  RELEASE (_compilerMacros);
   RELEASE (_symbolMacros);
+  RELEASE (_knownMacros);
+  RELEASE (_knownCompilerMacros);
+  RELEASE (_knownSymbolMacros);
   RELEASE (_goTags);
   RELEASE (_functions);
   RELEASE (_variables);

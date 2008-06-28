@@ -234,6 +234,7 @@ static MLKSymbol *_LAMBDA;
                                    functions:nil
                                    goTags:nil
                                    macros:nil
+                                   compilerMacros:nil
                                    symbolMacros:nil
                                    declarations:declarations]);
 
@@ -373,7 +374,7 @@ static MLKSymbol *_LAMBDA;
                                                 [NSArray arrayWithObjects:
                                                            program, context, nil]]
                                              objectAtIndex:0]);
-;
+
                   return [self eval:expansion
                                inLexicalContext:context
                                withEnvironment:lexenv];

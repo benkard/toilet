@@ -66,6 +66,7 @@ static MLKSymbol *PROGN;
                        functions:nil
                        goTags:nil
                        macros:nil
+                       compilerMacros:nil
                        symbolMacros:nil
                        declarations:nil];
 
