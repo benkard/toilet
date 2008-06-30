@@ -138,6 +138,13 @@ static MLKSymbol *LEXICAL;
 
 -(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _macros == _parent->_macros)
+    _macros = [[MLKEnvironment alloc] initWithParent:_parent->_macros
+                                      values:nil];
+  else if (!_macros)
+    _macros = [[MLKEnvironment alloc] initWithParent:nil
+                                      values:nil];
+
   [_knownMacros addObject:symbol];
   [_macros addValue:value forSymbol:symbol];
 }
@@ -154,6 +161,13 @@ static MLKSymbol *LEXICAL;
 
 -(void) addCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _compilerMacros == _parent->_compilerMacros)
+    _compilerMacros = [[MLKEnvironment alloc] initWithParent:_parent->_compilerMacros
+                                              values:nil];
+  else if (!_compilerMacros)
+    _compilerMacros = [[MLKEnvironment alloc] initWithParent:nil
+                                              values:nil];
+
   [_knownCompilerMacros addObject:symbol];
   [_compilerMacros addValue:value forSymbol:symbol];
 }
@@ -170,6 +184,13 @@ static MLKSymbol *LEXICAL;
 
 -(void) addSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _symbolMacros == _parent->_symbolMacros)
+    _symbolMacros = [[MLKEnvironment alloc] initWithParent:_parent->_symbolMacros
+                                            values:nil];
+  else if (!_symbolMacros)
+    _symbolMacros = [[MLKEnvironment alloc] initWithParent:nil
+                                            values:nil];
+
   [_knownSymbolMacros addObject:symbol];
   [_symbolMacros addValue:value forSymbol:symbol];
 }
@@ -221,36 +242,48 @@ static MLKSymbol *LEXICAL;
 {
   id rest;
 
-  rest = _declarations;
-  while (rest)
-    {
-      id item = [rest car];
-      if ([item isKindOfClass:[MLKCons class]] && [[item cdr] car] == symbol)
-        {
-          if ([item car] == LEXICAL)
-            return YES;
-          else if ([item car] == SPECIAL)
-            return NO;
-        }
-      rest = [rest cdr];
-    }
+  symbol = symbol ? (id)symbol : (id)[NSNull null];
 
-  // Has the variable been globally proclaimed special?
-  rest = [MLKLexicalContext globalContext]->_declarations;
-  while (rest)
+  if ([_variables containsObject:symbol])
     {
-      id item = [rest car];
-      if ([[item cdr] car] == symbol)
+      // The variable was introduced in this lexical context.
+      rest = _declarations;
+      while (rest)
         {
-          if ([item car] == LEXICAL)
-            return YES;
-          else if ([item car] == SPECIAL)
-            return NO;
+          id item = [rest car];
+          if ([item isKindOfClass:[MLKCons class]] && [[item cdr] car] == symbol)
+            {
+              if ([item car] == LEXICAL)
+                return YES;
+              else if ([item car] == SPECIAL)
+                return NO;
+            }
+          rest = [rest cdr];
         }
-      rest = [rest cdr];
-    }
 
-  return YES;
+      // Has the variable been globally proclaimed special?
+      rest = [MLKLexicalContext globalContext]->_declarations;
+      while (rest)
+        {
+          id item = [rest car];
+          if ([[item cdr] car] == symbol)
+            {
+              if ([item car] == LEXICAL)
+                return YES;
+              else if ([item car] == SPECIAL)
+                return NO;
+            }
+          rest = [rest cdr];
+        }
+
+      // The variable is apparently neither locally nor pervasively
+      // special.
+      return YES;
+    }
+  // We don't know anything about a variable of the given name.  Ask the
+  // parent environment.  If there is no parent, nobody seems to know
+  // anything about the variable, so we assume it's a special one.
+  else return (_parent && [_parent variableIsLexical:symbol]);
 }
 
 -(void) addVariable:(MLKSymbol *)symbol

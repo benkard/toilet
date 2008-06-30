@@ -121,12 +121,16 @@ static MLKSymbol *_LAMBDA;
         }
       else if ([context variableIsLexical:program])
         {
-          //NSLog (@"Processing lexical variable.");
+          //NSLog (@"Processing lexical variable %@.", [program descriptionForLisp]);
+          //NSLog (@"Lexical environment: %@.", lexenv);
+          //NSLog (@"Lexical variable value: %@.", [lexenv valueForSymbol:program]);
           return [NSArray arrayWithObject:nullify([lexenv valueForSymbol:program])];
         }
       else
         {
-          //NSLog (@"Processing special variable.");
+          //NSLog (@"Processing special variable %@.", [program descriptionForLisp]);
+          //NSLog (@"Dynamic context: %@.", dynamicContext);
+          //NSLog (@"Special variable value: %@.", [dynamicContext valueForSymbol:program]);
           return [NSArray arrayWithObject:nullify([dynamicContext valueForSymbol:program])];
         }
     }
@@ -271,9 +275,9 @@ static MLKSymbol *_LAMBDA;
                                           objectAtIndex:0]);
                     }
 
+                  [ctx addVariable:variable];
                   if ([ctx variableIsLexical:variable])
                     {
-                      [ctx addVariable:variable];
                       [env addValue:value forSymbol:variable];
                     }
                   else
@@ -289,8 +293,8 @@ static MLKSymbol *_LAMBDA;
               NS_DURING
                 {
                   result = [self eval:[MLKCons cons:PROGN with:body]
-                                 inLexicalContext:context
-                                 withEnvironment:lexenv];
+                                 inLexicalContext:ctx
+                                 withEnvironment:env];
                 }
               NS_HANDLER
                 {

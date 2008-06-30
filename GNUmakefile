@@ -17,6 +17,8 @@
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
+default: ToiletKit toilet
+
 #all:: ToiletKit etshell Test
 
 TOOL_NAME = etshell toilet
@@ -65,12 +67,14 @@ include $(GNUSTEP_MAKEFILES)/tool.make
 
 before-all:: before-etshell before-toilet
 
-before-toilet::
+before-toilet:: ToiletKit
 	rm -f obj/toilet
 
-before-etshell::
+before-etshell:: ToiletKit
 	rm -f obj/etshell
 	mkdir -p $(GNUSTEP_OBJ_DIR)/StepTalkShell
+
+before-Test:: ToiletKit
 
 #after-clean::
 #	-rmdir $(GNUSTEP_OBJ_DIR)/StepTalkShell

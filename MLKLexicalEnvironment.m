@@ -115,11 +115,25 @@ static MLKLexicalEnvironment *global_environment;
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _variables == _parent->_variables)
+    _variables = [[MLKEnvironment alloc] initWithParent:_parent->_variables
+                                         values:nil];
+  else if (!_variables)
+    _variables = [[MLKEnvironment alloc] initWithParent:nil
+                                         values:nil];
+
   [_variables addValue:value forSymbol:symbol];
 }
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _variables == _parent->_variables)
+    _variables = [[MLKEnvironment alloc] initWithParent:_parent->_variables
+                                         values:nil];
+  else if (!_variables)
+    _variables = [[MLKEnvironment alloc] initWithParent:nil
+                                         values:nil];
+
   [_variables addBindingForSymbol:symbol];
 }
 
@@ -145,6 +159,13 @@ static MLKLexicalEnvironment *global_environment;
 
 -(void) addFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _functions == _parent->_functions)
+    _functions = [[MLKEnvironment alloc] initWithParent:_parent->_functions
+                                         values:nil];
+  else if (!_functions)
+    _functions = [[MLKEnvironment alloc] initWithParent:nil
+                                         values:nil];
+
   [_functions addValue:value forSymbol:symbol];
 }
 

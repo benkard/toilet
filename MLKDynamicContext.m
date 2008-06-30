@@ -373,11 +373,25 @@ static MLKDynamicContext *global_context;
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _environment == _parent->_environment)
+    _environment = [[MLKEnvironment alloc] initWithParent:_parent->_environment
+                                           values:nil];
+  else if (!_environment)
+    _environment = [[MLKEnvironment alloc] initWithParent:nil
+                                           values:nil];
+
   [[self environment] addValue:value forSymbol:symbol];
 }
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
+  if (_parent && _environment == _parent->_environment)
+    _environment = [[MLKEnvironment alloc] initWithParent:_parent->_environment
+                                           values:nil];
+  else if (!_environment)
+    _environment = [[MLKEnvironment alloc] initWithParent:nil
+                                           values:nil];
+
   [[self environment] addBindingForSymbol:symbol];
 }
 
