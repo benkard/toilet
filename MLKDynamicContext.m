@@ -37,15 +37,11 @@
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
-  (variable                                                             \
-   ? (id) [[MLKEnvironment alloc]                                       \
-            initWithParent:(parent                                      \
-                            ? (id) parent_member                        \
-                            : nil)                                      \
-                    values:variable]                                    \
-   : (id) (parent                                                       \
-           ? (id) RETAIN (parent_member)                                \
-           : [[MLKEnvironment alloc] init]));
+  [[MLKEnvironment alloc]                                               \
+    initWithParent:(parent                                              \
+                    ? (id) parent_member                                \
+                    : nil)                                              \
+    values:variable]
 
 
 static MLKDynamicContext *global_context;
@@ -373,25 +369,11 @@ static MLKDynamicContext *global_context;
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _environment == _parent->_environment)
-    _environment = [[MLKEnvironment alloc] initWithParent:_parent->_environment
-                                           values:nil];
-  else if (!_environment)
-    _environment = [[MLKEnvironment alloc] initWithParent:nil
-                                           values:nil];
-
   [[self environment] addValue:value forSymbol:symbol];
 }
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _environment == _parent->_environment)
-    _environment = [[MLKEnvironment alloc] initWithParent:_parent->_environment
-                                           values:nil];
-  else if (!_environment)
-    _environment = [[MLKEnvironment alloc] initWithParent:nil
-                                           values:nil];
-
   [[self environment] addBindingForSymbol:symbol];
 }
 

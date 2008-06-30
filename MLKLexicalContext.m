@@ -38,15 +38,11 @@
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
-  (variable                                                             \
-   ? (id) [[MLKEnvironment alloc]                                       \
-            initWithParent:(parent                                      \
-                            ? (id) parent_member                        \
-                            : nil)                                      \
-                    values:variable]                                    \
-   : (id) (parent                                                       \
-           ? (id) RETAIN (parent_member)                                \
-           : [[MLKEnvironment alloc] init]));
+  [[MLKEnvironment alloc]                                               \
+    initWithParent:(parent                                              \
+                    ? (id) parent_member                                \
+                    : nil)                                              \
+    values:variable]
 
 
 static MLKLexicalContext *global_context;
@@ -138,13 +134,6 @@ static MLKSymbol *LEXICAL;
 
 -(void) addMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _macros == _parent->_macros)
-    _macros = [[MLKEnvironment alloc] initWithParent:_parent->_macros
-                                      values:nil];
-  else if (!_macros)
-    _macros = [[MLKEnvironment alloc] initWithParent:nil
-                                      values:nil];
-
   [_knownMacros addObject:symbol];
   [_macros addValue:value forSymbol:symbol];
 }
@@ -161,13 +150,6 @@ static MLKSymbol *LEXICAL;
 
 -(void) addCompilerMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _compilerMacros == _parent->_compilerMacros)
-    _compilerMacros = [[MLKEnvironment alloc] initWithParent:_parent->_compilerMacros
-                                              values:nil];
-  else if (!_compilerMacros)
-    _compilerMacros = [[MLKEnvironment alloc] initWithParent:nil
-                                              values:nil];
-
   [_knownCompilerMacros addObject:symbol];
   [_compilerMacros addValue:value forSymbol:symbol];
 }
@@ -184,13 +166,6 @@ static MLKSymbol *LEXICAL;
 
 -(void) addSymbolMacro:(id <MLKFuncallable>)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _symbolMacros == _parent->_symbolMacros)
-    _symbolMacros = [[MLKEnvironment alloc] initWithParent:_parent->_symbolMacros
-                                            values:nil];
-  else if (!_symbolMacros)
-    _symbolMacros = [[MLKEnvironment alloc] initWithParent:nil
-                                            values:nil];
-
   [_knownSymbolMacros addObject:symbol];
   [_symbolMacros addValue:value forSymbol:symbol];
 }

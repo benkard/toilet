@@ -37,15 +37,11 @@
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
-  (variable                                                             \
-   ? (id) [[MLKEnvironment alloc]                                       \
-            initWithParent:(parent                                      \
-                            ? (id) parent_member                        \
-                            : nil)                                      \
-                    values:variable]                                    \
-   : (id) (parent                                                       \
-           ? (id) RETAIN (parent_member)                                \
-           : [[MLKEnvironment alloc] init]));
+  [[MLKEnvironment alloc]                                               \
+    initWithParent:(parent                                              \
+                    ? (id) parent_member                                \
+                    : nil)                                              \
+    values:variable]
 
 
 static MLKLexicalEnvironment *global_environment;
@@ -115,25 +111,11 @@ static MLKLexicalEnvironment *global_environment;
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _variables == _parent->_variables)
-    _variables = [[MLKEnvironment alloc] initWithParent:_parent->_variables
-                                         values:nil];
-  else if (!_variables)
-    _variables = [[MLKEnvironment alloc] initWithParent:nil
-                                         values:nil];
-
   [_variables addValue:value forSymbol:symbol];
 }
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _variables == _parent->_variables)
-    _variables = [[MLKEnvironment alloc] initWithParent:_parent->_variables
-                                         values:nil];
-  else if (!_variables)
-    _variables = [[MLKEnvironment alloc] initWithParent:nil
-                                         values:nil];
-
   [_variables addBindingForSymbol:symbol];
 }
 
@@ -159,13 +141,6 @@ static MLKLexicalEnvironment *global_environment;
 
 -(void) addFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  if (_parent && _functions == _parent->_functions)
-    _functions = [[MLKEnvironment alloc] initWithParent:_parent->_functions
-                                         values:nil];
-  else if (!_functions)
-    _functions = [[MLKEnvironment alloc] initWithParent:nil
-                                         values:nil];
-
   [_functions addValue:value forSymbol:symbol];
 }
 
