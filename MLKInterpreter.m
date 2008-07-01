@@ -25,6 +25,7 @@
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 #import "MLKPackage.h"
+#import "MLKReader.h"
 #import "MLKRoot.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
@@ -422,5 +423,42 @@ static MLKSymbol *_LAMBDA;
                        withEnvironment:lexenv];
         }
     }
+}
+
+
++(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print
+{
+  id eofValue = [[NSObject alloc] init];
+
+  while (YES)
+    {
+      id result;
+      id code = [MLKReader readFromStream:stream
+                           eofError:NO
+                           eofValue:eofValue
+                           recursive:NO
+                           preserveWhitespace:NO];
+
+      //NSLog (@"%@", code);
+      //NSLog (@"%@", stream);
+      //NSLog (@"...");
+
+      if (code == eofValue)
+        break;
+
+      NSLog (@"; LOAD: Evaluating a top-level form.");
+      result = [MLKInterpreter
+                 eval:code
+                 inLexicalContext:[MLKLexicalContext globalContext]
+                 withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+
+      if (print)
+        {
+          //FIXME
+          NSLog (@"; LOAD: Fnord.  Primary value: %@", result);
+        }
+    }
+
+  return YES;
 }
 @end

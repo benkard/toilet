@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKStream.h"
+
 #import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
 
@@ -28,4 +30,6 @@
 +(NSArray*) eval:(id)program
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv;
+
++(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
 @end

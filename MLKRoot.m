@@ -17,8 +17,10 @@
  */
 
 #import "MLKCons.h"
+#import "MLKInterpreter.h"
 #import "MLKPackage.h"
 #import "MLKRoot.h"
+#import "MLKStream.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
 
@@ -27,6 +29,7 @@
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSMethodSignature.h>
 #import <Foundation/NSNull.h>
+#import <Foundation/NSStream.h>
 #import <Foundation/NSString.h>
 
 
@@ -49,6 +52,7 @@ static id denullify (id value)
 
 static NSMethodSignature *signature;
 static MLKPackage *sys;
+static MLKPackage *cl;
 
 
 @implementation MLKRoot
@@ -56,6 +60,7 @@ static MLKPackage *sys;
 {
   signature = RETAIN ([self methodSignatureForSelector:@selector(car:)]);
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+  cl = [MLKPackage findPackage:@"COMMON-LISP"];
 }
 
 +(NSArray *) dispatch:(MLKSymbol *)name withArguments:(NSArray *)args
@@ -127,5 +132,27 @@ static MLKPackage *sys;
   return [NSArray arrayWithObject:
                     [MLKCons cons:denullify([args objectAtIndex:0])
                              with:denullify([args objectAtIndex:1])]];
+}
+
++(NSArray *) load:(NSArray *)args
+{
+  // FIXME
+  BOOL success;
+  NSString *fileName = denullify ([args objectAtIndex:0]);
+  NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
+  MLKStream *stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+
+  //NSLog (@"%d", [input hasBytesAvailable]);
+  [input open];
+  //NSLog (@"%d", [input hasBytesAvailable]);
+
+  success = [MLKInterpreter load:stream verbose:YES print:YES];
+
+  [input close];
+
+  if (success)
+    return [NSArray arrayWithObject:[cl intern:@"T"]];
+  else
+    return [NSArray arrayWithObject:[NSNull null]];
 }
 @end

@@ -67,7 +67,7 @@
     }
 
   ch = [stream readChar];
-  if ([readtable isWhitespaceCharacter:ch])
+  if ([readtable isWhitespaceCharacter:ch] || ch == '\0')
     goto start;
   
   if ([readtable isMacroCharacter:ch])
@@ -115,7 +115,7 @@
 
   if ([readtable isConstituentCharacter:ch])
     {
-      //NSLog (@"--> Constituent");
+      //NSLog (@"--> Constituent (%C)", ch);
       token = [NSMutableString stringWithCapacity:8];
       [token appendFormat:@"%C", [readtable charWithReadtableCase:ch]];
     }

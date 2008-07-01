@@ -81,14 +81,15 @@
       NSString *tmpstr;
       ssize_t bytes_read;
 
-      buffer = realloc (buffer, i+1);
-      bytes_read = [_input read:(buffer+i) maxLength:1];
-      // NSLog (@"%d bytes read", bytes_read);
-      if (!bytes_read)
+      if (![_input hasBytesAvailable])
         {
           [NSException raise:@"MLKStreamError"
                        format:@"Tried to read beyond end of file."];
         }
+
+      buffer = realloc (buffer, i+1);
+      bytes_read = [_input read:(buffer+i) maxLength:1];
+      // NSLog (@"%d bytes read", bytes_read);
 
       tmpstr = [[NSString alloc] initWithBytesNoCopy:buffer
                                  length:(i+1)
@@ -115,8 +116,28 @@
   _cachedChar = ch;
 }
 
+-(unichar) peekChar
+{
+  unichar ch = [self readChar];
+  [self unreadChar:ch];
+  return ch;
+}
+
 -(BOOL) isEOF
 {
-  return ![_input hasBytesAvailable];
+  NS_DURING
+    {
+      [self peekChar];
+    }
+  NS_HANDLER
+    {
+      if ([[localException name] isEqual:@"MLKStreamError"])
+        NS_VALUERETURN (YES, BOOL);
+      else
+        [localException raise];
+    }
+  NS_ENDHANDLER;
+
+  return NO;
 }
 @end

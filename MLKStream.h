@@ -42,5 +42,6 @@
 
 -(unichar) readChar;
 -(void) unreadChar:(unichar)ch;
+-(unichar) peekChar;
 -(BOOL) isEOF;
 @end
