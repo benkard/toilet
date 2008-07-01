@@ -84,6 +84,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"SET-CDR"]];
   [sys export:[sys intern:@"CONS"]];
   [sys export:[sys intern:@"LOAD"]];
+  [sys export:[sys intern:@"EQ"]];
 
   [tlUser usePackage:clUser];
 }

@@ -155,4 +155,12 @@ static MLKPackage *cl;
   else
     return [NSArray arrayWithObject:[NSNull null]];
 }
+
++(NSArray *) eq:(NSArray *)args
+{
+  if ([args objectAtIndex:0] == [args objectAtIndex:1])
+    return [NSArray arrayWithObject:[cl intern:@"T"]];
+  else
+    return [NSArray arrayWithObject:[NSNull null]];
+}
 @end
