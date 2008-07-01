@@ -190,6 +190,25 @@ static MLKSymbol *_LAMBDA;
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
             }
+          else if (car == IF)
+            {
+              id condition = [[program cdr] car];
+              id consequent = [[[program cdr] cdr] car];
+              // Incidentally works for the two-clause case:
+              id alternative = [[[[program cdr] cdr] cdr] car];
+
+              NSArray *values = [self eval:condition
+                                      inLexicalContext:context
+                                      withEnvironment:lexenv];
+              if ([values objectAtIndex:0] == [NSNull null])
+                return [self eval:alternative
+                             inLexicalContext:context
+                             withEnvironment:lexenv];
+              else
+                return [self eval:consequent
+                             inLexicalContext:context
+                             withEnvironment:lexenv];                
+            }
           else if (car == _LAMBDA)
             {
               // A bare-bones LAMBDA without a real lambda list.  What
