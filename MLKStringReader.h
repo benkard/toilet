@@ -16,24 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "NSString-MLKPrinting.h"
+#import "MLKFuncallable.h"
+#import "MLKLispValue.h"
+
+#import <Foundation/NSArray.h>
 
 
-@implementation NSString (MLKPrinting)
--(NSString *)descriptionForLisp
-{
-  NSMutableString *str = [NSMutableString stringWithString:self];
-
-  [str replaceOccurrencesOfString:@"\""
-       withString:@"\\\""
-       options:NSLiteralSearch
-       range:NSMakeRange(0, [str length])];
-  
-  [str replaceOccurrencesOfString:@"\\"
-       withString:@"\\\\"
-       options:NSLiteralSearch
-       range:NSMakeRange(0, [str length])];
-
-  return [NSString stringWithFormat:@"\"%@\"", str];
-}
+@interface MLKStringReader : MLKLispValue <MLKFuncallable>
+-(NSArray *) applyToArray:(NSArray *)arguments;
 @end
