@@ -15,9 +15,9 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-include $(GNUSTEP_MAKEFILES)/common.make
-
 default: ToiletKit toilet
+
+include $(GNUSTEP_MAKEFILES)/common.make
 
 #all:: ToiletKit etshell Test
 
