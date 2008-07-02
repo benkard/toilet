@@ -17,11 +17,11 @@
  */
 
 #import "MLKStream.h"
+#import "MLKLexicalContext.h"
+#import "MLKLexicalEnvironment.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
-
-@class MLKLexicalContext, MLKLexicalEnvironment;
 
 
 @interface MLKInterpreter : NSObject

@@ -16,7 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Foundation/NSObject.h>
+#import <Foundation/NSObject.h>
+
+#import "MLKBinding.h"
 
 @class MLKEnvironment, MLKSymbol, NSLinkedList,
        NSMutableDictionary, NSString;
@@ -58,6 +60,7 @@
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol;
 -(void) addBindingForSymbol:(MLKSymbol *)symbol;
+-(MLKBinding *) bindingForSymbol:(MLKSymbol *)symbol;
 
 -(BOOL) boundp:(MLKSymbol *)symbol;
 -(void) makunbound:(MLKSymbol *)symbol;

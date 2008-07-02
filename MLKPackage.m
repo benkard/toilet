@@ -74,9 +74,11 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"VALUES"]];
   [cl export:[cl intern:@"EVAL"]];
   [cl export:[cl intern:@"SPECIAL"]];
+  [cl export:[cl intern:@"SET"]];
 
   [sys export:[sys intern:@"%DEFMACRO"]];
   [sys export:[sys intern:@"%LAMBDA"]];
+  [sys export:[sys intern:@"%FSET"]];
   
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];

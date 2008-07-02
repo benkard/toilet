@@ -69,6 +69,8 @@ static MLKSymbol *FUNCALL;
 static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
+static MLKSymbol *SET;
+static MLKSymbol *_FSET;
 static MLKSymbol *PROGV;
 static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
@@ -94,6 +96,8 @@ static MLKSymbol *_LAMBDA;
   EVAL = [cl intern:@"EVAL"];
   QUOTE = [cl intern:@"QUOTE"];
   SETQ = [cl intern:@"SETQ"];
+  SET = [cl intern:@"SET"];
+  _FSET = [sys intern:@"%FSET"];
   PROGV = [cl intern:@"PROGV"];
   VALUES = [cl intern:@"VALUES"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
@@ -349,6 +353,44 @@ static MLKSymbol *_LAMBDA;
             {
               //FIXME: ...
               //FIXME: Don't forget handling symbol macros correctly.
+            }
+          else if (car == SET)
+            {
+              MLKDynamicContext *ctx = [MLKDynamicContext currentContext];
+              id symbol = [[self eval:[[program cdr] car]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv]
+                           objectAtIndex:0];
+              id value = [[self eval:[[[program cdr] cdr] car]
+                                inLexicalContext:context
+                                withEnvironment:lexenv]
+                          objectAtIndex:0];
+
+              if ([ctx bindingForSymbol:symbol])
+                [ctx setValue:value forSymbol:symbol];
+              else
+                [[MLKDynamicContext globalContext]
+                  addValue:value forSymbol:symbol];
+
+              return [NSArray arrayWithObject:symbol];
+            }
+          else if (car == _FSET)
+            {
+              // Like SET, but for the function cell.
+              id symbol = [[self eval:[[program cdr] car]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv]
+                            objectAtIndex:0];
+              id value = [[self eval:[[[program cdr] cdr] car]
+                                inLexicalContext:context
+                                withEnvironment:lexenv]
+                           objectAtIndex:0];
+
+              [[MLKLexicalContext globalContext] addFunction:symbol];
+              [[MLKLexicalEnvironment globalEnvironment] addFunction:value
+                                                         forSymbol:symbol];
+
+              return [NSArray arrayWithObject:symbol];
             }
           else if (car == TAGBODY)
             {

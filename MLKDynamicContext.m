@@ -381,6 +381,11 @@ static MLKDynamicContext *global_context;
   [[self environment] addBindingForSymbol:symbol];
 }
 
+-(MLKBinding *) bindingForSymbol:(MLKSymbol *)symbol
+{
+  return [[self environment] bindingForSymbol:symbol];
+}
+
 -(BOOL) boundp:(MLKSymbol *)symbol
 {
   return [[self environment] boundp:symbol];
