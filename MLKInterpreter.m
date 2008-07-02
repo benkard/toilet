@@ -73,6 +73,7 @@ static MLKSymbol *SETF;
 static MLKSymbol *SET;
 static MLKSymbol *_FSET;
 static MLKSymbol *PROGV;
+static MLKSymbol *UNWIND_PROTECT;
 static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_LAMBDA;
@@ -102,6 +103,7 @@ static MLKSymbol *_LAMBDA;
   _FSET = [sys intern:@"%FSET"];
   PROGV = [cl intern:@"PROGV"];
   VALUES = [cl intern:@"VALUES"];
+  UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
 }
@@ -384,7 +386,7 @@ static MLKSymbol *_LAMBDA;
               else if ([dynamicContext bindingForSymbol:symbol])
                 [dynamicContext setValue:value forSymbol:symbol];
               else
-                // Maybe print a warning.
+                // FIXME: Maybe print a warning.
                 [[MLKDynamicContext globalContext] addValue:value
                                                    forSymbol:symbol];
 
@@ -436,6 +438,32 @@ static MLKSymbol *_LAMBDA;
           else if (car == TAGBODY)
             {
               //FIXME: ...
+            }
+          else if (car == UNWIND_PROTECT)
+            {
+              NSArray *results;
+
+              NS_DURING
+                {
+                  results = [self eval:[[program cdr] car]
+                                  inLexicalContext:context
+                                  withEnvironment:lexenv];
+                }
+              NS_HANDLER
+                {
+                  [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
+                        inLexicalContext:context
+                        withEnvironment:lexenv];
+
+                  [localException raise];
+                }
+              NS_ENDHANDLER;
+
+              [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
+                    inLexicalContext:context
+                    withEnvironment:lexenv];
+
+              return results;
             }
           else if (car == VALUES)
             {
