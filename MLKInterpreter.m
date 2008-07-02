@@ -69,6 +69,7 @@ static MLKSymbol *FUNCALL;
 static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
+static MLKSymbol *SETF;
 static MLKSymbol *SET;
 static MLKSymbol *_FSET;
 static MLKSymbol *PROGV;
@@ -96,6 +97,7 @@ static MLKSymbol *_LAMBDA;
   EVAL = [cl intern:@"EVAL"];
   QUOTE = [cl intern:@"QUOTE"];
   SETQ = [cl intern:@"SETQ"];
+  SETF = [cl intern:@"SETF"];
   SET = [cl intern:@"SET"];
   _FSET = [sys intern:@"%FSET"];
   PROGV = [cl intern:@"PROGV"];
@@ -361,7 +363,21 @@ static MLKSymbol *_LAMBDA;
               if (![program cdr])
                 return [NSArray arrayWithObject:[NSNull null]];
 
-              //FIXME: Don't forget handling symbol macros correctly.
+              if ([context symbolNamesSymbolMacro:symbol])
+                {
+                  id macrofun = [context macroForSymbol:program];
+                  id expansion = [macrofun applyToArray:
+                                             [NSArray arrayWithObjects:
+                                                        program, context, nil]];
+                  return [self eval:
+                                 [MLKCons cons:SETF
+                                          with:
+                                            [MLKCons cons:expansion
+                                                     with:
+                                                       [[program cdr] cdr]]]
+                               inLexicalContext:context
+                               withEnvironment:lexenv];
+                }
 
               if ([context variableIsLexical:symbol])
                 [lexenv setValue:value forSymbol:symbol];

@@ -69,6 +69,7 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"APPLY"]];
   [cl export:[cl intern:@"PROGV"]];
   [cl export:[cl intern:@"SETQ"]];
+  [cl export:[cl intern:@"SETF"]];
   [cl export:[cl intern:@"DECLARE"]];
   [cl export:[cl intern:@"QUOTE"]];
   [cl export:[cl intern:@"VALUES"]];
