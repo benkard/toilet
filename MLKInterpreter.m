@@ -351,12 +351,37 @@ static MLKSymbol *_LAMBDA;
             }
           else if (car == SETQ)
             {
-              //FIXME: ...
+              id symbol = [[program cdr] car];
+              id value = [[self eval:[[[program cdr] cdr] car]
+                                inLexicalContext:context
+                                withEnvironment:lexenv]
+                           objectAtIndex:0];
+              id rest = [[[program cdr] cdr] cdr];
+
+              if (![program cdr])
+                return [NSArray arrayWithObject:[NSNull null]];
+
               //FIXME: Don't forget handling symbol macros correctly.
+
+              if ([context variableIsLexical:symbol])
+                [lexenv setValue:value forSymbol:symbol];
+              else if ([dynamicContext bindingForSymbol:symbol])
+                [dynamicContext setValue:value forSymbol:symbol];
+              else
+                // Maybe print a warning.
+                [[MLKDynamicContext globalContext] addValue:value
+                                                   forSymbol:symbol];
+
+
+              if (rest)
+                return [self eval:[MLKCons cons:SETQ with:rest]
+                             inLexicalContext:context
+                             withEnvironment:lexenv];
+              else
+                return [NSArray arrayWithObject:value];
             }
           else if (car == SET)
             {
-              MLKDynamicContext *ctx = [MLKDynamicContext currentContext];
               id symbol = [[self eval:[[program cdr] car]
                                  inLexicalContext:context
                                  withEnvironment:lexenv]
@@ -366,11 +391,11 @@ static MLKSymbol *_LAMBDA;
                                 withEnvironment:lexenv]
                           objectAtIndex:0];
 
-              if ([ctx bindingForSymbol:symbol])
-                [ctx setValue:value forSymbol:symbol];
+              if ([dynamicContext bindingForSymbol:symbol])
+                [dynamicContext setValue:value forSymbol:symbol];
               else
-                [[MLKDynamicContext globalContext]
-                  addValue:value forSymbol:symbol];
+                [[MLKDynamicContext globalContext] addValue:value
+                                                   forSymbol:symbol];
 
               return [NSArray arrayWithObject:symbol];
             }
