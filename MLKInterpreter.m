@@ -36,6 +36,8 @@
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
+#include <stdio.h>
+
 
 static MLKPackage *cl;
 static MLKPackage *sys;
@@ -579,7 +581,8 @@ static MLKSymbol *_LAMBDA;
       else
         formdesc = [code descriptionForLisp];
 
-      NSLog (@"; LOAD: Evaluating a top-level form: %@.", formdesc);
+      fprintf (stderr, "; LOAD: %s\n",
+               [formdesc UTF8String]);
       result = [MLKInterpreter
                  eval:code
                  inLexicalContext:[MLKLexicalContext globalContext]
