@@ -16,9 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKDynamicContext.h"
+#import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
 
+#import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
 
 
@@ -69,7 +72,35 @@
   // NOTE: Need to take *PRINT-GENSYM* into account.
   //
   // FIXME: This is wrong in more than one way.
-  return [NSString stringWithFormat:@"|%@|::|%@|", [homePackage name], name];
+  MLKPackage *currentPackage =
+    [[MLKDynamicContext currentContext]
+      valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
+                       intern:@"*PACKAGE*"]];
+  BOOL accessible;
+  NSString *packagePrefix;
+
+  NS_DURING
+    {
+      if ([currentPackage findSymbol:name] == self)
+        accessible = YES;
+      else
+        accessible = NO;
+    }
+  NS_HANDLER
+    {
+      if ([[localException name] isEqualToString:@"MLKNoSuchSymbolError"])
+        accessible = NO;
+      else
+        [localException raise];
+    }
+  NS_ENDHANDLER;
+
+  if (accessible)
+    packagePrefix = [NSString string];
+  else
+    packagePrefix = [NSString stringWithFormat:@"|%@|::", [homePackage name]];
+
+  return [NSString stringWithFormat:@"%@|%@|", packagePrefix, name];
 }
 
 -(NSString *) description
