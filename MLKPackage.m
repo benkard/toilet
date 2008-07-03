@@ -89,6 +89,15 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"CONS"]];
   [sys export:[sys intern:@"LOAD"]];
   [sys export:[sys intern:@"EQ"]];
+  [sys export:[sys intern:@"ATOM"]];
+  [sys export:[sys intern:@"LISTP"]];
+  [sys export:[sys intern:@"CONSP"]];
+  [sys export:[sys intern:@"SYMBOLP"]];
+  [sys export:[sys intern:@"NULL"]];
+  [sys export:[sys intern:@"ADD"]];
+  [sys export:[sys intern:@"SUBTRACT"]];
+  [sys export:[sys intern:@"MULTIPLY"]];
+  [sys export:[sys intern:@"DIVIDE"]];
 
   [tlUser usePackage:clUser];
 }

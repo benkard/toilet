@@ -22,6 +22,9 @@
 #import "MLKRoot.h"
 #import "MLKStream.h"
 #import "MLKSymbol.h"
+#import "MLKInteger.h"
+#import "MLKSingleFloat.h"
+#import "MLKDoubleFloat.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
@@ -53,6 +56,15 @@ static id denullify (id value)
 static NSMethodSignature *signature;
 static MLKPackage *sys;
 static MLKPackage *cl;
+
+
+static id truify (BOOL value)
+{
+  return (value ? (id) [cl intern:@"T"] : nil);
+}
+
+#define RETURN_VALUE(thing)                     \
+  return [NSArray arrayWithObject:nullify(thing)];
 
 
 @implementation MLKRoot
@@ -150,17 +162,62 @@ static MLKPackage *cl;
 
   [input close];
 
-  if (success)
-    return [NSArray arrayWithObject:[cl intern:@"T"]];
-  else
-    return [NSArray arrayWithObject:[NSNull null]];
+  RETURN_VALUE (truify (success));
 }
 
 +(NSArray *) eq:(NSArray *)args
 {
-  if ([args objectAtIndex:0] == [args objectAtIndex:1])
-    return [NSArray arrayWithObject:[cl intern:@"T"]];
-  else
-    return [NSArray arrayWithObject:[NSNull null]];
+  RETURN_VALUE (truify ([args objectAtIndex:0] == [args objectAtIndex:1]));
+}
+
++(NSArray *) symbolp:(NSArray *)args
+{
+  id arg0 = [args objectAtIndex:0];
+  RETURN_VALUE (truify (arg0 == [NSNull null]
+                        || [arg0 isKindOfClass:[MLKSymbol class]]));
+}
+
++(NSArray *) listp:(NSArray *)args
+{
+  id arg0 = [args objectAtIndex:0];
+  RETURN_VALUE (truify (arg0 == [NSNull null]
+                        || [arg0 isKindOfClass:[MLKCons class]]));
+}
+
++(NSArray *) consp:(NSArray *)args
+{
+  id arg0 = [args objectAtIndex:0];
+  RETURN_VALUE (truify ([arg0 isKindOfClass:[MLKCons class]]));
+}
+
++(NSArray *) atom:(NSArray *)args
+{
+  id arg0 = [args objectAtIndex:0];
+  RETURN_VALUE (truify (![arg0 isKindOfClass:[MLKCons class]]));
+}
+
++(NSArray *) null:(NSArray *)args
+{
+  RETURN_VALUE (truify ([args objectAtIndex:0] == [NSNull null]));
+}
+
++(NSArray *) add:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] add:[args objectAtIndex:1]]);
+}
+
++(NSArray *) subtract:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] subtract:[args objectAtIndex:1]]);
+}
+
++(NSArray *) multiply:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] multiplyWith:[args objectAtIndex:1]]);
+}
+
++(NSArray *) divide:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] divideBy:[args objectAtIndex:1]]);
 }
 @end
