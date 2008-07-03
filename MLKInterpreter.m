@@ -562,6 +562,7 @@ static MLKSymbol *_LAMBDA;
                            eofValue:eofValue
                            recursive:NO
                            preserveWhitespace:NO];
+      NSString *formdesc;
 
       //NSLog (@"%@", code);
       //NSLog (@"%@", [code descriptionForLisp]);
@@ -571,7 +572,14 @@ static MLKSymbol *_LAMBDA;
       if (code == eofValue)
         break;
 
-      NSLog (@"; LOAD: Evaluating a top-level form.");
+      if ([code isKindOfClass:[MLKCons class]] && [code cdr])
+        formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
+                               [[code car] descriptionForLisp],
+                               [[[code cdr] car] descriptionForLisp]];
+      else
+        formdesc = [code descriptionForLisp];
+
+      NSLog (@"; LOAD: Evaluating a top-level form: %@.", formdesc);
       result = [MLKInterpreter
                  eval:code
                  inLexicalContext:[MLKLexicalContext globalContext]
@@ -581,7 +589,7 @@ static MLKSymbol *_LAMBDA;
       if (print)
         {
           //FIXME
-          NSLog (@"; LOAD: Fnord.  Primary value: %@", result);
+          //NSLog (@"; LOAD: Fnord.  Primary value: %@", result);
         }
     }
 
