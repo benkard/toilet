@@ -30,6 +30,7 @@
 #import "MLKLinkedList.h"
 #import "MLKPackage.h"
 #import "MLKParenReader.h"
+#import "MLKQuoteReader.h"
 #import "MLKReadtable.h"
 #import "MLKStringReader.h"
 #import "MLKSymbol.h"
@@ -146,7 +147,6 @@ static MLKDynamicContext *global_context;
 
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
   //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
 
@@ -160,6 +160,10 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'"'];
   [readtable setMacroFunction:AUTORELEASE([[MLKStringReader alloc] init])
              forCharacter:'"'];
+
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
+  [readtable setMacroFunction:AUTORELEASE([[MLKQuoteReader alloc] init])
+             forCharacter:'\''];
 
   for (ch = '0'; ch <= '9'; ch++)
     {

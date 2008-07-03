@@ -27,17 +27,18 @@ BUNDLE_NAME = Test
 
 ADDITIONAL_OBJCFLAGS = -Wall
 
-ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBinding.m			\
-                       MLKDoubleFloat.m MLKDynamicContext.m			\
-                       MLKEndOfFileError.m MLKEnvironment.m MLKFloat.m		\
-                       MLKInteger.m MLKInterpretedClosure.m			\
-                       MLKInterpreter.m MLKLinkedList.m				\
-                       MLKLexicalContext.m MLKLexicalEnvironment.m		\
-                       MLKLispValue.m MLKPackage.m MLKParenReader.m		\
-                       MLKRatio.m MLKReader.m MLKReadtable.m			\
-                       MLKReaderError.m MLKRoot.m MLKSingleFloat.m		\
-                       MLKStream.m MLKStringInputStream.m			\
-                       MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
+ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBinding.m		\
+                       MLKDoubleFloat.m MLKDynamicContext.m		\
+                       MLKEndOfFileError.m MLKEnvironment.m MLKFloat.m	\
+                       MLKInteger.m MLKInterpretedClosure.m		\
+                       MLKInterpreter.m MLKLinkedList.m			\
+                       MLKLexicalContext.m MLKLexicalEnvironment.m	\
+                       MLKLispValue.m MLKPackage.m MLKParenReader.m	\
+                       MLKQuoteReader.m MLKRatio.m MLKReader.m		\
+                       MLKReadtable.m MLKReaderError.m MLKRoot.m	\
+                       MLKSingleFloat.m MLKStream.m			\
+                       MLKStringInputStream.m MLKStringReader.m		\
+                       MLKSymbol.m MLKThrowException.m			\
                        NSObject-MLKPrinting.m NSString-MLKPrinting.m
 ToiletKit_LDFLAGS = -lgmp
 #LIBRARIES_DEPEND_UPON
