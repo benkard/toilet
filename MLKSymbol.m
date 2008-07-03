@@ -18,6 +18,8 @@
 
 #import "MLKDynamicContext.h"
 #import "MLKPackage.h"
+#import "MLKReader.h"
+#import "MLKReadtable.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
 
@@ -72,12 +74,50 @@
   // NOTE: Need to take *PRINT-GENSYM* into account.
   //
   // FIXME: This is wrong in more than one way.
-  MLKPackage *currentPackage =
-    [[MLKDynamicContext currentContext]
-      valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
-                       intern:@"*PACKAGE*"]];
+  MLKDynamicContext *dynctx = [MLKDynamicContext currentContext];
+  MLKPackage *cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  MLKPackage *currentPackage = [dynctx valueForSymbol:[cl intern:@"*PACKAGE*"]];
+  MLKReadtable *readtable = [dynctx valueForSymbol:[cl intern:@"*READTABLE*"]];
   BOOL accessible;
   NSString *packagePrefix;
+  NSString *printName;
+  BOOL escaped;
+  int i;
+  int base = [[dynctx valueForSymbol:[cl intern:@"*PRINT-BASE*"]] intValue];
+
+  escaped = NO;
+  
+  if ([MLKReader isPotentialNumber:name readtable:readtable base:base])
+    escaped = YES;
+
+  if ([name length] == 0)
+    escaped = YES;
+
+  for (i = 0; i < [name length]; i++)
+    {
+      unichar ch = [name characterAtIndex:i];
+      escaped =
+        escaped                                                           \
+        || ![readtable isConstituentCharacter:ch]                         \
+        || ![[[NSString stringWithFormat:@"%C", ch] uppercaseString]
+              isEqualToString:[NSString stringWithFormat:@"%C", ch]];
+    }
+
+  if (escaped)
+    {
+      NSMutableString *tmp = [NSMutableString stringWithString:name];
+      [tmp replaceOccurrencesOfString:@"\\"
+           withString:@"\\\\"
+           options:NSLiteralSearch
+           range:NSMakeRange(0, [tmp length])];
+      [tmp replaceOccurrencesOfString:@"|"
+           withString:@"\\|"
+           options:NSLiteralSearch
+           range:NSMakeRange(0, [tmp length])];
+      printName = [NSString stringWithFormat:@"|%@|", tmp];
+    }
+  else
+    printName = name;
 
   NS_DURING
     {
@@ -98,9 +138,13 @@
   if (accessible)
     packagePrefix = [NSString string];
   else
-    packagePrefix = [NSString stringWithFormat:@"|%@|::", [homePackage name]];
+    packagePrefix = [NSString stringWithFormat:@"|%@|%s",
+                              [homePackage name],
+                              ([[homePackage exportedSymbols] containsObject:self]
+                               ? ":"
+                               : "::")];
 
-  return [NSString stringWithFormat:@"%@|%@|", packagePrefix, name];
+  return [NSString stringWithFormat:@"%@%@", packagePrefix, printName];
 }
 
 -(NSString *) description
