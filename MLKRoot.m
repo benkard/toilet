@@ -209,4 +209,22 @@ static id truify (BOOL value)
 {
   RETURN_VALUE ([MLKCons listWithArray:args]);
 }
+
++(NSArray *) macroexpand_1:(NSArray *)args
+{
+  id form = [args objectAtIndex:0];
+  id env = [args count] > 1 ? [args objectAtIndex:1] : nil;
+  MLKLexicalContext *context = env ? (id)env : (id)[MLKLexicalContext globalContext];
+
+  if ([context symbolNamesMacro:[form car]])
+    {
+      id <MLKFuncallable> macrofun = [context macroForSymbol:[form car]];
+      form = denullify ([[macrofun applyToArray:
+                                     [NSArray arrayWithObjects:
+                                                form, context, nil]]
+                          objectAtIndex:0]);
+    }
+
+  RETURN_VALUE (form);
+}
 @end

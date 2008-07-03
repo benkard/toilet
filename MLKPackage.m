@@ -99,6 +99,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"MULTIPLY"]];
   [sys export:[sys intern:@"DIVIDE"]];
   [sys export:[sys intern:@"LIST"]];
+  [sys export:[sys intern:@"MACROEXPAND-1"]];
 
   [tlUser usePackage:clUser];
 }
