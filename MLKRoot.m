@@ -220,4 +220,9 @@ static id truify (BOOL value)
 {
   RETURN_VALUE ([[args objectAtIndex:0] divideBy:[args objectAtIndex:1]]);
 }
+
++(NSArray *) list:(NSArray *)args
+{
+  RETURN_VALUE ([MLKCons listWithArray:args]);
+}
 @end

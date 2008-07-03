@@ -98,6 +98,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"SUBTRACT"]];
   [sys export:[sys intern:@"MULTIPLY"]];
   [sys export:[sys intern:@"DIVIDE"]];
+  [sys export:[sys intern:@"LIST"]];
 
   [tlUser usePackage:clUser];
 }
