@@ -136,7 +136,7 @@ static MLKSymbol *_LAMBDA;
     {
       id car = [program car];
 
-      if ([car isKindOfClass:[MLKSymbol class]])
+      if ([car isKindOfClass:[MLKSymbol class]] || !car)
         {
           if (car == APPLY)
             {
@@ -145,10 +145,13 @@ static MLKSymbol *_LAMBDA;
                                                withEnvironment:lexenv]
                                           objectAtIndex:0]);
 
-              id <MLKFuncallable> function = denullify([[self eval:[[program cdr] car]
-                                                              inLexicalContext:context
-                                                              withEnvironment:lexenv]
-                                                         objectAtIndex:0]);
+              id function = denullify([[self eval:[[program cdr] car]
+                                             inLexicalContext:context
+                                             withEnvironment:lexenv]
+                                        objectAtIndex:0]);
+
+              if ([function isKindOfClass:[MLKSymbol class]])
+                function = [lexenv functionForSymbol:function];
 
               return [function applyToArray:(rest
                                              ? (id)[rest array]
@@ -530,11 +533,18 @@ static MLKSymbol *_LAMBDA;
                 }
             }
         }
-      else if (![car isKindOfClass:[MLKCons class]] && [car car] == LAMBDA)
+      else if ([car isKindOfClass:[MLKCons class]] && [car car] == LAMBDA)
         {
           return [self eval:[MLKCons cons:FUNCALL with:program]
                        inLexicalContext:context
                        withEnvironment:lexenv];
+        }
+      else
+        {
+          [NSException raise:@"MLKInvalidExpressionException"
+                       format:@"%@ is not a valid operator name.",
+                       [car descriptionForLisp]];
+          return nil;  
         }
     }
 }
@@ -554,6 +564,7 @@ static MLKSymbol *_LAMBDA;
                            preserveWhitespace:NO];
 
       //NSLog (@"%@", code);
+      //NSLog (@"%@", [code descriptionForLisp]);
       //NSLog (@"%@", stream);
       //NSLog (@"...");
 
@@ -565,6 +576,7 @@ static MLKSymbol *_LAMBDA;
                  eval:code
                  inLexicalContext:[MLKLexicalContext globalContext]
                  withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+      //NSLog (@"; LOAD: Top-level form evaluated.");
 
       if (print)
         {
