@@ -31,6 +31,7 @@
 #import "MLKRatio.h"
 #import "MLKStringInputStream.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSRange.h>
@@ -69,7 +70,7 @@
   ch = [stream readChar];
   if ([readtable isWhitespaceCharacter:ch] || ch == '\0')
     goto start;
-  
+
   if ([readtable isMacroCharacter:ch])
     {
       NSArray *returnValues;
@@ -87,9 +88,7 @@
         }
       returnValues = [macrofun applyToArray:args];
       if ([returnValues count])
-        return ([returnValues objectAtIndex:0] == [NSNull null]
-                ? nil
-                : [returnValues objectAtIndex:0]);
+        return denullify ([returnValues objectAtIndex:0]);
       else
         goto start;
     }

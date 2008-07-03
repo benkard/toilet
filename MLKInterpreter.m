@@ -29,28 +29,12 @@
 #import "MLKRoot.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
-
-
-static id nullify (id value)
-{
-  if (value)
-    return value;
-  else
-    return [NSNull null];
-}
-
-static id denullify (id value)
-{
-  if (value == [NSNull null])
-    return nil;
-  else
-    return value;
-}
 
 
 static MLKPackage *cl;
