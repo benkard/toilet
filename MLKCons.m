@@ -17,6 +17,7 @@
  */
 
 #import "MLKCons.h"
+#import "MLKPackage.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSArray.h>
@@ -112,7 +113,11 @@
 
 -(NSString *)descriptionForLisp
 {
-  return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
+  if ([_cdr isKindOfClass:[MLKCons class]]
+      && _car == [[MLKPackage findPackage:@"COMMON-LISP"] intern:@"QUOTE"])
+    return [NSString stringWithFormat:@"'%@", [_cdr bareDescriptionForLisp]];
+  else
+    return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
 }
 
 -(void) dealloc
