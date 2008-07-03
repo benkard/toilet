@@ -67,6 +67,10 @@ static const char *prompt (EditLine *e) {
   History *commands;
   HistEvent event;
 
+  NSInputStream *input;
+  MLKStream *stream;
+  BOOL success;
+
   editline = el_init (_argv[0], stdin, stdout, stderr);
   el_set (editline, EL_PROMPT, &prompt);
   el_set (editline, EL_EDITOR, "emacs");
@@ -75,6 +79,17 @@ static const char *prompt (EditLine *e) {
   history (commands, &event, H_SETSIZE, 1000);
   el_set (editline, EL_HIST, history, commands);
   
+  printf ("Loading init.lisp.\n");
+  input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
+  stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+
+  [input open];
+  [MLKInterpreter load:stream verbose:YES print:YES];
+  success = [MLKInterpreter load:stream verbose:YES print:YES];
+  [input close];
+
+  printf ("Done.\n\n");
+
   printf ("This is Toilet Lisp, version 0.0.1.\n");
   printf ("Please make yourself at home.\n");
 
