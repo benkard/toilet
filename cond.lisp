@@ -1,9 +1,8 @@
-(%fset 'list*
-  (%lambda args
-    (if (null (cdr args))
-        (car args)
-        (cons (car args)
-              (apply 'list* (cdr args))))))
+(%defun list* args
+  (if (null (cdr args))
+      (car args)
+      (cons (car args)
+            (apply 'list* (cdr args)))))
 
 (%defmacro let* args
   (let ((form (car args)))
