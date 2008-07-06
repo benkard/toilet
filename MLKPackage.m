@@ -329,9 +329,11 @@ static NSMutableDictionary *packages = nil;
   MLKSymbol *symbol;
 
   symbol = [_accessible_symbols objectForKey:symbolName];
-  if (!symbol)
+  if (!symbol || ![_present_symbols containsObject:symbol])
     {
       symbol = [MLKSymbol symbolWithName:symbolName package:self];
+      [_accessible_symbols setObject:symbol forKey:symbolName];
+      [_present_symbols addObject:symbol];
     }
   [_shadowing_symbols addObject:symbol];
 }
