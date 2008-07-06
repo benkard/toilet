@@ -39,7 +39,8 @@ static NSMutableDictionary *packages = nil;
                                    nicknames:[NSSet setWithObject:@"CL-USER"]];;
   MLKPackage *sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
                                 nicknames:[NSSet setWithObjects:
-                                                   @"TL-SYS", nil]];
+                                                   @"TL-SYS", @"SYSTEM",
+                                                   @"SYS", nil]];
   MLKPackage *toilet = [MLKPackage packageWithName:@"TOILET-LISP"
                                    nicknames:[NSSet setWithObjects:
                                                       @"TL", @"TOILET", nil]];
@@ -100,6 +101,9 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"DIVIDE"]];
   [sys export:[sys intern:@"LIST"]];
   [sys export:[sys intern:@"MACROEXPAND-1"]];
+  [sys export:[sys intern:@"EXPORT"]];
+  [sys export:[sys intern:@"SHADOW"]];
+  [sys export:[sys intern:@"UNEXPORT"]];
 
   [cl export:[cl intern:@"*BREAK-ON-SIGNALS*"]];
   [cl export:[cl intern:@"*COMPILE-FILE-PATHNAME*"]];

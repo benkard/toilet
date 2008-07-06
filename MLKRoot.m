@@ -17,6 +17,7 @@
  */
 
 #import "MLKCons.h"
+#import "MLKDynamicContext.h"
 #import "MLKInterpreter.h"
 #import "MLKPackage.h"
 #import "MLKRoot.h"
@@ -45,6 +46,17 @@ static MLKPackage *cl;
 static id truify (BOOL value)
 {
   return (value ? (id) [cl intern:@"T"] : nil);
+}
+
+static id stringify (id thing)
+{
+  // FIXME.
+  if (!thing)
+    return @"NIL";
+  if ([thing isKindOfClass:[NSString class]])
+    return thing;
+  else if ([thing isKindOfClass:[MLKSymbol class]])
+    return [thing name];
 }
 
 #define RETURN_VALUE(thing)                     \
@@ -226,5 +238,71 @@ static id truify (BOOL value)
     }
 
   RETURN_VALUE (form);
+}
+
++(NSArray *) shadow:(NSArray *)args
+{
+  id symbols = denullify ([args objectAtIndex:0]);
+  id package = denullify (([args count] > 1
+                           ? [args objectAtIndex:1]
+                           : [[MLKDynamicContext currentContext]
+                               valueForSymbol:
+                                 [[MLKPackage findPackage:@"COMMON-LISP"]
+                                   intern:@"*PACKAGE*"]]));
+
+  if (![symbols isKindOfClass:[MLKCons class]])
+    symbols = [MLKCons cons:symbols with:nil];
+
+  do
+    {
+      [package shadow:stringify([symbols car])];
+    }
+  while ((symbols = [symbols cdr]));
+
+  RETURN_VALUE ([cl intern:@"T"]);
+}
+
++(NSArray *) export:(NSArray *)args
+{
+  id symbols = denullify ([args objectAtIndex:0]);
+  id package = denullify (([args count] > 1
+                           ? [args objectAtIndex:1]
+                           : [[MLKDynamicContext currentContext]
+                               valueForSymbol:
+                                 [[MLKPackage findPackage:@"COMMON-LISP"]
+                                   intern:@"*PACKAGE*"]]));
+
+  if (![symbols isKindOfClass:[MLKCons class]])
+    symbols = [MLKCons cons:symbols with:nil];
+
+  do
+    {
+      [package export:[symbols car]];
+    }
+  while ((symbols = [symbols cdr]));
+
+  RETURN_VALUE ([cl intern:@"T"]);
+}
+
++(NSArray *) unexport:(NSArray *)args
+{
+  id symbols = denullify ([args objectAtIndex:0]);
+  id package = denullify (([args count] > 1
+                           ? [args objectAtIndex:1]
+                           : [[MLKDynamicContext currentContext]
+                               valueForSymbol:
+                                 [[MLKPackage findPackage:@"COMMON-LISP"]
+                                   intern:@"*PACKAGE*"]]));
+
+  if (![symbols isKindOfClass:[MLKCons class]])
+    symbols = [MLKCons cons:symbols with:nil];
+
+  do
+    {
+      [package unexport:[symbols car]];
+    }
+  while ((symbols = [symbols cdr]));
+
+  RETURN_VALUE ([cl intern:@"T"]);
 }
 @end
