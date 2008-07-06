@@ -80,13 +80,23 @@ static const char *prompt (EditLine *e) {
   el_set (editline, EL_HIST, history, commands);
   
   printf ("Loading init.lisp.\n");
-  input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
-  stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+  NS_DURING
+    {
+      input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
+      stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
 
-  [input open];
-  [MLKInterpreter load:stream verbose:YES print:YES];
-  success = [MLKInterpreter load:stream verbose:YES print:YES];
-  [input close];
+      [input open];
+      [MLKInterpreter load:stream verbose:YES print:YES];
+      success = [MLKInterpreter load:stream verbose:YES print:YES];
+      [input close];
+    }
+  NS_HANDLER
+    {
+      printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
+              [[localException name] UTF8String],
+              [[localException reason] UTF8String]);
+    }
+  NS_ENDHANDLER;
 
   printf ("Done.\n\n");
 
