@@ -1,4 +1,5 @@
 #include "runtime-compatibility.h"
+#include <Foundation/NSException.h>
 #include <Foundation/NSNull.h>
 
 #define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, OBJTYPE, CONSTRUCTOR) \
@@ -18,6 +19,7 @@
 
 static id nullify (id value) __attribute__ ((pure, unused));
 static id denullify (id value) __attribute__ ((pure, unused));
+static id stringify (id value) __attribute__ ((pure, unused));
 
 static id nullify (id value)
 {
@@ -33,4 +35,20 @@ static id denullify (id value)
     return nil;
   else
     return value;
+}
+
+static id stringify (id thing)
+{
+  // FIXME: Some cases may be missing.
+  if (!thing)
+    return @"NIL";
+  if ([thing isKindOfClass:[NSString class]])
+    return thing;
+  else if ([thing isKindOfClass:[MLKSymbol class]])
+    return [thing name];
+
+  [NSException raise:@"MLKTypeError" format:@"Can't coerce %@ to a string.",
+                                            [thing descriptionForLisp]];
+
+  return nil;
 }

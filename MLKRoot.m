@@ -26,6 +26,7 @@
 #import "MLKInteger.h"
 #import "MLKSingleFloat.h"
 #import "MLKDoubleFloat.h"
+#import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -48,19 +49,8 @@ static id truify (BOOL value)
   return (value ? (id) [cl intern:@"T"] : nil);
 }
 
-static id stringify (id thing)
-{
-  // FIXME.
-  if (!thing)
-    return @"NIL";
-  if ([thing isKindOfClass:[NSString class]])
-    return thing;
-  else if ([thing isKindOfClass:[MLKSymbol class]])
-    return [thing name];
-}
-
 #define RETURN_VALUE(thing)                     \
-  return [NSArray arrayWithObject:nullify(thing)];
+  { return [NSArray arrayWithObject:nullify(thing)]; }
 
 
 @implementation MLKRoot
@@ -310,5 +300,28 @@ static id stringify (id thing)
   while ((symbols = [symbols cdr]));
 
   RETURN_VALUE ([cl intern:@"T"]);
+}
+
++(NSArray *) find_package:(NSArray *)args
+{
+  NSString *name = stringify (denullify ([args objectAtIndex:0]));
+  MLKPackage *package = [MLKPackage findPackage:name];
+
+  if (package)
+    {
+      RETURN_VALUE (package);
+    }
+  else
+    {
+      [NSException raise:@"MLKNoSuchPackageError"
+                   format:@"The package %@ does not exist",
+                          [name descriptionForLisp]];
+      return nil;
+    }
+}
+
++(NSArray *) string:(NSArray *)args
+{
+  RETURN_VALUE (stringify (denullify ([args objectAtIndex:0])));
 }
 @end
