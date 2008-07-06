@@ -33,6 +33,7 @@
 #import "MLKQuoteReader.h"
 #import "MLKReadtable.h"
 #import "MLKStringReader.h"
+#import "MLKSemicolonReader.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "runtime-compatibility.h"
@@ -145,7 +146,6 @@ static MLKDynamicContext *global_context;
 
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
 
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
   //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
   //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
@@ -164,6 +164,10 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
   [readtable setMacroFunction:AUTORELEASE([[MLKQuoteReader alloc] init])
              forCharacter:'\''];
+
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
+  [readtable setMacroFunction:AUTORELEASE([[MLKSemicolonReader alloc] init])
+             forCharacter:';'];
 
   for (ch = '0'; ch <= '9'; ch++)
     {
