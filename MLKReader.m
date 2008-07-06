@@ -19,7 +19,6 @@
 #import "MLKReader.h"
 #import "MLKCharacter.h"
 #import "MLKReadtable.h"
-#import "MLKEndOfFileError.h"
 #import "MLKReaderError.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
@@ -62,7 +61,8 @@
   if ([stream isEOF])
     {
       if (eofError)
-        [[[MLKEndOfFileError alloc] initWithStream:stream] raise];
+        [NSException raise:@"MLKEndOfFileError"
+                     format:@"Premature end of file on stream %@.", stream];
       else
         return eofValue;
     }
@@ -98,7 +98,8 @@
   if ([readtable isSingleEscapeCharacter:ch])
     {
       if ([stream isEOF])
-        [[[MLKEndOfFileError alloc] initWithStream:stream] raise];
+        [NSException raise:@"MLKEndOfFileError"
+                     format:@"Premature end of file on stream %@.", stream];;
 
       token = [NSMutableString stringWithCapacity:8];
       [token appendFormat:@"%C", [stream readChar]];
@@ -136,7 +137,8 @@
       else if ([readtable isSingleEscapeCharacter:ch])
         {
           if ([stream isEOF])
-            [[[MLKEndOfFileError alloc] initWithStream:stream] raise];
+            [NSException raise:@"MLKEndOfFileError"
+                         format:@"Premature end of file on stream %@.", stream];
           
           [token appendFormat:@"%C", [stream readChar]];
           ever_escaped = YES;
