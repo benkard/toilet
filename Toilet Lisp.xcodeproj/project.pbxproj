@@ -1,0 +1,637 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
+		A7E5C43F0E21695800A01D81 /* MLKBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C3F90E21695700A01D81 /* MLKBinding.m */; };
+		A7E5C4400E21695800A01D81 /* MLKCharacter.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3FA0E21695700A01D81 /* MLKCharacter.h */; };
+		A7E5C4410E21695800A01D81 /* MLKCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C3FB0E21695700A01D81 /* MLKCharacter.m */; };
+		A7E5C4420E21695800A01D81 /* MLKClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3FC0E21695700A01D81 /* MLKClosure.h */; };
+		A7E5C4430E21695800A01D81 /* MLKCons.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3FD0E21695700A01D81 /* MLKCons.h */; };
+		A7E5C4440E21695800A01D81 /* MLKCons.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C3FE0E21695700A01D81 /* MLKCons.m */; };
+		A7E5C4450E21695800A01D81 /* MLKDoubleFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3FF0E21695700A01D81 /* MLKDoubleFloat.h */; };
+		A7E5C4460E21695800A01D81 /* MLKDoubleFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4000E21695700A01D81 /* MLKDoubleFloat.m */; };
+		A7E5C4470E21695800A01D81 /* MLKDynamicContext.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4010E21695700A01D81 /* MLKDynamicContext.h */; };
+		A7E5C4480E21695800A01D81 /* MLKDynamicContext.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4020E21695700A01D81 /* MLKDynamicContext.m */; };
+		A7E5C4490E21695800A01D81 /* MLKEndOfFileError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4030E21695700A01D81 /* MLKEndOfFileError.h */; };
+		A7E5C44A0E21695800A01D81 /* MLKEndOfFileError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4040E21695700A01D81 /* MLKEndOfFileError.m */; };
+		A7E5C44B0E21695800A01D81 /* MLKEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4050E21695700A01D81 /* MLKEnvironment.h */; };
+		A7E5C44C0E21695800A01D81 /* MLKEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4060E21695700A01D81 /* MLKEnvironment.m */; };
+		A7E5C44D0E21695800A01D81 /* MLKFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4070E21695700A01D81 /* MLKFloat.h */; };
+		A7E5C44E0E21695800A01D81 /* MLKFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4080E21695700A01D81 /* MLKFloat.m */; };
+		A7E5C44F0E21695800A01D81 /* MLKFuncallable.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4090E21695700A01D81 /* MLKFuncallable.h */; };
+		A7E5C4500E21695800A01D81 /* MLKFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C40A0E21695700A01D81 /* MLKFunction.h */; };
+		A7E5C4510E21695800A01D81 /* MLKInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C40B0E21695700A01D81 /* MLKInteger.h */; };
+		A7E5C4520E21695800A01D81 /* MLKInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C40C0E21695700A01D81 /* MLKInteger.m */; };
+		A7E5C4530E21695800A01D81 /* MLKInterpretedClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C40D0E21695700A01D81 /* MLKInterpretedClosure.h */; };
+		A7E5C4540E21695800A01D81 /* MLKInterpretedClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C40E0E21695700A01D81 /* MLKInterpretedClosure.m */; };
+		A7E5C4550E21695800A01D81 /* MLKInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C40F0E21695700A01D81 /* MLKInterpreter.h */; };
+		A7E5C4560E21695800A01D81 /* MLKInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4100E21695700A01D81 /* MLKInterpreter.m */; };
+		A7E5C4570E21695800A01D81 /* MLKLexicalContext.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4110E21695700A01D81 /* MLKLexicalContext.h */; };
+		A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */; };
+		A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */; };
+		A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */; };
+		A7E5C45B0E21695800A01D81 /* MLKLinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4150E21695700A01D81 /* MLKLinkedList.h */; };
+		A7E5C45C0E21695800A01D81 /* MLKLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4160E21695700A01D81 /* MLKLinkedList.m */; };
+		A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4170E21695700A01D81 /* MLKLispValue.h */; };
+		A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4180E21695700A01D81 /* MLKLispValue.m */; };
+		A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41A0E21695700A01D81 /* MLKPackage.h */; };
+		A7E5C4610E21695800A01D81 /* MLKPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C41B0E21695700A01D81 /* MLKPackage.m */; };
+		A7E5C4620E21695800A01D81 /* MLKParenReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41C0E21695700A01D81 /* MLKParenReader.h */; };
+		A7E5C4630E21695800A01D81 /* MLKParenReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C41D0E21695700A01D81 /* MLKParenReader.m */; };
+		A7E5C4640E21695800A01D81 /* MLKQuoteReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41E0E21695700A01D81 /* MLKQuoteReader.h */; };
+		A7E5C4650E21695800A01D81 /* MLKQuoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C41F0E21695700A01D81 /* MLKQuoteReader.m */; };
+		A7E5C4660E21695800A01D81 /* MLKRatio.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4200E21695700A01D81 /* MLKRatio.h */; };
+		A7E5C4670E21695800A01D81 /* MLKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4210E21695700A01D81 /* MLKRatio.m */; };
+		A7E5C4680E21695800A01D81 /* MLKReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4220E21695700A01D81 /* MLKReader.h */; };
+		A7E5C4690E21695800A01D81 /* MLKReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4230E21695700A01D81 /* MLKReader.m */; };
+		A7E5C46A0E21695800A01D81 /* MLKReaderError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4240E21695700A01D81 /* MLKReaderError.h */; };
+		A7E5C46B0E21695800A01D81 /* MLKReaderError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4250E21695700A01D81 /* MLKReaderError.m */; };
+		A7E5C46C0E21695800A01D81 /* MLKReadtable.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4260E21695700A01D81 /* MLKReadtable.h */; };
+		A7E5C46D0E21695800A01D81 /* MLKReadtable.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4270E21695700A01D81 /* MLKReadtable.m */; };
+		A7E5C46E0E21695800A01D81 /* MLKRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4280E21695700A01D81 /* MLKRoot.h */; };
+		A7E5C46F0E21695800A01D81 /* MLKRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4290E21695700A01D81 /* MLKRoot.m */; };
+		A7E5C4700E21695800A01D81 /* MLKSemicolonReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C42A0E21695700A01D81 /* MLKSemicolonReader.h */; };
+		A7E5C4710E21695800A01D81 /* MLKSemicolonReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */; };
+		A7E5C4720E21695800A01D81 /* MLKSingleFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */; };
+		A7E5C4730E21695800A01D81 /* MLKSingleFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */; };
+		A7E5C4740E21695800A01D81 /* MLKStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C42E0E21695700A01D81 /* MLKStream.h */; };
+		A7E5C4750E21695800A01D81 /* MLKStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42F0E21695700A01D81 /* MLKStream.m */; };
+		A7E5C4760E21695800A01D81 /* MLKStringInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */; };
+		A7E5C4770E21695800A01D81 /* MLKStringInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */; };
+		A7E5C4780E21695800A01D81 /* MLKStringReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4320E21695700A01D81 /* MLKStringReader.h */; };
+		A7E5C4790E21695800A01D81 /* MLKStringReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4330E21695700A01D81 /* MLKStringReader.m */; };
+		A7E5C47A0E21695800A01D81 /* MLKSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4340E21695700A01D81 /* MLKSymbol.h */; };
+		A7E5C47B0E21695800A01D81 /* MLKSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4350E21695700A01D81 /* MLKSymbol.m */; };
+		A7E5C47C0E21695800A01D81 /* MLKThrowException.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4360E21695800A01D81 /* MLKThrowException.h */; };
+		A7E5C47D0E21695800A01D81 /* MLKThrowException.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4370E21695800A01D81 /* MLKThrowException.m */; };
+		A7E5C47E0E21695800A01D81 /* NSObject-MLKPrinting.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4380E21695800A01D81 /* NSObject-MLKPrinting.h */; };
+		A7E5C47F0E21695800A01D81 /* NSObject-MLKPrinting.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */; };
+		A7E5C4800E21695800A01D81 /* NSString-MLKPrinting.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C43A0E21695800A01D81 /* NSString-MLKPrinting.h */; };
+		A7E5C4810E21695800A01D81 /* NSString-MLKPrinting.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */; };
+		A7E5C4820E21695800A01D81 /* runtime-compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C43C0E21695800A01D81 /* runtime-compatibility.h */; };
+		A7E5C4830E21695800A01D81 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C43D0E21695800A01D81 /* util.h */; };
+		A7E5C4860E21698100A01D81 /* MLKReadEvalPrintLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4850E21698100A01D81 /* MLKReadEvalPrintLoop.m */; };
+		A7E5C4A00E216C0F00A01D81 /* MLKNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */; };
+		A7E5C4A10E216C0F00A01D81 /* MLKNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */; };
+		A7E5C55C0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
+		A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A7E5C4890E2169C600A01D81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			remoteInfo = ToiletKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A7E5C3E10E21684000A01D81 /* Toilet Kit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Toilet Kit-Info.plist"; sourceTree = "<group>"; };
+		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ToiletKit-Info.plist"; sourceTree = "<group>"; };
+		A7E5C3F30E21690200A01D81 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E5C3F80E21695700A01D81 /* MLKBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBinding.h; sourceTree = "<group>"; };
+		A7E5C3F90E21695700A01D81 /* MLKBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBinding.m; sourceTree = "<group>"; };
+		A7E5C3FA0E21695700A01D81 /* MLKCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCharacter.h; sourceTree = "<group>"; };
+		A7E5C3FB0E21695700A01D81 /* MLKCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCharacter.m; sourceTree = "<group>"; };
+		A7E5C3FC0E21695700A01D81 /* MLKClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKClosure.h; sourceTree = "<group>"; };
+		A7E5C3FD0E21695700A01D81 /* MLKCons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCons.h; sourceTree = "<group>"; };
+		A7E5C3FE0E21695700A01D81 /* MLKCons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCons.m; sourceTree = "<group>"; };
+		A7E5C3FF0E21695700A01D81 /* MLKDoubleFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKDoubleFloat.h; sourceTree = "<group>"; };
+		A7E5C4000E21695700A01D81 /* MLKDoubleFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKDoubleFloat.m; sourceTree = "<group>"; };
+		A7E5C4010E21695700A01D81 /* MLKDynamicContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKDynamicContext.h; sourceTree = "<group>"; };
+		A7E5C4020E21695700A01D81 /* MLKDynamicContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKDynamicContext.m; sourceTree = "<group>"; };
+		A7E5C4030E21695700A01D81 /* MLKEndOfFileError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKEndOfFileError.h; sourceTree = "<group>"; };
+		A7E5C4040E21695700A01D81 /* MLKEndOfFileError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKEndOfFileError.m; sourceTree = "<group>"; };
+		A7E5C4050E21695700A01D81 /* MLKEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKEnvironment.h; sourceTree = "<group>"; };
+		A7E5C4060E21695700A01D81 /* MLKEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKEnvironment.m; sourceTree = "<group>"; };
+		A7E5C4070E21695700A01D81 /* MLKFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKFloat.h; sourceTree = "<group>"; };
+		A7E5C4080E21695700A01D81 /* MLKFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKFloat.m; sourceTree = "<group>"; };
+		A7E5C4090E21695700A01D81 /* MLKFuncallable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKFuncallable.h; sourceTree = "<group>"; };
+		A7E5C40A0E21695700A01D81 /* MLKFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKFunction.h; sourceTree = "<group>"; };
+		A7E5C40B0E21695700A01D81 /* MLKInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKInteger.h; sourceTree = "<group>"; };
+		A7E5C40C0E21695700A01D81 /* MLKInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKInteger.m; sourceTree = "<group>"; };
+		A7E5C40D0E21695700A01D81 /* MLKInterpretedClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKInterpretedClosure.h; sourceTree = "<group>"; };
+		A7E5C40E0E21695700A01D81 /* MLKInterpretedClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKInterpretedClosure.m; sourceTree = "<group>"; };
+		A7E5C40F0E21695700A01D81 /* MLKInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKInterpreter.h; sourceTree = "<group>"; };
+		A7E5C4100E21695700A01D81 /* MLKInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKInterpreter.m; sourceTree = "<group>"; };
+		A7E5C4110E21695700A01D81 /* MLKLexicalContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLexicalContext.h; sourceTree = "<group>"; };
+		A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalContext.m; sourceTree = "<group>"; };
+		A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLexicalEnvironment.h; sourceTree = "<group>"; };
+		A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalEnvironment.m; sourceTree = "<group>"; };
+		A7E5C4150E21695700A01D81 /* MLKLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLinkedList.h; sourceTree = "<group>"; };
+		A7E5C4160E21695700A01D81 /* MLKLinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLinkedList.m; sourceTree = "<group>"; };
+		A7E5C4170E21695700A01D81 /* MLKLispValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLispValue.h; sourceTree = "<group>"; };
+		A7E5C4180E21695700A01D81 /* MLKLispValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLispValue.m; sourceTree = "<group>"; };
+		A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLowLevelTests.m; sourceTree = "<group>"; };
+		A7E5C41A0E21695700A01D81 /* MLKPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKPackage.h; sourceTree = "<group>"; };
+		A7E5C41B0E21695700A01D81 /* MLKPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKPackage.m; sourceTree = "<group>"; };
+		A7E5C41C0E21695700A01D81 /* MLKParenReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKParenReader.h; sourceTree = "<group>"; };
+		A7E5C41D0E21695700A01D81 /* MLKParenReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKParenReader.m; sourceTree = "<group>"; };
+		A7E5C41E0E21695700A01D81 /* MLKQuoteReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKQuoteReader.h; sourceTree = "<group>"; };
+		A7E5C41F0E21695700A01D81 /* MLKQuoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKQuoteReader.m; sourceTree = "<group>"; };
+		A7E5C4200E21695700A01D81 /* MLKRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKRatio.h; sourceTree = "<group>"; };
+		A7E5C4210E21695700A01D81 /* MLKRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKRatio.m; sourceTree = "<group>"; };
+		A7E5C4220E21695700A01D81 /* MLKReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKReader.h; sourceTree = "<group>"; };
+		A7E5C4230E21695700A01D81 /* MLKReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKReader.m; sourceTree = "<group>"; };
+		A7E5C4240E21695700A01D81 /* MLKReaderError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKReaderError.h; sourceTree = "<group>"; };
+		A7E5C4250E21695700A01D81 /* MLKReaderError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKReaderError.m; sourceTree = "<group>"; };
+		A7E5C4260E21695700A01D81 /* MLKReadtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKReadtable.h; sourceTree = "<group>"; };
+		A7E5C4270E21695700A01D81 /* MLKReadtable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKReadtable.m; sourceTree = "<group>"; };
+		A7E5C4280E21695700A01D81 /* MLKRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKRoot.h; sourceTree = "<group>"; };
+		A7E5C4290E21695700A01D81 /* MLKRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKRoot.m; sourceTree = "<group>"; };
+		A7E5C42A0E21695700A01D81 /* MLKSemicolonReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKSemicolonReader.h; sourceTree = "<group>"; };
+		A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSemicolonReader.m; sourceTree = "<group>"; };
+		A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKSingleFloat.h; sourceTree = "<group>"; };
+		A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSingleFloat.m; sourceTree = "<group>"; };
+		A7E5C42E0E21695700A01D81 /* MLKStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStream.h; sourceTree = "<group>"; };
+		A7E5C42F0E21695700A01D81 /* MLKStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStream.m; sourceTree = "<group>"; };
+		A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringInputStream.h; sourceTree = "<group>"; };
+		A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringInputStream.m; sourceTree = "<group>"; };
+		A7E5C4320E21695700A01D81 /* MLKStringReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringReader.h; sourceTree = "<group>"; };
+		A7E5C4330E21695700A01D81 /* MLKStringReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringReader.m; sourceTree = "<group>"; };
+		A7E5C4340E21695700A01D81 /* MLKSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKSymbol.h; sourceTree = "<group>"; };
+		A7E5C4350E21695700A01D81 /* MLKSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSymbol.m; sourceTree = "<group>"; };
+		A7E5C4360E21695800A01D81 /* MLKThrowException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKThrowException.h; sourceTree = "<group>"; };
+		A7E5C4370E21695800A01D81 /* MLKThrowException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKThrowException.m; sourceTree = "<group>"; };
+		A7E5C4380E21695800A01D81 /* NSObject-MLKPrinting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject-MLKPrinting.h"; sourceTree = "<group>"; };
+		A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject-MLKPrinting.m"; sourceTree = "<group>"; };
+		A7E5C43A0E21695800A01D81 /* NSString-MLKPrinting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-MLKPrinting.h"; sourceTree = "<group>"; };
+		A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-MLKPrinting.m"; sourceTree = "<group>"; };
+		A7E5C43C0E21695800A01D81 /* runtime-compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "runtime-compatibility.h"; sourceTree = "<group>"; };
+		A7E5C43D0E21695800A01D81 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKReadEvalPrintLoop.h; sourceTree = "<group>"; };
+		A7E5C4850E21698100A01D81 /* MLKReadEvalPrintLoop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKReadEvalPrintLoop.m; sourceTree = "<group>"; };
+		A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKNumber.h; sourceTree = "<group>"; };
+		A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKNumber.m; sourceTree = "<group>"; };
+		A7E5C55B0E21740C00A01D81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A7E5C3E90E21689F00A01D81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E5C55C0E21740C00A01D81 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E5C3F10E21690200A01D81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A7E5C3CC0E21682800A01D81 = {
+			isa = PBXGroup;
+			children = (
+				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
+				A7E5C48D0E216A0E00A01D81 /* Source Files */,
+				A7E5C48C0E2169CE00A01D81 /* Headers */,
+				A7E5C3E00E21684000A01D81 /* Products */,
+				A7E5C3E10E21684000A01D81 /* Toilet Kit-Info.plist */,
+				A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		A7E5C3E00E21684000A01D81 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */,
+				A7E5C3F30E21690200A01D81 /* toilet */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */,
+				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
+				A7E5C3F80E21695700A01D81 /* MLKBinding.h */,
+				A7E5C3FA0E21695700A01D81 /* MLKCharacter.h */,
+				A7E5C3FC0E21695700A01D81 /* MLKClosure.h */,
+				A7E5C3FD0E21695700A01D81 /* MLKCons.h */,
+				A7E5C3FF0E21695700A01D81 /* MLKDoubleFloat.h */,
+				A7E5C4010E21695700A01D81 /* MLKDynamicContext.h */,
+				A7E5C4030E21695700A01D81 /* MLKEndOfFileError.h */,
+				A7E5C4050E21695700A01D81 /* MLKEnvironment.h */,
+				A7E5C4070E21695700A01D81 /* MLKFloat.h */,
+				A7E5C4090E21695700A01D81 /* MLKFuncallable.h */,
+				A7E5C40A0E21695700A01D81 /* MLKFunction.h */,
+				A7E5C40B0E21695700A01D81 /* MLKInteger.h */,
+				A7E5C40D0E21695700A01D81 /* MLKInterpretedClosure.h */,
+				A7E5C40F0E21695700A01D81 /* MLKInterpreter.h */,
+				A7E5C4110E21695700A01D81 /* MLKLexicalContext.h */,
+				A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */,
+				A7E5C4150E21695700A01D81 /* MLKLinkedList.h */,
+				A7E5C4170E21695700A01D81 /* MLKLispValue.h */,
+				A7E5C41A0E21695700A01D81 /* MLKPackage.h */,
+				A7E5C41C0E21695700A01D81 /* MLKParenReader.h */,
+				A7E5C41E0E21695700A01D81 /* MLKQuoteReader.h */,
+				A7E5C4200E21695700A01D81 /* MLKRatio.h */,
+				A7E5C4220E21695700A01D81 /* MLKReader.h */,
+				A7E5C4240E21695700A01D81 /* MLKReaderError.h */,
+				A7E5C4260E21695700A01D81 /* MLKReadtable.h */,
+				A7E5C4280E21695700A01D81 /* MLKRoot.h */,
+				A7E5C42A0E21695700A01D81 /* MLKSemicolonReader.h */,
+				A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */,
+				A7E5C42E0E21695700A01D81 /* MLKStream.h */,
+				A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */,
+				A7E5C4320E21695700A01D81 /* MLKStringReader.h */,
+				A7E5C4340E21695700A01D81 /* MLKSymbol.h */,
+				A7E5C4360E21695800A01D81 /* MLKThrowException.h */,
+				A7E5C4380E21695800A01D81 /* NSObject-MLKPrinting.h */,
+				A7E5C43A0E21695800A01D81 /* NSString-MLKPrinting.h */,
+				A7E5C43C0E21695800A01D81 /* runtime-compatibility.h */,
+				A7E5C43D0E21695800A01D81 /* util.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */,
+				A7E5C4850E21698100A01D81 /* MLKReadEvalPrintLoop.m */,
+				A7E5C3F90E21695700A01D81 /* MLKBinding.m */,
+				A7E5C3FB0E21695700A01D81 /* MLKCharacter.m */,
+				A7E5C3FE0E21695700A01D81 /* MLKCons.m */,
+				A7E5C4000E21695700A01D81 /* MLKDoubleFloat.m */,
+				A7E5C4020E21695700A01D81 /* MLKDynamicContext.m */,
+				A7E5C4040E21695700A01D81 /* MLKEndOfFileError.m */,
+				A7E5C4060E21695700A01D81 /* MLKEnvironment.m */,
+				A7E5C4080E21695700A01D81 /* MLKFloat.m */,
+				A7E5C40C0E21695700A01D81 /* MLKInteger.m */,
+				A7E5C40E0E21695700A01D81 /* MLKInterpretedClosure.m */,
+				A7E5C4100E21695700A01D81 /* MLKInterpreter.m */,
+				A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */,
+				A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */,
+				A7E5C4160E21695700A01D81 /* MLKLinkedList.m */,
+				A7E5C4180E21695700A01D81 /* MLKLispValue.m */,
+				A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */,
+				A7E5C41B0E21695700A01D81 /* MLKPackage.m */,
+				A7E5C41D0E21695700A01D81 /* MLKParenReader.m */,
+				A7E5C41F0E21695700A01D81 /* MLKQuoteReader.m */,
+				A7E5C4210E21695700A01D81 /* MLKRatio.m */,
+				A7E5C4230E21695700A01D81 /* MLKReader.m */,
+				A7E5C4250E21695700A01D81 /* MLKReaderError.m */,
+				A7E5C4270E21695700A01D81 /* MLKReadtable.m */,
+				A7E5C4290E21695700A01D81 /* MLKRoot.m */,
+				A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */,
+				A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */,
+				A7E5C42F0E21695700A01D81 /* MLKStream.m */,
+				A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */,
+				A7E5C4330E21695700A01D81 /* MLKStringReader.m */,
+				A7E5C4350E21695700A01D81 /* MLKSymbol.m */,
+				A7E5C4370E21695800A01D81 /* MLKThrowException.m */,
+				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
+				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A7E5C3E60E21689F00A01D81 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */,
+				A7E5C4400E21695800A01D81 /* MLKCharacter.h in Headers */,
+				A7E5C4420E21695800A01D81 /* MLKClosure.h in Headers */,
+				A7E5C4430E21695800A01D81 /* MLKCons.h in Headers */,
+				A7E5C4450E21695800A01D81 /* MLKDoubleFloat.h in Headers */,
+				A7E5C4470E21695800A01D81 /* MLKDynamicContext.h in Headers */,
+				A7E5C4490E21695800A01D81 /* MLKEndOfFileError.h in Headers */,
+				A7E5C44B0E21695800A01D81 /* MLKEnvironment.h in Headers */,
+				A7E5C44D0E21695800A01D81 /* MLKFloat.h in Headers */,
+				A7E5C44F0E21695800A01D81 /* MLKFuncallable.h in Headers */,
+				A7E5C4500E21695800A01D81 /* MLKFunction.h in Headers */,
+				A7E5C4510E21695800A01D81 /* MLKInteger.h in Headers */,
+				A7E5C4530E21695800A01D81 /* MLKInterpretedClosure.h in Headers */,
+				A7E5C4550E21695800A01D81 /* MLKInterpreter.h in Headers */,
+				A7E5C4570E21695800A01D81 /* MLKLexicalContext.h in Headers */,
+				A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */,
+				A7E5C45B0E21695800A01D81 /* MLKLinkedList.h in Headers */,
+				A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */,
+				A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */,
+				A7E5C4620E21695800A01D81 /* MLKParenReader.h in Headers */,
+				A7E5C4640E21695800A01D81 /* MLKQuoteReader.h in Headers */,
+				A7E5C4660E21695800A01D81 /* MLKRatio.h in Headers */,
+				A7E5C4680E21695800A01D81 /* MLKReader.h in Headers */,
+				A7E5C46A0E21695800A01D81 /* MLKReaderError.h in Headers */,
+				A7E5C46C0E21695800A01D81 /* MLKReadtable.h in Headers */,
+				A7E5C46E0E21695800A01D81 /* MLKRoot.h in Headers */,
+				A7E5C4700E21695800A01D81 /* MLKSemicolonReader.h in Headers */,
+				A7E5C4720E21695800A01D81 /* MLKSingleFloat.h in Headers */,
+				A7E5C4740E21695800A01D81 /* MLKStream.h in Headers */,
+				A7E5C4760E21695800A01D81 /* MLKStringInputStream.h in Headers */,
+				A7E5C4780E21695800A01D81 /* MLKStringReader.h in Headers */,
+				A7E5C47A0E21695800A01D81 /* MLKSymbol.h in Headers */,
+				A7E5C47C0E21695800A01D81 /* MLKThrowException.h in Headers */,
+				A7E5C47E0E21695800A01D81 /* NSObject-MLKPrinting.h in Headers */,
+				A7E5C4800E21695800A01D81 /* NSString-MLKPrinting.h in Headers */,
+				A7E5C4820E21695800A01D81 /* runtime-compatibility.h in Headers */,
+				A7E5C4830E21695800A01D81 /* util.h in Headers */,
+				A7E5C4A00E216C0F00A01D81 /* MLKNumber.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A7E5C3EA0E21689F00A01D81 /* ToiletKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7E5C3ED0E2168A000A01D81 /* Build configuration list for PBXNativeTarget "ToiletKit" */;
+			buildPhases = (
+				A7E5C3E60E21689F00A01D81 /* Headers */,
+				A7E5C3E70E21689F00A01D81 /* Resources */,
+				A7E5C3E80E21689F00A01D81 /* Sources */,
+				A7E5C3E90E21689F00A01D81 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ToiletKit;
+			productName = ToiletKit;
+			productReference = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A7E5C3F20E21690200A01D81 /* toilet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7E5C3F50E21692100A01D81 /* Build configuration list for PBXNativeTarget "toilet" */;
+			buildPhases = (
+				A7E5C3F00E21690200A01D81 /* Sources */,
+				A7E5C3F10E21690200A01D81 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7E5C48A0E2169C600A01D81 /* PBXTargetDependency */,
+			);
+			name = toilet;
+			productName = toilet;
+			productReference = A7E5C3F30E21690200A01D81 /* toilet */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7E5C3CE0E21682800A01D81 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */;
+			hasScannedForEncodings = 0;
+			mainGroup = A7E5C3CC0E21682800A01D81;
+			productRefGroup = A7E5C3E00E21684000A01D81 /* Products */;
+			projectDirPath = "";
+			targets = (
+				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
+				A7E5C3F20E21690200A01D81 /* toilet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A7E5C3E70E21689F00A01D81 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A7E5C3E80E21689F00A01D81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E5C43F0E21695800A01D81 /* MLKBinding.m in Sources */,
+				A7E5C4410E21695800A01D81 /* MLKCharacter.m in Sources */,
+				A7E5C4440E21695800A01D81 /* MLKCons.m in Sources */,
+				A7E5C4460E21695800A01D81 /* MLKDoubleFloat.m in Sources */,
+				A7E5C4480E21695800A01D81 /* MLKDynamicContext.m in Sources */,
+				A7E5C44A0E21695800A01D81 /* MLKEndOfFileError.m in Sources */,
+				A7E5C44C0E21695800A01D81 /* MLKEnvironment.m in Sources */,
+				A7E5C44E0E21695800A01D81 /* MLKFloat.m in Sources */,
+				A7E5C4520E21695800A01D81 /* MLKInteger.m in Sources */,
+				A7E5C4540E21695800A01D81 /* MLKInterpretedClosure.m in Sources */,
+				A7E5C4560E21695800A01D81 /* MLKInterpreter.m in Sources */,
+				A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */,
+				A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */,
+				A7E5C45C0E21695800A01D81 /* MLKLinkedList.m in Sources */,
+				A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */,
+				A7E5C4610E21695800A01D81 /* MLKPackage.m in Sources */,
+				A7E5C4630E21695800A01D81 /* MLKParenReader.m in Sources */,
+				A7E5C4650E21695800A01D81 /* MLKQuoteReader.m in Sources */,
+				A7E5C4670E21695800A01D81 /* MLKRatio.m in Sources */,
+				A7E5C4690E21695800A01D81 /* MLKReader.m in Sources */,
+				A7E5C46B0E21695800A01D81 /* MLKReaderError.m in Sources */,
+				A7E5C46D0E21695800A01D81 /* MLKReadtable.m in Sources */,
+				A7E5C46F0E21695800A01D81 /* MLKRoot.m in Sources */,
+				A7E5C4710E21695800A01D81 /* MLKSemicolonReader.m in Sources */,
+				A7E5C4730E21695800A01D81 /* MLKSingleFloat.m in Sources */,
+				A7E5C4750E21695800A01D81 /* MLKStream.m in Sources */,
+				A7E5C4770E21695800A01D81 /* MLKStringInputStream.m in Sources */,
+				A7E5C4790E21695800A01D81 /* MLKStringReader.m in Sources */,
+				A7E5C47B0E21695800A01D81 /* MLKSymbol.m in Sources */,
+				A7E5C47D0E21695800A01D81 /* MLKThrowException.m in Sources */,
+				A7E5C47F0E21695800A01D81 /* NSObject-MLKPrinting.m in Sources */,
+				A7E5C4810E21695800A01D81 /* NSString-MLKPrinting.m in Sources */,
+				A7E5C4A10E216C0F00A01D81 /* MLKNumber.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E5C3F00E21690200A01D81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E5C4860E21698100A01D81 /* MLKReadEvalPrintLoop.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A7E5C48A0E2169C600A01D81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			targetProxy = A7E5C4890E2169C600A01D81 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A7E5C3D00E21682800A01D81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		A7E5C3D10E21682800A01D81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		A7E5C3EE0E2168A000A01D81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		A7E5C3EF0E2168A000A01D81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A7E5C3F60E21692100A01D81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		A7E5C3F70E21692100A01D81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E5C3D00E21682800A01D81 /* Debug */,
+				A7E5C3D10E21682800A01D81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7E5C3ED0E2168A000A01D81 /* Build configuration list for PBXNativeTarget "ToiletKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E5C3EE0E2168A000A01D81 /* Debug */,
+				A7E5C3EF0E2168A000A01D81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7E5C3F50E21692100A01D81 /* Build configuration list for PBXNativeTarget "toilet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E5C3F60E21692100A01D81 /* Debug */,
+				A7E5C3F70E21692100A01D81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A7E5C3CE0E21682800A01D81 /* Project object */;
+}
