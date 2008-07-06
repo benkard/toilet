@@ -101,6 +101,8 @@ static MLKSymbol *_LAMBDA;
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
+  //NSLog (@"eval: %@", [program descriptionForLisp]);
+
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
       //NSLog (@"Processing symbol.");
@@ -559,11 +561,13 @@ static MLKSymbol *_LAMBDA;
   while (YES)
     {
       id result;
+      //NSLog (@"; LOAD: Reding a form.");
       id code = [MLKReader readFromStream:stream
                            eofError:NO
                            eofValue:eofValue
                            recursive:NO
                            preserveWhitespace:NO];
+      //NSLog (@"; LOAD: Reading finished.");
       NSString *formdesc;
 
       //NSLog (@"%@", code);
@@ -597,6 +601,7 @@ static MLKSymbol *_LAMBDA;
         }
     }
 
+  //NSLog (@"; LOAD: END");
   return YES;
 }
 @end

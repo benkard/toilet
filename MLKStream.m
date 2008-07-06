@@ -125,19 +125,26 @@
 
 -(BOOL) isEOF
 {
+  BOOL eofp = NO;
+
   NS_DURING
     {
       [self peekChar];
     }
   NS_HANDLER
     {
+      // For some reason, NS_VALUERETURN (YES, BOOL) causes warnings of
+      // the following kind on the Apple runtime:
+      //
+      //  *** Attempt to remove unrecognized exception handler 0xbfff6200
+      //
       if ([[localException name] isEqual:@"MLKStreamError"])
-        NS_VALUERETURN (YES, BOOL);
+        eofp = YES;
       else
         [localException raise];
     }
   NS_ENDHANDLER;
 
-  return NO;
+  return eofp;
 }
 @end
