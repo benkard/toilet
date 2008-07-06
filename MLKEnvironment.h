@@ -20,6 +20,7 @@
 #import "MLKLispValue.h"
 #import "MLKSymbol.h"
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
@@ -39,6 +40,7 @@
 
 -(MLKEnvironment *) parent;
 
+-(NSArray *) bindingArray;
 -(NSSet *) bindings;
 -(void) addBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol;
 -(void) setBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol;

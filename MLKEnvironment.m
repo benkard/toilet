@@ -58,12 +58,19 @@
   return _parent;
 }
 
+-(NSArray *) bindingArray
+{
+  NSMutableArray *array = [NSMutableArray arrayWithArray:[_bindings allKeys]];
+
+  if (_parent)
+    [array addObjectsFromArray:[_parent bindingArray]];
+
+  return array;
+}
+
 -(NSSet *) bindings
 {
-  NSSet *set = [NSSet setWithArray:[_bindings allKeys]];
-  return (_parent
-          ? (id)[set setByAddingObjectsFromSet:[_parent bindings]]
-          : (id)set);
+  return [NSSet setWithArray:[self bindingArray]];
 }
 
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;
