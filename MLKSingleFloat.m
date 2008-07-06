@@ -94,36 +94,36 @@
   return value;
 }
 
--(MLKFloat *) add:(MLKFloat *)arg
+-(MLKNumber *) add:(MLKNumber *)arg
 {
   if ([arg isKindOfClass:[MLKDoubleFloat class]])
-    return [MLKDoubleFloat doubleFloatWithDouble:(value + [arg doubleValue])];
+    return [MLKDoubleFloat doubleFloatWithDouble:(value + [(MLKFloat*)arg doubleValue])];
   else
-    return [MLKSingleFloat singleFloatWithFloat:(value + [arg floatValue])];
+    return [MLKSingleFloat singleFloatWithFloat:(value + [(MLKFloat*)arg floatValue])];
 }
 
--(MLKFloat *) subtract:(MLKFloat *)arg
+-(MLKNumber *) subtract:(MLKNumber *)arg
 {
   if ([arg isKindOfClass:[MLKDoubleFloat class]])
-    return [MLKDoubleFloat doubleFloatWithDouble:(value - [arg doubleValue])];
+    return [MLKDoubleFloat doubleFloatWithDouble:(value - [(MLKFloat*)arg doubleValue])];
   else
-    return [MLKSingleFloat singleFloatWithFloat:(value - [arg floatValue])];
+    return [MLKSingleFloat singleFloatWithFloat:(value - [(MLKFloat*)arg floatValue])];
 }
 
--(MLKFloat *) multiplyWith:(MLKFloat *)arg
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg
 {
   if ([arg isKindOfClass:[MLKDoubleFloat class]])
-    return [MLKDoubleFloat doubleFloatWithDouble:(value * [arg doubleValue])];
+    return [MLKDoubleFloat doubleFloatWithDouble:(value * [(MLKFloat*)arg doubleValue])];
   else
-    return [MLKSingleFloat singleFloatWithFloat:(value * [arg floatValue])];
+    return [MLKSingleFloat singleFloatWithFloat:(value * [(MLKFloat*)arg floatValue])];
 }
 
--(MLKFloat *) divideBy:(MLKFloat *)arg
+-(MLKNumber *) divideBy:(MLKNumber *)arg
 {
   if ([arg isKindOfClass:[MLKDoubleFloat class]])
-    return [MLKDoubleFloat doubleFloatWithDouble:(value / [arg doubleValue])];
+    return [MLKDoubleFloat doubleFloatWithDouble:(value / [(MLKFloat*)arg doubleValue])];
   else
-    return [MLKSingleFloat singleFloatWithFloat:(value / [arg floatValue])];
+    return [MLKSingleFloat singleFloatWithFloat:(value / [(MLKFloat*)arg floatValue])];
 }
 
 -(NSString *) description

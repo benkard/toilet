@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
+#import "MLKNumber.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@
 @class NSString;
 
 
-@interface MLKInteger : MLKLispValue
+@interface MLKInteger : MLKNumber
 {
   mpz_t value;
 }
@@ -44,10 +44,10 @@
 
 -(int) intValue;
 
--(MLKInteger *) add:(MLKInteger *)arg;
--(MLKInteger *) subtract:(MLKInteger *)arg;
--(MLKInteger *) multiplyWith:(MLKInteger *)arg;
--(MLKInteger *) divideBy:(MLKInteger *)arg;
+-(MLKNumber *) add:(MLKNumber *)arg;
+-(MLKNumber *) subtract:(MLKNumber *)arg;
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg;
+-(MLKNumber *) divideBy:(MLKNumber *)arg;
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;

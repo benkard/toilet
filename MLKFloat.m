@@ -26,7 +26,7 @@
 #import <Foundation/NSException.h>
 
 
-@implementation MLKFloat : MLKLispValue
+@implementation MLKFloat
 +(MLKFloat *) floatWithExponentMarker:(unichar)exponentMarker
                           integerPart:(NSString *)intPart
                              negative:(BOOL)negative
@@ -70,10 +70,10 @@
 
 DECLARE_ABSTRACT (-(float) floatValue, 0.0)
 DECLARE_ABSTRACT (-(double) doubleValue, 0.0)
-DECLARE_ABSTRACT (-(MLKFloat *) add:(MLKFloat *)arg, nil)
-DECLARE_ABSTRACT (-(MLKFloat *) subtract:(MLKFloat *)arg, nil)
-DECLARE_ABSTRACT (-(MLKFloat *) multiplyWith:(MLKFloat *)arg, nil)
-DECLARE_ABSTRACT (-(MLKFloat *) divideBy:(MLKFloat *)arg, nil)
+DECLARE_ABSTRACT (-(MLKNumber *) add:(MLKNumber *)arg, nil)
+DECLARE_ABSTRACT (-(MLKNumber *) subtract:(MLKNumber *)arg, nil)
+DECLARE_ABSTRACT (-(MLKNumber *) multiplyWith:(MLKNumber *)arg, nil)
+DECLARE_ABSTRACT (-(MLKNumber *) divideBy:(MLKNumber *)arg, nil)
 
 -(NSString *) description
 {

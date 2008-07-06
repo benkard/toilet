@@ -71,11 +71,12 @@
                                         base:base]);
 }
 
-#define DEFINE_MPQ_TWOARG_OPERATION(SELECTOR, GMPFUN)                   \
-  DEFINE_GMP_OPERATION (SELECTOR (MLKRatio *)arg,                       \
-                        mpq,                                            \
-                        GMPFUN (mpval, self->value, arg->value),        \
-                        MLKRatio,                                       \
+#define DEFINE_MPQ_TWOARG_OPERATION(SELECTOR, GMPFUN)                         \
+  DEFINE_GMP_OPERATION (SELECTOR (MLKNumber *)arg,                            \
+                        mpq,                                                  \
+                        GMPFUN (mpval, self->value, ((MLKRatio*)arg)->value), \
+                        MLKNumber,                                            \
+                        MLKRatio,                                             \
                         ratioWithMPQ:)
 
 DEFINE_MPQ_TWOARG_OPERATION (add:, mpq_add)

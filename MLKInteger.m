@@ -69,11 +69,12 @@
 }
 
 
-#define DEFINE_MPZ_TWOARG_OPERATION(SELECTOR, GMPFUN)                   \
-  DEFINE_GMP_OPERATION (SELECTOR (MLKInteger *)arg,                     \
-                        mpz,                                            \
-                        GMPFUN (mpval, self->value, arg->value),        \
-                        MLKInteger,                                     \
+#define DEFINE_MPZ_TWOARG_OPERATION(SELECTOR, GMPFUN)                           \
+  DEFINE_GMP_OPERATION (SELECTOR (MLKNumber *)arg,                              \
+                        mpz,                                                    \
+                        GMPFUN (mpval, self->value, ((MLKInteger*)arg)->value), \
+                        MLKNumber,                                              \
+                        MLKInteger,                                             \
                         integerWithMPZ:)
 
 DEFINE_MPZ_TWOARG_OPERATION (add:, mpz_add)

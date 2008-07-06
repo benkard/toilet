@@ -16,36 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKFloat.h"
-
-@class NSString;
+#import "MLKLispValue.h"
 
 
-@interface MLKSingleFloat : MLKFloat
-{
-  float value;
-}
-
--(MLKSingleFloat *) initWithIntegerPart:(NSString *)intPart
-                               negative:(BOOL)negative
-                         fractionalPart:(NSString *)fractPart
-                               exponent:(NSString *)exponent
-                       exponentNegative:(BOOL)exponentNegative;
-
-+(MLKSingleFloat *) singleFloatWithIntegerPart:(NSString *)intPart
-                                      negative:(BOOL)negative
-                                fractionalPart:(NSString *)fractPart
-                                      exponent:(NSString *)exponent
-                              exponentNegative:(BOOL)exponentNegative;
-
--(float) floatValue;
--(double) doubleValue;
-
+@interface MLKNumber : MLKLispValue
 -(MLKNumber *) add:(MLKNumber *)arg;
 -(MLKNumber *) subtract:(MLKNumber *)arg;
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
-
--(NSString *) description;
--(NSString *) descriptionForLisp;
 @end

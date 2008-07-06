@@ -2,11 +2,11 @@
 #include <Foundation/NSException.h>
 #include <Foundation/NSNull.h>
 
-#define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, OBJTYPE, CONSTRUCTOR) \
-  -(OBJTYPE *) SIGNATURE                                                \
+#define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, RETTYPE, OBJTYPE, CONSTRUCTOR) \
+  -(RETTYPE *) SIGNATURE                                                \
   {                                                                     \
     TYPE##_t mpval;                                                     \
-    OBJTYPE *result;                                                    \
+    RETTYPE *result;                                                    \
                                                                         \
     TYPE##_init (mpval);                                                \
     GMPOP;                                                              \

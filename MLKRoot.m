@@ -19,6 +19,7 @@
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKInterpreter.h"
+#import "MLKNumber.h"
 #import "MLKPackage.h"
 #import "MLKRoot.h"
 #import "MLKStream.h"
@@ -195,22 +196,22 @@ static id truify (BOOL value)
 
 +(NSArray *) add:(NSArray *)args
 {
-  RETURN_VALUE ([[args objectAtIndex:0] add:[args objectAtIndex:1]]);
+  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) add:[args objectAtIndex:1]]);
 }
 
 +(NSArray *) subtract:(NSArray *)args
 {
-  RETURN_VALUE ([[args objectAtIndex:0] subtract:[args objectAtIndex:1]]);
+  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) subtract:[args objectAtIndex:1]]);
 }
 
 +(NSArray *) multiply:(NSArray *)args
 {
-  RETURN_VALUE ([[args objectAtIndex:0] multiplyWith:[args objectAtIndex:1]]);
+  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) multiplyWith:[args objectAtIndex:1]]);
 }
 
 +(NSArray *) divide:(NSArray *)args
 {
-  RETURN_VALUE ([[args objectAtIndex:0] divideBy:[args objectAtIndex:1]]);
+  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) divideBy:[args objectAtIndex:1]]);
 }
 
 +(NSArray *) list:(NSArray *)args

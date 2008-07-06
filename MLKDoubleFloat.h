@@ -44,10 +44,10 @@
 -(float) floatValue;
 -(double) doubleValue;
 
--(MLKFloat *) add:(MLKFloat *)arg;
--(MLKFloat *) subtract:(MLKFloat *)arg;
--(MLKFloat *) multiplyWith:(MLKFloat *)arg;
--(MLKFloat *) divideBy:(MLKFloat *)arg;
+-(MLKNumber *) add:(MLKNumber *)arg;
+-(MLKNumber *) subtract:(MLKNumber *)arg;
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg;
+-(MLKNumber *) divideBy:(MLKNumber *)arg;
 
 -(NSString *) description;
 -(NSString *) descriptionForLisp;

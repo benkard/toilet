@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
+#import "MLKNumber.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@
 @class NSString, MLKInteger;
 
 
-@interface MLKRatio : MLKLispValue
+@interface MLKRatio : MLKNumber
 {
   mpq_t value;
 }
@@ -42,10 +42,10 @@
                               negative:(BOOL)negative
                                   base:(unsigned int)base;
 
--(MLKRatio *) add:(MLKRatio *)arg;
--(MLKRatio *) subtract:(MLKRatio *)arg;
--(MLKRatio *) multiplyWith:(MLKRatio *)arg;
--(MLKRatio *) divideBy:(MLKRatio *)arg;
+-(MLKNumber *) add:(MLKNumber *)arg;
+-(MLKNumber *) subtract:(MLKNumber *)arg;
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg;
+-(MLKNumber *) divideBy:(MLKNumber *)arg;
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;

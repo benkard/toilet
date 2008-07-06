@@ -94,24 +94,24 @@
   return value;
 }
 
--(MLKFloat *) add:(MLKFloat *)arg
+-(MLKNumber *) add:(MLKNumber *)arg
 {
-  return [MLKDoubleFloat doubleFloatWithDouble:(value + [arg doubleValue])];
+  return [MLKDoubleFloat doubleFloatWithDouble:(value + [(MLKFloat*)arg doubleValue])];
 }
 
--(MLKFloat *) subtract:(MLKFloat *)arg
+-(MLKNumber *) subtract:(MLKNumber *)arg
 {
-  return [MLKDoubleFloat doubleFloatWithDouble:(value - [arg doubleValue])];
+  return [MLKDoubleFloat doubleFloatWithDouble:(value - [(MLKFloat*)arg doubleValue])];
 }
 
--(MLKFloat *) multiplyWith:(MLKFloat *)arg
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg
 {
-  return [MLKDoubleFloat doubleFloatWithDouble:(value * [arg doubleValue])];
+  return [MLKDoubleFloat doubleFloatWithDouble:(value * [(MLKFloat*)arg doubleValue])];
 }
 
--(MLKFloat *) divideBy:(MLKFloat *)arg
+-(MLKNumber *) divideBy:(MLKNumber *)arg
 {
-  return [MLKDoubleFloat doubleFloatWithDouble:(value / [arg doubleValue])];
+  return [MLKDoubleFloat doubleFloatWithDouble:(value / [(MLKFloat*)arg doubleValue])];
 }
 
 -(NSString *) description

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
+#import "MLKNumber.h"
 
 #import <Foundation/NSString.h>
 
@@ -26,7 +26,7 @@
 // instances are of one of its subclasses (currently MLKSingleFloat und
 // MLKDoubleFloat; an arbitrary-precision, GMP-backed type is planned
 // for the future).
-@interface MLKFloat : MLKLispValue
+@interface MLKFloat : MLKNumber
 +(MLKFloat *) floatWithExponentMarker:(unichar)exponentMarker
                           integerPart:(NSString *)intPart
                              negative:(BOOL)negative
@@ -38,10 +38,10 @@
 -(float) floatValue;
 -(double) doubleValue;
 
--(MLKFloat *) add:(MLKFloat *)arg;
--(MLKFloat *) subtract:(MLKFloat *)arg;
--(MLKFloat *) multiplyWith:(MLKFloat *)arg;
--(MLKFloat *) divideBy:(MLKFloat *)arg;
+-(MLKNumber *) add:(MLKNumber *)arg;
+-(MLKNumber *) subtract:(MLKNumber *)arg;
+-(MLKNumber *) multiplyWith:(MLKNumber *)arg;
+-(MLKNumber *) divideBy:(MLKNumber *)arg;
 
 -(NSString *) description;
 @end
