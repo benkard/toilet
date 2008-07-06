@@ -42,6 +42,7 @@
 static MLKPackage *cl;
 static MLKPackage *sys;
 static MLKSymbol *IF;
+static MLKSymbol *IN_PACKAGE;
 static MLKSymbol *DECLARE;
 static MLKSymbol *PROGN;
 static MLKSymbol *TAGBODY;
@@ -72,6 +73,7 @@ static MLKSymbol *_LAMBDA;
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
 
   IF = [cl intern:@"IF"];
+  IN_PACKAGE = [cl intern:@"IN-PACKAGE"];
   DECLARE = [cl intern:@"DECLARE"];
   PROGN = [cl intern:@"PROGN"];
   TAGBODY = [cl intern:@"TAGBODY"];
@@ -207,6 +209,18 @@ static MLKSymbol *_LAMBDA;
                 return [self eval:consequent
                              inLexicalContext:context
                              withEnvironment:lexenv];                
+            }
+          else if (car == IN_PACKAGE)
+            {
+              id cadr = [[program cdr] car];
+              id package = [MLKPackage findPackage:stringify(cadr)];
+
+              [[MLKDynamicContext currentContext]
+                setValue:package
+                forSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
+                            intern:@"*PACKAGE*"]];
+
+              return [NSArray arrayWithObject:nullify(package)];
             }
           else if (car == _LAMBDA)
             {
