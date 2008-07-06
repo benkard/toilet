@@ -20,6 +20,7 @@
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSException.h>
+#import <Foundation/NSString.h>
 
 
 static id UNBOUND;

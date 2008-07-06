@@ -16,10 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
 #import "MLKBinding.h"
+#import "MLKLispValue.h"
+#import "MLKSymbol.h"
 
-@class NSMutableDictionary, MLKSymbol, NSSet;
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSSet.h>
+#import <Foundation/NSString.h>
 
 
 @interface MLKEnvironment : MLKLispValue

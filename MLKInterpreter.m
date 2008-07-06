@@ -592,7 +592,8 @@ static MLKSymbol *_LAMBDA;
       if (print)
         {
           //FIXME
-          //NSLog (@"; LOAD: Fnord.  Primary value: %@", result);
+          //NSLog (@"; LOAD: Fnord.  Primary value: %@",
+          //       [[result objectAtIndex:0] descriptionForLisp]);
         }
     }
 

@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/NSObject.h>
-
 #import "MLKBinding.h"
+#import "MLKEnvironment.h"
+#import "MLKSymbol.h"
 
-@class MLKEnvironment, MLKSymbol, NSLinkedList,
-       NSMutableDictionary, NSString;
+#import <Foundation/NSObject.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSString.h>
 
 
 @interface MLKDynamicContext : NSObject
