@@ -135,7 +135,9 @@
     }
   NS_ENDHANDLER;
 
-  if (accessible)
+  if (homePackage == [MLKPackage findPackage:@"KEYWORD"])
+    packagePrefix = @":";
+  else if (accessible)
     packagePrefix = [NSString string];
   else
     packagePrefix = [NSString stringWithFormat:@"|%@|%s",
@@ -149,7 +151,7 @@
 
 -(NSString *) description
 {
-  return [NSString stringWithFormat:@"|%@|::|%@|", [homePackage name], name];
+  return [self descriptionForLisp];
 }
 
 -(BOOL) isEqual:(id)object
