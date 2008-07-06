@@ -18,6 +18,8 @@
 
 #import "MLKNumber.h"
 
+#import <Foundation/NSException.h>
+
 
 @implementation MLKNumber
 #define DECLARE_ABSTRACT(SIGNATURE, RETURN_VALUE)                       \
