@@ -133,11 +133,6 @@
     }
   NS_HANDLER
     {
-      // For some reason, NS_VALUERETURN (YES, BOOL) causes warnings of
-      // the following kind on the Apple runtime:
-      //
-      //  *** Attempt to remove unrecognized exception handler 0xbfff6200
-      //
       if ([[localException name] isEqual:@"MLKStreamError"])
         eofp = YES;
       else

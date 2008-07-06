@@ -77,17 +77,23 @@ static id stringify (id thing)
   NSMutableString *methodName;
   NSArray *result;
   SEL selector;
+  BOOL nothing_found;
+
+  nothing_found = NO;
 
   NS_DURING
     {
       if ([sys findSymbol:[name name]] != name)
-        return nil;
+        NS_VALUERETURN (nil, NSArray *);
     }
   NS_HANDLER
     {
-      NS_VALUERETURN (nil, NSArray *);
+      nothing_found = YES;
     }
-  NS_ENDHANDLER
+  NS_ENDHANDLER;
+
+  if (nothing_found)
+    return nil;
 
   invocation = [NSInvocation invocationWithMethodSignature:signature];
 

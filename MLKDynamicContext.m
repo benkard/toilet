@@ -316,13 +316,11 @@ static MLKDynamicContext *global_context;
 {
   NS_DURING
     {
-      return [_restarts valueForSymbol:symbol];
+      NS_VALUERETURN ([_restarts valueForSymbol:symbol], id);
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        NS_VALUERETURN (nil, id);
-      else
+      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
         [localException raise];
     }
   NS_ENDHANDLER;
@@ -335,15 +333,13 @@ static MLKDynamicContext *global_context;
   NS_DURING
     {
       if (_activeHandlerEnvironment)
-        return [[_activeHandlerEnvironment parent] valueForSymbol:symbol];
+        NS_VALUERETURN ([[_activeHandlerEnvironment parent] valueForSymbol:symbol], id);
       else
-        return [_conditionHandlers valueForSymbol:symbol];
+        NS_VALUERETURN ([_conditionHandlers valueForSymbol:symbol], id);
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        NS_VALUERETURN (nil, id);
-      else
+      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
         [localException raise];
     }
   NS_ENDHANDLER;
@@ -355,13 +351,11 @@ static MLKDynamicContext *global_context;
 {
   NS_DURING
     {
-      return [_catchTags valueForSymbol:symbol];
+      NS_VALUERETURN ([_catchTags valueForSymbol:symbol], id);
     }
   NS_HANDLER
     {
-      if ([[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        NS_VALUERETURN (nil, id);
-      else
+      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
         [localException raise];
     }
   NS_ENDHANDLER;
