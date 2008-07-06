@@ -107,6 +107,8 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"EXPORT"]];
   [sys export:[sys intern:@"SHADOW"]];
   [sys export:[sys intern:@"UNEXPORT"]];
+  [sys export:[sys intern:@"FIND-PACKAGE"]];
+  [sys export:[sys intern:@"STRING"]];
 
   [cl export:[cl intern:@"*BREAK-ON-SIGNALS*"]];
   [cl export:[cl intern:@"*COMPILE-FILE-PATHNAME*"]];
