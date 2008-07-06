@@ -51,11 +51,13 @@ etshell_OBJC_FILES = StepTalkShell/STShell.m		\
                      StepTalkShell/STShell+output.m	\
                      StepTalkShell/stshell_tool.m
 etshell_OBJC_LIBS += -lStepTalk -lreadline -lncurses -lToiletKit	\
-                     -LToiletKit.framework
+                     -LToiletKit.framework                              \
+                     -LToiletKit.framework/Versions/Current
 etshell_OBJCFLAGS = -w
 
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
-toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework
+toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework \
+                    -LToiletKit.framework/Versions/Current
 
 Test_OBJC_FILES = MLKLowLevelTests.m
 Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit

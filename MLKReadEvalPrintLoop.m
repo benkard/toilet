@@ -30,8 +30,6 @@
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
-#import <editline/history.h>
-#import <editline/readline.h>
 #import <histedit.h>
 
 
