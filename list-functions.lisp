@@ -51,7 +51,7 @@
   (car (cdr (first args))))
 
 (shadow 'car)
-(export 'car)
+(unexport 'sys::car (find-package :sys))
 (%defun car args
   (sys::car (first args)))
 
@@ -98,7 +98,7 @@
   (cdr (cdr (first args))))
 
 (shadow 'cdr)
-(export 'cdr)
+(unexport 'sys::cdr (find-package :sys))
 (%defun cdr args
   (sys::cdr (first args)))
 
@@ -138,6 +138,11 @@
 ;;;; CONS
 ;;;;-----------------------------------------------------------------
 (shadow 'cons)
-(export 'cons)
+(unexport 'sys::cons (find-package :sys))
 (%defun cons args
   (sys::cons (first args) (second args)))
+
+
+;;;;-----------------------------------------------------------------
+(export '(cons car cdr list* first second third fourth fifth sixth
+          seventh eigthth ninth tenth))

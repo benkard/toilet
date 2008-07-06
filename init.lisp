@@ -1,3 +1,5 @@
+(in-package :common-lisp)
 (load "util.lisp")
 (load "cond.lisp")
 (load "list-functions.lisp")
+(in-package :common-lisp-user)

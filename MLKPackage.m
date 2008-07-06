@@ -52,6 +52,8 @@ static NSMutableDictionary *packages = nil;
 
   [MLKPackage packageWithName:@"KEYWORD" nicknames:[NSSet set]];
 
+  [cl usePackage:sys];
+
   [tlUser usePackage:cl];
   [tlUser usePackage:toilet];
 
