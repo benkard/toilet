@@ -50,6 +50,11 @@
 (%defun cadr args
   (car (cdr (first args))))
 
+(shadow 'car)
+(export 'car)
+(%defun car args
+  (sys::car (first args)))
+
 (%defun cdaaar args
   (cdr (caaar (first args))))
 
@@ -92,6 +97,11 @@
 (%defun cddr args
   (cdr (cdr (first args))))
 
+(shadow 'cdr)
+(export 'cdr)
+(%defun cdr args
+  (sys::cdr (first args)))
+
 
 ;;;;-----------------------------------------------------------------
 ;;;; SECOND ... TENTH
@@ -122,3 +132,12 @@
 
 (%defun tenth args
   (car (cdddr (cdddr (cdddr (car args))))))
+
+
+;;;;-----------------------------------------------------------------
+;;;; CONS
+;;;;-----------------------------------------------------------------
+(shadow 'cons)
+(export 'cons)
+(%defun cons args
+  (sys::cons (first args) (second args)))
