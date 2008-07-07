@@ -19,15 +19,16 @@
 #import "MLKNumber.h"
 
 #import <Foundation/NSException.h>
+#import <Foundation/NSString.h>
 
 
 @implementation MLKNumber
-#define DECLARE_ABSTRACT(SIGNATURE, RETURN_VALUE)                       \
-SIGNATURE                                                             \
-{                                                                     \
-  [NSException raise:@"MLKInternalInconsistencyError"                 \
-              format:@"Tried to invoke an abstract method."];        \
-                return RETURN_VALUE;                                                \
+#define DECLARE_ABSTRACT(SIGNATURE, RETURN_VALUE)               \
+  SIGNATURE                                                     \
+{                                                               \
+  [NSException raise:@"MLKInternalInconsistencyError"           \
+               format:@"Tried to invoke an abstract method."];  \
+  return RETURN_VALUE;                                          \
 }
 
 DECLARE_ABSTRACT (-(MLKNumber *) add:(MLKNumber *)arg, nil)
