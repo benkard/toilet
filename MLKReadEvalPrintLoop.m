@@ -104,7 +104,7 @@ static const char *prompt (EditLine *e) {
   while (1)
     {
       const char *line;
-      ssize_t line_length;
+      int line_length;
 
       line = el_gets (editline, &line_length);
 
