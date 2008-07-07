@@ -137,6 +137,8 @@
 
   if (homePackage == [MLKPackage findPackage:@"KEYWORD"])
     packagePrefix = @":";
+  else if (!homePackage)
+    packagePrefix = @"#:";
   else if (accessible)
     packagePrefix = [NSString string];
   else

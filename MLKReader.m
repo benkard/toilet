@@ -448,13 +448,19 @@
         }
       else
         {
-          package = [MLKPackage
-                      findPackage:[token substringToIndex:packageMarker]];
+          NSString *packageName = [token substringToIndex:packageMarker];
 
-          if (!package)
-            [NSException raise:@"MLKReaderError"
-                         format:@"Can't find package %@.",
-                         [token substringToIndex:packageMarker]];
+          if ([packageName isEqualToString:@"#"])
+            package = nil;
+          else
+            {
+              package = [MLKPackage findPackage:packageName];
+
+              if (!package)
+                [NSException raise:@"MLKReaderError"
+                             format:@"Can't find package %@.",
+                             [token substringToIndex:packageMarker]];
+            }
 
           if ([readtable isPackageMarker:[token characterAtIndex:(i+1)]])
             symbolName = [token substringFromIndex:(packageMarker+2)];
@@ -463,16 +469,24 @@
               // A single package marker means we have to check whether
               // the symbol is external in the package.
               symbolName = [token substringFromIndex:(packageMarker+1)];
-              symbol = [package intern:symbolName];
-              if (![[package exportedSymbols] containsObject:symbol])
-                [NSException raise:@"MLKReaderError"
-                             format:@"Package %@ does not export symbol %@.",
-                                    [package name], [symbol descriptionForLisp]];
+
+              if (package)
+                {
+                  symbol = [package intern:symbolName];
+                  if (![[package exportedSymbols] containsObject:symbol])
+                    [NSException raise:@"MLKReaderError"
+                                 format:@"Package %@ does not export symbol %@.",
+                                        [package name],
+                                        [symbol descriptionForLisp]];
+                }
             }
         }
 
-      symbol = [package intern:symbolName];
-      
+      if (package)
+        symbol = [package intern:symbolName];
+      else
+        symbol = [MLKSymbol symbolWithName:symbolName package:nil];
+
       if (packageMarker == 0)
         {
           // Make keyword symbols self-evaluate.
