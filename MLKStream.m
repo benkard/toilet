@@ -57,6 +57,8 @@
   _encoding = encoding;
   _cachedChar = 0;
   _charCached = NO;
+  _closeInputWhenDone = NO;
+  _closeOutputWhenDone = NO;
   return self;
 }
 
@@ -75,6 +77,12 @@
       return ch;
     }
 
+  if ([_input streamStatus] == NSStreamStatusNotOpen)
+    {
+      _closeInputWhenDone = YES;
+      [_input open];
+    }
+
   buffer = NULL;
   for (i = 0;; i++)
     {
@@ -85,7 +93,7 @@
 
       buffer = realloc (buffer, i+1);
       bytes_read = [_input read:(buffer+i) maxLength:1];
-      NSLog (@"%d bytes read", bytes_read);
+      //NSLog (@"%d bytes read", bytes_read);
 
       if (bytes_read < 1)
         {
@@ -148,5 +156,20 @@
   NS_ENDHANDLER;
 
   return eofp;
+}
+
+-(void) dealloc
+{
+  if (_closeInputWhenDone)
+    {
+      [_input close];
+    }
+  RELEASE (_input);
+  if (_closeOutputWhenDone)
+    {
+      [_output close];
+    }
+  RELEASE (_output);
+  [super dealloc];
 }
 @end

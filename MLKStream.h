@@ -28,6 +28,8 @@
   NSOutputStream *_output;
   NSStringEncoding _encoding;
   BOOL _charCached;
+  BOOL _closeInputWhenDone;
+  BOOL _closeOutputWhenDone;
   unichar _cachedChar;
 }
 
