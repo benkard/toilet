@@ -64,6 +64,8 @@ static NSMutableDictionary *packages = nil;
   [cl import:nil];
   [cl export:nil];
   [cl export:[cl intern:@"T"]];
+  [cl export:[cl intern:@"CATCH"]];
+  [cl export:[cl intern:@"THROW"]];
   [cl export:[cl intern:@"IF"]];
   [cl export:[cl intern:@"IN-PACKAGE"]];
   [cl export:[cl intern:@"LET"]];

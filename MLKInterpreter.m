@@ -28,6 +28,7 @@
 #import "MLKReader.h"
 #import "MLKRoot.h"
 #import "MLKSymbol.h"
+#import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -162,6 +163,44 @@ static MLKSymbol *_LAMBDA;
               return [function applyToArray:(rest
                                              ? (id)[rest array]
                                              : (id)[NSArray array])];
+            }
+          else if (car == CATCH)
+            {
+              id catchTag;
+              NSArray *values;
+
+              NS_DURING
+                {
+                  catchTag = denullify([[self eval:[[program cdr] car]
+                                              inLexicalContext:context
+                                              withEnvironment:lexenv]
+                                         objectAtIndex:0]);
+
+                  values = [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv];
+
+                  NS_VALUERETURN (values, NSArray *);
+                }
+              NS_HANDLER
+                {
+                  if ([[localException name] isEqualToString:@"MLKThrow"])
+                    {
+                      id thrownTag = [[localException userInfo]
+                                       objectForKey:@"THROWN TAG"];
+
+                      if (thrownTag == catchTag)
+                        return [[localException userInfo]
+                                 objectForKey:@"THROWN OBJECTS"];
+                      else
+                        [localException raise];
+                    }
+                  else
+                    [localException raise];
+                }
+              NS_ENDHANDLER;
+
+              return nil;
             }
           else if (car == _DEFMACRO)
             {
@@ -443,6 +482,34 @@ static MLKSymbol *_LAMBDA;
           else if (car == TAGBODY)
             {
               //FIXME: ...
+            }
+          else if (car == THROW)
+            {
+              id catchTag;
+              NSArray *values;
+              NSDictionary *userInfo;
+
+              catchTag = denullify([[self eval:[[program cdr] car]
+                                          inLexicalContext:context
+                                          withEnvironment:lexenv]
+                                     objectAtIndex:0]);
+
+              values = [self eval:[[[program cdr] cdr] car]
+                             inLexicalContext:context
+                             withEnvironment:lexenv];
+
+              userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         catchTag, @"THROWN TAG",
+                                         values, @"THROWN OBJECTS", nil];
+
+              [[NSException exceptionWithName:@"MLKThrow"
+                            reason:[NSString stringWithFormat:
+                                               @"THROW without a corresponding CATCH: tag %@, values %@.",
+                                             [catchTag descriptionForLisp],
+                                             [values descriptionForLisp]]
+                            userInfo:userInfo] raise];
+
+              return nil;
             }
           else if (car == UNWIND_PROTECT)
             {
