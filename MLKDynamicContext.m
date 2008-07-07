@@ -257,7 +257,7 @@ static MLKDynamicContext *global_context;
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
-                            catchTags:(NSDictionary *)catchTags
+                            catchTags:(NSSet *)catchTags
              activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 {
   self = [super init];
@@ -267,7 +267,7 @@ static MLKDynamicContext *global_context;
                                         _parent,
                                         _parent->_conditionHandlers);
   _restarts = MAKE_ENVIRONMENT(restarts, _parent, _parent->_restarts);
-  _catchTags = MAKE_ENVIRONMENT(catchTags, _parent, _parent->_catchTags);
+  _catchTags = [[NSSet alloc] initWithSet:catchTags];
   ASSIGN (_activeHandlerEnvironment,
           handlerEnv
           ? (id) handlerEnv
@@ -347,20 +347,10 @@ static MLKDynamicContext *global_context;
   return nil;
 }
 
--(id) findCatchTag:(MLKSymbol *)symbol
+-(BOOL) catchTagIsEstablished:(id)tag
 {
-  NS_DURING
-    {
-      NS_VALUERETURN ([_catchTags valueForSymbol:symbol], id);
-    }
-  NS_HANDLER
-    {
-      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        [localException raise];
-    }
-  NS_ENDHANDLER;
-
-  return nil;
+  return ([_catchTags containsObject:tag] ||
+          (_parent && [_parent catchTagIsEstablished:tag]));
 }
 
 -(id) valueForSymbol:(MLKSymbol *)symbol

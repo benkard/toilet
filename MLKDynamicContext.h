@@ -22,6 +22,7 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSDictionary.h>
+#import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
 
 
@@ -29,7 +30,7 @@
 {
   MLKEnvironment *_conditionHandlers;
   MLKEnvironment *_restarts;
-  MLKEnvironment *_catchTags;
+  NSSet *_catchTags;
   MLKEnvironment *_environment;
   MLKEnvironment *_activeHandlerEnvironment;  // needed for the Condition Firewall
   MLKDynamicContext *_parent;
@@ -41,7 +42,7 @@
                             variables:(NSDictionary *)vars
                              handlers:(NSDictionary *)handlers
                              restarts:(NSDictionary *)restarts
-                            catchTags:(NSDictionary *)catchTags
+                            catchTags:(NSSet *)catchTags
              activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 
 +(MLKDynamicContext *) globalContext;
@@ -55,7 +56,8 @@
 
 -(id) findRestart:(MLKSymbol *)symbol;
 -(id) findHandler:(MLKSymbol *)symbol;
--(id) findCatchTag:(MLKSymbol *)symbol;
+
+-(BOOL) catchTagIsEstablished:(id)tag;
 
 -(id) valueForSymbol:(MLKSymbol *)symbol;
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol;

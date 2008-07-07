@@ -168,6 +168,7 @@ static MLKSymbol *_LAMBDA;
             {
               id catchTag;
               NSArray *values;
+              MLKDynamicContext *newctx;
 
               NS_DURING
                 {
@@ -176,14 +177,29 @@ static MLKSymbol *_LAMBDA;
                                     withEnvironment:lexenv]
                                objectAtIndex:0];
 
+                  newctx = [[MLKDynamicContext alloc]
+                             initWithParent:dynamicContext
+                             variables:nil
+                             handlers:nil
+                             restarts:nil
+                             catchTags:[NSSet setWithObject:catchTag]
+                             activeHandlerEnvironment:nil];
+                  [newctx pushContext];
+
                   values = [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
                                  inLexicalContext:context
                                  withEnvironment:lexenv];
+
+                  [MLKDynamicContext popContext];
+                  RELEASE (newctx);
 
                   NS_VALUERETURN (values, NSArray *);
                 }
               NS_HANDLER
                 {
+                  [MLKDynamicContext popContext];
+                  RELEASE (newctx);
+
                   if ([[localException name] isEqualToString:@"MLKThrow"])
                     {
                       id thrownTag = [[localException userInfo]
@@ -502,12 +518,22 @@ static MLKSymbol *_LAMBDA;
                                          catchTag, @"THROWN TAG",
                                          values, @"THROWN OBJECTS", nil];
 
-              [[NSException exceptionWithName:@"MLKThrow"
-                            reason:[NSString stringWithFormat:
-                                               @"THROW without a corresponding CATCH: tag %@, values %@.",
-                                             [catchTag descriptionForLisp],
-                                             [values descriptionForLisp]]
-                            userInfo:userInfo] raise];
+              if ([dynamicContext catchTagIsEstablished:denullify (catchTag)])
+                [[NSException exceptionWithName:@"MLKThrow"
+                              reason:[NSString stringWithFormat:
+                                                 @"THROW: tag %@, values %@.",
+                                               [catchTag descriptionForLisp],
+                                               [values descriptionForLisp]]
+                              userInfo:userInfo] raise];
+              else
+                // FIXME: This should really be a condition rather than
+                // an exception.  See CLHS THROW.
+                [[NSException exceptionWithName:@"MLKControlError"
+                              reason:[NSString stringWithFormat:
+                                                 @"THROW without a corresponding CATCH: tag %@, values %@.",
+                                               [catchTag descriptionForLisp],
+                                               [values descriptionForLisp]]
+                              userInfo:userInfo] raise];
 
               return nil;
             }
