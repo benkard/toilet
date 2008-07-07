@@ -111,6 +111,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"UNEXPORT"]];
   [sys export:[sys intern:@"FIND-PACKAGE"]];
   [sys export:[sys intern:@"STRING"]];
+  [sys export:[sys intern:@"GENSYM"]];
 
   [cl export:[cl intern:@"*BREAK-ON-SIGNALS*"]];
   [cl export:[cl intern:@"*COMPILE-FILE-PATHNAME*"]];

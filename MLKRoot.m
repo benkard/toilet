@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKBinding.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKInterpreter.h"
@@ -325,4 +326,50 @@ static id truify (BOOL value)
 {
   RETURN_VALUE (stringify (denullify ([args objectAtIndex:0])));
 }
+
++(NSArray *) gensym:(NSArray *)args
+{
+  NSString *prefix;
+  NSString *suffix;
+  MLKBinding *gensymCounter = [[MLKDynamicContext currentContext]
+                                bindingForSymbol:
+                                  [[MLKPackage findPackage:@"COMMON-LISP"]
+                                    intern:@"*GENSYM-COUNTER*"]];
+
+  if ([args count] > 0)
+    {
+      id x = [args objectAtIndex:0];
+      if ([x isKindOfClass:[NSString class]])
+        {
+          prefix = x;
+          suffix = [[gensymCounter value] descriptionForLisp];
+          [gensymCounter
+            setValue:[[gensymCounter value]
+                       add:[MLKInteger integerWithInt:1]]];
+        }
+      else if ([x isKindOfClass:[MLKInteger class]])
+        {
+          // x must be an integer.
+          prefix = @"G";
+          suffix = [x descriptionForLisp];
+        }
+      else
+        [NSException raise:@"MLKTypeError"
+                     format:@"%@ is not of type (OR INTEGER STRING).", x];
+    }
+  else
+    {
+      prefix = @"G";
+      suffix = [[gensymCounter value] descriptionForLisp];
+      [gensymCounter
+        setValue:[[gensymCounter value]
+                   add:[MLKInteger integerWithInt:1]]];
+    }
+
+  RETURN_VALUE (([MLKSymbol symbolWithName:[NSString stringWithFormat:@"%@%@",
+                                                                      prefix,
+                                                                      suffix]
+                            package:nil]));
+}
+
 @end
