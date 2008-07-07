@@ -144,5 +144,25 @@
 
 
 ;;;;-----------------------------------------------------------------
+;;;; TYPE PREDICATES
+;;;;-----------------------------------------------------------------
+(shadow '(consp listp null))
+(unexport '(sys::consp sys::listp sys::null) (find-package :sys))
+
+(%defun consp args
+  (sys::consp (first args)))
+
+(%defun listp args
+  (sys::listp (first args)))
+
+(%defun null args
+  (sys::null (first args)))
+
+;(%deftype cons args '(satisfies consp))
+;(%deftype list args '(satisfies listp))
+;(%deftype null args '(satisfies null))
+
+
+;;;;-----------------------------------------------------------------
 (export '(cons car cdr list* first second third fourth fifth sixth
-          seventh eigthth ninth tenth))
+          seventh eigthth ninth tenth consp listp null))
