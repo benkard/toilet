@@ -171,10 +171,10 @@ static MLKSymbol *_LAMBDA;
 
               NS_DURING
                 {
-                  catchTag = denullify([[self eval:[[program cdr] car]
-                                              inLexicalContext:context
-                                              withEnvironment:lexenv]
-                                         objectAtIndex:0]);
+                  catchTag = [[self eval:[[program cdr] car]
+                                    inLexicalContext:context
+                                    withEnvironment:lexenv]
+                               objectAtIndex:0];
 
                   values = [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
                                  inLexicalContext:context
@@ -489,10 +489,10 @@ static MLKSymbol *_LAMBDA;
               NSArray *values;
               NSDictionary *userInfo;
 
-              catchTag = denullify([[self eval:[[program cdr] car]
-                                          inLexicalContext:context
-                                          withEnvironment:lexenv]
-                                     objectAtIndex:0]);
+              catchTag = [[self eval:[[program cdr] car]
+                                inLexicalContext:context
+                                withEnvironment:lexenv]
+                           objectAtIndex:0];
 
               values = [self eval:[[[program cdr] cdr] car]
                              inLexicalContext:context
