@@ -121,16 +121,18 @@ static id truify (BOOL value)
   return [NSArray arrayWithObject:nullify([denullify([args objectAtIndex:0]) cdr])];
 }
 
-+(NSArray *) set_car:(NSArray *)args
++(NSArray *) rplaca:(NSArray *)args
 {
-  [[args objectAtIndex:0] setCar:denullify([args objectAtIndex:1])];
-  return [NSArray arrayWithObject:[args objectAtIndex:1]];
+  MLKCons *cons = [args objectAtIndex:0];
+  [cons setCar:denullify([args objectAtIndex:1])];
+  RETURN_VALUE (cons);
 }
 
-+(NSArray *) set_cdr:(NSArray *)args
++(NSArray *) rplacd:(NSArray *)args
 {
-  [[args objectAtIndex:0] setCdr:denullify([args objectAtIndex:1])];
-  return [NSArray arrayWithObject:[args objectAtIndex:1]];
+  MLKCons *cons = [args objectAtIndex:0];
+  [cons setCdr:denullify([args objectAtIndex:1])];
+  RETURN_VALUE (cons);  
 }
 
 +(NSArray *) cons:(NSArray *)args

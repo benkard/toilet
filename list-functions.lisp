@@ -164,5 +164,18 @@
 
 
 ;;;;-----------------------------------------------------------------
+;;;; ACCESSORS
+;;;;-----------------------------------------------------------------
+(shadow '(rplaca rplacd))
+(unexport '(sys::rplaca sys::rplacd) (find-package :sys))
+
+(%defun rplaca args
+  (sys::rplaca (first args) (second args)))
+
+(%defun rplacd args
+  (sys::rplacd (first args) (second args)))
+
+
+;;;;-----------------------------------------------------------------
 (export '(cons car cdr list* first second third fourth fifth sixth
-          seventh eigthth ninth tenth consp listp null))
+          seventh eigthth ninth tenth consp listp null rplaca rplacd))

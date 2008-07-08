@@ -90,8 +90,8 @@ static NSMutableDictionary *packages = nil;
   
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];
-  [sys export:[sys intern:@"SET-CAR"]];
-  [sys export:[sys intern:@"SET-CDR"]];
+  [sys export:[sys intern:@"RPLACA"]];
+  [sys export:[sys intern:@"RPLACD"]];
   [sys export:[sys intern:@"CONS"]];
   [sys export:[sys intern:@"LOAD"]];
   [sys export:[sys intern:@"EQ"]];
