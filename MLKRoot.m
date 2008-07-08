@@ -372,4 +372,39 @@ static id truify (BOOL value)
                             package:nil]));
 }
 
++(NSArray *) make_symbol:(NSArray *)args
+{
+  NSString *name = [args objectAtIndex:0];
+
+  RETURN_VALUE ([MLKSymbol symbolWithName:name package:nil]);
+}
+
++(NSArray *) intern:(NSArray *)args
+{
+  NSString *name = [args objectAtIndex:0];
+  id package = denullify (([args count] > 1
+                           ? [args objectAtIndex:1]
+                           : [[MLKDynamicContext currentContext]
+                               valueForSymbol:
+                                 [[MLKPackage findPackage:@"COMMON-LISP"]
+                                   intern:@"*PACKAGE*"]]));
+  MLKSymbol *symbol = [package intern:name];
+
+  return [NSArray arrayWithObjects:symbol, nil];
+}
+
++(NSArray *) import:(NSArray *)args
+{
+  MLKSymbol *symbol = [args objectAtIndex:0];
+  id package = denullify (([args count] > 1
+                           ? [args objectAtIndex:1]
+                           : [[MLKDynamicContext currentContext]
+                               valueForSymbol:
+                                 [[MLKPackage findPackage:@"COMMON-LISP"]
+                                   intern:@"*PACKAGE*"]]));
+
+  [package import:symbol];
+
+  RETURN_VALUE ([cl intern:@"T"]);
+}
 @end
