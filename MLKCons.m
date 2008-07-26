@@ -113,10 +113,18 @@
 
 -(NSString *)descriptionForLisp
 {
-  if ([_cdr isKindOfClass:[MLKCons class]]
-      && _car == [[MLKPackage findPackage:@"COMMON-LISP"] intern:@"QUOTE"])
-    return [NSString stringWithFormat:@"'%@", [_cdr bareDescriptionForLisp]];
-  else
+  if ([_cdr isKindOfClass:[MLKCons class]])
+    {
+      if (_car == [[MLKPackage findPackage:@"COMMON-LISP"] intern:@"QUOTE"])
+        return [NSString stringWithFormat:@"'%@", [_cdr bareDescriptionForLisp]];
+      else if (_car == [[MLKPackage findPackage:@"TOILET-SYSTEM"] intern:@"QUASIQUOTE"])
+        return [NSString stringWithFormat:@"`%@", [_cdr bareDescriptionForLisp]];
+      else if (_car == [[MLKPackage findPackage:@"TOILET-SYSTEM"] intern:@"UNQUOTE"])
+        return [NSString stringWithFormat:@",%@", [_cdr bareDescriptionForLisp]];
+      else if (_car == [[MLKPackage findPackage:@"TOILET-SYSTEM"] intern:@"UNQUOTE-SPLICING"])
+        return [NSString stringWithFormat:@",@%@", [_cdr bareDescriptionForLisp]];
+    }
+
     return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
 }
 
