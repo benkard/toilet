@@ -1,3 +1,6 @@
+(setq lambda-list-keywords
+      '(&allow-other-keys &aux &body &environment &key &optional &rest &whole))
+
 (%defmacro* d-b (lambda-list environment whole-sym expression . body)
   ;; (ns-log lambda-list)
   `(let* ,(unless whole-sym
@@ -104,3 +107,8 @@
              `(progn ,@body))
             (t `(let ((,lambda-list ,expression))
                   ,@body)))))
+
+
+(export '(destructuring-bind lambda-list-keywords
+          &allow-other-keys &aux &body &environment &key &optional &rest
+          &whole))
