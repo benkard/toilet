@@ -72,8 +72,45 @@
             macro-lambda-list-name
             (list* 'let
                    (list (list lambda-list-name
-                               (list 'car macro-lambda-list-name)))
-             (make-%defmacro*-body lambda-list lambda-list-name body))))))
+                               (list 'cdr
+                                     (list 'car macro-lambda-list-name))))
+                   (make-%defmacro*-body lambda-list lambda-list-name body))))))
+
+(%defmacro %defun* args
+  (let* ((form (car args))
+         (real-args (cdr form)))
+    (let ((name (car real-args))
+          (lambda-list (car (cdr real-args)))
+          (body (cdr (cdr real-args)))
+          (lambda-list-name (gensym)))
+      (list* '%defun
+             name
+             lambda-list-name
+             (make-%defmacro*-body lambda-list lambda-list-name body)))))
+
+(%defmacro* and expressions
+  (cond ((null expressions) t)
+        ((null (cdr expressions)) (car expressions))
+        (t (list 'if
+                 (car expressions)
+                 (cons 'and (cdr expressions))
+                 nil))))
+
+(%defmacro* or expressions
+  (cond ((null expressions) nil)
+        ((null (cdr expressions)) (car expressions))
+        (t (let ((expr-sym (gensym)))
+             (list 'let
+                   (list (list expr-sym (car expressions)))
+                   (list 'if
+                         expr-sym
+                         expr-sym
+                         (cons 'or (cdr expressions))))))))
+
+(%defun* %member (item list)
+  (and list
+       (or (and (eq item (car list)) list)
+           (%member item (cdr list)))))
 
 (%defmacro* case (object . clauses)
   (let ((this-clause (car clauses))
@@ -81,9 +118,19 @@
         (object-sym (gensym)))
     (if (null clauses)
         nil
-        (list 'let
-              (list (list object-sym object))
-              (list 'if
-                    (list 'eq object-sym (list 'quote (car this-clause)))
-                    (cons 'progn (cdr this-clause))
-                    (cons 'case object-sym rest))))))
+        (if (and (null rest)
+                 (or (eq (car this-clause) t)
+                     (eq (car this-clause) 'otherwise)))
+            (cons 'progn (cdr this-clause))
+            (list 'let
+                  (list (list object-sym object))
+                  (list 'if
+                        (if (listp (car this-clause))
+                            (list '%member
+                                  object-sym
+                                  (list 'quote (car this-clause)))
+                            (list 'eq
+                                  object-sym
+                                  (list 'quote (car this-clause))))
+                        (cons 'progn (cdr this-clause))
+                        (list* 'case object-sym rest)))))))
