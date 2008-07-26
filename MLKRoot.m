@@ -409,4 +409,27 @@ static id truify (BOOL value)
 
   RETURN_VALUE ([cl intern:@"T"]);
 }
+
++(NSArray *) objc_class_of:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] class]);
+}
+
++(NSArray *) objc_subclassp:(NSArray *)args
+{
+  RETURN_VALUE (truify ([[args objectAtIndex:0] isSubclassOfClass:
+                                                  [args objectAtIndex:1]]));
+}
+
++(NSArray *) find_objc_class:(NSArray *)args
+{
+  RETURN_VALUE (NSClassFromString ([args objectAtIndex:0]));
+}
+
++(NSArray *) ns_log:(NSArray *)args
+{
+  NSString *description = [[args objectAtIndex:0] descriptionForLisp];
+  NSLog (@"%@", description);
+  RETURN_VALUE ([args objectAtIndex:0]);
+}
 @end
