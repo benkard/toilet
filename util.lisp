@@ -169,7 +169,7 @@
                                   (quote ,(car this-clause)))
                         `(eq ,object-sym
                              (quote ,(car this-clause))))
-                   (progn ,(cdr this-clause))
+                   (progn ,@(cdr this-clause))
                    (case ,object-sym ,@rest)))))))
 
 (%defun* list-eqp (list1 list2)
