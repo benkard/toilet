@@ -107,33 +107,32 @@
                          expr-sym
                          (cons 'or (cdr expressions))))))))
 
-(%defun* %member (item list)
-  (and list
-       (or (and (eq item (car list)) list)
-           (%member item (cdr list)))))
+(%defun* %reverse-helper (list stack)
+  (if (null list)
+      stack
+      (%reverse-helper (cdr list) (cons (car list) stack))))
 
-(%defmacro* case (object . clauses)
-  (let ((this-clause (car clauses))
-        (rest (cdr clauses))
-        (object-sym (gensym)))
-    (if (null clauses)
-        nil
-        (if (and (null rest)
-                 (or (eq (car this-clause) t)
-                     (eq (car this-clause) 'otherwise)))
-            (cons 'progn (cdr this-clause))
-            (list 'let
-                  (list (list object-sym object))
-                  (list 'if
-                        (if (listp (car this-clause))
-                            (list '%member
-                                  object-sym
-                                  (list 'quote (car this-clause)))
-                            (list 'eq
-                                  object-sym
-                                  (list 'quote (car this-clause))))
-                        (cons 'progn (cdr this-clause))
-                        (list* 'case object-sym rest)))))))
+(%defun* reverse (list)
+  (%reverse-helper list nil))
+
+(%defun* %append-helper (reversed-list1 list2)
+  (if (null reversed-list1)
+      list2
+      (%append-helper (cdr reversed-list1) (cons (car reversed-list1) list2))))
+
+(%defun* %append-two-lists (list1 list2)
+  (%append-helper (reverse list1) list2))
+
+(%defun* %append (lists)
+  (if (null (cdr lists))
+      (car lists)
+      (let ((first-list (car lists))
+            (second-list (car (cdr lists)))
+            (rest (cdr (cdr lists))))
+        (%append (list* (%append-two-lists first-list second-list) rest)))))
+
+(%defun append lists
+  (%append lists))
 
 (%defmacro* sys::quasiquote (object)
   (if (not (consp object))
@@ -148,6 +147,30 @@
             (t (list 'cons
                      (list 'sys::quasiquote (car object))
                      (list 'sys::quasiquote (cdr object)))))))
+
+(%defun* %member (item list)
+  (and list
+       (or (and (eq item (car list)) list)
+           (%member item (cdr list)))))
+
+(%defmacro* case (object . clauses)
+  (let ((this-clause (car clauses))
+        (rest (cdr clauses))
+        (object-sym (gensym)))
+    (if (null clauses)
+        nil
+        (if (and (null rest)
+                 (or (eq (car this-clause) t)
+                     (eq (car this-clause) 'otherwise)))
+            `(progn ,@(cdr this-clause))
+            `(let ((,object-sym ,object))
+               (if ,(if (listp (car this-clause))
+                        `(%member ,object-sym
+                                  (quote ,(car this-clause)))
+                        `(eq ,object-sym
+                             (quote ,(car this-clause))))
+                   (progn ,(cdr this-clause))
+                   (case ,object-sym ,@rest)))))))
 
 (%defun* list-eqp (list1 list2)
   "Not really EQUALP (only works on trees of symbols)."
