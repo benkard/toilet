@@ -194,3 +194,6 @@
           (cons (macroexpand-all (car expansion))
                 (macroexpand-all (cdr expansion))))
         object)))
+
+(%defmacro* unless (test . body)
+  `(if (not ,test) (progn ,@body) nil))
