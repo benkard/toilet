@@ -24,6 +24,8 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
+#import "MLKBackquoteReader.h"
+#import "MLKCommaReader.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
@@ -147,8 +149,6 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
 
   //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
-  //  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
 
   [readtable setSyntaxType:SINGLE_ESCAPE forCharacter:'\\'];
   
@@ -164,6 +164,14 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
   [readtable setMacroFunction:AUTORELEASE([[MLKQuoteReader alloc] init])
              forCharacter:'\''];
+  
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
+  [readtable setMacroFunction:AUTORELEASE([[MLKBackquoteReader alloc] init])
+             forCharacter:'`'];
+  
+  [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
+  [readtable setMacroFunction:AUTORELEASE([[MLKCommaReader alloc] init])
+             forCharacter:','];
 
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
   [readtable setMacroFunction:AUTORELEASE([[MLKSemicolonReader alloc] init])

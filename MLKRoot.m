@@ -225,10 +225,12 @@ static id truify (BOOL value)
 +(NSArray *) macroexpand_1:(NSArray *)args
 {
   id form = [args objectAtIndex:0];
-  id env = [args count] > 1 ? [args objectAtIndex:1] : nil;
+  id env = [args count] > 1 ? denullify([args objectAtIndex:1]) : nil;
   MLKLexicalContext *context = env ? (id)env : (id)[MLKLexicalContext globalContext];
 
-  if ([context symbolNamesMacro:[form car]])
+  if ([form isKindOfClass:[MLKCons class]]
+      && (![form car] || [[form car] isKindOfClass:[MLKSymbol class]])
+      && [context symbolNamesMacro:[form car]])
     {
       id <MLKFuncallable> macrofun = [context macroForSymbol:[form car]];
       form = denullify ([[macrofun applyToArray:

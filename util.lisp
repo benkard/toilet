@@ -134,3 +134,40 @@
                                   (list 'quote (car this-clause))))
                         (cons 'progn (cdr this-clause))
                         (list* 'case object-sym rest)))))))
+
+(%defmacro* sys::quasiquote (object)
+  (if (not (consp object))
+      (list 'quote object)
+      (cond ((eq 'sys::unquote (car object)) (car (cdr object)))
+            ((eq 'sys::quasiquote (car object)) (list 'quote object))
+            ((and (consp (car object))
+                  (eq 'sys::unquote-splicing (car (car object))))
+             (list 'append
+                   (car (cdr (car object)))
+                   (list 'sys::quasiquote (cdr object))))
+            (t (list 'cons
+                     (list 'sys::quasiquote (car object))
+                     (list 'sys::quasiquote (cdr object)))))))
+
+(%defun* list-eqp (list1 list2)
+  "Not really EQUALP (only works on trees of symbols)."
+  (if (and (consp list1) (consp list2))
+      (and (list-eqp (car list1) (car list2))
+           (list-eqp (cdr list1) (cdr list2)))
+      (eq list1 list2)))
+
+(%defun* macroexpand (object . rest)
+  (let* ((env (if rest (car rest) nil))
+         (expansion-1 (macroexpand-1 object env))
+         (expansion-2 (macroexpand-1 expansion-1 env)))
+    (if (list-eqp expansion-1 expansion-2)
+        expansion-1
+        (macroexpand expansion-2))))
+
+(%defun* macroexpand-all (object . rest)
+  (let* ((env (if rest (car rest) nil)))
+    (if (consp object)
+        (let ((expansion (macroexpand object env)))
+          (cons (macroexpand-all (car expansion))
+                (macroexpand-all (cdr expansion))))
+        object)))
