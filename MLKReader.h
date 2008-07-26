@@ -26,6 +26,13 @@
             eofError:(BOOL)eofError
             eofValue:(id)eofValue
            recursive:(BOOL)recursive
+  preserveWhitespace:(BOOL)preserveWhitespace
+     singleDotMarker:(id)dotMarker;
+
++(id) readFromStream:(MLKStream *)stream
+            eofError:(BOOL)eofError
+            eofValue:(id)eofValue
+           recursive:(BOOL)recursive
   preserveWhitespace:(BOOL)preserveWhitespace;
 
 +(id) readFromString:(NSString *)string;
