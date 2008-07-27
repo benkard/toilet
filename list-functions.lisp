@@ -146,8 +146,8 @@
 ;;;;-----------------------------------------------------------------
 ;;;; TYPE PREDICATES
 ;;;;-----------------------------------------------------------------
-(shadow '(consp listp null))
-(unexport '(sys::consp sys::listp sys::null) (find-package :sys))
+(shadow '(consp listp null atom))
+(unexport '(sys::consp sys::listp sys::null sys::atom) (find-package :sys))
 
 (%defun consp args
   (sys::consp (first args)))
@@ -158,9 +158,22 @@
 (%defun null args
   (sys::null (first args)))
 
+(%defun atom args
+  (sys::atom (first args)))
+
 ;(%deftype cons args '(satisfies consp))
 ;(%deftype list args '(satisfies listp))
 ;(%deftype null args '(satisfies null))
+;(%deftype atom args '(satisfies atom))
+
+
+;;;;-----------------------------------------------------------------
+;;;; OTHER PREDICATES
+;;;;-----------------------------------------------------------------
+(%defun endp args
+  (let ((thing (first args)))
+    ;;FIXME (check-type thing (first args) list)
+    (null thing)))
 
 
 ;;;;-----------------------------------------------------------------
@@ -178,4 +191,5 @@
 
 ;;;;-----------------------------------------------------------------
 (export '(cons car cdr list* first second third fourth fifth sixth
-          seventh eigthth ninth tenth consp listp null rplaca rplacd))
+          seventh eigthth ninth tenth atom consp listp null rplaca
+          rplacd))

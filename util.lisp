@@ -187,13 +187,12 @@
         expansion-1
         (macroexpand expansion-2))))
 
-(%defun* macroexpand-all (object . rest)
-  (let* ((env (if rest (car rest) nil)))
-    (if (consp object)
-        (let ((expansion (macroexpand object env)))
-          (cons (macroexpand-all (car expansion))
-                (macroexpand-all (cdr expansion))))
-        object)))
-
 (%defmacro* unless (test . body)
   `(if (not ,test) (progn ,@body) nil))
+
+(%defmacro* when (test . body)
+  `(if ,test (progn ,@body) nil))
+
+
+(export '(and or not let* list* case cond append reverse macroexpand
+          otherwise unless when))

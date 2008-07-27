@@ -17,7 +17,7 @@
                      ,@body)))
                (&aux
                 (if (or (endp (cdr lambda-list))
-                        (member (cadr lambda-list) lambda-list-keywords))
+                        (%member (cadr lambda-list) lambda-list-keywords))
                     `(d-b ,(cdr lambda-list) ,environment ,whole-sym ,expression
                        ,@body)
                     `(let (,(cadr lambda-list))
@@ -25,29 +25,29 @@
                          ,@body))))
                (&optional
                 (if (or (endp (cdr lambda-list))
-                        (member (cadr lambda-list) lambda-list-keywords))
+                        (%member (cadr lambda-list) lambda-list-keywords))
                     `(d-b ,(cdr lambda-list) ,environment ,whole-sym ,expression
                        ,@body)
                     (let ((sym (gensym))
-                          (head (car lambda-list)))
+                          (head (cadr lambda-list)))
                       `(let* ((,sym ,expression)
                               ,@(cond ((atom head)
-                                       `((,head (cadr ,sym))))
+                                       `((,head (car ,sym))))
                                       ((null (cdr head))
-                                       `((,(car head) (cadr ,sym))))
+                                       `((,(car head) (car ,sym))))
                                       ((null (cddr head))
                                        `((,(car head) (if (null ,sym)
                                                           ,(cadr head)
-                                                          (cadr ,sym)))))
+                                                          (car ,sym)))))
                                       (t
                                        `((,(car head) (if (null ,sym)
                                                           ,(cadr head)
-                                                          (cadr ,sym)))
+                                                          (car ,sym)))
                                          (,(caddr head) (not (null ,sym)))))))
                          (d-b (&optional ,@(cddr lambda-list)) ,environment ,whole-sym (cdr ,sym)
                            ,@body)))))
                ((&rest &body)
-                (if (member (cadr lambda-list) lambda-list-keywords)
+                (if (%member (cadr lambda-list) lambda-list-keywords)
                     `(d-b ,(cdr lambda-list) ,environment ,whole-sym ,expression
                        ,@body)
                     (let ((sym (gensym)))
@@ -64,7 +64,7 @@
                    ,@body))
                (&key
                 (if (or (endp (cdr lambda-list))
-                        (member (cadr lambda-list) lambda-list-keywords))
+                        (%member (cadr lambda-list) lambda-list-keywords))
                     `(d-b ,(cdr lambda-list) ,environment ,whole-sym ,expression
                        ,@body)
                     (let* ((sym (gensym))
