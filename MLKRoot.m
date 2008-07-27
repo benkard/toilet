@@ -406,7 +406,7 @@ static id truify (BOOL value)
                                    intern:@"*PACKAGE*"]]));
   MLKSymbol *symbol = [package intern:name];
 
-  return [NSArray arrayWithObjects:symbol, nil];
+  RETURN_VALUE (symbol);
 }
 
 +(NSArray *) import:(NSArray *)args
@@ -445,5 +445,11 @@ static id truify (BOOL value)
   NSString *description = [[args objectAtIndex:0] descriptionForLisp];
   NSLog (@"%@", description);
   RETURN_VALUE ([args objectAtIndex:0]);
+}
+
++(NSArray *) symbol_name:(NSArray *)args
+{
+  MLKSymbol *symbol = denullify ([args objectAtIndex:0]);
+  RETURN_VALUE (symbol ? (id)[symbol name] : (id)@"NIL");
 }
 @end
