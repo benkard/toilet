@@ -242,6 +242,18 @@ static id truify (BOOL value)
   RETURN_VALUE (form);
 }
 
++(NSArray *) macroexpand_all:(NSArray *)args
+{
+  id form = [args objectAtIndex:0];
+  id env = [args count] > 1 ? denullify([args objectAtIndex:1]) : nil;
+  MLKLexicalContext *context = env ? (id)env : (id)[MLKLexicalContext globalContext];
+
+  return [MLKInterpreter eval:form
+                         inLexicalContext:context
+                         withEnvironment:nil
+                         expandOnly:YES];
+}
+
 +(NSArray *) shadow:(NSArray *)args
 {
   id symbols = denullify ([args objectAtIndex:0]);

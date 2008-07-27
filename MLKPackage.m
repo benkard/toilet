@@ -106,6 +106,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"DIVIDE"]];
   [sys export:[sys intern:@"LIST"]];
   [sys export:[sys intern:@"MACROEXPAND-1"]];
+  [sys export:[sys intern:@"MACROEXPAND-ALL"]];
   [sys export:[sys intern:@"EXPORT"]];
   [sys export:[sys intern:@"SHADOW"]];
   [sys export:[sys intern:@"UNEXPORT"]];
