@@ -1,3 +1,13 @@
+;; D-B may not expand to (but _may_ itself use!) plain list function
+;; calls because these are defined in list-functions.lisp by way of
+;; DEFUN, which is in turn based on D-B.  Because of this, we define our
+;; own functions here.
+(%defun* %car (list)
+  (sys::car list))
+
+(%defun* %cdr (list)
+  (sys::cdr list))
+
 (setq lambda-list-keywords
       '(&allow-other-keys &aux &body &environment &key &optional &rest &whole))
 
@@ -32,19 +42,19 @@
                           (head (cadr lambda-list)))
                       `(let* ((,sym ,expression)
                               ,@(cond ((atom head)
-                                       `((,head (car ,sym))))
+                                       `((,head (%car ,sym))))
                                       ((null (cdr head))
-                                       `((,(car head) (car ,sym))))
+                                       `((,(car head) (%car ,sym))))
                                       ((null (cddr head))
                                        `((,(car head) (if (null ,sym)
                                                           ,(cadr head)
-                                                          (car ,sym)))))
+                                                          (%car ,sym)))))
                                       (t
                                        `((,(car head) (if (null ,sym)
                                                           ,(cadr head)
-                                                          (car ,sym)))
+                                                          (%car ,sym)))
                                          (,(caddr head) (not (null ,sym)))))))
-                         (d-b (&optional ,@(cddr lambda-list)) ,environment ,whole-sym (cdr ,sym)
+                         (d-b (&optional ,@(cddr lambda-list)) ,environment ,whole-sym (%cdr ,sym)
                            ,@body)))))
                ((&rest &body)
                 (if (%member (cadr lambda-list) lambda-list-keywords)
@@ -100,8 +110,8 @@
                (otherwise
                 (let ((sym (gensym)))
                   `(let ((,sym ,expression))
-                     (d-b ,(car lambda-list) ,environment ,whole-sym (car ,sym)
-                       (d-b ,(cdr lambda-list) ,environment ,whole-sym (cdr ,sym)
+                     (d-b ,(car lambda-list) ,environment ,whole-sym (%car ,sym)
+                       (d-b ,(cdr lambda-list) ,environment ,whole-sym (%cdr ,sym)
                          ,@body)))))))
             ((null lambda-list)
              `(progn ,@body))
@@ -112,26 +122,6 @@
   `(d-b ,tree nil nil ,expression ,@body))
 
 
-(%defmacro* defun (name lambda-list . body)
-  (let ((lambda-sym (gensym)))
-    `(%defun ,name ,lambda-sym
-       (d-b ,lambda-list nil nil ,lambda-sym
-         ,@body))))
-
-(%defmacro* defmacro (name lambda-list . body)
-  (let ((arg-sym (gensym))
-        (lambda-sym (gensym))
-        (whole-sym (gensym))
-        (env-sym (gensym)))
-    `(%defmacro ,name ,arg-sym
-       (let ((,whole-sym (first ,arg-sym))
-             (,lambda-sym (cdr (first ,arg-sym)))
-             (,env-sym (second ,arg-sym)))
-         (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
-           ,@body)))))
-
-
 (export '(destructuring-bind lambda-list-keywords
           &allow-other-keys &aux &body &environment &key &optional &rest
-          &whole
-          defmacro defun))
+          &whole))

@@ -1,137 +1,137 @@
-(%defmacro pushq args
+(%defmacro* pushq args
   (list* 'setq (car (cdr args)) (car args)))
 
-(%defun first args
-  (car (car args)))
+(defun first (list)
+  (car list))
 
 
 ;;;;-----------------------------------------------------------------
 ;;;; THE CxR FUNCTIONS
 ;;;;-----------------------------------------------------------------
-(%defun caaaar args
-  (car (caaar (first args))))
+(defun caaaar (list)
+  (car (caaar list)))
 
-(%defun caaadr args
-  (car (caadr (first args))))
+(defun caaadr (list)
+  (car (caadr list)))
 
-(%defun caaar args
-  (car (caar (first args))))
+(defun caaar (list)
+  (car (caar list)))
 
-(%defun caadar args
-  (car (cadar (first args))))
+(defun caadar (list)
+  (car (cadar list)))
 
-(%defun caaddr args
-  (car (caddr (first args))))
+(defun caaddr (list)
+  (car (caddr list)))
 
-(%defun caadr args
-  (car (cadr (first args))))
+(defun caadr (list)
+  (car (cadr list)))
 
-(%defun caar args
-  (car (car (first args))))
+(defun caar (list)
+  (car (car list)))
 
-(%defun cadaar args
-  (car (cdaar (first args))))
+(defun cadaar (list)
+  (car (cdaar list)))
 
-(%defun cadadr args
-  (car (cdadr (first args))))
+(defun cadadr (list)
+  (car (cdadr list)))
 
-(%defun cadar args
-  (car (cdar (first args))))
+(defun cadar (list)
+  (car (cdar list)))
 
-(%defun caddar args
-  (car (cddar (first args))))
+(defun caddar (list)
+  (car (cddar list)))
 
-(%defun cadddr args
-  (car (cdddr (first args))))
+(defun cadddr (list)
+  (car (cdddr list)))
 
-(%defun caddr args
-  (car (cddr (first args))))
+(defun caddr (list)
+  (car (cddr list)))
 
-(%defun cadr args
-  (car (cdr (first args))))
+(defun cadr (list)
+  (car (cdr list)))
 
 (shadow 'car)
 (unexport 'sys::car (find-package :sys))
-(%defun car args
-  (sys::car (first args)))
+(defun car (list)
+  (sys::car list))
 
-(%defun cdaaar args
-  (cdr (caaar (first args))))
+(defun cdaaar (list)
+  (cdr (caaar list)))
 
-(%defun cdaadr args
-  (cdr (caadr (first args))))
+(defun cdaadr (list)
+  (cdr (caadr list)))
 
-(%defun cdaar args
-  (cdr (caar (first args))))
+(defun cdaar (list)
+  (cdr (caar list)))
 
-(%defun cdadar args
-  (cdr (cadar (first args))))
+(defun cdadar (list)
+  (cdr (cadar list)))
 
-(%defun cdaddr args
-  (cdr (caddr (first args))))
+(defun cdaddr (list)
+  (cdr (caddr list)))
 
-(%defun cdadr args
-  (cdr (cadr (first args))))
+(defun cdadr (list)
+  (cdr (cadr list)))
 
-(%defun cdar args
-  (cdr (car (first args))))
+(defun cdar (list)
+  (cdr (car list)))
 
-(%defun cddaar args
-  (cdr (cdaar (first args))))
+(defun cddaar (list)
+  (cdr (cdaar list)))
 
-(%defun cddadr args
-  (cdr (cdadr (first args))))
+(defun cddadr (list)
+  (cdr (cdadr list)))
 
-(%defun cddar args
-  (cdr (cdar (first args))))
+(defun cddar (list)
+  (cdr (cdar list)))
 
-(%defun cdddar args
-  (cdr (cddar (first args))))
+(defun cdddar (list)
+  (cdr (cddar list)))
 
-(%defun cddddr args
-  (cdr (cdddr (first args))))
+(defun cddddr (list)
+  (cdr (cdddr list)))
 
-(%defun cdddr args
-  (cdr (cddr (first args))))
+(defun cdddr (list)
+  (cdr (cddr list)))
 
-(%defun cddr args
-  (cdr (cdr (first args))))
+(defun cddr (list)
+  (cdr (cdr list)))
 
 (shadow 'cdr)
 (unexport 'sys::cdr (find-package :sys))
-(%defun cdr args
-  (sys::cdr (first args)))
+(defun cdr (list)
+  (sys::cdr list))
 
 
 ;;;;-----------------------------------------------------------------
 ;;;; SECOND ... TENTH
 ;;;;-----------------------------------------------------------------
-(%defun second args
-  (cadr (car args)))
+(defun second (list)
+  (cadr list))
 
-(%defun third args
-  (caddr (car args)))
+(defun third (list)
+  (caddr list))
 
-(%defun fourth args
-  (car (cdddr (car args))))
+(defun fourth (list)
+  (car (cdddr list)))
 
-(%defun fifth args
-  (cadr (cdddr (car args))))
+(defun fifth (list)
+  (cadr (cdddr list)))
 
-(%defun sixth args
-  (caddr (cdddr (car args))))
+(defun sixth (list)
+  (caddr (cdddr list)))
 
-(%defun seventh args
-  (car (cdddr (cdddr (car args)))))
+(defun seventh (list)
+  (car (cdddr (cdddr list))))
 
-(%defun eigthth args
-  (cadr (cdddr (cdddr (car args)))))
+(defun eigthth (list)
+  (cadr (cdddr (cdddr list))))
 
-(%defun ninth args
-  (caddr (cdddr (cdddr (car args)))))
+(defun ninth (list)
+  (caddr (cdddr (cdddr list))))
 
-(%defun tenth args
-  (car (cdddr (cdddr (cdddr (car args))))))
+(defun tenth (list)
+  (car (cdddr (cdddr (cdddr list)))))
 
 
 ;;;;-----------------------------------------------------------------
@@ -139,8 +139,8 @@
 ;;;;-----------------------------------------------------------------
 (shadow 'cons)
 (unexport 'sys::cons (find-package :sys))
-(%defun cons args
-  (sys::cons (first args) (second args)))
+(defun cons (x y)
+  (sys::cons x y))
 
 
 ;;;;-----------------------------------------------------------------
@@ -149,17 +149,17 @@
 (shadow '(consp listp null atom))
 (unexport '(sys::consp sys::listp sys::null sys::atom) (find-package :sys))
 
-(%defun consp args
-  (sys::consp (first args)))
+(defun consp (x)
+  (sys::consp x))
 
-(%defun listp args
-  (sys::listp (first args)))
+(defun listp (x)
+  (sys::listp x))
 
-(%defun null args
-  (sys::null (first args)))
+(defun null (x)
+  (sys::null x))
 
-(%defun atom args
-  (sys::atom (first args)))
+(defun atom (x)
+  (sys::atom x))
 
 ;(%deftype cons args '(satisfies consp))
 ;(%deftype list args '(satisfies listp))
@@ -170,9 +170,9 @@
 ;;;;-----------------------------------------------------------------
 ;;;; OTHER PREDICATES
 ;;;;-----------------------------------------------------------------
-(%defun endp args
-  (let ((thing (first args)))
-    ;;FIXME (check-type thing (first args) list)
+(defun endp (list)
+  (let ((thing list))
+    ;;FIXME (check-type thing list)
     (null thing)))
 
 
@@ -182,14 +182,16 @@
 (shadow '(rplaca rplacd))
 (unexport '(sys::rplaca sys::rplacd) (find-package :sys))
 
-(%defun rplaca args
-  (sys::rplaca (first args) (second args)))
+(defun rplaca (cons new-value)
+  (sys::rplaca cons new-value))
 
-(%defun rplacd args
-  (sys::rplacd (first args) (second args)))
+(defun rplacd (cons new-value)
+  (sys::rplacd cons new-value))
 
 
 ;;;;-----------------------------------------------------------------
-(export '(cons car cdr list* first second third fourth fifth sixth
-          seventh eigthth ninth tenth atom consp listp null rplaca
-          rplacd))
+(export '(cons list* first second third fourth fifth sixth seventh
+          eigthth ninth tenth atom consp listp null rplaca rplacd caaaar
+          caaadr caaar caadar caaddr caadr caar cadaar cadadr cadar
+          caddar cadddr caddr cadr car cdaaar cdaadr cdaar cdadar cdaddr
+          cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr))

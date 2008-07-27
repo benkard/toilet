@@ -1,5 +1,8 @@
 (in-package :common-lisp)
 (load "util.lisp")
+(load "defun-0.lisp")
 (load "list-functions.lisp")
 (load "destructuring-bind.lisp")
+(load "defun-1.lisp")
+(load "list-functions.lisp")
 (in-package :common-lisp-user)
