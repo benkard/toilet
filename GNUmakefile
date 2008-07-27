@@ -27,8 +27,8 @@ BUNDLE_NAME = Test
 
 ADDITIONAL_OBJCFLAGS = -Wall
 
-ToiletKit_OBJC_FILES = MLKCharacter.m MLKCons.m MLKBackquoteReader.m	\
-                       MLKBinding.m MLKCommaReader.m MLKDoubleFloat.m	\
+ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
+                       MLKCommaReader.m MLKCons.m MLKDoubleFloat.m	\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m	\
                        MLKInteger.m MLKInterpretedClosure.m		\
                        MLKInterpreter.m MLKLinkedList.m			\
