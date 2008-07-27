@@ -45,6 +45,21 @@
            recursive:(BOOL)recursive
   preserveWhitespace:(BOOL)preserveWhitespace
 {
+  return [self readFromStream:stream
+               eofError:eofError
+               eofValue:eofValue
+               recursive:recursive
+               preserveWhitespace:preserveWhitespace
+               singleDotMarker:nil];
+}
+
++(id) readFromStream:(MLKStream *)stream
+            eofError:(BOOL)eofError
+            eofValue:(id)eofValue
+           recursive:(BOOL)recursive
+  preserveWhitespace:(BOOL)preserveWhitespace
+     singleDotMarker:(id)dotMarker
+{
   unichar ch;
   NSMutableString *token;
   MLKReadtable *readtable;
@@ -169,6 +184,16 @@
     }
 
   //NSLog (@"--> Interpret token: %@", token);
+
+  if ([token isEqualToString:@"."])
+    {
+      if (dotMarker)
+        return dotMarker;
+      else
+        [NSException raise:@"MLKReaderError"
+                     format:@"Unexpectedly read a single dot."];
+    }
+
   return [self interpretToken:token
                readtable:readtable
                escaped:ever_escaped];

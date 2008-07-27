@@ -16,32 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Foundation/NSObject.h>
+#import "MLKFuncallable.h"
+#import "MLKLispValue.h"
 
-@class MLKStream, MLKReadtable;
+#import <Foundation/NSArray.h>
 
 
-@interface MLKReader : NSObject
-+(id) readFromStream:(MLKStream *)stream
-            eofError:(BOOL)eofError
-            eofValue:(id)eofValue
-           recursive:(BOOL)recursive
-  preserveWhitespace:(BOOL)preserveWhitespace
-     singleDotMarker:(id)dotMarker;
-
-+(id) readFromStream:(MLKStream *)stream
-            eofError:(BOOL)eofError
-            eofValue:(id)eofValue
-           recursive:(BOOL)recursive
-  preserveWhitespace:(BOOL)preserveWhitespace;
-
-+(id) readFromString:(NSString *)string;
-
-+(id) interpretToken:(NSString *)token
-           readtable:(MLKReadtable *)readtable
-             escaped:(BOOL)escaped;
-
-+(BOOL) isPotentialNumber:(NSString *)token
-                readtable:(MLKReadtable *)table
-                     base:(int)base;
+@interface MLKBackquoteReader : MLKLispValue <MLKFuncallable>
+-(NSArray *) applyToArray:(NSArray *)arguments;
 @end

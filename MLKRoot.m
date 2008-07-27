@@ -225,10 +225,12 @@ static id truify (BOOL value)
 +(NSArray *) macroexpand_1:(NSArray *)args
 {
   id form = [args objectAtIndex:0];
-  id env = [args count] > 1 ? [args objectAtIndex:1] : nil;
+  id env = [args count] > 1 ? denullify([args objectAtIndex:1]) : nil;
   MLKLexicalContext *context = env ? (id)env : (id)[MLKLexicalContext globalContext];
 
-  if ([context symbolNamesMacro:[form car]])
+  if ([form isKindOfClass:[MLKCons class]]
+      && (![form car] || [[form car] isKindOfClass:[MLKSymbol class]])
+      && [context symbolNamesMacro:[form car]])
     {
       id <MLKFuncallable> macrofun = [context macroForSymbol:[form car]];
       form = denullify ([[macrofun applyToArray:
@@ -408,5 +410,28 @@ static id truify (BOOL value)
   [package import:symbol];
 
   RETURN_VALUE ([cl intern:@"T"]);
+}
+
++(NSArray *) objc_class_of:(NSArray *)args
+{
+  RETURN_VALUE ([[args objectAtIndex:0] class]);
+}
+
++(NSArray *) objc_subclassp:(NSArray *)args
+{
+  RETURN_VALUE (truify ([[args objectAtIndex:0] isSubclassOfClass:
+                                                  [args objectAtIndex:1]]));
+}
+
++(NSArray *) find_objc_class:(NSArray *)args
+{
+  RETURN_VALUE (NSClassFromString ([args objectAtIndex:0]));
+}
+
++(NSArray *) ns_log:(NSArray *)args
+{
+  NSString *description = [[args objectAtIndex:0] descriptionForLisp];
+  NSLog (@"%@", description);
+  RETURN_VALUE ([args objectAtIndex:0]);
 }
 @end

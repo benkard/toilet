@@ -102,9 +102,25 @@ static MLKSymbol *_LAMBDA;
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv
 {
+  return (NSArray *)[self eval:program
+                          inLexicalContext:context
+                          withEnvironment:lexenv
+                          expandOnly:NO];
+}
+
+
+#define RETURN_VALUE(thing)                     \
+  { return [NSArray arrayWithObject:nullify(thing)]; }
+
+
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv
+            expandOnly:(BOOL)expandOnly
+{
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
-  //NSLog (@"eval: %@", [program descriptionForLisp]);
+  //  NSLog (@"eval: %@", [program descriptionForLisp]);
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
@@ -117,27 +133,34 @@ static MLKSymbol *_LAMBDA;
                                                 program, context, nil]];
           return [self eval:expansion
                        inLexicalContext:context
-                       withEnvironment:lexenv];
+                       withEnvironment:lexenv
+                       expandOnly:expandOnly];
         }
       else if ([context variableIsLexical:program])
         {
           //NSLog (@"Processing lexical variable %@.", [program descriptionForLisp]);
           //NSLog (@"Lexical environment: %@.", lexenv);
           //NSLog (@"Lexical variable value: %@.", [lexenv valueForSymbol:program]);
-          return [NSArray arrayWithObject:nullify([lexenv valueForSymbol:program])];
+          if (expandOnly)
+            RETURN_VALUE (program);
+
+          RETURN_VALUE ([lexenv valueForSymbol:program]);
         }
       else
         {
           //NSLog (@"Processing special variable %@.", [program descriptionForLisp]);
           //NSLog (@"Dynamic context: %@.", dynamicContext);
           //NSLog (@"Special variable value: %@.", [dynamicContext valueForSymbol:program]);
-          return [NSArray arrayWithObject:nullify([dynamicContext valueForSymbol:program])];
+          if (expandOnly)
+            RETURN_VALUE (program);
+
+          RETURN_VALUE ([dynamicContext valueForSymbol:program]);
         }
     }
   else if (![program isKindOfClass:[MLKCons class]])
     {
       // Everything that is not a list or a symbol evaluates to itself.
-      return [NSArray arrayWithObject:nullify(program)];
+      RETURN_VALUE (program);
     }
   else
     {
@@ -149,13 +172,21 @@ static MLKSymbol *_LAMBDA;
             {
               MLKCons *rest = denullify([[self eval:[[[program cdr] cdr] car]
                                                inLexicalContext:context
-                                               withEnvironment:lexenv]
+                                               withEnvironment:lexenv
+                                               expandOnly:expandOnly]
                                           objectAtIndex:0]);
 
               id function = denullify([[self eval:[[program cdr] car]
                                              inLexicalContext:context
-                                             withEnvironment:lexenv]
+                                             withEnvironment:lexenv
+                                             expandOnly:expandOnly]
                                         objectAtIndex:0]);
+
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:APPLY
+                                       with:[MLKCons cons:function
+                                                     with:[MLKCons cons:rest
+                                                                   with:nil]]]);
 
               if ([function isKindOfClass:[MLKSymbol class]])
                 function = [lexenv functionForSymbol:function];
@@ -174,21 +205,33 @@ static MLKSymbol *_LAMBDA;
                 {
                   catchTag = [[self eval:[[program cdr] car]
                                     inLexicalContext:context
-                                    withEnvironment:lexenv]
+                                    withEnvironment:lexenv
+                                    expandOnly:expandOnly]
                                objectAtIndex:0];
-
-                  newctx = [[MLKDynamicContext alloc]
-                             initWithParent:dynamicContext
-                             variables:nil
-                             handlers:nil
-                             restarts:nil
-                             catchTags:[NSSet setWithObject:catchTag]
-                             activeHandlerEnvironment:nil];
-                  [newctx pushContext];
+                  
+                  if (!expandOnly)
+                    {
+                      newctx = [[MLKDynamicContext alloc]
+                                 initWithParent:dynamicContext
+                                 variables:nil
+                                 handlers:nil
+                                 restarts:nil
+                                 catchTags:[NSSet setWithObject:catchTag]
+                                 activeHandlerEnvironment:nil];
+                      [newctx pushContext];
+                    }
 
                   values = [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
                                  inLexicalContext:context
-                                 withEnvironment:lexenv];
+                                 withEnvironment:lexenv
+                                 expandOnly:expandOnly];
+
+                  if (expandOnly)
+                    NS_VALUERETURN ([NSArray arrayWithObject:
+                                               [MLKCons cons:CATCH
+                                                        with:[MLKCons cons:catchTag
+                                                                      with:values]]],
+                                    NSArray *);
 
                   [MLKDynamicContext popContext];
                   RELEASE (newctx);
@@ -227,21 +270,49 @@ static MLKSymbol *_LAMBDA;
 
               id <MLKFuncallable> function;
 
+              if (expandOnly)
+                {
+                  id lambdaList = [lambdaListAndBody car];
+                  id body = [lambdaListAndBody cdr];
+                  id body_expansion =
+                    denullify([[self eval:[MLKCons cons:PROGN with:body]
+                                     inLexicalContext:context
+                                     withEnvironment:lexenv
+                                     expandOnly:expandOnly]
+                                objectAtIndex:0]);
+                  RETURN_VALUE ([MLKCons
+                                  cons:_DEFMACRO
+                                  with:[MLKCons
+                                         cons:name
+                                         with:[MLKCons
+                                                cons:lambdaList
+                                                with:[MLKCons
+                                                       cons:body_expansion
+                                                       with:nil]]]]);
+                }
+
               function = denullify([[self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
                                           inLexicalContext:context
-                                          withEnvironment:lexenv]
+                                          withEnvironment:lexenv
+                                          expandOnly:expandOnly]
                                      objectAtIndex:0]);
 
               [context addMacro:function forSymbol:name];
 
-              return [NSArray arrayWithObject:nullify(name)];
+              RETURN_VALUE (name);
             }
           else if (car == EVAL)
             {
-              return [self eval:denullify([[self eval:[program cdr]
-                                                 inLexicalContext:context
-                                                 withEnvironment:lexenv]
-                                            objectAtIndex:0])
+              NSArray *evaluand = denullify([[self eval:[program cdr]
+                                                   inLexicalContext:context
+                                                   withEnvironment:lexenv
+                                                   expandOnly:expandOnly]
+                                              objectAtIndex:0]);
+
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:EVAL with:[MLKCons cons:evaluand with:nil]]);
+
+              return [self eval:evaluand
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
@@ -253,20 +324,50 @@ static MLKSymbol *_LAMBDA;
               // Incidentally works for the two-clause case:
               id alternative = [[[[program cdr] cdr] cdr] car];
 
-              NSArray *values = [self eval:condition
-                                      inLexicalContext:context
-                                      withEnvironment:lexenv];
-              if ([values objectAtIndex:0] == [NSNull null])
+              id condition_value = denullify([[self eval:condition
+                                                    inLexicalContext:context
+                                                    withEnvironment:lexenv
+                                                    expandOnly:expandOnly]
+                                               objectAtIndex:0]);
+
+              if (expandOnly)
+                {
+                  id conseq_expansion = denullify([[self eval:consequent
+                                                         inLexicalContext:context
+                                                         withEnvironment:lexenv
+                                                         expandOnly:expandOnly]
+                                                    objectAtIndex:0]);
+                  id alt_expansion = denullify([[self eval:alternative
+                                                      inLexicalContext:context
+                                                      withEnvironment:lexenv
+                                                      expandOnly:expandOnly]
+                                                 objectAtIndex:0]);
+                  RETURN_VALUE ([MLKCons
+                                  cons:IF
+                                  with:[MLKCons
+                                         cons:condition_value
+                                         with:[MLKCons
+                                                cons:conseq_expansion
+                                                with:[MLKCons cons:alt_expansion
+                                                              with:nil]]]]);
+                }
+
+              if (!condition_value)
                 return [self eval:alternative
                              inLexicalContext:context
-                             withEnvironment:lexenv];
+                             withEnvironment:lexenv
+                             expandOnly:expandOnly];
               else
                 return [self eval:consequent
                              inLexicalContext:context
-                             withEnvironment:lexenv];                
+                             withEnvironment:lexenv
+                             expandOnly:expandOnly];                
             }
           else if (car == IN_PACKAGE)
             {
+              if (expandOnly)
+                RETURN_VALUE (program);
+
               id cadr = [[program cdr] car];
               id package = [MLKPackage findPackage:stringify(cadr)];
 
@@ -275,7 +376,7 @@ static MLKSymbol *_LAMBDA;
                 forSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                             intern:@"*PACKAGE*"]];
 
-              return [NSArray arrayWithObject:nullify(package)];
+              RETURN_VALUE (package);
             }
           else if (car == _LAMBDA)
             {
@@ -285,6 +386,21 @@ static MLKSymbol *_LAMBDA;
               id lambdaList = [[program cdr] car];
               id body = [[program cdr] cdr];
               MLKInterpretedClosure *closure;
+
+              if (expandOnly)
+                {
+                  id body_expansion = denullify([[self eval:[MLKCons cons:PROGN
+                                                                     with:body]
+                                                       inLexicalContext:context
+                                                       withEnvironment:lexenv
+                                                       expandOnly:expandOnly]
+                                                  objectAtIndex:0]);
+                  RETURN_VALUE ([MLKCons
+                                  cons:_LAMBDA
+                                  with:[MLKCons cons:lambdaList
+                                                with:[MLKCons cons:body_expansion
+                                                              with:nil]]]);
+                }
 
               closure = AUTORELEASE ([[MLKInterpretedClosure alloc]
                                        initWithBodyForms:body
@@ -313,6 +429,24 @@ static MLKSymbol *_LAMBDA;
               else
                 {
                   declarations = nil;
+                }
+
+              if (expandOnly)
+                {
+                  id body_expansion = denullify([[self eval:[MLKCons cons:PROGN
+                                                                     with:body]
+                                                       inLexicalContext:context
+                                                       withEnvironment:lexenv
+                                                       expandOnly:expandOnly]
+                                                  objectAtIndex:0]);
+                  RETURN_VALUE ([MLKCons
+                                  cons:LET
+                                  with:[MLKCons
+                                         cons:[[program cdr] car]
+                                         with:[MLKCons
+                                                cons:declarations
+                                                with:[MLKCons cons:body_expansion
+                                                              with:nil]]]]);
                 }
 
               env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
@@ -400,34 +534,47 @@ static MLKSymbol *_LAMBDA;
             {
               id result = nil;
               id rest = program;
+              NSMutableArray *results = [NSMutableArray array];
               while ((rest = [rest cdr]))
                 {
                   result = [self eval:[rest car]
                                  inLexicalContext:context
-                                 withEnvironment:lexenv];
+                                 withEnvironment:lexenv
+                                 expandOnly:expandOnly];
+                  if (expandOnly)
+                    [results addObjectsFromArray:result];
                 }
 
-              return result;
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons cons:PROGN
+                                         with:[MLKCons listWithArray:results]]);
+                }
+              else
+                return result;
             }
           else if (car == QUOTE)
             {
-              return [NSArray arrayWithObject:nullify([[program cdr] car])];
+              if (expandOnly)
+                RETURN_VALUE (program);
+              RETURN_VALUE ([[program cdr] car]);
             }
           else if (car == SETQ)
             {
               id symbol = [[program cdr] car];
               id value = [[self eval:[[[program cdr] cdr] car]
                                 inLexicalContext:context
-                                withEnvironment:lexenv]
+                                withEnvironment:lexenv
+                                expandOnly:expandOnly]
                            objectAtIndex:0];
               id rest = [[[program cdr] cdr] cdr];
 
               if (![program cdr])
-                return [NSArray arrayWithObject:[NSNull null]];
+                RETURN_VALUE (nil);
 
               if ([context symbolNamesSymbolMacro:symbol])
                 {
-                  id macrofun = [context macroForSymbol:program];
+                  id macrofun = [context symbolMacroForSymbol:symbol];
                   id expansion = [macrofun applyToArray:
                                              [NSArray arrayWithObjects:
                                                         program, context, nil]];
@@ -438,7 +585,25 @@ static MLKSymbol *_LAMBDA;
                                                      with:
                                                        [[program cdr] cdr]]]
                                inLexicalContext:context
-                               withEnvironment:lexenv];
+                               withEnvironment:lexenv
+                               expandOnly:expandOnly];
+                }
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons
+                                  cons:SETQ
+                                  with:[MLKCons
+                                         cons:symbol
+                                         with:[MLKCons
+                                                cons:value
+                                                with:denullify([[self eval:
+                                                                        [MLKCons cons:SETQ
+                                                                                 with:rest]
+                                                                      inLexicalContext:context
+                                                                      withEnvironment:lexenv
+                                                                      expandOnly:expandOnly]
+                                                                 objectAtIndex:0])]]]);
                 }
 
               if ([context variableIsLexical:symbol])
@@ -456,18 +621,26 @@ static MLKSymbol *_LAMBDA;
                              inLexicalContext:context
                              withEnvironment:lexenv];
               else
-                return [NSArray arrayWithObject:value];
+                RETURN_VALUE (value);
             }
           else if (car == SET)
             {
               id symbol = [[self eval:[[program cdr] car]
                                  inLexicalContext:context
-                                 withEnvironment:lexenv]
+                                 withEnvironment:lexenv
+                                 expandOnly:expandOnly]
                            objectAtIndex:0];
               id value = [[self eval:[[[program cdr] cdr] car]
                                 inLexicalContext:context
-                                withEnvironment:lexenv]
+                                withEnvironment:lexenv
+                                expandOnly:expandOnly]
                           objectAtIndex:0];
+
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:SET
+                                       with:[MLKCons cons:symbol
+                                                     with:[MLKCons cons:value
+                                                                   with:nil]]]);
 
               if ([dynamicContext bindingForSymbol:symbol])
                 [dynamicContext setValue:value forSymbol:symbol];
@@ -482,12 +655,20 @@ static MLKSymbol *_LAMBDA;
               // Like SET, but for the function cell.
               id symbol = [[self eval:[[program cdr] car]
                                  inLexicalContext:context
-                                 withEnvironment:lexenv]
+                                 withEnvironment:lexenv
+                                 expandOnly:expandOnly]
                             objectAtIndex:0];
               id value = [[self eval:[[[program cdr] cdr] car]
                                 inLexicalContext:context
-                                withEnvironment:lexenv]
+                                withEnvironment:lexenv
+                                expandOnly:expandOnly]
                            objectAtIndex:0];
+
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:_FSET
+                                       with:[MLKCons cons:symbol
+                                                     with:[MLKCons cons:value
+                                                                   with:nil]]]);
 
               [[MLKLexicalContext globalContext] addFunction:symbol];
               [[MLKLexicalEnvironment globalEnvironment] addFunction:value
@@ -507,12 +688,20 @@ static MLKSymbol *_LAMBDA;
 
               catchTag = [[self eval:[[program cdr] car]
                                 inLexicalContext:context
-                                withEnvironment:lexenv]
+                                withEnvironment:lexenv
+                                expandOnly:expandOnly]
                            objectAtIndex:0];
 
               values = [self eval:[[[program cdr] cdr] car]
                              inLexicalContext:context
-                             withEnvironment:lexenv];
+                             withEnvironment:lexenv
+                             expandOnly:expandOnly];
+
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:THROW
+                                       with:[MLKCons cons:denullify(catchTag)
+                                                     with:[MLKCons cons:denullify([values objectAtIndex:0])
+                                                                   with:nil]]]);
 
               userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                          catchTag, @"THROWN TAG",
@@ -541,6 +730,23 @@ static MLKSymbol *_LAMBDA;
             {
               NSArray *results;
 
+              if (expandOnly)
+                {
+                  id protectee = [self eval:[[program cdr] car]
+                                       inLexicalContext:context
+                                       withEnvironment:lexenv
+                                       expandOnly:expandOnly];
+                  id protection = [self eval:[MLKCons cons:PROGN
+                                                      with:[[program cdr] cdr]]
+                                        inLexicalContext:context
+                                        withEnvironment:lexenv
+                                        expandOnly:expandOnly];
+                  RETURN_VALUE ([MLKCons cons:UNWIND_PROTECT
+                                         with:[MLKCons cons:protectee
+                                                       with:[MLKCons cons:protection
+                                                                     with:nil]]]);
+                }
+
               NS_DURING
                 {
                   results = [self eval:[[program cdr] car]
@@ -551,7 +757,8 @@ static MLKSymbol *_LAMBDA;
                 {
                   [self eval:[MLKCons cons:PROGN with:[[program cdr] cdr]]
                         inLexicalContext:context
-                        withEnvironment:lexenv];
+                        withEnvironment:lexenv
+                        expandOnly:expandOnly];
 
                   [localException raise];
                 }
@@ -573,17 +780,21 @@ static MLKSymbol *_LAMBDA;
                   [results addObject:
                              [[self eval:[rest car]
                                     inLexicalContext:context
-                                    withEnvironment:lexenv]
+                                    withEnvironment:lexenv
+                                    expandOnly:expandOnly]
                                objectAtIndex:0]];
                 }
 
+              if (expandOnly)
+                RETURN_VALUE ([MLKCons cons:VALUES
+                                       with:[MLKCons listWithArray:results]]);
               return results;
             }
           else
             {
               if ([context symbolNamesFunction:car])
                 {
-                  id function = [lexenv functionForSymbol:car];
+                  id function;
                   MLKCons *rest = [program cdr];
                   NSMutableArray *args = [NSMutableArray array];
                   
@@ -591,13 +802,23 @@ static MLKSymbol *_LAMBDA;
                     {
                       id result = [[self eval:[rest car]
                                          inLexicalContext:context
-                                         withEnvironment:lexenv]
+                                         withEnvironment:lexenv
+                                         expandOnly:expandOnly]
                                     objectAtIndex:0];
                       [args addObject:result];
                       rest = [rest cdr];
                     }
-                  
-                  return [function applyToArray:args];
+
+                  if (expandOnly)
+                    {
+                      RETURN_VALUE ([MLKCons cons:[program car]
+                                             with:[MLKCons listWithArray:args]]);
+                    }
+                  else
+                    {
+                      function = [lexenv functionForSymbol:car];
+                      return [function applyToArray:args];
+                    }
                 }
               else if ([context symbolNamesMacro:car])
                 {
@@ -610,7 +831,8 @@ static MLKSymbol *_LAMBDA;
 
                   return [self eval:expansion
                                inLexicalContext:context
-                               withEnvironment:lexenv];
+                               withEnvironment:lexenv
+                               expandOnly:expandOnly];
                 }
               else
                 {
@@ -622,10 +844,17 @@ static MLKSymbol *_LAMBDA;
                     {
                       id result = [[self eval:[rest car]
                                          inLexicalContext:context
-                                         withEnvironment:lexenv]
+                                         withEnvironment:lexenv
+                                         expandOnly:expandOnly]
                                     objectAtIndex:0];
                       [args addObject:result];
                       rest = [rest cdr];
+                    }
+
+                  if (expandOnly)
+                    {
+                      RETURN_VALUE ([MLKCons cons:[program car]
+                                             with:[MLKCons listWithArray:args]]);
                     }
 
                   results = [MLKRoot dispatch:car withArguments:args];
@@ -648,7 +877,8 @@ static MLKSymbol *_LAMBDA;
         {
           return [self eval:[MLKCons cons:FUNCALL with:program]
                        inLexicalContext:context
-                       withEnvironment:lexenv];
+                       withEnvironment:lexenv
+                       expandOnly:expandOnly];
         }
       else
         {
@@ -668,6 +898,7 @@ static MLKSymbol *_LAMBDA;
   while (YES)
     {
       id result;
+      id expansion;
       //NSLog (@"; LOAD: Reding a form.");
       id code = [MLKReader readFromStream:stream
                            eofError:NO
@@ -692,12 +923,29 @@ static MLKSymbol *_LAMBDA;
       else
         formdesc = [code descriptionForLisp];
 
-      fprintf (stderr, "; LOAD: %s\n",
-               [formdesc UTF8String]);
+      fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
+      expansion = denullify([[MLKInterpreter
+                               eval:code
+                               inLexicalContext:[MLKLexicalContext
+                                                  globalContext]
+                               withEnvironment:[MLKLexicalEnvironment
+                                                 globalEnvironment]
+                               expandOnly:YES]
+                              objectAtIndex:0]);
+
+      if ([code isKindOfClass:[MLKCons class]] && [code cdr])
+        formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
+                               [[expansion car] descriptionForLisp],
+                               [[[expansion cdr] car] descriptionForLisp]];
+      else
+        formdesc = [expansion descriptionForLisp];
+
+      fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
       result = [MLKInterpreter
-                 eval:code
+                 eval:expansion
                  inLexicalContext:[MLKLexicalContext globalContext]
-                 withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+                 withEnvironment:[MLKLexicalEnvironment globalEnvironment]
+                 expandOnly:NO];
       //NSLog (@"; LOAD: Top-level form evaluated.");
 
       if (print)

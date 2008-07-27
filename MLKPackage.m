@@ -115,6 +115,10 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"MAKE-SYMBOL"]];
   [sys export:[sys intern:@"IMPORT"]];
   [sys export:[sys intern:@"INTERN"]];
+  [sys export:[sys intern:@"OBJC-CLASS-OF"]];
+  [sys export:[sys intern:@"OBJC-SUBCLASSP"]];
+  [sys export:[sys intern:@"FIND-OBJC-CLASS"]];
+  [sys export:[sys intern:@"NS-LOG"]];
 
   [cl export:[cl intern:@"*BREAK-ON-SIGNALS*"]];
   [cl export:[cl intern:@"*COMPILE-FILE-PATHNAME*"]];

@@ -31,5 +31,10 @@
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv;
 
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv
+            expandOnly:(BOOL)expandOnly;
+  
 +(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
 @end

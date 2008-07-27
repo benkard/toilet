@@ -59,6 +59,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
   while ((nextChar = slurpWhitespaceAndPeek(stream, readtable)) != ')')
     {
       id item;
+      id dotMarker = [[NSObject alloc] init];
 
       // FIXME: What to do about dots?  Maybe add a new
       // singleDotAllowed:(BOOL)dotp argument to readFromStream:...?
@@ -66,8 +67,35 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
                         eofError:YES
                         eofValue:nil
                         recursive:YES
-                        preserveWhitespace:NO];
-      
+                        preserveWhitespace:NO
+                        singleDotMarker:dotMarker];
+
+      if (item == dotMarker)
+        {
+          id nextItem;
+
+          RELEASE (dotMarker);
+
+          nextItem = [MLKReader readFromStream:stream
+                                eofError:YES
+                                eofValue:nil
+                                recursive:YES
+                                preserveWhitespace:NO
+                                singleDotMarker:nil];
+          [tail setCdr:nextItem];
+
+          if ((nextChar = slurpWhitespaceAndPeek (stream, readtable)) == ')')
+            {
+              [stream readChar];
+              return [NSArray arrayWithObject:cons];
+            }
+          else
+            {
+              [NSException raise:@"MLKReaderError"
+                           format:@"Unexpectedly read a single dot."];
+            }
+        }
+
       if (!tail)
         {
           cons = tail = [MLKCons cons:item with:nil];
@@ -77,6 +105,8 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
           [tail setCdr:[MLKCons cons:item with:nil]];
           tail = [tail cdr];
         }
+
+      RELEASE (dotMarker);
     }
 
   [stream readChar];
