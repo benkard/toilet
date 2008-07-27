@@ -83,18 +83,18 @@ before-Test:: ToiletKit
 #	-rmdir $(GNUSTEP_OBJ_DIR)/StepTalkShell
 
 test: ToiletKit Test
-	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib ukrun Test.bundle
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ukrun Test.bundle
 
 run-et: before-etshell ToiletKit etshell
-	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/etshell
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/etshell
 
 run-toilet: before-toilet ToiletKit toilet
-	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib obj/toilet
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/toilet
 
 run: run-toilet
 
 debugging-run: before-toilet ToiletKit toilet
-	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib gdb -ex run obj/toilet
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" gdb -ex run obj/toilet
 
 ddd-run: before-toilet ToiletKit toilet
-	env LD_LIBRARY_PATH=`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib ddd obj/toilet
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ddd obj/toilet
