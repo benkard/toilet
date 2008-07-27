@@ -128,6 +128,14 @@
     return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
 }
 
+-(id) copyWithZone:(NSZone *)zone
+{
+  MLKCons *copy = [MLKCons allocWithZone:zone];
+  ASSIGN (copy->_car, _car);
+  ASSIGN (copy->_cdr, _cdr);
+  return copy;
+}
+
 -(void) dealloc
 {
   RELEASE (_car);

@@ -44,5 +44,7 @@
                                       // only
 -(NSString *)descriptionForLisp;
 
+-(id) copyWithZone:(NSZone *)zone;
+  
 -(void) dealloc;
 @end
