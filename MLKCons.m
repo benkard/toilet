@@ -100,7 +100,8 @@
 -(NSString *)bareDescriptionForLisp
 {
   if (!_cdr)
-    return [NSString stringWithFormat:@"%@", [_car descriptionForLisp]];
+    return [NSString stringWithFormat:@"%@",
+                     (_car ? (id)[_car descriptionForLisp] : (id)@"()")];
   else if ([_cdr isKindOfClass:[MLKCons class]])
     return [NSString stringWithFormat:@"%@ %@",
                      (_car ? (id)[_car descriptionForLisp] : (id)@"()"),
