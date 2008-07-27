@@ -89,7 +89,7 @@
                            (keyword-name
                             (if (and (consp head) (consp (car head)))
                                 (caar head)
-                                (intern (symbol-name var) '#:keyword))))
+                                (intern (symbol-name var) (find-package '#:keyword)))))
                       `(let* ((,sym ,expression)
                               (,value-sym (getf ,sym ,keyword-name ',missing))
                               ,@(cond ((atom head)
