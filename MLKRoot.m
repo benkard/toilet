@@ -17,8 +17,10 @@
  */
 
 #import "MLKBinding.h"
+#import "MLKCharacter.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
+#import "MLKInterpretedClosure.h"
 #import "MLKInterpreter.h"
 #import "MLKNumber.h"
 #import "MLKPackage.h"
@@ -451,5 +453,42 @@ static id truify (BOOL value)
 {
   MLKSymbol *symbol = denullify ([args objectAtIndex:0]);
   RETURN_VALUE (symbol ? (id)[symbol name] : (id)@"NIL");
+}
+
++(NSArray *) primitive_type_of:(NSArray *)args
+{
+  id object = denullify ([args objectAtIndex:0]);
+
+  if (!object)
+    { RETURN_VALUE ([cl intern:@"NULL"]); }
+  else if ([object isKindOfClass:[MLKSymbol class]])
+    { RETURN_VALUE ([cl intern:@"SYMBOL"]); }
+  else if ([object isKindOfClass:[MLKCons class]])
+    { RETURN_VALUE ([cl intern:@"CONS"]); }
+  else if ([object isKindOfClass:[MLKDoubleFloat class]])
+    { RETURN_VALUE ([cl intern:@"DOUBLE-FLOAT"]); }
+  else if ([object isKindOfClass:[MLKSingleFloat class]])
+    { RETURN_VALUE ([cl intern:@"SINGLE-FLOAT"]); }
+  else if ([object isKindOfClass:[MLKInteger class]])
+    { RETURN_VALUE ([cl intern:@"INTEGER"]); }
+  else if ([object isKindOfClass:[MLKCharacter class]])
+    //FIXME: STANDARD-CHAR
+    { RETURN_VALUE ([cl intern:@"BASE-CHAR"]); }
+  else if ([object isKindOfClass:[MLKInterpretedClosure class]])
+    { RETURN_VALUE ([cl intern:@"FUNCTION"]); }
+  else if ([object isKindOfClass:[MLKLexicalContext class]])
+    { RETURN_VALUE ([sys intern:@"LEXICAL-CONTEXT"]); }
+  else if ([object isKindOfClass:[MLKBinding class]])
+    { RETURN_VALUE ([sys intern:@"BINDING"]); }
+  else if ([object isKindOfClass:[MLKPackage class]])
+    { RETURN_VALUE ([cl intern:@"PACKAGE"]); }
+  else if ([object isKindOfClass:[MLKStream class]])
+    { RETURN_VALUE ([cl intern:@"STREAM"]); }
+  else if ([object isKindOfClass:[NSException class]])
+    { RETURN_VALUE ([sys intern:@"EXCEPTION"]); }
+  else if ([object isKindOfClass:[NSArray class]])
+    { RETURN_VALUE ([cl intern:@"ARRAY"]); }
+  else
+    { RETURN_VALUE ([cl intern:@"T"]); }
 }
 @end
