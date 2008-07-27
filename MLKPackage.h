@@ -69,5 +69,7 @@
 -(NSArray *) usedPackages;
 -(NSArray *) usingPackages;
 
+-(NSString *) descriptionForLisp;
+
 -(void) dealloc;
 @end

@@ -20,6 +20,7 @@
 #import "MLKSymbol.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
@@ -56,6 +57,7 @@ static NSMutableDictionary *packages = nil;
 
   [tlUser usePackage:cl];
   [tlUser usePackage:toilet];
+  //[tlUser usePackage:clUser];
 
   [clUser usePackage:cl];
   [clUser usePackage:toilet];
@@ -87,7 +89,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%DEFMACRO"]];
   [sys export:[sys intern:@"%LAMBDA"]];
   [sys export:[sys intern:@"%FSET"]];
-  
+
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];
   [sys export:[sys intern:@"RPLACA"]];
@@ -165,8 +167,6 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"*STANDARD-OUTPUT*"]];
   [cl export:[cl intern:@"*TERMINAL-IO*"]];
   [cl export:[cl intern:@"*TRACE-OUTPUT* "]];
-
-  [tlUser usePackage:clUser];
 }
 
 -(MLKPackage *) initWithName:(NSString *)name
@@ -253,9 +253,10 @@ static NSMutableDictionary *packages = nil;
       if (old_symbol != symbol)
         [NSException
           raise:@"MLKSymbolConflictError"
-          format:@"Imported symbol %@ conflicts with accessible symbol %@.",
+          format:@"Imported symbol %@ conflicts with accessible symbol %@ in package %@.",
                  [symbol descriptionForLisp],
-                 [old_symbol descriptionForLisp]];
+                 [old_symbol descriptionForLisp],
+                 [self descriptionForLisp]];
     }
 
   [_accessible_symbols setObject:symbol forKey:name];
@@ -268,16 +269,19 @@ static NSMutableDictionary *packages = nil;
   NSString *name;
 
   name = symbol ? [symbol name] : (NSString *)@"NIL";
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
+  old_symbol = [_accessible_symbols objectForKey:name];
 
-  if ((old_symbol = [_accessible_symbols objectForKey:name])
-      && old_symbol != symbol
-      && ![_shadowing_symbols containsObject:old_symbol])
+  if (old_symbol && [_shadowing_symbols containsObject:old_symbol])
+    return;
+
+  if (old_symbol && old_symbol != symbol)
     [NSException
       raise:@"MLKSymbolConflictError"
-      format:@"Inherited symbol %@ conflicts with accessible symbol %@.",
+      format:@"Inherited symbol %@ conflicts with accessible symbol %@ in package %@.",
              [symbol descriptionForLisp],
-             [old_symbol descriptionForLisp]];
+             [old_symbol descriptionForLisp],
+             [self descriptionForLisp]];
 
   [_accessible_symbols setObject:symbol forKey:name];
 }
@@ -287,9 +291,9 @@ static NSMutableDictionary *packages = nil;
   NSString *name;
 
   name = symbol ? [symbol name] : (NSString *)@"NIL";
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
 
-  if (![_present_symbols containsObject:symbol])
+  if ([_accessible_symbols objectForKey:name] == symbol
+      && ![_present_symbols containsObject:symbol])
     [_accessible_symbols removeObjectForKey:name];
 }
 
@@ -299,7 +303,7 @@ static NSMutableDictionary *packages = nil;
   NSString *name;
 
   name = symbol ? [symbol name] : (NSString *)@"NIL";
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
 
   for (i = 0; i < [_using_packages count]; i++)
     {
@@ -311,7 +315,7 @@ static NSMutableDictionary *packages = nil;
           && ![_shadowing_symbols containsObject:old_symbol])
         [NSException
           raise:@"MLKSymbolConflictError"
-          format:@"Inherited symbol %@ conflicts with accessible symbol %@ in package %@.",
+          format:@"Exported symbol %@ conflicts with accessible symbol %@ in package %@.",
                  [symbol descriptionForLisp],
                  [old_symbol descriptionForLisp],
                  [package descriptionForLisp]];
@@ -330,7 +334,7 @@ static NSMutableDictionary *packages = nil;
 {
   int i;
 
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
 
   [_exported_symbols removeObject:symbol];
 
@@ -347,6 +351,7 @@ static NSMutableDictionary *packages = nil;
   symbol = [_accessible_symbols objectForKey:symbolName];
   if (!symbol || ![_present_symbols containsObject:symbol])
     {
+      //NSLog (@"Shadowing %@", symbol);
       symbol = [MLKSymbol symbolWithName:symbolName package:self];
       [_accessible_symbols setObject:symbol forKey:symbolName];
       [_present_symbols addObject:symbol];
@@ -362,6 +367,9 @@ static NSMutableDictionary *packages = nil;
       [_present_symbols removeObject:aSymbol];
       [_accessible_symbols removeObjectForKey:[aSymbol name]];
       [_shadowing_symbols removeObject:aSymbol];
+
+      if (self == [aSymbol homePackage])
+        [aSymbol setHomePackage:nil];
     }
 }
 
@@ -372,6 +380,7 @@ static NSMutableDictionary *packages = nil;
     return (symbol == (id)[NSNull null] ? nil : (id)symbol);
   else
     {
+      //NSLog (@"Interning %@", symbolName);
       MLKSymbol *symbol = [[MLKSymbol alloc] initWithName:symbolName
                                              package:self];
       [self import:symbol];
@@ -426,6 +435,11 @@ static NSMutableDictionary *packages = nil;
 -(NSArray *) usingPackages
 {
   return _using_packages;
+}
+
+-(NSString *) descriptionForLisp
+{
+  return [NSString stringWithFormat:@"#<Package %@>", [[self name] descriptionForLisp]];
 }
 
 -(void) dealloc
