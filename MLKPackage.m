@@ -73,6 +73,7 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"LET"]];
   [cl export:[cl intern:@"LAMBDA"]];
   [cl export:[cl intern:@"FUNCALL"]];
+  [cl export:[cl intern:@"FUNCTION"]];
   [cl export:[cl intern:@"PROGN"]];
   [cl export:[cl intern:@"APPLY"]];
   [cl export:[cl intern:@"PROGV"]];

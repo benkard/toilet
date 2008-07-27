@@ -54,6 +54,7 @@ static MLKSymbol *LAMBDA;
 static MLKSymbol *LET;
 static MLKSymbol *APPLY;
 static MLKSymbol *FUNCALL;
+static MLKSymbol *FUNCTION;
 static MLKSymbol *EVAL;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
@@ -85,6 +86,8 @@ static MLKSymbol *_LAMBDA;
   LET = [cl intern:@"LET"];
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
+  FUNCALL = [cl intern:@"FUNCALL"];
+  FUNCTION = [cl intern:@"FUNCTION"];
   QUOTE = [cl intern:@"QUOTE"];
   SETQ = [cl intern:@"SETQ"];
   SETF = [cl intern:@"SETF"];
@@ -316,6 +319,31 @@ static MLKSymbol *_LAMBDA;
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
+            }
+          else if (car == FUNCTION)
+            {
+              id functionName = [[program cdr] car];
+
+              if ([functionName isKindOfClass:[MLKCons class]]
+                  && ([functionName car] == LAMBDA
+                      || [functionName car] == _LAMBDA))
+                {
+                  return [self eval:functionName
+                               inLexicalContext:context
+                               withEnvironment:lexenv
+                               expandOnly:expandOnly];
+                }
+              else if (expandOnly)
+                {
+                  RETURN_VALUE (program);
+                }
+              else
+                {
+                  // FIXME: Function names need not be symbols.
+                  id <MLKFuncallable> function =
+                    [lexenv functionForSymbol:functionName];
+                  RETURN_VALUE (function);
+                }
             }
           else if (car == IF)
             {
