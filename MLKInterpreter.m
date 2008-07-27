@@ -923,7 +923,8 @@ static MLKSymbol *_LAMBDA;
       else
         formdesc = [code descriptionForLisp];
 
-      fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
+      //fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
+      fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
       expansion = denullify([[MLKInterpreter
                                eval:code
                                inLexicalContext:[MLKLexicalContext
@@ -940,7 +941,7 @@ static MLKSymbol *_LAMBDA;
       else
         formdesc = [expansion descriptionForLisp];
 
-      fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
+      //fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
       result = [MLKInterpreter
                  eval:expansion
                  inLexicalContext:[MLKLexicalContext globalContext]
