@@ -1,3 +1,7 @@
+(export '(copy-tree assoc assoc-if assoc-if-not rassoc rassoc-if
+          rassoc-if-not sublis nsublis))
+
+
 (defun copy-tree (tree)
   (typecase tree
     (cons (cons (copy-tree (car cons)) (copy-tree (cdr cons))))

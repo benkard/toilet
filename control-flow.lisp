@@ -1,3 +1,6 @@
+(export '(identity constantly complement))
+
+
 (defun identity (x)
   x)
 
