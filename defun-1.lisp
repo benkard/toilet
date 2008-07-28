@@ -1,3 +1,6 @@
+(export '(defmacro defun))
+
+
 (%defmacro* defun (name lambda-list . body)
   (let ((lambda-sym (gensym)))
     `(%defun ,name ,lambda-sym
@@ -15,6 +18,3 @@
              (,env-sym (second ,arg-sym)))
          (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
            ,@body)))))
-
-
-(export '(defmacro defun))

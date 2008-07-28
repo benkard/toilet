@@ -1,3 +1,8 @@
+(export '(destructuring-bind lambda-list-keywords
+          &allow-other-keys &aux &body &environment &key &optional &rest
+          &whole))
+
+
 ;; D-B may not expand to (but _may_ itself use!) plain list function
 ;; calls because these are defined in list-functions.lisp by way of
 ;; DEFUN, which is in turn based on D-B.  Because of this, we define our
@@ -120,8 +125,3 @@
 
 (%defmacro* destructuring-bind (tree expression . body)
   `(d-b ,tree nil nil ,expression ,@body))
-
-
-(export '(destructuring-bind lambda-list-keywords
-          &allow-other-keys &aux &body &environment &key &optional &rest
-          &whole))

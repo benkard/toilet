@@ -1,3 +1,7 @@
+(export '(and or not let* list* case cond append reverse macroexpand
+          otherwise unless when))
+
+
 (%defmacro %defun args
   (list '%fset
         (list 'quote (car (cdr (car args))))
@@ -193,6 +197,9 @@
 (%defmacro* when (test . body)
   `(if ,test (progn ,@body) nil))
 
-
-(export '(and or not let* list* case cond append reverse macroexpand
-          otherwise unless when))
+(%defmacro* %shadowing-export (symbol)
+  `(progn
+     (shadow ',symbol)
+     (unexport ',symbol (find-package :sys))
+     (unexport ',symbol (find-package :cl))
+     (export (intern (symbol-name ',symbol) (find-package :cl)))))

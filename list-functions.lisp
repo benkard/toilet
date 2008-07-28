@@ -1,8 +1,12 @@
+(export '(cons list* first second third fourth fifth sixth seventh
+          eigthth ninth tenth atom consp listp null rplaca rplacd caaaar
+          caaadr caaar caadar caaddr caadr caar cadaar cadadr cadar
+          caddar cadddr caddr cadr car cdaaar cdaadr cdaar cdadar cdaddr
+          cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr))
+
+
 (%defmacro* pushq args
   (list* 'setq (car (cdr args)) (car args)))
-
-(defun first (list)
-  (car list))
 
 
 ;;;;-----------------------------------------------------------------
@@ -50,8 +54,7 @@
 (defun cadr (list)
   (car (cdr list)))
 
-(shadow 'car)
-(unexport 'sys::car (find-package :sys))
+(%shadowing-export car)
 (defun car (list)
   (sys::car list))
 
@@ -97,15 +100,17 @@
 (defun cddr (list)
   (cdr (cdr list)))
 
-(shadow 'cdr)
-(unexport 'sys::cdr (find-package :sys))
+(%shadowing-export cdr)
 (defun cdr (list)
   (sys::cdr list))
 
 
 ;;;;-----------------------------------------------------------------
-;;;; SECOND ... TENTH
+;;;; FIRST ... TENTH
 ;;;;-----------------------------------------------------------------
+(defun first (list)
+  (car list))
+
 (defun second (list)
   (cadr list))
 
@@ -137,8 +142,7 @@
 ;;;;-----------------------------------------------------------------
 ;;;; CONS
 ;;;;-----------------------------------------------------------------
-(shadow 'cons)
-(unexport 'sys::cons (find-package :sys))
+(%shadowing-export cons)
 (defun cons (x y)
   (sys::cons x y))
 
@@ -146,8 +150,10 @@
 ;;;;-----------------------------------------------------------------
 ;;;; TYPE PREDICATES
 ;;;;-----------------------------------------------------------------
-(shadow '(consp listp null atom))
-(unexport '(sys::consp sys::listp sys::null sys::atom) (find-package :sys))
+(%shadowing-export consp)
+(%shadowing-export listp)
+(%shadowing-export null)
+(%shadowing-export atom)
 
 (defun consp (x)
   (sys::consp x))
@@ -179,8 +185,8 @@
 ;;;;-----------------------------------------------------------------
 ;;;; ACCESSORS
 ;;;;-----------------------------------------------------------------
-(shadow '(rplaca rplacd))
-(unexport '(sys::rplaca sys::rplacd) (find-package :sys))
+(%shadowing-export rplaca)
+(%shadowing-export rplacd)
 
 (defun rplaca (cons new-value)
   (sys::rplaca cons new-value))
@@ -190,8 +196,3 @@
 
 
 ;;;;-----------------------------------------------------------------
-(export '(cons list* first second third fourth fifth sixth seventh
-          eigthth ninth tenth atom consp listp null rplaca rplacd caaaar
-          caaadr caaar caadar caaddr caadr caar cadaar cadadr cadar
-          caddar cadddr caddr cadr car cdaaar cdaadr cdaar cdadar cdaddr
-          cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr))
