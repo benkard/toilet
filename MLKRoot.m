@@ -528,21 +528,33 @@ static id truify (BOOL value)
 
   [invocation invoke];
 
+
+#define IF_TYPE_RETURN(TYPE, VALUE_NAME, VALUE)                         \
+  if (strcmp ([signature methodReturnType], @encode(TYPE)) == 0)        \
+    {                                                                   \
+      TYPE VALUE_NAME;                                                  \
+      [invocation getReturnValue:&VALUE_NAME];                          \
+      RETURN_VALUE (VALUE);                                             \
+    }
+
   if (strcmp ([signature methodReturnType], @encode(void)) == 0)
     {
       return [NSArray array];
     }
-  else if (strcmp ([signature methodReturnType], @encode(BOOL)) == 0)
-    {
-      BOOL returnValue;
-      [invocation getReturnValue:&returnValue];
-      RETURN_VALUE (truify (returnValue));
-    }
+  else IF_TYPE_RETURN (BOOL, retval, truify (retval))
+  else IF_TYPE_RETURN (id, retval, retval)
+  else IF_TYPE_RETURN (Class, retval, retval)
+  else IF_TYPE_RETURN (NSException *, retval, retval)
+  else IF_TYPE_RETURN (int, retval, [MLKInteger integerWithInt:retval])
+  else IF_TYPE_RETURN (unsigned int, retval, [MLKInteger integerWithInt:retval])  //FIXME
+  else IF_TYPE_RETURN (unichar, retval, [MLKCharacter characterWithUnichar:retval])
   else
     {
-      id returnValue;
-      [invocation getReturnValue:&returnValue];
-      RETURN_VALUE (returnValue);
+      [NSException raise:@"MLKInvalidReturnTypeError"
+                   format:@"Cannot handle an Objective-C return type of \"%s\" \
+as provided by method %@ of object %@",
+                          methodName, object, [signature methodReturnType]];
+      return nil;
     }
 }
 @end
