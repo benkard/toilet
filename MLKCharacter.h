@@ -40,4 +40,6 @@
 
 +(unichar) uppercaseCharForChar:(unichar)ch;
 +(unichar) lowercaseCharForChar:(unichar)ch;
+
+-(BOOL) isEqual:(id)thing;
 @end

@@ -68,4 +68,10 @@
 {
   return [[MLKCharacter characterWithUnichar:ch] lowercaseChar];
 }
+
+-(BOOL) isEqual:(id)thing
+{
+  return ([thing isKindOfClass:[MLKCharacter class]]
+          && ((MLKCharacter *)thing)->unichar == self->unichar);
+}
 @end
