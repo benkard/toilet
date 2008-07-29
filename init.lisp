@@ -6,5 +6,6 @@
 (load "defun-1.lisp")
 (load "list-functions.lisp")
 (load "control-flow.lisp")
+(load "types.lisp")
 (load "list-functions-2.lisp")
 (in-package :common-lisp-user)
