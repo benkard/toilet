@@ -83,9 +83,89 @@ DEFINE_MPZ_TWOARG_OPERATION (multiplyWith:, mpz_mul)
 DEFINE_MPZ_TWOARG_OPERATION (divideBy:, mpz_div)
 
 
+#define DEFINE_MPZ_TWOARG_INTONLY_OPERATION(SELECTOR, GMPFUN)                   \
+  DEFINE_GMP_OPERATION (SELECTOR (MLKInteger *)arg,                             \
+                        mpz,                                                    \
+                        GMPFUN (mpval, self->value, ((MLKInteger*)arg)->value), \
+                        MLKInteger,                                             \
+                        MLKInteger,                                             \
+                        integerWithMPZ:)
+
+DEFINE_MPZ_TWOARG_INTONLY_OPERATION (mod:, mpz_mod)
+DEFINE_MPZ_TWOARG_INTONLY_OPERATION (exactlyDivideBy:, mpz_divexact)
+DEFINE_MPZ_TWOARG_INTONLY_OPERATION (gcd:, mpz_gcd)
+DEFINE_MPZ_TWOARG_INTONLY_OPERATION (lcm:, mpz_lcm)
+
+
+-(MLKInteger *) pow:(MLKInteger *)exponent
+{
+  mpz_t mpz;
+  mpz_t i;
+
+  mpz_init_set_ui (mpz, 1);
+  mpz_init_set (i, exponent->value);
+
+  while (mpz_sgn (i) > 0)
+    {
+      mpz_mul (mpz, mpz, self->value);
+      mpz_sub_ui (i, i, 1);
+    }
+
+  MLKInteger *obj = [MLKInteger integerWithMPZ:mpz];
+  mpz_clear (mpz);
+  mpz_clear (i);
+
+  return obj;
+}
+
+-(BOOL) evenp
+{
+  return mpz_even_p (self->value);
+}
+
+-(BOOL) oddp
+{
+  return mpz_odd_p (self->value);
+}
+
+-(MLKInteger *) isqrt
+{
+  mpz_t mpz;
+
+  mpz_init (mpz);
+  mpz_sqrt (mpz, self->value);
+  MLKInteger *obj = [MLKInteger integerWithMPZ:mpz];
+  mpz_clear (mpz);
+
+  return obj;
+}
+
 -(int) intValue
 {
   return mpz_get_si (value);
+}
+
+-(double) doubleValue
+{
+  return mpz_get_d (value);
+}
+
+-(NSComparisonResult) compare:(MLKInteger *)arg
+{
+  int cmp = mpz_cmp (self->value, arg->value);
+
+  if (cmp == 0)
+    return NSOrderedSame;
+  else if (cmp < 0)
+    return NSOrderedAscending;
+  else
+    return NSOrderedDescending;
+}
+
+-(BOOL) isEqual:(id)arg
+{
+  return ([arg isKindOfClass:[MLKInteger class]]
+          && [self compare:arg] == 0);
 }
 
 -(NSString *) description

@@ -43,11 +43,25 @@
 +(MLKInteger *) integerWithInt:(int)intValue;
 
 -(int) intValue;
+-(double) doubleValue;
 
 -(MLKNumber *) add:(MLKNumber *)arg;
 -(MLKNumber *) subtract:(MLKNumber *)arg;
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
+
+-(NSComparisonResult) compare:(MLKInteger *)arg;
+-(BOOL) isEqual:(id)arg;
+
+-(BOOL) evenp;
+-(BOOL) oddp;
+
+-(MLKInteger *) mod:(MLKInteger *)arg;
+-(MLKInteger *) exactlyDivideBy:(MLKInteger *)arg;
+-(MLKInteger *) isqrt;
+-(MLKInteger *) pow:(MLKInteger *)exponent;
+-(MLKInteger *) gcd:(MLKInteger *)arg;
+-(MLKInteger *) lcm:(MLKInteger *)arg;
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;

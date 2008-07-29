@@ -17,6 +17,7 @@
  */
 
 #import "MLKNumber.h"
+#import "MLKInteger.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -42,10 +43,18 @@
                               negative:(BOOL)negative
                                   base:(unsigned int)base;
 
+-(double) doubleValue;
+
 -(MLKNumber *) add:(MLKNumber *)arg;
 -(MLKNumber *) subtract:(MLKNumber *)arg;
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
+
+-(NSComparisonResult) compare:(MLKRatio *)arg;
+-(BOOL) isEqual:(id)arg;
+
+-(MLKInteger *) numerator;
+-(MLKInteger *) denominator;
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;

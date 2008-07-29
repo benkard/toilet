@@ -126,6 +126,22 @@
     return [MLKSingleFloat singleFloatWithFloat:(value / [(MLKFloat*)arg floatValue])];
 }
 
+-(NSComparisonResult) compare:(MLKSingleFloat *)arg
+{
+  if (self->value == arg->value)
+    return NSOrderedSame;
+  else if (self->value < arg->value)
+    return NSOrderedAscending;
+  else
+    return NSOrderedDescending;
+}
+
+-(BOOL) isEqual:(id)arg
+{
+  return ([arg isKindOfClass:[MLKSingleFloat class]]
+          && self->value == ((MLKSingleFloat *)arg)->value);
+}
+
 -(NSString *) description
 {
   NSString *str = [NSString stringWithFormat:@"%e", value];

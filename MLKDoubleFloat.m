@@ -24,6 +24,7 @@
 
 #import <Foundation/NSString.h>
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -112,6 +113,51 @@
 -(MLKNumber *) divideBy:(MLKNumber *)arg
 {
   return [MLKDoubleFloat doubleFloatWithDouble:(value / [(MLKFloat*)arg doubleValue])];
+}
+
+-(NSComparisonResult) compare:(MLKDoubleFloat *)arg
+{
+  if (self->value == arg->value)
+    return NSOrderedSame;
+  else if (self->value < arg->value)
+    return NSOrderedAscending;
+  else
+    return NSOrderedDescending;
+}
+
+-(BOOL) isEqual:(id)arg
+{
+  return ([arg isKindOfClass:[MLKDoubleFloat class]]
+          && self->value == ((MLKDoubleFloat *)arg)->value);
+}
+
+
+#define DEFINE_NULLARY_OPERATOR(NAME)                                   \
+  -(MLKDoubleFloat *) NAME                                              \
+  {                                                                     \
+    return [MLKDoubleFloat doubleFloatWithDouble:(NAME (value))];       \
+  }
+
+DEFINE_NULLARY_OPERATOR (sin);
+DEFINE_NULLARY_OPERATOR (cos);
+DEFINE_NULLARY_OPERATOR (tan);
+DEFINE_NULLARY_OPERATOR (asin);
+DEFINE_NULLARY_OPERATOR (acos);
+DEFINE_NULLARY_OPERATOR (atan);
+DEFINE_NULLARY_OPERATOR (sinh);
+DEFINE_NULLARY_OPERATOR (cosh);
+DEFINE_NULLARY_OPERATOR (tanh);
+DEFINE_NULLARY_OPERATOR (exp);
+DEFINE_NULLARY_OPERATOR (log);
+DEFINE_NULLARY_OPERATOR (sqrt);
+DEFINE_NULLARY_OPERATOR (ceil);
+DEFINE_NULLARY_OPERATOR (floor);
+
+
+-(MLKDoubleFloat *) pow:(MLKDoubleFloat *)exponent
+{
+  return [MLKDoubleFloat doubleFloatWithDouble:
+                           (pow (self->value, exponent->value))];
 }
 
 -(NSString *) description

@@ -46,6 +46,9 @@
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
 
+-(NSComparisonResult) compare:(MLKSingleFloat *)arg;
+-(BOOL) isEqual:(id)arg;
+
 -(NSString *) description;
 -(NSString *) descriptionForLisp;
 @end

@@ -49,6 +49,25 @@
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
 
+-(NSComparisonResult) compare:(MLKDoubleFloat *)arg;
+-(BOOL) isEqual:(id)arg;
+
+-(MLKDoubleFloat *) sin;
+-(MLKDoubleFloat *) cos;
+-(MLKDoubleFloat *) tan;
+-(MLKDoubleFloat *) asin;
+-(MLKDoubleFloat *) acos;
+-(MLKDoubleFloat *) atan;
+-(MLKDoubleFloat *) sinh;
+-(MLKDoubleFloat *) cosh;
+-(MLKDoubleFloat *) tanh;
+-(MLKDoubleFloat *) exp;
+-(MLKDoubleFloat *) log;
+-(MLKDoubleFloat *) sqrt;
+-(MLKDoubleFloat *) ceil;
+-(MLKDoubleFloat *) floor;
+-(MLKDoubleFloat *) pow:(MLKDoubleFloat *)exponent;
+
 -(NSString *) description;
 -(NSString *) descriptionForLisp;
 @end

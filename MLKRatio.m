@@ -89,6 +89,48 @@ DEFINE_MPQ_TWOARG_OPERATION (divideBy:, mpq_div)
   return mpq_get_d (value);
 }
 
+-(MLKInteger *) numerator
+{
+  mpz_t numer;
+  MLKInteger *obj;
+
+  mpz_init_set (numer, mpq_numref (self->value));
+  obj = [MLKInteger integerWithMPZ:numer];
+  mpz_clear (numer);
+
+  return obj;
+}
+
+-(MLKInteger *) denominator
+{
+  mpz_t denom;
+  MLKInteger *obj;
+
+  mpz_init_set (denom, mpq_denref (self->value));
+  obj = [MLKInteger integerWithMPZ:denom];
+  mpz_clear (denom);
+
+  return obj;
+}
+
+-(NSComparisonResult) compare:(MLKRatio *)arg
+{
+  int cmp = mpq_cmp (self->value, arg->value);
+
+  if (cmp == 0)
+    return NSOrderedSame;
+  else if (cmp < 0)
+    return NSOrderedAscending;
+  else
+    return NSOrderedDescending;
+}
+
+-(BOOL) isEqual:(id)arg
+{
+  return ([arg isKindOfClass:[MLKRatio class]]
+          && mpq_equal (self->value, ((MLKRatio *)arg)->value));
+}
+
 -(NSString *) description
 {
   return [self descriptionWithBase:10];

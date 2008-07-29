@@ -35,4 +35,6 @@ DECLARE_ABSTRACT (-(MLKNumber *) add:(MLKNumber *)arg, nil)
 DECLARE_ABSTRACT (-(MLKNumber *) subtract:(MLKNumber *)arg, nil)
 DECLARE_ABSTRACT (-(MLKNumber *) multiplyWith:(MLKNumber *)arg, nil)
 DECLARE_ABSTRACT (-(MLKNumber *) divideBy:(MLKNumber *)arg, nil)
+
+DECLARE_ABSTRACT (-(double) doubleValue, 0.0)
 @end
