@@ -125,6 +125,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"NS-LOG"]];
   [sys export:[sys intern:@"SYMBOL-NAME"]];
   [sys export:[sys intern:@"PRIMITIVE-TYPE-OF"]];
+  [sys export:[sys intern:@"SEND-BY-NAME"]];
 
   [cl export:[cl intern:@"*BREAK-ON-SIGNALS*"]];
   [cl export:[cl intern:@"*COMPILE-FILE-PATHNAME*"]];

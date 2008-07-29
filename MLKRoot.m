@@ -491,4 +491,58 @@ static id truify (BOOL value)
   else
     { RETURN_VALUE ([cl intern:@"T"]); }
 }
+
++(NSArray *) send_by_name:(NSArray *)args
+{
+  NSString *methodName = denullify ([args objectAtIndex:1]);
+  id object = denullify ([args objectAtIndex:0]);
+  NSInvocation *invocation;
+  SEL selector;
+  NSMethodSignature *signature;
+  int i;
+
+  selector = NSSelectorFromString (methodName);
+  if (!selector)
+    {
+      [NSException raise:@"MLKNoSuchSelectorError"
+                   format:@"Could not find a selector named %@", methodName];
+    }
+
+  signature = [object methodSignatureForSelector:selector];
+  if (!signature)
+    {
+      [NSException raise:@"MLKDoesNotUnderstandError"
+                   format:@"%@ does not respond to selector %@", object, methodName];
+    }
+
+  invocation = [NSInvocation invocationWithMethodSignature:signature];
+
+  [invocation setSelector:selector];
+  [invocation setTarget:object];
+
+  for (i = 2; i < [args count]; i++)
+    {
+      id argument = denullify ([args objectAtIndex:i]);
+      [invocation setArgument:&argument atIndex:i];
+    }
+
+  [invocation invoke];
+
+  if (strcmp ([signature methodReturnType], @encode(void)) == 0)
+    {
+      return [NSArray array];
+    }
+  else if (strcmp ([signature methodReturnType], @encode(BOOL)) == 0)
+    {
+      BOOL returnValue;
+      [invocation getReturnValue:&returnValue];
+      RETURN_VALUE (truify (returnValue));
+    }
+  else
+    {
+      id returnValue;
+      [invocation getReturnValue:&returnValue];
+      RETURN_VALUE (returnValue);
+    }
+}
 @end
