@@ -499,7 +499,6 @@ static id truify (BOOL value)
   NSInvocation *invocation;
   SEL selector;
   NSMethodSignature *signature;
-  const char *returnType;
   int i;
 
   selector = NSSelectorFromString (methodName);
@@ -529,39 +528,33 @@ static id truify (BOOL value)
 
   [invocation invoke];
 
-  returnType = [signature methodReturnType];
-  if (strcmp (returnType, @encode(void)) == 0)
+
+#define IF_TYPE_RETURN(TYPE, VALUE_NAME, VALUE)                         \
+  if (strcmp ([signature methodReturnType], @encode(TYPE)) == 0)        \
+    {                                                                   \
+      TYPE VALUE_NAME;                                                  \
+      [invocation getReturnValue:&VALUE_NAME];                          \
+      RETURN_VALUE (VALUE);                                             \
+    }
+
+  if (strcmp ([signature methodReturnType], @encode(void)) == 0)
     {
       return [NSArray array];
     }
+  else IF_TYPE_RETURN (BOOL, retval, truify (retval))
+  else IF_TYPE_RETURN (id, retval, retval)
+  else IF_TYPE_RETURN (Class, retval, retval)
+  else IF_TYPE_RETURN (NSException *, retval, retval)
+  else IF_TYPE_RETURN (int, retval, [MLKInteger integerWithInt:retval])
+  else IF_TYPE_RETURN (unsigned int, retval, [MLKInteger integerWithInt:retval])  //FIXME
+  else IF_TYPE_RETURN (unichar, retval, [MLKCharacter characterWithUnichar:retval])
   else
     {
-      char retbuf[[signature methodReturnLength]];
-
-      [invocation getReturnValue:&retbuf];
-
-#define IF_TYPE_RETURN(TYPE, VALUE_NAME, VALUE)                         \
-      if (strcmp (returnType, @encode(TYPE)) == 0)                      \
-        {                                                               \
-          TYPE VALUE_NAME = *(TYPE*)retbuf;                             \
-          RETURN_VALUE (VALUE);                                         \
-        }
-
-      IF_TYPE_RETURN(BOOL, retval, truify (retval))
-      else IF_TYPE_RETURN(id, retval, retval)
-      else IF_TYPE_RETURN(Class, retval, retval)
-      else IF_TYPE_RETURN(NSException *, retval, retval)
-      else IF_TYPE_RETURN(int, retval, [MLKInteger integerWithInt:retval])
-      else IF_TYPE_RETURN(unsigned int, retval, [MLKInteger integerWithInt:retval])  //FIXME
-      else IF_TYPE_RETURN(unichar, retval, [MLKCharacter characterWithUnichar:retval])
-      else
-        {
-          [NSException raise:@"MLKInvalidReturnTypeError"
-                       format:@"Cannot handle an Objective-C return type of \"%s\" \
+      [NSException raise:@"MLKInvalidReturnTypeError"
+                   format:@"Cannot handle an Objective-C return type of \"%s\" \
 as provided by method %@ of object %@",
-                              methodName, object, returnType];
-          return nil;
-        }
+                          methodName, object, [signature methodReturnType]];
+      return nil;
     }
 }
 @end
