@@ -2,7 +2,8 @@
           eigthth ninth tenth atom consp listp null rplaca rplacd caaaar
           caaadr caaar caadar caaddr caadr caar cadaar cadadr cadar
           caddar cadddr caddr cadr car cdaaar cdaadr cdaar cdadar cdaddr
-          cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr))
+          cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr
+          rest))
 
 
 (%defmacro* pushq args
@@ -106,7 +107,7 @@
 
 
 ;;;;-----------------------------------------------------------------
-;;;; FIRST ... TENTH
+;;;; FIRST ... TENTH, REST
 ;;;;-----------------------------------------------------------------
 (defun first (list)
   (car list))
@@ -137,6 +138,9 @@
 
 (defun tenth (list)
   (car (cdddr (cdddr (cdddr list)))))
+
+(defun rest (list)
+  (cdr list))
 
 
 ;;;;-----------------------------------------------------------------

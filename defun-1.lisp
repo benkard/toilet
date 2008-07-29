@@ -18,3 +18,12 @@
              (,env-sym (second ,arg-sym)))
          (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
            ,@body)))))
+
+(%defmacro* lambda (lambda-list . body)
+  (let ((lambda-sym (gensym)))
+    `(%lambda ,lambda-sym
+       (d-b ,lambda-list nil nil ,lambda-sym
+         ,@body))))
+
+(defun funcall (function &rest arguments)
+  (apply function arguments))
