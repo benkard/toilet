@@ -1,5 +1,5 @@
 (export '(copy-tree assoc assoc-if assoc-if-not rassoc rassoc-if
-          rassoc-if-not sublis nsublis))
+          rassoc-if-not sublis nsublis mapcar mapcan mapcon))
 
 
 (defun copy-tree (tree)
@@ -58,3 +58,34 @@
 
 (defun nsublis (alist tree &key key test test-not)
   (sublvs alist tree :key key :test test :test-not test-not))
+
+
+(defun some1 (function list)
+  (and (not (null list))
+       (or (funcall function (first list))
+           (some1 function (rest list)))))
+
+(defun every1 (function list)
+  (or (null list)
+      (and (funcall function (first list))
+           (every1 function (rest list)))))
+
+(defun mapcar1 (function list)
+  (when list
+    (cons (funcall function (first list))
+          (mapcar1 function (rest list)))))
+
+(defun mapcan1 (function list)
+  (%append (mapcar1 function list)))
+
+(defun mapcar (function list &rest more-lists)
+  (let ((lists (list* list more-lists)))
+    (when (every1 'identity lists)
+      (cons (apply function (mapcar1 'car lists))
+            (apply 'mapcar (list* function (mapcar1 'cdr lists)))))))
+
+(defun mapcan (function list &rest more-lists)
+  (%append (apply 'mapcar (list* function list more-lists))))
+
+(defun mapcon (function list &rest more-lists)
+  (apply (function mapcan) (list* function list more-lists)))
