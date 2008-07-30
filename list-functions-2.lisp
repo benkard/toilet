@@ -84,8 +84,14 @@
       (cons (apply function (mapcar1 'car lists))
             (apply 'mapcar (list* function (mapcar1 'cdr lists)))))))
 
+(defun maplist (function list &rest more-lists)
+  (let ((lists (list* list more-lists)))
+    (when (every1 'identity lists)
+      (cons (apply function lists)
+            (apply 'maplist (list* function (mapcar1 'cdr lists)))))))
+
 (defun mapcan (function list &rest more-lists)
   (%append (apply 'mapcar (list* function list more-lists))))
 
 (defun mapcon (function list &rest more-lists)
-  (apply (function mapcan) (list* function list more-lists)))
+  (%append (apply 'maplist (list* function list more-lists))))
