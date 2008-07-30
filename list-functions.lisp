@@ -3,7 +3,7 @@
           caaadr caaar caadar caaddr caadr caar cadaar cadadr cadar
           caddar cadddr caddr cadr car cdaaar cdaadr cdaar cdadar cdaddr
           cdadr cdar cddaar cddadr cddar cdddar cddddr cdddr cddr cdr
-          rest))
+          rest mapc dolist))
 
 
 (%defmacro* pushq args
@@ -197,6 +197,22 @@
 
 (defun rplacd (cons new-value)
   (sys::rplacd cons new-value))
+
+
+;;;;-----------------------------------------------------------------
+;;;; ITERATION
+;;;;-----------------------------------------------------------------
+(defun mapc (function list)
+  ;;FIXME: Rewrite using TAGBODY.
+  (when list
+    (funcall function (first list))
+    (mapc function (rest list))))
+
+(defmacro dolist ((var list &optional result) &body body)
+  ;;FIXME: Rewrite using TAGBODY.
+  `(progn
+     (mapc (lambda (,var) ,@body) ,list)
+     ,result))
 
 
 ;;;;-----------------------------------------------------------------
