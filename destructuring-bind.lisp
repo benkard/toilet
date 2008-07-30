@@ -13,6 +13,19 @@
 (%defun* %cdr (list)
   (sys::cdr list))
 
+(%defun* %cadr (list)
+  (sys::car (sys::cdr list)))
+
+(%defun* %cddr (list)
+  (sys::cdr (sys::cdr list)))
+
+(%defun* %getf (list indicator default)
+  (if (sys::null list)
+      default
+      (if (eq indicator (%car list))
+          (%cadr list)
+          (%getf (%cddr list) indicator default))))
+
 (setq lambda-list-keywords
       '(&allow-other-keys &aux &body &environment &key &optional &rest &whole))
 
@@ -96,10 +109,14 @@
                                 (caar head)
                                 (intern (symbol-name var) (find-package '#:keyword)))))
                       `(let* ((,sym ,expression)
-                              (,value-sym (getf ,sym ,keyword-name ',missing))
+                              (,value-sym (%getf ,sym ,keyword-name ',missing))
                               ,@(cond ((atom head)
-                                       `((,var ,value-sym)))
-                                      ((null (cdr head))
+                                       `((,var (if (eq ,value-sym ',missing)
+                                                   nil
+                                                   ,value-sym))))
+                                      ((null (if (eq ,value-sym ',missing)
+                                                   nil
+                                                   ,value-sym))
                                        `((,var ,value-sym)))
                                       ((null (cddr head))
                                        `((,var (if (eq ,value-sym ',missing)
