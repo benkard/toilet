@@ -1,14 +1,13 @@
 (export '(most-positive-fixnum most-negative-fixnum type-of typep
           subtypep and or not satisfies symbol fixnum bignum real
-          complex float integer ratio short-float long-float
-          single-float double-float null symbol list cons standard-char
-          base-char extended-char string vector bit-vector array
-          simple-array simple-vector simple-string simple-bit-vector
-          sequence two-way-stream stream echo-stream broadcast-stream
-          file-stream synonym-stream string-stream concatenated-stream))
+          complex float integer ratio rational number short-float
+          long-float single-float double-float null symbol list cons
+          standard-char base-char extended-char string vector bit-vector
+          array simple-array simple-vector simple-string
+          simple-bit-vector sequence two-way-stream stream echo-stream
+          broadcast-stream file-stream synonym-stream string-stream
+          concatenated-stream))
 
-
-;(defvar *type-table*)
 
 (setq *subtype-supertypes-dict*
       (let ((relationship-alist
