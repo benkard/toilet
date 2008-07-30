@@ -19,6 +19,7 @@
 #import "MLKCons.h"
 #import "MLKPackage.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
@@ -90,7 +91,7 @@
   
   while (rest)
     {
-      [array addObject:[rest car]];
+      [array addObject:nullify([rest car])];
       rest = [rest cdr];
     }
 
