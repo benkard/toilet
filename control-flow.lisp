@@ -1,4 +1,5 @@
-(export '(identity constantly complement))
+(export '(identity constantly complement tagbody go block return-from
+          defconstant))
 
 
 (defun identity (x)
@@ -13,85 +14,110 @@
   (lambda (x) (not (funcall function x))))
 
 
+(defmacro defconstant (name value &optional documentation)
+  `(setq ,name ,value))
+
+
 ;; FIXME: Should be (EVAL-WHEN (:compile-toplevel) ...).
 (unless (boundp '+block-mapping-sym+)
-  ;; FIXME: Should be DEFCONSTANT.
-  (setq +block-mapping-sym+ (gensym)))
+  (defconstant +block-mapping-sym+ (gensym "BLOCK-NAME")))
 
-(set +block-mapping-sym+ nil)  ;FIXME: should be DEFLEX
+(defmacro #.+block-mapping-sym+ () nil)
 
 (defmacro block (block-name &body body)
   (let ((catch-tag (gensym)))
-    `(compiler-let ((,+block-mapping-sym+ (acons ,block-name
-                                                 ,catch-tag
-                                                 ,+block-mapping-sym+)))
-       (catch ,catch-tag
+    `(macrolet ((,+block-mapping-sym+ ()
+                  `(quote ,(acons ',block-name
+                                  ',catch-tag
+                                  (,+block-mapping-sym+)))))
+       (catch ',catch-tag
          ,@body))))
 
-(defmacro return-from (block-name &optional value)
-  ;; #, is like COMPILE-TIME-VALUE... in a way.
-  `(throw (compile-time-value (cdr (assoc ,+block-mapping-sym+)) t)
-     ,@(when value (list value))))
+(defmacro return-from (block-name &optional value &environment env)
+  `(throw ',(cdr (assoc block-name (cadr (macroexpand `(,+block-mapping-sym+)
+                                                      env))))
+     ,value))
 
 
 ;; FIXME: Should be (EVAL-WHEN (:compile-toplevel) ...).
 (unless (boundp '+go-tag-function-mapping-sym+)
-  ;; FIXME: Should be DEFCONSTANT.
-  (setq +go-tag-function-mapping-sym+ (gensym))
-  (setq +go-tag-catch-tag-mapping-sym+ (gensym)))
+  (defconstant +go-tag-function-mapping-sym+ (gensym "GO-FUNCTION"))
+  (defconstant +go-tag-catch-tag-mapping-sym+ (gensym "GO-CATCH-TAG")))
 
-(set +go-tag-function-mapping-sym+ nil)  ;FIXME: should be DEFLEX
-(set +go-tag-catch-tag-mapping-sym+ nil)  ;FIXME: should be DEFLEX
+(defmacro #.+go-tag-function-mapping-sym+ () nil)
+(defmacro #.+go-tag-catch-tag-mapping-sym+ () nil)
 
 ;; FIXME: Implement TAGBODY and GO.
-(defmacro go (tag)
-  `(throw (compile-time-value (cdr (assoc ,+go-tag-catch-tag-mapping-sym+)) t)
-     #'#,(cdr (assoc ,+go-tag-function-mapping-sym+)) t))
+(defmacro go (tag &environment env)
+  `(throw ',(cdr (assoc tag (cadr (macroexpand `(,+go-tag-catch-tag-mapping-sym+)
+                                               env))))
+     (function ,(cdr (assoc tag (cadr (macroexpand `(,+go-tag-function-mapping-sym+)
+                                                   env)))))))
 
 (defmacro tagbody (&body body)
+  ;;(declare (optimize debug))
   (let* (labels-and-catch-tags
          labels-and-functions
          (catch-tag (gensym))
          (block-name (gensym))
          (return-value-sym (gensym))
+         (end-marker (gensym))
          (sections
-          (nreverse
-           (mapcon (let (current-label
-                         accumulated-clauses
-                         current-function)
-                     (lambda (clause-and-rest)
-                       (let ((clause (car clause-and-rest))
-                             (rest (cdr clause-and-rest)))
-                         (if (atom clause)
-                             (progn
-                               (when current-function
-                                 (push (cons current-label current-function)
-                                       labels-and-functions)
-                                 (push (cons current-label catch-tag)
-                                       labels-and-catch-tags))
-                               (let ((old-function current-function))
-                                 (setq current-label clause
-                                       current-function (gensym))
-                                 `((,old-function ()
-                                      ,@(nreverse accumulated-clauses)
-                                      ,(if rest `#',current-function `nil)))))
-                             (push clause accumulated-clauses)))))
-                   body))))
-    `(compiler-let ((,+go-tag-catch-tag-mapping-sym+
-                     (list* ,@(mapcar (lambda (x) (list 'quote x))
-                                      labels-and-catch-tags)
-                            ,+go-tag-catch-tag-mapping-sym+))
-                    (,+go-tag-function-mapping-sym+
-                     (list* ,@(mapcar (lambda (x) (list 'quote x))
-                                      labels-and-functions)
-                            ,+go-tag-function-mapping-sym+)))
+          (mapcon (let (current-label
+                        accumulated-clauses
+                        current-function)
+                    (lambda (clause-and-rest)
+                      (let ((clause (car clause-and-rest))
+                            (rest (cdr clause-and-rest)))
+                        (cond
+                          ((atom clause)
+                           (when current-function
+                             (push (cons current-label current-function)
+                                   labels-and-functions)
+                             (push (cons current-label catch-tag)
+                                   labels-and-catch-tags))
+                           (let ((old-function current-function))
+                             (setq current-label clause
+                                   current-function (gensym))
+                             (prog1
+                               `((,old-function ()
+                                    ,@(nreverse accumulated-clauses)
+                                    ,(if rest `#',current-function `nil))
+                                 ,@(when (endp rest)
+                                     `(,current-function ()
+                                        ',end-marker)))
+                               (setq accumulated-clauses nil))))
+                          (t (push clause accumulated-clauses)
+                             (if (endp rest)
+                                 (progn
+                                   (when current-function
+                                     (push (cons current-label current-function)
+                                           labels-and-functions)
+                                     (push (cons current-label catch-tag)
+                                           labels-and-catch-tags))
+                                   `((,current-function ()
+                                        ,@(nreverse accumulated-clauses)
+                                        ',end-marker)))
+                                 nil))))))
+                   body)))
+    `(macrolet ((,+go-tag-catch-tag-mapping-sym+ ()
+                  (list 'quote
+                        (list* ,@(mapcar (lambda (x) (list 'quote x))
+                                         labels-and-catch-tags)
+                               (,+go-tag-catch-tag-mapping-sym+))))
+                (,+go-tag-function-mapping-sym+ ()
+                  (list 'quote
+                        (list* ,@(mapcar (lambda (x) (list 'quote x))
+                                         labels-and-functions)
+                               (,+go-tag-function-mapping-sym+)))))
        (labels (,@(rest sections))
          (block ,block-name
            (let (,return-value-sym)
-             (loop-forever
+             (%loop
                (setq ,return-value-sym
-                     (catch ,catch-tag
+                     (catch ',catch-tag
                        (if ,return-value-sym
                            (funcall ,return-value-sym)
-                           (progn ,@(cddr (first sections))))
-                       (return-from ,block-name nil))))))))))
+                           (progn ,@(cddr (first sections))))))
+               (when (eq ,return-value-sym ',end-marker)
+                 (return-from ,block-name nil)))))))))
