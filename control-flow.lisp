@@ -47,7 +47,6 @@
 (defmacro #.+go-tag-function-mapping-sym+ () nil)
 (defmacro #.+go-tag-catch-tag-mapping-sym+ () nil)
 
-;; FIXME: Implement TAGBODY and GO.
 (defmacro go (tag &environment env)
   `(throw ',(cdr (assoc tag (cadr (macroexpand `(,+go-tag-catch-tag-mapping-sym+)
                                                env))))
@@ -55,7 +54,6 @@
                                                    env)))))))
 
 (defmacro tagbody (&body body)
-  ;;(declare (optimize debug))
   (let* (labels-and-catch-tags
          labels-and-functions
          (catch-tag (gensym))
