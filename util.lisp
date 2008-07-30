@@ -1,5 +1,5 @@
 (export '(and or not let* list* case cond append reverse macroexpand
-          otherwise unless when))
+          otherwise unless when eq))
 
 
 (%defmacro %defun args
@@ -203,3 +203,7 @@
      (unexport ',symbol (find-package :sys))
      (unexport ',symbol (find-package :cl))
      (export (intern (symbol-name ',symbol) (find-package :cl)))))
+
+(%shadowing-export eq)
+(%defun* eq (x y)
+  (sys::eq x y))
