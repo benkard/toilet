@@ -1,5 +1,5 @@
 (export '(and or not let* list* case cond append reverse macroexpand
-          otherwise unless when eq))
+          otherwise unless when eq boundp))
 
 
 (%defmacro %defun args
@@ -207,3 +207,20 @@
 (%shadowing-export eq)
 (%defun* eq (x y)
   (sys::eq x y))
+
+(%defun* boundp (symbol)
+  (send-by-name (send-by-name (find-objc-class "MLKDynamicContext")
+                              "currentContext")
+                "boundp:"
+                symbol))
+
+(unless (boundp '+nil+)
+  (setq +nil+ (gensym)))
+
+(%defun* denullify (x)
+  (if (eq x +nil+)
+      nil
+      x))
+
+(%defun* nullify (x)
+  (or x +nil+))

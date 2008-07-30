@@ -46,7 +46,7 @@
             (dict (send-by-name (find-objc-class "NSMutableDictionary")
                                 "dictionary")))
         (dolist (pair relationship-alist dict)
-          (send-by-name dict "setObject:forKey:" (cdr pair) (car pair)))))
+          (send-by-name dict "setObject:forKey:" (cdr pair) (nullify (car pair))))))
 
 
 (setq most-positive-fixnum 32767)
@@ -76,16 +76,6 @@
       (otherwise t))))  ;FIXME: classes and struct types, DEFTYPE
 
 
-(defun mapcar1 (function list)
-  (when list
-    (cons (funcall function (first list))
-          (mapcar1 function (rest list)))))
-
-
-(defun mapcan1 (function list)
-  (%append (mapcar1 function list)))
-
-
 (defun some1 (function list)
   (and (not (null list))
        (or (funcall function (first list))
@@ -107,7 +97,7 @@
   (let ((type (type-of thing))
         (typespec (expand-type typespec environment)))
     (cond ((eq typespec t) t)
-          ((listp typespec)
+          ((consp typespec)
            (case (first typespec)
              (and (every1 (lambda (x) (typep thing x environment)) (rest typespec)))
              (or (some1 (lambda (x) (typep thing x environment)) (rest typespec)))
@@ -123,7 +113,7 @@
         (type2 (expand-type type2 environment)))
     (cond ((eq type2 t) t)
           ((eq type1 nil) t)
-          ((listp type1)
+          ((consp type1)
            (case (first type1)
              (and (some1 (lambda (x) (subtypep x type2 environment)) (rest type1)))
              (or (every1 (lambda (x) (subtypep x type2 environment)) (rest type1)))
@@ -132,7 +122,7 @@
              (otherwise
               ;;FIXME!!
               (subtypep (first type1) type2 environment))))
-          ((listp type2)
+          ((consp type2)
            (case (first type2)
              (and (every1 (lambda (x) (subtypep type1 x environment)) (rest type2)))
              (or (some1 (lambda (x) (subtypep type1 x environment)) (rest type2)))
@@ -144,5 +134,6 @@
           (t (or (eq type1 type2)
                  (let ((supertypes (send-by-name *subtype-supertypes-dict*
                                                  "objectForKey:"
-                                                 type1)))
+                                                 type1)))  ;strictly, this should be (nullify type1),
+                                                           ;but type1 can't be NIL here
                    (some1 (lambda (x) (subtypep x type2 environment)) supertypes)))))))
