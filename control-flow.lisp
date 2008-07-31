@@ -38,6 +38,19 @@
   `(setq ,name ,value))
 
 
+(defmacro prog1 (form &body forms)
+  (let ((varsym (gensym)))
+    `(let ((,varsym ,form))
+       ,@forms
+       ,varsym)))
+
+(defmacro prog2 (form1 form2 &body forms)
+  `(progn
+     ,form1
+     (prog1 ,form2
+       ,@forms)))
+
+
 ;; FIXME: Should be (EVAL-WHEN (:compile-toplevel) ...).
 (unless (boundp '+block-mapping-sym+)
   (defconstant +block-mapping-sym+ (gensym "BLOCK-NAME")))

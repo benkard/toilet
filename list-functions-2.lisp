@@ -115,3 +115,9 @@
 
 (defun mapcon (function list &rest more-lists)
   (%append (apply 'maplist (list* function list more-lists))))
+
+(defun nreverse (list)
+  (reverse list))
+
+(defun acons (indicator value alist)
+  (cons (cons indicator value) alist))
