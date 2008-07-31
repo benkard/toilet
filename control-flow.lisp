@@ -19,7 +19,7 @@
 (in-package #:common-lisp)
 
 (export '(identity constantly complement tagbody go block return-from
-          defconstant prog prog* macrolet flet))
+          defconstant prog prog* macrolet flet prog1 prog2))
 
 
 (defun identity (x)
@@ -68,7 +68,8 @@
 
 (defmacro return-from (block-name &optional value &environment env)
   `(throw ',(cdr (assoc block-name (cadr (macroexpand `(,+block-mapping-sym+)
-                                                      env))))
+                                                      env))
+                        :test 'eq))
      ,value))
 
 
@@ -82,9 +83,11 @@
 
 (defmacro go (tag &environment env)
   `(throw ',(cdr (assoc tag (cadr (macroexpand `(,+go-tag-catch-tag-mapping-sym+)
-                                               env))))
+                                               env))
+                        :test 'eq))
      (function ,(cdr (assoc tag (cadr (macroexpand `(,+go-tag-function-mapping-sym+)
-                                                   env)))))))
+                                                   env))
+                            :test 'eq)))))
 
 (defmacro tagbody (&body body)
   (let* (labels-and-catch-tags

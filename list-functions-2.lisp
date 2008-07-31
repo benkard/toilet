@@ -19,7 +19,8 @@
 (in-package #:common-lisp)
 
 (export '(copy-tree assoc assoc-if assoc-if-not rassoc rassoc-if
-          rassoc-if-not sublis nsublis mapcar mapcan mapcon))
+          rassoc-if-not sublis nsublis mapcar mapcan mapcon acons
+          reverse nreverse))
 
 
 (defun copy-tree (tree)
