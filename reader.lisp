@@ -38,7 +38,8 @@
                 recursive-p
                 t))          ;FIXME: this neither
 
-(defun read-from-string (string &optional eof-error-p eof-value &key start end preserve-whitespace)
+(defun read-from-string (string &optional eof-error-p eof-value
+                         &key start end preserve-whitespace)
   (let ((stream (send-by-name (find-objc-class "MLKStringInputStream")
                               "streamWithString:"
                               string)))
@@ -49,3 +50,9 @@
                   eof-value
                   nil
                   preserve-whitespace)))
+
+(defun set-dispatch-macro-character (char subchar function &optional readtable)
+  (unless readtable
+    (setq readtable *readtable*))
+  (let ((dispatcher (send-by-name readtable "macroFunctionForCharacter:" char)))
+    (send-by-name dispatcher "setMacroFunction:forCharacter:" function subchar)))
