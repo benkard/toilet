@@ -29,3 +29,15 @@
                                             "characterWithUnichar:"
                                             92)
                               (function |#\-READER|))
+
+
+(defun |#'-READER| (stream char &optional arg)
+  `(function ,(read stream t nil t)))
+
+(set-dispatch-macro-character #\# #\' (function |#'-READER|))
+
+
+(defun |#.-READER| (stream char &optional arg)
+  (eval (read stream t nil t)))
+
+(set-dispatch-macro-character #\# #\. (function |#.-READER|))
