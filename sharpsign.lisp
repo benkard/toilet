@@ -18,16 +18,14 @@
 
 (in-package #:common-lisp)
 
-(load "util.lisp")
-(load "defun-0.lisp")
-(load "list-functions.lisp")
-(load "destructuring-bind.lisp")
-(load "defun-1.lisp")
-(load "list-functions.lisp")
-(load "reader.lisp")
-(load "sharpsign.lisp")
-(load "control-flow.lisp")
-(load "types.lisp")
-(load "list-functions-2.lisp")
+(defun |#\-READER| (stream char &optional arg)
+  ;; FIXME: Handle #\Newline etc..
+  (send-by-name stream "readChar"))
 
-(in-package #:common-lisp-user)
+(set-dispatch-macro-character (send-by-name (find-objc-class "MLKCharacter")
+                                            "characterWithUnichar:"
+                                            35)
+                              (send-by-name (find-objc-class "MLKCharacter")
+                                            "characterWithUnichar:"
+                                            92)
+                              (function |#\-READER|))

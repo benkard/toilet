@@ -523,7 +523,25 @@ static id truify (BOOL value)
   for (i = 2; i < [args count]; i++)
     {
       id argument = denullify ([args objectAtIndex:i]);
-      [invocation setArgument:&argument atIndex:i];
+      const char *type = [signature getArgumentTypeAtIndex:i];
+
+      if (strcmp (type, @encode(unichar)) == 0)
+        {
+          unichar arg;
+          if ([argument isKindOfClass:[MLKCharacter class]])
+            arg = [argument unicharValue];
+          else if ([argument isKindOfClass:[MLKInteger class]])
+            arg = [argument intValue];
+          else
+            [NSException raise:@"MLKInvalidArgumentError"
+                         format:@"Don't know how to coerce %@ into type \"%s\".",
+                                argument, type];
+          [invocation setArgument:&arg atIndex:i];
+        }
+      else
+        {
+          [invocation setArgument:&argument atIndex:i];
+        }
     }
 
   [invocation invoke];
