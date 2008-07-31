@@ -606,6 +606,7 @@ static MLKSymbol *_LOOP;
               id clauses;
               id body;
               NSArray *result;
+              NSMutableArray *new_clauses;
               MLKLexicalContext *ctx;
               MLKLexicalEnvironment *env;
               MLKDynamicContext *dynctx;
@@ -622,29 +623,6 @@ static MLKSymbol *_LOOP;
                   declarations = nil;
                 }
 
-              if (expandOnly)
-                {
-                  id body_expansion = denullify([[self eval:[MLKCons cons:PROGN
-                                                                     with:body]
-                                                       inLexicalContext:context
-                                                       withEnvironment:lexenv
-                                                       expandOnly:expandOnly]
-                                                  objectAtIndex:0]);
-                  RETURN_VALUE ([MLKCons
-                                  cons:LET
-                                  with:[MLKCons
-                                         cons:[[program cdr] car]
-                                         with:[MLKCons
-                                                cons:declarations
-                                                with:[MLKCons cons:body_expansion
-                                                              with:nil]]]]);
-                }
-
-              env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
-                                   initWithParent:lexenv
-                                   variables:nil
-                                   functions:nil]);
-
               ctx = AUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
@@ -655,15 +633,24 @@ static MLKSymbol *_LOOP;
                                    symbolMacros:nil
                                    declarations:declarations]);
 
-              dynctx = [[MLKDynamicContext alloc]
-                         initWithParent:dynamicContext
-                         variables:nil
-                         handlers:nil
-                         restarts:nil
-                         catchTags:nil
-                         activeHandlerEnvironment:nil];
+              if (!expandOnly)
+                {
+                  env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
+                                       initWithParent:lexenv
+                                       variables:nil
+                                       functions:nil]);
+
+                  dynctx = [[MLKDynamicContext alloc]
+                             initWithParent:dynamicContext
+                             variables:nil
+                             handlers:nil
+                             restarts:nil
+                             catchTags:nil
+                             activeHandlerEnvironment:nil];
+                }
 
               clauses = [[program cdr] car];
+              new_clauses = [NSMutableArray array];
               while (clauses)
                 {
                   id clause = [clauses car];
@@ -684,42 +671,72 @@ static MLKSymbol *_LOOP;
                       variable = [clause car];
                       value = denullify([[self eval:[[clause cdr] car]
                                                inLexicalContext:context
-                                               withEnvironment:lexenv]
+                                               withEnvironment:lexenv
+                                               expandOnly:expandOnly]
                                           objectAtIndex:0]);
                     }
 
-                  [ctx addVariable:variable];
-                  if ([ctx variableIsLexical:variable])
+                  if (expandOnly)
                     {
-                      [env addValue:value forSymbol:variable];
+                      [new_clauses addObject:[MLKCons cons:variable
+                                                      with:[MLKCons cons:value
+                                                                    with:nil]]];
                     }
                   else
                     {
-                      [dynctx addValue:value forSymbol:variable];
+                      [ctx addVariable:variable];
+                      if ([ctx variableIsLexical:variable])
+                        {
+                          [env addValue:value forSymbol:variable];
+                        }
+                      else
+                        {
+                          [dynctx addValue:value forSymbol:variable];
+                        }
                     }
 
                   clauses = [clauses cdr];
                 }
 
-              [dynctx pushContext];
-
-              NS_DURING
+              if (expandOnly)
                 {
                   result = [self eval:[MLKCons cons:PROGN with:body]
                                  inLexicalContext:ctx
-                                 withEnvironment:env];
+                                 withEnvironment:env
+                                 expandOnly:YES];
+
+                  RETURN_VALUE ([MLKCons
+                                  cons:LET
+                                  with:[MLKCons
+                                         cons:[MLKCons listWithArray:new_clauses]
+                                         with:[MLKCons
+                                                cons:[MLKCons cons:DECLARE
+                                                              with:declarations]
+                                                with:[[result objectAtIndex:0] cdr]]]]);
                 }
-              NS_HANDLER
+              else
                 {
+                  [dynctx pushContext];
+
+                  NS_DURING
+                    {
+                      result = [self eval:[MLKCons cons:PROGN with:body]
+                                     inLexicalContext:ctx
+                                     withEnvironment:env
+                                     expandOnly:NO];
+                    }
+                  NS_HANDLER
+                    {
+                      [MLKDynamicContext popContext];
+                      [localException raise];
+                    }
+                  NS_ENDHANDLER;
+
                   [MLKDynamicContext popContext];
-                  [localException raise];
+                  RELEASE (dynctx);
+
+                  return result;
                 }
-              NS_ENDHANDLER;
-
-              [MLKDynamicContext popContext];
-              RELEASE (dynctx);
-
-              return result;
             }
           else if (car == _LOOP)
             {
