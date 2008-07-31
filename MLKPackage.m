@@ -92,6 +92,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%LAMBDA"]];
   [sys export:[sys intern:@"%FSET"]];
   [sys export:[sys intern:@"%LOOP"]];
+  [sys export:[sys intern:@"%MACROLET"]];
 
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];

@@ -50,6 +50,7 @@ static MLKSymbol *TAGBODY;
 static MLKSymbol *GO;
 static MLKSymbol *CATCH;
 static MLKSymbol *THROW;
+static MLKSymbol *_MACROLET;
 static MLKSymbol *LAMBDA;
 static MLKSymbol *LET;
 static MLKSymbol *APPLY;
@@ -85,6 +86,7 @@ static MLKSymbol *_LOOP;
   THROW = [cl intern:@"THROW"];
   LAMBDA = [cl intern:@"LAMBDA"];
   LET = [cl intern:@"LET"];
+  _MACROLET = [sys intern:@"%MACROLET"];
   _LOOP = [sys intern:@"%LOOP"];
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
@@ -438,6 +440,77 @@ static MLKSymbol *_LOOP;
                                        context:context
                                        environment:lexenv]);
               return [NSArray arrayWithObject:nullify(closure)];
+            }
+          else if (car == _MACROLET)
+            {
+              id declarations;
+              id clauses;
+              id body;
+              NSArray *result;
+              MLKLexicalContext *ctx;
+
+              body = [[program cdr] cdr];
+
+              if ([[body car] isKindOfClass:[MLKCons class]]
+                  && [[body car] car] == DECLARE)
+                {
+                  declarations = [[body car] cdr];
+                  body = [body cdr];
+                }
+              else
+                {
+                  declarations = nil;
+                }
+
+              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+                                   initWithParent:context
+                                   variables:nil
+                                   functions:nil
+                                   goTags:nil
+                                   macros:nil
+                                   compilerMacros:nil
+                                   symbolMacros:nil
+                                   declarations:declarations]);
+
+              clauses = [[program cdr] car];
+              while (clauses)
+                {
+                  id clause = [clauses car];
+                  id name, value;
+
+                  name = [clause car];
+                  value = denullify([[self eval:[MLKCons cons:_LAMBDA
+                                                         with:[clause cdr]]
+                                           inLexicalContext:context
+                                           withEnvironment:lexenv
+                                           expandOnly:NO]  //!
+                                      objectAtIndex:0]);
+
+                  [ctx addMacro:value forSymbol:name];
+
+                  clauses = [clauses cdr];
+                }
+
+              result = [self eval:[MLKCons cons:PROGN with:body]
+                             inLexicalContext:ctx
+                             withEnvironment:lexenv
+                             expandOnly:expandOnly];
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons
+                                  cons:LET
+                                  with:[MLKCons
+                                         cons:nil
+                                         with:[MLKCons
+                                                cons:[MLKCons cons:DECLARE
+                                                              with:declarations]
+                                                with:[[result objectAtIndex:0] cdr]]]);
+                }
+              else
+                {
+                  return result;
+                }
             }
           else if (car == LET)
             {
