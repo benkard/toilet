@@ -19,7 +19,7 @@
 (in-package #:common-lisp)
 
 (export '(identity constantly complement tagbody go block return-from
-          defconstant prog prog*))
+          defconstant prog prog* macrolet flet))
 
 
 (defun identity (x)
@@ -158,3 +158,20 @@
       ,@declarations
       (tagbody
         ,@body))))
+
+
+(defmacro macrolet (bindings &body body)
+  `(%macrolet ,(mapcar (lambda (binding)
+                         `(,(car binding)
+                            ,@(make-defmacro-body (cadr binding)
+                                                  (cddr binding))))
+                       bindings)
+     ,@body))
+
+(defmacro flet (bindings &body body)
+  `(%flet ,(mapcar (lambda (binding)
+                     `(,(car binding)
+                        ,@(make-defun-body (cadr binding)
+                                           (cddr binding))))
+                   bindings)
+     ,@body))

@@ -21,29 +21,35 @@
 (export '(defmacro defun))
 
 
-(%defmacro* defun (name lambda-list . body)
+(%defun* make-defun-body (lambda-list body)
   (let ((lambda-sym (gensym)))
-    `(%defun ,name ,lambda-sym
+    `(,lambda-sym
        (d-b ,lambda-list nil nil ,lambda-sym
          ,@body))))
 
-(%defmacro* defmacro (name lambda-list . body)
+(%defmacro* defun (name lambda-list . body)
+  `(%defun ,name
+     ,@(make-defun-body lambda-list body)))
+
+(%defun* make-defmacro-body (lambda-list body)
   (let ((arg-sym (gensym))
         (lambda-sym (gensym))
         (whole-sym (gensym))
         (env-sym (gensym)))
-    `(%defmacro ,name ,arg-sym
+    `(,arg-sym
        (let ((,whole-sym (first ,arg-sym))
              (,lambda-sym (cdr (first ,arg-sym)))
              (,env-sym (second ,arg-sym)))
          (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
            ,@body)))))
 
+(%defmacro* defmacro (name lambda-list . body)
+  `(%defmacro ,name
+     ,@(make-defmacro-body lambda-list body)))
+
 (%defmacro* lambda (lambda-list . body)
-  (let ((lambda-sym (gensym)))
-    `(%lambda ,lambda-sym
-       (d-b ,lambda-list nil nil ,lambda-sym
-         ,@body))))
+  `(%lambda
+     ,@(make-defun-body lambda-list body)))
 
 (defun funcall (function &rest arguments)
   (apply function arguments))
