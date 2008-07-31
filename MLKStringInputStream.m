@@ -39,4 +39,9 @@
                      encoding:NSUnicodeStringEncoding];
   return self;
 }
+
++(MLKStringInputStream *) streamWithString:(NSString *)string
+{
+  return AUTORELEASE ([[self alloc] initWithString:string]);
+}
 @end

@@ -24,4 +24,5 @@
 @interface MLKStringInputStream : MLKStream
 -(MLKStringInputStream *) init;
 -(MLKStringInputStream *) initWithString:(NSString *)string;
++(MLKStringInputStream *) streamWithString:(NSString *)string;
 @end
