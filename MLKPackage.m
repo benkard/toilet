@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKDynamicContext.h"
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "NSObject-MLKPrinting.h"
@@ -267,6 +268,17 @@ static NSMutableDictionary *packages = nil;
 
   [_accessible_symbols setObject:symbol forKey:name];
   [_present_symbols addObject:symbol];
+
+  if ([_name isEqual:@"KEYWORD"])
+    {
+      // Make keyword symbols self-evaluate.
+      [[MLKDynamicContext globalContext] addValue:symbol forSymbol:symbol];
+
+      // Make them external as well.
+      [self export:symbol];
+
+      // FIXME: Should finally make them constant, see CLHS 10.2, Type KEYWORD.
+    }
 }
 
 -(void) inherit:(MLKSymbol *)symbol
@@ -290,6 +302,17 @@ static NSMutableDictionary *packages = nil;
              [self descriptionForLisp]];
 
   [_accessible_symbols setObject:symbol forKey:name];
+  
+  if ([_name isEqual:@"KEYWORD"])
+    {
+      // Make keyword symbols self-evaluate.
+      [[MLKDynamicContext globalContext] addValue:symbol forSymbol:symbol];
+
+      // Make them external as well.
+      [self export:symbol];
+
+      // FIXME: Should finally make them constant, see CLHS 10.2, Type KEYWORD.
+    }
 }
 
 -(void) uninherit:(MLKSymbol *)symbol

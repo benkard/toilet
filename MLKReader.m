@@ -522,20 +522,14 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
       else
         symbol = [MLKSymbol symbolWithName:symbolName package:nil];
 
-      if (packageMarker == 0)
-        {
-          // Make keyword symbols self-evaluate.
-          [[MLKDynamicContext globalContext] addValue:symbol forSymbol:symbol];
-        }
-
       return symbol;
     }
 }
 
 +(id) readFromString:(NSString *)string
 {
-  return [self readFromStream:[[MLKStringInputStream alloc]
-                                initWithString:string]
+  return [self readFromStream:AUTORELEASE([[MLKStringInputStream alloc]
+                                            initWithString:string])
                eofError:YES
                eofValue:nil
                recursive:NO
