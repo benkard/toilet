@@ -308,7 +308,7 @@ static MLKSymbol *_LOOP;
             }
           else if (car == EVAL)
             {
-              NSArray *evaluand = denullify([[self eval:[program cdr]
+              NSArray *evaluand = denullify([[self eval:[[program cdr] car]
                                                    inLexicalContext:context
                                                    withEnvironment:lexenv
                                                    expandOnly:expandOnly]
