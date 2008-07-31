@@ -50,6 +50,7 @@ static MLKSymbol *TAGBODY;
 static MLKSymbol *GO;
 static MLKSymbol *CATCH;
 static MLKSymbol *THROW;
+static MLKSymbol *_FLET;
 static MLKSymbol *_MACROLET;
 static MLKSymbol *LAMBDA;
 static MLKSymbol *LET;
@@ -86,6 +87,7 @@ static MLKSymbol *_LOOP;
   THROW = [cl intern:@"THROW"];
   LAMBDA = [cl intern:@"LAMBDA"];
   LET = [cl intern:@"LET"];
+  _FLET = [sys intern:@"%FLET"];
   _MACROLET = [sys intern:@"%MACROLET"];
   _LOOP = [sys intern:@"%LOOP"];
   APPLY = [cl intern:@"APPLY"];
@@ -502,6 +504,92 @@ static MLKSymbol *_LOOP;
                                   cons:LET
                                   with:[MLKCons
                                          cons:nil
+                                         with:[MLKCons
+                                                cons:[MLKCons cons:DECLARE
+                                                              with:declarations]
+                                                with:[[result objectAtIndex:0] cdr]]]]);
+                }
+              else
+                {
+                  return result;
+                }
+            }
+          else if (car == _FLET)
+            {
+              id declarations;
+              id clauses;
+              NSMutableArray *new_clauses;
+              id body;
+              NSArray *result;
+              MLKLexicalContext *ctx;
+              MLKLexicalEnvironment *env;
+
+              body = [[program cdr] cdr];
+
+              if ([[body car] isKindOfClass:[MLKCons class]]
+                  && [[body car] car] == DECLARE)
+                {
+                  declarations = [[body car] cdr];
+                  body = [body cdr];
+                }
+              else
+                {
+                  declarations = nil;
+                }
+
+              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+                                   initWithParent:context
+                                   variables:nil
+                                   functions:nil
+                                   goTags:nil
+                                   macros:nil
+                                   compilerMacros:nil
+                                   symbolMacros:nil
+                                   declarations:declarations]);
+
+              if (!expandOnly)
+                env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
+                                     initWithParent:lexenv
+                                     variables:nil
+                                     functions:nil]);
+
+              clauses = [[program cdr] car];
+              new_clauses = [NSMutableArray array];
+              while (clauses)
+                {
+                  id clause = [clauses car];
+                  id name, value;
+
+                  name = [clause car];
+
+                  value = denullify([[self eval:[MLKCons cons:_LAMBDA
+                                                         with:[clause cdr]]
+                                           inLexicalContext:context
+                                           withEnvironment:lexenv
+                                           expandOnly:expandOnly]
+                                      objectAtIndex:0]);
+
+                  [ctx addFunction:name];
+
+                  if (!expandOnly)
+                    [env addFunction:value forSymbol:name];
+                  else
+                    [new_clauses addObject:[MLKCons cons:name with:[value cdr]]];
+
+                  clauses = [clauses cdr];
+                }
+
+              result = [self eval:[MLKCons cons:PROGN with:body]
+                             inLexicalContext:ctx
+                             withEnvironment:env
+                             expandOnly:expandOnly];
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons
+                                  cons:_FLET
+                                  with:[MLKCons
+                                         cons:[MLKCons listWithArray:new_clauses]
                                          with:[MLKCons
                                                 cons:[MLKCons cons:DECLARE
                                                               with:declarations]
