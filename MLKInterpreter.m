@@ -210,14 +210,14 @@ static MLKSymbol *_LOOP;
               NSArray *values;
               MLKDynamicContext *newctx;
 
+              catchTag = [[self eval:[[program cdr] car]
+                                inLexicalContext:context
+                                withEnvironment:lexenv
+                                expandOnly:expandOnly]
+                           objectAtIndex:0];
+                  
               NS_DURING
                 {
-                  catchTag = [[self eval:[[program cdr] car]
-                                    inLexicalContext:context
-                                    withEnvironment:lexenv
-                                    expandOnly:expandOnly]
-                               objectAtIndex:0];
-                  
                   if (!expandOnly)
                     {
                       newctx = [[MLKDynamicContext alloc]
