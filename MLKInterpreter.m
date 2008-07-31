@@ -66,6 +66,7 @@ static MLKSymbol *UNWIND_PROTECT;
 static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_LAMBDA;
+static MLKSymbol *_LOOP;
 
 
 @implementation MLKInterpreter
@@ -84,6 +85,7 @@ static MLKSymbol *_LAMBDA;
   THROW = [cl intern:@"THROW"];
   LAMBDA = [cl intern:@"LAMBDA"];
   LET = [cl intern:@"LET"];
+  _LOOP = [sys intern:@"%LOOP"];
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
   FUNCALL = [cl intern:@"FUNCALL"];
@@ -557,6 +559,36 @@ static MLKSymbol *_LAMBDA;
               RELEASE (dynctx);
 
               return result;
+            }
+          else if (car == _LOOP)
+            {
+              id rest;
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons cons:_LOOP
+                                         with:[[[self eval:[MLKCons cons:PROGN
+                                                                    with:[program cdr]]
+                                                      inLexicalContext:context
+                                                      withEnvironment:lexenv
+                                                      expandOnly:YES]
+                                                 objectAtIndex:0]
+                                                cdr]]);
+                }
+
+              while (YES)
+                {
+                  rest = program;
+                  while ((rest = [rest cdr]))
+                    {
+                      [self eval:[rest car]
+                            inLexicalContext:context
+                            withEnvironment:lexenv
+                            expandOnly:expandOnly];
+                    }
+                }
+
+              RETURN_VALUE (nil);  // never reached
             }
           else if (car == PROGN)
             {
