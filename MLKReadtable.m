@@ -92,12 +92,12 @@ DEFINE_SYNTAX_PREDICATE(isConstituentCharacter:, CONSTITUENT)
              isEqual:[[NSString stringWithFormat:@"%C", ch] lowercaseString]]);
 }
 
--(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
+-(id <MLKFuncallable>) macroFunctionForCharacter:(unichar)ch;
 {
   return [_readerMacros objectForKey:[NSNumber numberWithLong:ch]];
 }
 
--(void) setMacroFunction:(MLKFuncallable *)function forCharacter:(unichar)ch
+-(void) setMacroFunction:(id <MLKFuncallable>)function forCharacter:(unichar)ch
 {
   [_readerMacros setObject:function
                  forKey:[NSNumber numberWithLong:ch]];

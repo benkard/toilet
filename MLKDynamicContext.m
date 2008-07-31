@@ -27,6 +27,7 @@
 #import "MLKBackquoteReader.h"
 #import "MLKCommaReader.h"
 #import "MLKCons.h"
+#import "MLKDispatchingMacroCharacterReader.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
 #import "MLKLinkedList.h"
@@ -36,6 +37,7 @@
 #import "MLKReadtable.h"
 #import "MLKStringReader.h"
 #import "MLKSemicolonReader.h"
+#import "MLKSharpsignColonReader.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "runtime-compatibility.h"
@@ -61,6 +63,7 @@ static MLKDynamicContext *global_context;
   MLKPackage *keyword = [MLKPackage findPackage:@"KEYWORD"];
   MLKSymbol *t = [cl intern:@"T"];
   MLKReadtable *readtable = [[MLKReadtable alloc] init];
+  MLKDispatchingMacroCharacterReader *sharpsign;
   unichar ch;
 
   id NIL = [NSNull null];
@@ -148,7 +151,14 @@ static MLKDynamicContext *global_context;
 
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
 
-  //  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
+  [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
+  sharpsign = AUTORELEASE ([[MLKDispatchingMacroCharacterReader
+                              alloc] init]);
+  [readtable setMacroFunction:sharpsign forCharacter:'#'];
+
+  [sharpsign setMacroFunction:AUTORELEASE([[MLKSharpsignColonReader alloc]
+                                            init])
+             forCharacter:':'];
 
   [readtable setSyntaxType:SINGLE_ESCAPE forCharacter:'\\'];
   

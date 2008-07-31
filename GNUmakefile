@@ -29,6 +29,7 @@ ADDITIONAL_OBJCFLAGS = -Wall
 
 ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
                        MLKCommaReader.m MLKCons.m MLKDoubleFloat.m	\
+                       MLKDispatchingMacroCharacterReader.m		\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m	\
                        MLKInteger.m MLKInterpretedClosure.m		\
                        MLKInterpreter.m MLKLinkedList.m			\
@@ -36,7 +37,8 @@ ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
                        MLKLispValue.m MLKNumber.m MLKPackage.m		\
                        MLKParenReader.m MLKQuoteReader.m MLKRatio.m	\
                        MLKReader.m MLKReadtable.m MLKReaderError.m	\
-                       MLKRoot.m MLKSemicolonReader.m MLKSingleFloat.m	\
+                       MLKRoot.m MLKSemicolonReader.m			\
+                       MLKSharpsignColonReader.m MLKSingleFloat.m	\
                        MLKStream.m MLKStringInputStream.m		\
                        MLKStringOutputStream.m MLKStringReader.m	\
                        MLKSymbol.m MLKThrowException.m			\

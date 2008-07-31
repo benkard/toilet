@@ -1,6 +1,7 @@
-#include "runtime-compatibility.h"
-#include <Foundation/NSException.h>
-#include <Foundation/NSNull.h>
+#import "runtime-compatibility.h"
+#import <Foundation/NSException.h>
+#import <Foundation/NSNull.h>
+#import "MLKSymbol.h"
 
 #define DEFINE_GMP_OPERATION(SIGNATURE, TYPE, GMPOP, RETTYPE, OBJTYPE, CONSTRUCTOR) \
   -(RETTYPE *) SIGNATURE                                                \

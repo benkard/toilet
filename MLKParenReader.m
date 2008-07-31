@@ -68,7 +68,8 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
                         eofValue:nil
                         recursive:YES
                         preserveWhitespace:NO
-                        singleDotMarker:dotMarker];
+                        singleDotMarker:dotMarker
+                        readingUninternedSymbol:NO];
 
       if (item == dotMarker)
         {
@@ -80,8 +81,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
                                 eofError:YES
                                 eofValue:nil
                                 recursive:YES
-                                preserveWhitespace:NO
-                                singleDotMarker:nil];
+                                preserveWhitespace:NO];
           [tail setCdr:nextItem];
 
           if ((nextChar = slurpWhitespaceAndPeek (stream, readtable)) == ')')

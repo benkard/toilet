@@ -90,6 +90,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%DEFMACRO"]];
   [sys export:[sys intern:@"%LAMBDA"]];
   [sys export:[sys intern:@"%FSET"]];
+  [sys export:[sys intern:@"%LOOP"]];
 
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];
@@ -119,11 +120,12 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"MAKE-SYMBOL"]];
   [sys export:[sys intern:@"IMPORT"]];
   [sys export:[sys intern:@"INTERN"]];
+  [sys export:[sys intern:@"SYMBOL-NAME"]];
+
   [sys export:[sys intern:@"OBJC-CLASS-OF"]];
   [sys export:[sys intern:@"OBJC-SUBCLASSP"]];
   [sys export:[sys intern:@"FIND-OBJC-CLASS"]];
   [sys export:[sys intern:@"NS-LOG"]];
-  [sys export:[sys intern:@"SYMBOL-NAME"]];
   [sys export:[sys intern:@"PRIMITIVE-TYPE-OF"]];
   [sys export:[sys intern:@"SEND-BY-NAME"]];
 

@@ -50,15 +50,17 @@
                eofValue:eofValue
                recursive:recursive
                preserveWhitespace:preserveWhitespace
-               singleDotMarker:nil];
+               singleDotMarker:nil
+               readingUninternedSymbol:NO];
 }
 
-+(id) readFromStream:(MLKStream *)stream
-            eofError:(BOOL)eofError
-            eofValue:(id)eofValue
-           recursive:(BOOL)recursive
-  preserveWhitespace:(BOOL)preserveWhitespace
-     singleDotMarker:(id)dotMarker
++(id)    readFromStream:(MLKStream *)stream
+               eofError:(BOOL)eofError
+               eofValue:(id)eofValue
+              recursive:(BOOL)recursive
+     preserveWhitespace:(BOOL)preserveWhitespace
+        singleDotMarker:(id)dotMarker
+readingUninternedSymbol:(BOOL)readingUninternedSymbol
 {
   unichar ch;
   NSMutableString *token;
@@ -71,6 +73,13 @@
   readtable = [[MLKDynamicContext currentContext]
                 valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                                   intern:@"*READTABLE*"]];
+
+  if (readingUninternedSymbol)
+    {
+      token = [NSMutableString stringWithString:@"#:"];
+      escaped = NO;
+      goto read_token;
+    }
 
  start:
   if ([stream isEOF])
@@ -89,7 +98,7 @@
   if ([readtable isMacroCharacter:ch])
     {
       NSArray *returnValues;
-      MLKFuncallable *macrofun = [readtable macroFunctionForCharacter:ch];
+      id <MLKFuncallable> macrofun = [readtable macroFunctionForCharacter:ch];
       NSArray *args = [NSArray arrayWithObjects:
                                  stream,
                                  [MLKCharacter characterWithUnichar:ch],
@@ -135,6 +144,7 @@
       [token appendFormat:@"%C", [readtable charWithReadtableCase:ch]];
     }
 
+ read_token:
   while (![stream isEOF])
     {
       //NSLog (@"...");
@@ -260,7 +270,7 @@
              escaped:(BOOL)escaped
 {
   int base;
-  
+
   base = [[[MLKDynamicContext currentContext]
             valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                               intern:@"*READ-BASE*"]]

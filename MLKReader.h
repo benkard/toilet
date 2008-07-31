@@ -16,18 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Foundation/NSObject.h>
+#include "MLKReadtable.h"
+#include "MLKStream.h"
 
-@class MLKStream, MLKReadtable;
+#include <Foundation/NSObject.h>
+#include <Foundation/NSString.h>
 
 
 @interface MLKReader : NSObject
-+(id) readFromStream:(MLKStream *)stream
-            eofError:(BOOL)eofError
-            eofValue:(id)eofValue
-           recursive:(BOOL)recursive
-  preserveWhitespace:(BOOL)preserveWhitespace
-     singleDotMarker:(id)dotMarker;
++(id)    readFromStream:(MLKStream *)stream
+               eofError:(BOOL)eofError
+               eofValue:(id)eofValue
+              recursive:(BOOL)recursive
+     preserveWhitespace:(BOOL)preserveWhitespace
+        singleDotMarker:(id)dotMarker
+readingUninternedSymbol:(BOOL)readingUninternedSymbol;
 
 +(id) readFromStream:(MLKStream *)stream
             eofError:(BOOL)eofError

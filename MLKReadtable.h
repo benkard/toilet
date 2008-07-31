@@ -17,11 +17,11 @@
  */
 
 #import "MLKLispValue.h"
+#import "MLKFuncallable.h"
 
+#import <Foundation/NSDictionary.h>
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
-
-@class MLKFuncallable, NSMutableDictionary;
 
 
 enum MLKReadtableCase
@@ -64,7 +64,7 @@ enum MLKConstituentTrait
   NSMutableDictionary *_syntaxTable;
   NSMutableDictionary *_readerMacros;
   NSMutableDictionary *_traits;
-  //MLKFuncallable *_caseConverter;
+  //id <MLKFuncallable> _caseConverter;
   enum MLKReadtableCase _case;
 }
 
@@ -100,8 +100,8 @@ enum MLKConstituentTrait
 -(BOOL) isDigit:(unichar)ch inBase:(int)base;
 -(int) digitWeight:(unichar)ch;
 
--(MLKFuncallable *) macroFunctionForCharacter:(unichar)ch;
--(void) setMacroFunction:(MLKFuncallable *)function forCharacter:(unichar)ch;
+-(id <MLKFuncallable>) macroFunctionForCharacter:(unichar)ch;
+-(void) setMacroFunction:(id <MLKFuncallable>)function forCharacter:(unichar)ch;
 -(unichar) charWithReadtableCase:(unichar)ch;
 
 -(int) characterConstituentTraits:(unichar)ch;

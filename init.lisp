@@ -18,7 +18,6 @@
 
 (in-package #:common-lisp)
 
-(in-package :common-lisp)
 (load "util.lisp")
 (load "defun-0.lisp")
 (load "list-functions.lisp")
@@ -28,4 +27,5 @@
 (load "control-flow.lisp")
 (load "types.lisp")
 (load "list-functions-2.lisp")
-(in-package :common-lisp-user)
+
+(in-package #:common-lisp-user)
