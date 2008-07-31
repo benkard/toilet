@@ -237,9 +237,13 @@ static MLKSymbol *_LOOP;
 
                   if (expandOnly)
                     NS_VALUERETURN ([NSArray arrayWithObject:
-                                               [MLKCons cons:CATCH
-                                                        with:[MLKCons cons:catchTag
-                                                                      with:values]]],
+                                               [MLKCons
+                                                 cons:CATCH
+                                                 with:[MLKCons
+                                                        cons:catchTag
+                                                        with:[[values
+                                                                objectAtIndex:0]
+                                                               cdr]]]],
                                     NSArray *);
 
                   [MLKDynamicContext popContext];
