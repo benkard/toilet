@@ -158,19 +158,43 @@
 (%defun append lists
   (%append lists))
 
-(%defmacro* sys::quasiquote (object)
+(%defun* %zerop (integer)
+  (send-by-name integer "isEqual:" 0))
+
+(%defun* %= (int1 int2)
+  (send-by-name int1 "isEqual:" int2))
+
+(%defun* %1- (integer)
+  (add integer -1))
+
+(%defun* %1+ (integer)
+  (add integer 1))
+
+(%defun* qq-expand (object level)
   (if (not (consp object))
       (list 'quote object)
-      (cond ((eq 'sys::unquote (car object)) (car (cdr object)))
-            ((eq 'sys::quasiquote (car object)) (list 'quote object))
+      (cond ((eq 'sys::unquote (car object))
+             (if (%= level 1)
+                 (car (cdr object))
+                 (list 'sys::unquote (qq-expand (car (cdr object)) (%1- level)))))
+            ((eq 'sys::quasiquote (car object))
+             (if (%zerop level)
+                 (qq-expand (car (cdr object)) (%1+ level))
+                 (list 'sys::quasiquote (qq-expand (car (cdr object)) (%1+ level)))))
             ((and (consp (car object))
                   (eq 'sys::unquote-splicing (car (car object))))
-             (list 'append
-                   (car (cdr (car object)))
-                   (list 'sys::quasiquote (cdr object))))
+             (if (%= level 1)
+                 (list 'append
+                       (car (cdr (car object)))
+                       (qq-expand (cdr object) level))
+                 (list 'sys::unquote-splicing (qq-expand (car (cdr object))
+                                                         (%1- level)))))
             (t (list 'cons
-                     (list 'sys::quasiquote (car object))
-                     (list 'sys::quasiquote (cdr object)))))))
+                     (qq-expand (car object) level)
+                     (qq-expand (cdr object) level))))))
+
+(%defmacro sys::quasiquote form-and-env
+  (qq-expand (car form-and-env) 0))
 
 (%defun* %member (item list)
   (and list
