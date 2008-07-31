@@ -21,6 +21,7 @@
 #import "MLKInterpreter.h"
 #import "MLKPackage.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
@@ -56,7 +57,7 @@ static MLKSymbol *PROGN;
 
   MLKLexicalEnvironment *new_environment =
     [MLKLexicalEnvironment environmentWithParent:environment
-                           variables:[NSDictionary dictionaryWithObject:arglist
+                           variables:[NSDictionary dictionaryWithObject:nullify(arglist)
                                                    forKey:lambdaListName]
                            functions:nil];
 
