@@ -144,7 +144,6 @@ static const char *prompt (EditLine *e) {
                   else
                     printf ("()\n");
                 }
-
             }
           NS_HANDLER
             {
@@ -152,7 +151,7 @@ static const char *prompt (EditLine *e) {
                       [[localException name] UTF8String],
                       [[localException reason] UTF8String]);
             }
-          NS_ENDHANDLER
+          NS_ENDHANDLER;
 
           RELEASE (pool);
         }
