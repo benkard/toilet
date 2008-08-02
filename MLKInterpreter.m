@@ -62,6 +62,7 @@ static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
 static MLKSymbol *SETF;
 static MLKSymbol *SET;
+static MLKSymbol *_FSETQ;
 static MLKSymbol *_FSET;
 static MLKSymbol *PROGV;
 static MLKSymbol *UNWIND_PROTECT;
@@ -98,6 +99,7 @@ static MLKSymbol *_LOOP;
   SETQ = [cl intern:@"SETQ"];
   SETF = [cl intern:@"SETF"];
   SET = [cl intern:@"SET"];
+  _FSETQ = [sys intern:@"%FSETQ"];
   _FSET = [sys intern:@"%FSET"];
   PROGV = [cl intern:@"PROGV"];
   VALUES = [cl intern:@"VALUES"];
@@ -801,7 +803,7 @@ static MLKSymbol *_LOOP;
                 RETURN_VALUE (program);
               RETURN_VALUE ([[program cdr] car]);
             }
-          else if (car == SETQ)
+          else if (car == SETQ || car == _FSETQ)
             {
               id symbol = [[program cdr] car];
               id value = [[self eval:[[[program cdr] cdr] car]
@@ -814,7 +816,7 @@ static MLKSymbol *_LOOP;
               if (![program cdr])
                 RETURN_VALUE (nil);
 
-              if ([context symbolNamesSymbolMacro:symbol])
+              if (car == SETQ && [context symbolNamesSymbolMacro:symbol])
                 {
                   id macrofun = [context symbolMacroForSymbol:symbol];
                   id expansion = [macrofun applyToArray:
@@ -834,13 +836,13 @@ static MLKSymbol *_LOOP;
               if (expandOnly)
                 {
                   RETURN_VALUE ([MLKCons
-                                  cons:SETQ
+                                  cons:car
                                   with:[MLKCons
                                          cons:symbol
                                          with:[MLKCons
                                                 cons:value
                                                 with:denullify([[self eval:
-                                                                        [MLKCons cons:SETQ
+                                                                        [MLKCons cons:car
                                                                                  with:rest]
                                                                       inLexicalContext:context
                                                                       withEnvironment:lexenv
@@ -848,7 +850,22 @@ static MLKSymbol *_LOOP;
                                                                  objectAtIndex:0])]]]);
                 }
 
-              if ([context variableIsLexical:symbol])
+              if (car == _FSETQ)
+                {
+                  if ([context symbolNamesFunction:symbol])
+                    {
+                      [lexenv setFunction:value forSymbol:symbol];
+                    }
+                  else
+                    {
+                      // FIXME: Maybe print a warning.
+                      [[MLKLexicalContext globalContext] addFunction:symbol];
+                      [[MLKLexicalEnvironment globalEnvironment]
+                        addFunction:value
+                        forSymbol:symbol];
+                    }
+                }
+              else if ([context variableIsLexical:symbol])
                 [lexenv setValue:value forSymbol:symbol];
               else if ([dynamicContext bindingForSymbol:symbol])
                 [dynamicContext setValue:value forSymbol:symbol];
@@ -859,7 +876,7 @@ static MLKSymbol *_LOOP;
 
 
               if (rest)
-                return [self eval:[MLKCons cons:SETQ with:rest]
+                return [self eval:[MLKCons cons:car with:rest]
                              inLexicalContext:context
                              withEnvironment:lexenv];
               else
