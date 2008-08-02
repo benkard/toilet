@@ -114,12 +114,13 @@
                              (setq current-label clause
                                    current-function (gensym))
                              (prog1
-                               `((,old-function ()
-                                    ,@(nreverse accumulated-clauses)
-                                    ,(if rest `#',current-function `nil))
-                                 ,@(when (endp rest)
-                                     `(,current-function ()
-                                        ',end-marker)))
+                               (when old-function
+                                 `((,old-function ()
+                                     ,@(nreverse accumulated-clauses)
+                                     #',current-function)
+                                   ,@(when (endp rest)
+                                       `((,current-function ()
+                                           ',end-marker)))))
                                (setq accumulated-clauses nil))))
                           (t (pushq clause accumulated-clauses)
                              (if (endp rest)
