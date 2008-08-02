@@ -3,7 +3,7 @@
 #title Toilet Lisp Development Diary
 #desc Random news and stuff about just another random pet project
 
-; Time-stamp: <2008-07-27 16:58:21 mulk>
+; Time-stamp: <2008-08-02 13:54:33 mulk>
 ; 
 ; C-c i t	insert-time-stamp
 ; C-c C-t	muse-project-publish-this-file
@@ -16,6 +16,27 @@
 Context: [[http://matthias.benkard.de/toilet][The Toilet Lisp Project]].
 
 ----
+
+
+* 2008-08-02, 13:46:14 CEST
+
+** Exception Handling Crashes on Debian Systems
+
+On Debian systems using the ffcall-compiled GNUstep Base libraries from
+the **libgnustep-base1.16** package, an exception raised from within a
+method called by way of an **NSInvocation** object causes the Objective-C
+runtime to crash with a **SIGABRT** by calling **abort()** from
+**objc_exception_throw()**.
+
+Installing **libgnustep-base1.16-libffi** (which diverts the shared
+libraries installed by **libgnustep-base1.16**) or compiling your own custom
+version of GNUstep Base fixes the problem.
+
+I have reported this bug as [[http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=493250][#493250]].
+
+So if Toilet Lisp crashes when you type =(send 'a "isEqualToString:" 'b)=
+at the REPL, please consider switching GNUstep Base installations.  =sudo
+apt-get install libgnustep-base1.16-libffi= should do the trick.
 
 
 * 2008-07-27, 16:51:13 CEST
