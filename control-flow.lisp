@@ -114,13 +114,19 @@
                              (setq current-label clause
                                    current-function (gensym "TAGBODY-SECTION"))
                              (prog1
-                               (when old-function
-                                 `((,old-function ()
-                                     ,@(nreverse accumulated-clauses)
-                                     #',current-function)
-                                   ,@(when (endp rest)
-                                       `((,current-function ()
-                                           ',end-marker)))))
+                               `((,old-function ()
+                                   ;; Yes, we generate this even when
+                                   ;; OLD-FUNCTION is NIL.  In this
+                                   ;; case, though, the LABELS form
+                                   ;; never sees the definition.  Grep
+                                   ;; for (cddr (first sections)) below
+                                   ;; in order to see how we make use of
+                                   ;; the generated lambda form instead.
+                                   ,@(nreverse accumulated-clauses)
+                                   #',current-function)
+                                 ,@(when (endp rest)
+                                     `((,current-function ()
+                                                          ',end-marker))))
                                (setq accumulated-clauses nil))))
                           (t (pushq clause accumulated-clauses)
                              (if (endp rest)
