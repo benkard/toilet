@@ -848,19 +848,33 @@ static MLKSymbol *V_INITP;
 
               if (expandOnly)
                 {
-                  RETURN_VALUE ([MLKCons
+                  id thisSETQ = [MLKCons
                                   cons:car
                                   with:[MLKCons
                                          cons:symbol
                                          with:[MLKCons
                                                 cons:value
-                                                with:denullify([[self eval:
-                                                                        [MLKCons cons:car
-                                                                                 with:rest]
-                                                                      inLexicalContext:context
-                                                                      withEnvironment:lexenv
-                                                                      expandOnly:expandOnly]
-                                                                 objectAtIndex:0])]]]);
+                                                with:nil]]];
+                  id more = denullify([[self eval:[MLKCons cons:car with:rest]
+                                             inLexicalContext:context
+                                             withEnvironment:lexenv
+                                             expandOnly:expandOnly]
+                                        objectAtIndex:0]);
+
+                  if (!more)
+                    {
+                      RETURN_VALUE (thisSETQ);
+                    }
+                  else
+                    {
+                      RETURN_VALUE ([MLKCons cons:PROGN
+                                             with:[MLKCons
+                                                    cons:thisSETQ
+                                                    with:[MLKCons
+                                                           cons:more
+                                                           with:nil]]]);
+                      
+                    }
                 }
 
               if (car == _FSETQ)
