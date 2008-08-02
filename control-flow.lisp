@@ -92,10 +92,10 @@
 (defmacro tagbody (&body body)
   (let* (labels-and-catch-tags
          labels-and-functions
-         (catch-tag (gensym))
-         (block-name (gensym))
-         (return-value-sym (gensym))
-         (end-marker (gensym))
+         (catch-tag (gensym "TAGBODY-CATCH-TAG"))
+         (block-name (gensym "TAGBODY-BLOCK-NAME"))
+         (return-value-sym (gensym "TAGBODY-RETURN-VALUE"))
+         (end-marker (gensym "TAGBODY-END"))
          (sections
           (mapcon (let (current-label
                         accumulated-clauses
@@ -112,7 +112,7 @@
                                     labels-and-catch-tags))
                            (let ((old-function current-function))
                              (setq current-label clause
-                                   current-function (gensym))
+                                   current-function (gensym "TAGBODY-SECTION"))
                              (prog1
                                (when old-function
                                  `((,old-function ()
