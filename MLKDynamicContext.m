@@ -263,6 +263,9 @@ static MLKDynamicContext *global_context;
   //  INIT(@"*TERMINAL-IO*", );
   //  INIT(@"*TRACE-OUTPUT* ", );
 
+  [vars setObject:NIL forKey:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
+                               intern:@"*SYSTEM-INITIALISED-P*"]];
+
   global_context = [[self alloc] initWithParent:nil
                                  variables:vars
                                  handlers:nil

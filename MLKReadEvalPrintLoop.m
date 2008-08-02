@@ -101,6 +101,12 @@ static const char *prompt (EditLine *e) {
   printf ("This is Toilet Lisp, version 0.0.1.\n");
   printf ("Please make yourself at home.\n");
 
+  [[MLKDynamicContext currentContext]
+    setValue:[[MLKPackage findPackage:@"COMMON-LISP"]
+               intern:@"T"]
+    forSymbol:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
+                intern:@"*SYSTEM-INITIALISED-P*"]];
+
   while (1)
     {
       const char *line;

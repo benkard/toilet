@@ -96,6 +96,8 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%FLET"]];
   [sys export:[sys intern:@"%MACROLET"]];
 
+  [sys export:[sys intern:@"*SYSTEM-INITIALISED-P*"]];
+
   [sys export:[sys intern:@"CAR"]];
   [sys export:[sys intern:@"CDR"]];
   [sys export:[sys intern:@"RPLACA"]];

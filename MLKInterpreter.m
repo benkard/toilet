@@ -70,6 +70,7 @@ static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_LAMBDA;
 static MLKSymbol *_LOOP;
+static MLKSymbol *V_INITP;
 
 
 @implementation MLKInterpreter
@@ -106,6 +107,7 @@ static MLKSymbol *_LOOP;
   UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
+  V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
 }
 
 
@@ -130,18 +132,29 @@ static MLKSymbol *_LOOP;
             expandOnly:(BOOL)expandOnly
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
+  BOOL trace = NO;
 
-  //  NSLog (@"eval: %@", [program descriptionForLisp]);
+#define TRACE_EVAL 0
+#if TRACE_EVAL
+  if ([dynamicContext valueForSymbol:V_INITP])
+    trace = YES;
+
+  if (trace)
+    NSLog (@"; EVAL: %@", [program descriptionForLisp]);
+#endif  // TRACE_EVAL
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
       //NSLog (@"Processing symbol.");
       if ([context symbolNamesSymbolMacro:program])
         {
-          id macrofun = [context macroForSymbol:program];
-          id expansion = [macrofun applyToArray:
-                                     [NSArray arrayWithObjects:
-                                                program, context, nil]];
+          id macrofun, expansion;
+
+          macrofun = [context macroForSymbol:program];
+          expansion = [macrofun applyToArray:
+                                  [NSArray arrayWithObjects:
+                                             program, context, nil]];
+
           return [self eval:expansion
                        inLexicalContext:context
                        withEnvironment:lexenv

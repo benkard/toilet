@@ -30,4 +30,6 @@
 (load "types.lisp")
 (load "list-functions-2.lisp")
 
+(setq *system-initialised-p* t)
+
 (in-package #:common-lisp-user)
