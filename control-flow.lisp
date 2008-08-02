@@ -19,7 +19,7 @@
 (in-package #:common-lisp)
 
 (export '(identity constantly complement tagbody go block return-from
-          defconstant prog prog* macrolet flet prog1 prog2))
+          defconstant prog prog* macrolet flet prog1 prog2 labels))
 
 
 (defun identity (x)
@@ -32,6 +32,16 @@
 
 (defun complement (function)
   (lambda (x) (not (funcall function x))))
+
+
+(defmacro labels ((&rest function-bindings) &body forms)
+  "Look, ma, I've defined LABELS in terms of FLET!"
+  `(flet ,(mapcar (lambda (x) `(,(first x) ())) function-bindings)
+     (%fsetq ,@(mapcan (lambda (x)
+                         `(,(first x) (lambda ,(second x) ,@(rest (rest x)))))
+                       function-bindings))
+     nil
+     ,@forms))
 
 
 (defmacro defconstant (name value &optional documentation)
