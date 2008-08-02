@@ -935,10 +935,6 @@ static MLKSymbol *_LOOP;
 
               return [NSArray arrayWithObject:symbol];
             }
-          else if (car == TAGBODY)
-            {
-              //FIXME: ...
-            }
           else if (car == THROW)
             {
               id catchTag;
