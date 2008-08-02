@@ -25,7 +25,11 @@ TOOL_NAME = etshell toilet
 FRAMEWORK_NAME = ToiletKit
 BUNDLE_NAME = Test
 
+ifeq ($(DEBUG),YES)
 ADDITIONAL_OBJCFLAGS = -Wall
+else
+ADDITIONAL_OBJCFLAGS = -Wall -ggdb3
+endif
 
 ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
                        MLKCommaReader.m MLKCons.m MLKDoubleFloat.m	\
