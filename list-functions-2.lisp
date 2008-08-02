@@ -20,7 +20,7 @@
 
 (export '(copy-tree assoc assoc-if assoc-if-not rassoc rassoc-if
           rassoc-if-not sublis nsublis mapcar mapcan mapcon acons
-          reverse nreverse))
+          reverse nreverse maplist))
 
 
 (defun copy-tree (tree)

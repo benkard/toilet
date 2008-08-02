@@ -106,10 +106,10 @@
                         (cond
                           ((atom clause)
                            (when current-function
-                             (push (cons current-label current-function)
-                                   labels-and-functions)
-                             (push (cons current-label catch-tag)
-                                   labels-and-catch-tags))
+                             (pushq (cons current-label current-function)
+                                    labels-and-functions)
+                             (pushq (cons current-label catch-tag)
+                                    labels-and-catch-tags))
                            (let ((old-function current-function))
                              (setq current-label clause
                                    current-function (gensym))
@@ -121,14 +121,14 @@
                                      `(,current-function ()
                                         ',end-marker)))
                                (setq accumulated-clauses nil))))
-                          (t (push clause accumulated-clauses)
+                          (t (pushq clause accumulated-clauses)
                              (if (endp rest)
                                  (progn
                                    (when current-function
-                                     (push (cons current-label current-function)
-                                           labels-and-functions)
-                                     (push (cons current-label catch-tag)
-                                           labels-and-catch-tags))
+                                     (pushq (cons current-label current-function)
+                                            labels-and-functions)
+                                     (pushq (cons current-label catch-tag)
+                                            labels-and-catch-tags))
                                    `((,current-function ()
                                         ,@(nreverse accumulated-clauses)
                                         ',end-marker)))
