@@ -19,7 +19,8 @@
 (in-package #:common-lisp)
 
 (export '(identity constantly complement tagbody go block return-from
-          defconstant prog prog* macrolet flet prog1 prog2 labels))
+          return defconstant prog prog* macrolet flet prog1 prog2
+          labels))
 
 
 (defun identity (x)
@@ -81,6 +82,9 @@
                                                       env))
                         :test 'eq))
      ,value))
+
+(defmacro return (&optional value)
+  `(return-from nil ,value))
 
 
 ;; FIXME: Should be (EVAL-WHEN (:compile-toplevel) ...).
