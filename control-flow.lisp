@@ -212,3 +212,12 @@
                                            (cddr binding))))
                    bindings)
      ,@body))
+
+
+(defmacro multiple-value-list (expression)
+  `(multiple-value-call #'list ,expression))
+
+
+(defmacro multiple-value-bind ((&rest vars) expression &body forms)
+  `(destructuring-bind ,vars (multiple-value-list ,expression)
+     ,@forms))
