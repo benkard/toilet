@@ -122,3 +122,13 @@
 
 (defun acons (indicator value alist)
   (cons (cons indicator value) alist))
+
+(defun list (&rest objects)
+  (if objects
+      (sys::cons (sys::car objects) (sys::cdr objects))
+      nil))
+
+(defun length (list)
+  (if list
+      (%1+ (length (cdr list)))
+      0))
