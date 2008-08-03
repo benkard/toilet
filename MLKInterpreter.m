@@ -962,6 +962,70 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               else
                 return result;
             }
+          else if (car == PROGV)
+            {
+              id variables, values, body, result;
+              MLKDynamicContext *dynctx;
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons
+                                  cons:PROGV
+                                  with:[denullify([[self eval:[MLKCons
+                                                                cons:PROGN
+                                                                with:[program cdr]]
+                                                         inLexicalContext:context
+                                                         withEnvironment:lexenv
+                                                         mode:mode]
+                                                    objectAtIndex:0]) cdr]]);
+                }
+
+              dynctx = [[MLKDynamicContext alloc]
+                         initWithParent:dynamicContext
+                         variables:nil
+                         handlers:nil
+                         restarts:nil
+                         catchTags:nil
+                         activeHandlerEnvironment:nil];
+
+              body = [[[program cdr] cdr] cdr];
+              variables = denullify ([[self eval:[[program cdr] car]
+                                            inLexicalContext:context
+                                            withEnvironment:lexenv]
+                                       objectAtIndex:0]);
+              values = denullify ([[self eval:[[[program cdr] cdr] car]
+                                         inLexicalContext:context
+                                         withEnvironment:lexenv]
+                                    objectAtIndex:0]);
+
+              for (; variables; (variables = [variables cdr], values = [values cdr]))
+                {
+                  id var = [variables car];
+                  id value = [values car];
+
+                  [dynctx addValue:value forSymbol:var];
+                }
+
+              [dynctx pushContext];
+
+              NS_DURING
+                {
+                  result = [self eval:[MLKCons cons:PROGN with:body]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv];
+                }
+              NS_HANDLER
+                {
+                  [MLKDynamicContext popContext];
+                  [localException raise];
+                }
+              NS_ENDHANDLER;
+
+              [MLKDynamicContext popContext];
+              RELEASE (dynctx);
+
+              return result;
+            }
           else if (car == QUOTE)
             {
               if (expandOnly)
