@@ -19,8 +19,8 @@
 (in-package #:common-lisp)
 
 (export '(identity constantly complement tagbody go block return-from
-          return defconstant prog prog* macrolet flet prog1 prog2
-          labels))
+          return defconstant prog prog* macrolet flet prog1 prog2 labels
+          multiple-value-bind multiple-value-list multiple-value-setq))
 
 
 (defun identity (x)
@@ -217,7 +217,12 @@
 (defmacro multiple-value-list (expression)
   `(multiple-value-call #'list ,expression))
 
-
 (defmacro multiple-value-bind ((&rest vars) expression &body forms)
   `(destructuring-bind ,vars (multiple-value-list ,expression)
      ,@forms))
+
+(defmacro multiple-value-setq ((&rest vars) expression)
+  (let ((syms (mapcar (lambda (x) (gensym)) vars)))
+    `(destructuring-bind ,syms (multiple-value-list ,expression)
+       (setq ,@(mapcan #'list vars syms))
+       ,(first syms))))
