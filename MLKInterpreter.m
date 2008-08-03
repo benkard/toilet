@@ -80,6 +80,7 @@ static MLKSymbol *COMPILE;
 static MLKSymbol *LOAD_TOPLEVEL;
 static MLKSymbol *LOAD;
 static MLKSymbol *EXECUTE;
+static MLKSymbol *MULTIPLE_VALUE_CALL;
 
 
 @implementation MLKInterpreter
@@ -121,6 +122,7 @@ static MLKSymbol *EXECUTE;
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
+  MULTIPLE_VALUE_CALL = [cl intern:@"MULTIPLE-VALUE-CALL"];
 
   COMPILE_TOPLEVEL = [keyword intern:@"COMPILE-TOPLEVEL"];
   COMPILE = [cl intern:@"COMPILE"];
@@ -903,6 +905,39 @@ static MLKSymbol *EXECUTE;
                 }
 
               RETURN_VALUE (nil);  // never reached
+            }
+          else if (car == MULTIPLE_VALUE_CALL)
+            {
+              NSMutableArray *results = [NSMutableArray array];
+              id rest = [program cdr];
+              id function = [[self eval:[rest car]
+                                   inLexicalContext:context
+                                   withEnvironment:lexenv
+                                   mode:mode]
+                              objectAtIndex:0];
+
+              while ((rest = [rest cdr]))
+                {
+                  id values = [self eval:[rest car]
+                                    inLexicalContext:context
+                                    withEnvironment:lexenv
+                                    mode:mode];
+                  [results addObjectsFromArray:values];
+                }
+
+              if (expandOnly)
+                {
+                  RETURN_VALUE ([MLKCons
+                                  cons:MULTIPLE_VALUE_CALL
+                                  with:[MLKCons
+                                         cons:function
+                                         with:[MLKCons
+                                                listWithArray:results]]]);
+                }
+              else
+                {
+                  return [function applyToArray:results];
+                }
             }
           else if (car == PROGN)
             {
