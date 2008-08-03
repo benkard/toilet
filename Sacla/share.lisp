@@ -156,10 +156,10 @@
 (defun mapappend (function &rest lists)
   (apply #'append (apply #'mapcar function lists)))
 
-(define-condition simple-program-error (simple-condition program-error) ())
+;; (define-condition simple-program-error (simple-condition program-error) ())
 
-(define-modify-macro appendf (&rest args)
-   append "Append onto list")
+;; (define-modify-macro appendf (&rest args)
+;;    append "Append onto list")
 
 
 ;; (defvar *message-prefix* "")

@@ -35,7 +35,9 @@
 	(setq-operator (if parallel-p 'psetq 'setq)))
     (multiple-value-bind (declarations forms) (declarations-and-forms body)
       `(block nil
-	(,let-operator (,@(mapcar #'(lambda (x) (if (atom x) x (subseq x 0 2)))
+	(,let-operator (,@(mapcar #'(lambda (x) (if (atom x)
+                                                    x
+                                                    (list (first x) (second x))))
 				  var-init-step-list))
 	 ,@declarations
 	 (tagbody
@@ -43,7 +45,8 @@
 	    (when ,test-form (return (progn ,@result-forms)))
 	    ,@forms
 	    (,setq-operator ,@(mapcan #'(lambda (x)
-					  (when (and (consp x) (= (length x) 3))
+					  (when (and (consp x)
+                                                     (= (length x) 3))
 					    `(,(first x) ,(third x))))
 				      var-init-step-list))
 	    (go ,top)))))))

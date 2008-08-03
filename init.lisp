@@ -28,9 +28,15 @@
 (load "sharpsign.lisp")
 (load "control-flow.lisp")
 (load "types.lisp")
+(load "numbers.lisp")
 (load "list-functions-2.lisp")
 
+(load "Sacla/share.lisp")
+(load "Sacla/do.lisp")
+
 (load "evaluation.lisp")
+
+(load "Sacla/share-2.lisp")
 
 (setq *system-initialised-p* t)
 
