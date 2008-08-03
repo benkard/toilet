@@ -42,6 +42,7 @@
 
 static MLKPackage *cl;
 static MLKPackage *sys;
+static MLKPackage *keyword;
 static MLKSymbol *IF;
 static MLKSymbol *IN_PACKAGE;
 static MLKSymbol *DECLARE;
@@ -54,16 +55,19 @@ static MLKSymbol *_FLET;
 static MLKSymbol *_MACROLET;
 static MLKSymbol *LAMBDA;
 static MLKSymbol *LET;
+static MLKSymbol *LOCALLY;
 static MLKSymbol *APPLY;
 static MLKSymbol *FUNCALL;
 static MLKSymbol *FUNCTION;
 static MLKSymbol *EVAL;
+static MLKSymbol *EVAL_WHEN;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
 static MLKSymbol *SETF;
 static MLKSymbol *SET;
 static MLKSymbol *_FSETQ;
 static MLKSymbol *_FSET;
+static MLKSymbol *SYMBOL_MACROLET;
 static MLKSymbol *PROGV;
 static MLKSymbol *UNWIND_PROTECT;
 static MLKSymbol *VALUES;
@@ -71,6 +75,11 @@ static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_LAMBDA;
 static MLKSymbol *_LOOP;
 static MLKSymbol *V_INITP;
+static MLKSymbol *COMPILE_TOPLEVEL;
+static MLKSymbol *COMPILE;
+static MLKSymbol *LOAD_TOPLEVEL;
+static MLKSymbol *LOAD;
+static MLKSymbol *EXECUTE;
 
 
 @implementation MLKInterpreter
@@ -78,6 +87,7 @@ static MLKSymbol *V_INITP;
 {
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+  keyword = [MLKPackage findPackage:@"KEYWORD"];
 
   IF = [cl intern:@"IF"];
   IN_PACKAGE = [cl intern:@"IN-PACKAGE"];
@@ -89,11 +99,13 @@ static MLKSymbol *V_INITP;
   THROW = [cl intern:@"THROW"];
   LAMBDA = [cl intern:@"LAMBDA"];
   LET = [cl intern:@"LET"];
+  LOCALLY = [cl intern:@"LOCALLY"];
   _FLET = [sys intern:@"%FLET"];
   _MACROLET = [sys intern:@"%MACROLET"];
   _LOOP = [sys intern:@"%LOOP"];
   APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
+  EVAL_WHEN = [cl intern:@"EVAL-WHEN"];
   FUNCALL = [cl intern:@"FUNCALL"];
   FUNCTION = [cl intern:@"FUNCTION"];
   QUOTE = [cl intern:@"QUOTE"];
@@ -102,12 +114,19 @@ static MLKSymbol *V_INITP;
   SET = [cl intern:@"SET"];
   _FSETQ = [sys intern:@"%FSETQ"];
   _FSET = [sys intern:@"%FSET"];
+  SYMBOL_MACROLET = [cl intern:@"SYMBOL-MACROLET"];
   PROGV = [cl intern:@"PROGV"];
   VALUES = [cl intern:@"VALUES"];
   UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
+
+  COMPILE_TOPLEVEL = [keyword intern:@"COMPILE-TOPLEVEL"];
+  COMPILE = [cl intern:@"COMPILE"];
+  LOAD_TOPLEVEL = [keyword intern:@"LOAD-TOPLEVEL"];
+  LOAD = [cl intern:@"LOAD"];
+  EXECUTE = [keyword intern:@"EXECUTE"];
 }
 
 
@@ -122,6 +141,18 @@ static MLKSymbol *V_INITP;
 }
 
 
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv
+            expandOnly:(BOOL)expandOnly
+{
+  return [self eval:program
+               inLexicalContext:context
+               withEnvironment:lexenv
+               mode:(expandOnly ? expand_mode : eval_mode)];
+}
+
+
 #define RETURN_VALUE(thing)                     \
   { return [NSArray arrayWithObject:nullify(thing)]; }
 
@@ -129,13 +160,15 @@ static MLKSymbol *V_INITP;
 +(NSArray*) eval:(id)program
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv
-            expandOnly:(BOOL)expandOnly
+            mode:(enum MLKProcessingMode)mode
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
-  BOOL trace = NO;
+  BOOL expandOnly = (mode != eval_mode);
 
 #define TRACE_EVAL 0
 #if TRACE_EVAL
+  BOOL trace = NO;
+
   if ([dynamicContext valueForSymbol:V_INITP])
     trace = YES;
 
@@ -145,6 +178,17 @@ static MLKSymbol *V_INITP;
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
+      if (mode == compile_time_too_mode)
+        {
+          if (![context symbolNamesSymbolMacro:program])
+            {
+              return [self eval:program
+                           inLexicalContext:context
+                           withEnvironment:lexenv
+                           mode:expand_mode];
+            }
+        }
+
       //NSLog (@"Processing symbol.");
       if ([context symbolNamesSymbolMacro:program])
         {
@@ -158,7 +202,7 @@ static MLKSymbol *V_INITP;
           return [self eval:expansion
                        inLexicalContext:context
                        withEnvironment:lexenv
-                       expandOnly:expandOnly];
+                       mode:mode];
         }
       else if ([context variableIsLexical:program])
         {
@@ -192,6 +236,19 @@ static MLKSymbol *V_INITP;
 
       if ([car isKindOfClass:[MLKSymbol class]] || !car)
         {
+          if (mode == compile_time_too_mode)
+            {
+              if (!([context symbolNamesMacro:program]
+                    || car == _MACROLET || car == LOCALLY
+                    || car == SYMBOL_MACROLET || car == PROGN))
+                {
+                  return [self eval:program
+                               inLexicalContext:context
+                               withEnvironment:lexenv
+                               mode:expand_mode];
+                }
+            }
+
           if (car == APPLY)
             {
               MLKCons *rest = denullify([[self eval:[[[program cdr] cdr] car]
@@ -344,6 +401,66 @@ static MLKSymbol *V_INITP;
                            inLexicalContext:[MLKLexicalContext globalContext]
                            withEnvironment:[MLKLexicalEnvironment
                                              globalEnvironment]];
+            }
+          else if (car == EVAL_WHEN)
+            {
+              id situationList = [[program cdr] car];
+              id body = [[program cdr] cdr];
+              NSArray *situations;
+              BOOL ct, lt, e;
+
+              if (!situationList)
+                RETURN_VALUE (nil);
+
+              situations = [situationList array];
+              ct = ([situations containsObject:COMPILE_TOPLEVEL]
+                    || [situations containsObject:COMPILE]);
+              lt = ([situations containsObject:LOAD_TOPLEVEL]
+                    || [situations containsObject:LOAD]);
+              e = ([situations containsObject:EXECUTE]
+                   || [situations containsObject:EVAL]);
+
+              switch (mode)
+                {
+                case eval_mode:
+                case expand_mode:
+                  if (e)
+                    return [self eval:[MLKCons cons:PROGN with:body]
+                                 inLexicalContext:context
+                                 withEnvironment:lexenv
+                                 mode:mode];
+                  else
+                    RETURN_VALUE (nil);
+
+                case compile_time_too_mode:
+                case not_compile_time_mode:
+                  if ((ct && lt)
+                      || (lt && e && (mode == compile_time_too_mode)))
+                    {
+                      return [self eval:[MLKCons cons:PROGN with:body]
+                                   inLexicalContext:context
+                                   withEnvironment:lexenv
+                                   mode:compile_time_too_mode];
+                    }
+                  else if (lt)
+                    {
+                      return [self eval:[MLKCons cons:PROGN with:body]
+                                   inLexicalContext:context
+                                   withEnvironment:lexenv
+                                   mode:not_compile_time_mode];
+                    }
+                  else if (ct || (e && mode == compile_time_too_mode))
+                    {
+                      [self eval:[MLKCons cons:PROGN with:body]
+                            inLexicalContext:context
+                            withEnvironment:lexenv];
+                      RETURN_VALUE (nil);
+                    }
+                  else
+                    {
+                      RETURN_VALUE (nil);
+                    }
+                }
             }
           else if (car == FUNCTION)
             {
@@ -515,7 +632,7 @@ static MLKSymbol *V_INITP;
               result = [self eval:[MLKCons cons:PROGN with:body]
                              inLexicalContext:ctx
                              withEnvironment:lexenv
-                             expandOnly:expandOnly];
+                             mode:mode];
 
               if (expandOnly)
                 {
@@ -797,7 +914,7 @@ static MLKSymbol *V_INITP;
                   result = [self eval:[rest car]
                                  inLexicalContext:context
                                  withEnvironment:lexenv
-                                 expandOnly:expandOnly];
+                                 mode:mode];
                   if (expandOnly)
                     [results addObjectsFromArray:result];
                 }
@@ -1114,7 +1231,7 @@ static MLKSymbol *V_INITP;
                   return [self eval:expansion
                                inLexicalContext:context
                                withEnvironment:lexenv
-                               expandOnly:expandOnly];
+                               mode:mode];
                 }
               else
                 {
@@ -1213,7 +1330,7 @@ static MLKSymbol *V_INITP;
                                                   globalContext]
                                withEnvironment:[MLKLexicalEnvironment
                                                  globalEnvironment]
-                               expandOnly:YES]
+                               mode:not_compile_time_mode]
                               objectAtIndex:0]);
 
       if ([code isKindOfClass:[MLKCons class]] && [code cdr])

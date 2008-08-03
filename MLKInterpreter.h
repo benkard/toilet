@@ -24,6 +24,18 @@
 #import <Foundation/NSObject.h>
 
 
+enum MLKProcessingMode
+{
+  // Compiler
+  compile_time_too_mode,
+  not_compile_time_mode,
+  expand_mode,
+
+  // Evaluator
+  eval_mode
+};
+
+
 @interface MLKInterpreter : NSObject
 +(void) initialize;
   
@@ -35,6 +47,11 @@
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv
             expandOnly:(BOOL)expandOnly;
-  
+
++(NSArray*) eval:(id)program
+            inLexicalContext:(MLKLexicalContext *)context
+            withEnvironment:(MLKLexicalEnvironment *)lexenv
+            mode:(enum MLKProcessingMode)mode;
+
 +(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
 @end
