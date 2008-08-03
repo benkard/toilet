@@ -600,7 +600,7 @@ static MLKSymbol *V_INITP;
 
               result = [self eval:[MLKCons cons:PROGN with:body]
                              inLexicalContext:ctx
-                             withEnvironment:env
+                             withEnvironment:(expandOnly ? lexenv : env)
                              expandOnly:expandOnly];
 
               if (expandOnly)
@@ -721,7 +721,7 @@ static MLKSymbol *V_INITP;
                 {
                   result = [self eval:[MLKCons cons:PROGN with:body]
                                  inLexicalContext:ctx
-                                 withEnvironment:env
+                                 withEnvironment:lexenv
                                  expandOnly:YES];
 
                   RETURN_VALUE ([MLKCons
