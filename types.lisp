@@ -26,7 +26,7 @@
           array simple-array simple-vector simple-string
           simple-bit-vector sequence two-way-stream stream echo-stream
           broadcast-stream file-stream synonym-stream string-stream
-          concatenated-stream deftype))
+          concatenated-stream deftype typecase etypecase))
 
 
 (setq *subtype-supertypes-dict*
@@ -117,18 +117,19 @@
                  (destructuring-lambda ,lambda-list ,@body)
                  ',type-name))
 
-(defun expand-type (type &optional environment)
-  (let* ((env (if rest (car rest) nil))
-         (expansion-1 (expand-type-1 object env))
+(defun expand-type (type &optional env)
+  (let* ((expansion-1 (expand-type-1 type env))
          (expansion-2 (expand-type-1 expansion-1 env)))
     (if (list-eqp expansion-1 expansion-2)
         expansion-1
         (expand-type expansion-2))))
 
 (defun expand-type-1 (type &optional environment)
-  (let ((expander (send-by-name *type-expanders* "objectForKey:" (first type))))
+  (let ((expander (send-by-name *type-expanders*
+                                "objectForKey:"
+                                (if (listp type) (first type) type))))
     (if expander
-        (apply expander (rest type))
+        (apply expander (if (listp type) (rest type) nil))
         type)))
 
 (defun typep (thing typespec &optional environment)
@@ -176,3 +177,29 @@
                                                  type1)))  ;strictly, this should be (nullify type1),
                                                            ;but type1 can't be NIL here
                    (some1 (lambda (x) (subtypep x type2 environment)) supertypes)))))))
+
+(defun numberp (x)
+  (typep x 'number))
+
+(defun characterp (x)
+  (typep x 'character))
+
+(defmacro typecase (expression &body cases)
+  (when cases
+    (let ((tmp (gensym))
+          (this-case (first cases))
+          (rest (rest cases)))
+      (if (and (null rest)
+               (or (eq (car this-case) t)
+                   (eq (car this-case) 'otherwise)))
+          `(progn ,@(cdr this-case))
+          `(let ((,tmp ,expression))
+             (if (typep ,tmp ',(car this-case))
+                 (progn ,@(cdr this-case))
+                 (typecase ,tmp ,@rest)))))))
+
+(defmacro etypecase (expression &body cases)
+  ;; FIXME: Incorrect.
+  `(typecase ,expression
+     ,@cases
+     (otherwise (error "~A fell through ETYPECASE expression" expression))))
