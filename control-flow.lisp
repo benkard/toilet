@@ -20,7 +20,8 @@
 
 (export '(identity constantly complement tagbody go block return-from
           return defconstant prog prog* macrolet flet prog1 prog2 labels
-          multiple-value-bind multiple-value-list multiple-value-setq))
+          multiple-value-bind multiple-value-list multiple-value-setq
+          multiple-value-prog1 values-list))
 
 
 (defun identity (x)
@@ -226,3 +227,12 @@
     `(destructuring-bind ,syms (multiple-value-list ,expression)
        (setq ,@(mapcan #'list vars syms))
        ,(first syms))))
+
+(defmacro multiple-value-prog1 (form &body forms)
+  (let ((varsym (gensym)))
+    `(let ((,varsym (multiple-value-list ,form)))
+       ,@forms
+       (values-list ,varsym))))
+
+(defun values-list (list)
+  (apply #'values list))
