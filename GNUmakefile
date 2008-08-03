@@ -46,7 +46,8 @@ ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
                        MLKStream.m MLKStringInputStream.m		\
                        MLKStringOutputStream.m MLKStringReader.m	\
                        MLKSymbol.m MLKThrowException.m			\
-                       NSObject-MLKPrinting.m NSString-MLKPrinting.m
+                       MLKValuesFunction.m NSObject-MLKPrinting.m	\
+                       NSString-MLKPrinting.m
 ToiletKit_LDFLAGS = -lgmp
 #LIBRARIES_DEPEND_UPON
 

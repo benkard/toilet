@@ -33,6 +33,7 @@
 #import "MLKReadtable.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
+#import "MLKValuesFunction.h"
 #import "runtime-compatibility.h"
 
 
@@ -58,6 +59,9 @@ static MLKLexicalEnvironment *global_environment;
 
   [vars setObject:[NSNull null] forKey:[NSNull null]];
   [vars setObject:[cl intern:@"T"] forKey:[cl intern:@"T"]];
+
+  [funs setObject:AUTORELEASE ([[MLKValuesFunction alloc] init])
+        forKey:[cl intern:@"VALUES"]];
 
   global_environment = [[self alloc] initWithParent:nil
                                      variables:vars

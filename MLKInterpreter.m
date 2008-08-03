@@ -1204,26 +1204,6 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 
               return results;
             }
-          else if (car == VALUES)
-            {
-              id results = [NSMutableArray array];
-              id rest = program;
-
-              while ((rest = [rest cdr]))
-                {
-                  [results addObject:
-                             [[self eval:[rest car]
-                                    inLexicalContext:context
-                                    withEnvironment:lexenv
-                                    expandOnly:expandOnly]
-                               objectAtIndex:0]];
-                }
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:VALUES
-                                       with:[MLKCons listWithArray:results]]);
-              return results;
-            }
           else
             {
               if ([context symbolNamesFunction:car])
