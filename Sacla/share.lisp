@@ -46,18 +46,6 @@
 	   (symbolp (cadr object))
 	   (null (cddr object)))))
 
-(defun proper-list-p (object)
-  (when (listp object)
-    (do ((fast object (cddr fast))
-	 (slow object (cdr slow)))
-	(nil)
-      (when (atom fast)
-	(return (null fast)))
-      (when (atom (cdr fast))
-	(return (null (cdr fast))))
-      (when (and (eq fast slow) (not (eq fast object)))
-	(return nil)))))
-
 (defun proper-sequence-p (object)
   (or (vectorp object) (proper-list-p object)))
 
@@ -174,11 +162,11 @@
    append "Append onto list")
 
 
-(defvar *message-prefix* "")
-;; for debug
-(defvar *error-function* #'error)
-(defun error (datum &rest arguments)
-  (if (stringp datum)
-      (let ((format-control (concatenate 'string *message-prefix* datum)))
-        (apply *error-function* format-control arguments))
-      (apply *error-function* datum arguments)))
+;; (defvar *message-prefix* "")
+;; ;; for debug
+;; (defvar *error-function* #'error)
+;; (defun error (datum &rest arguments)
+;;   (if (stringp datum)
+;;       (let ((format-control (concatenate 'string *message-prefix* datum)))
+;;         (apply *error-function* format-control arguments))
+;;       (apply *error-function* datum arguments)))
