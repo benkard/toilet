@@ -68,6 +68,7 @@ static const char *prompt (EditLine *e) {
   NSInputStream *input;
   MLKStream *stream;
   BOOL success;
+  NSAutoreleasePool *pool;
 
   editline = el_init (_argv[0], stdin, stdout, stderr);
   el_set (editline, EL_PROMPT, &prompt);
@@ -76,7 +77,9 @@ static const char *prompt (EditLine *e) {
   commands = history_init();
   history (commands, &event, H_SETSIZE, 1000);
   el_set (editline, EL_HIST, history, commands);
-  
+
+  pool = [[NSAutoreleasePool alloc] init];
+
   printf ("Loading init.lisp.\n");
   NS_DURING
     {
@@ -95,6 +98,8 @@ static const char *prompt (EditLine *e) {
               [[localException reason] UTF8String]);
     }
   NS_ENDHANDLER;
+
+  RELEASE (pool);
 
   printf ("Done.\n\n");
 
@@ -116,7 +121,6 @@ static const char *prompt (EditLine *e) {
 
       if (line_length > 1)
         {
-          NSAutoreleasePool *pool;
           NSArray *results;
           id code;
 

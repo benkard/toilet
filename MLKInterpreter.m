@@ -1334,18 +1334,23 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
       id result;
       id expansion;
       //NSLog (@"; LOAD: Reding a form.");
-      id code = [MLKReader readFromStream:stream
-                           eofError:NO
-                           eofValue:eofValue
-                           recursive:NO
-                           preserveWhitespace:NO];
+      id code;
       //NSLog (@"; LOAD: Reading finished.");
       NSString *formdesc;
+      NSAutoreleasePool *pool;
 
       //NSLog (@"%@", code);
       //NSLog (@"%@", [code descriptionForLisp]);
       //NSLog (@"%@", stream);
       //NSLog (@"...");
+
+      pool = [[NSAutoreleasePool alloc] init];
+
+      code = [MLKReader readFromStream:stream
+                           eofError:NO
+                           eofValue:eofValue
+                           recursive:NO
+                        preserveWhitespace:NO];
 
       if (code == eofValue)
         break;
@@ -1382,6 +1387,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                  withEnvironment:[MLKLexicalEnvironment globalEnvironment]
                  expandOnly:NO];
       //NSLog (@"; LOAD: Top-level form evaluated.");
+
+      RELEASE (pool);
 
       if (print)
         {
