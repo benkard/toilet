@@ -3,3 +3,8 @@ derived_src/
 Test.bundle/
 ToiletKit.framework/
 *~
+a123
+Notizen.txt
+push.sh
+rsync*.sh
+nohup.out
