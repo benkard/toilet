@@ -180,6 +180,18 @@ static MLKSymbol *LEXICAL;
   return [_goTags valueForSymbol:symbol];
 }
 
+-(id) declarations
+{
+  return _declarations;
+}
+
+-(void) addDeclaration:(id)declaration
+{
+  ASSIGN (_declarations,
+          [MLKCons cons:declaration
+                   with:_declarations]);
+}
+
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol
 {
   symbol = symbol ? (id)symbol : (id)[NSNull null];

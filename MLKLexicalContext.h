@@ -81,6 +81,9 @@
 
 -(id) goTagForSymbol:(MLKSymbol *)symbol;
 
+-(id) declarations;
+-(void) addDeclaration:(id)declaration;
+
 // FIXME?
 //-(MLKLexicalEnvironment *) instantiateWithVariables:(NSDictionary *)variables
 //                                          functions:(NSDictionary *)functions;
