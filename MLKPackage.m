@@ -87,6 +87,8 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"SPECIAL"]];
   [cl export:[cl intern:@"SET"]];
   [cl export:[cl intern:@"UNWIND-PROTECT"]];
+  [cl export:[cl intern:@"MULTIPLE-VALUE-CALL"]];
+  [cl export:[cl intern:@"EVAL-WHEN"]];
 
   [sys export:[sys intern:@"%DEFMACRO"]];
   [sys export:[sys intern:@"%LAMBDA"]];
