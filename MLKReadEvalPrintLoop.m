@@ -99,8 +99,6 @@ static const char *prompt (EditLine *e) {
     }
   NS_ENDHANDLER;
 
-  RELEASE (pool);
-
   printf ("Done.\n\n");
 
   printf ("This is Toilet Lisp, version 0.0.1.\n");
@@ -111,6 +109,8 @@ static const char *prompt (EditLine *e) {
                intern:@"T"]
     forSymbol:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
                 intern:@"*SYSTEM-INITIALISED-P*"]];
+
+  RELEASE (pool);
 
   while (1)
     {
