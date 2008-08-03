@@ -26,7 +26,7 @@
           array simple-array simple-vector simple-string
           simple-bit-vector sequence two-way-stream stream echo-stream
           broadcast-stream file-stream synonym-stream string-stream
-          concatenated-stream))
+          concatenated-stream deftype))
 
 
 (setq *subtype-supertypes-dict*
@@ -69,6 +69,10 @@
           (send-by-name dict "setObject:forKey:" (cdr pair) (nullify (car pair))))))
 
 
+(setq *type-expanders* (send-by-name (find-objc-class "NSMutableDictionary")
+                                     "dictionary"))
+
+
 (setq most-positive-fixnum 32767)
 (setq most-negative-fixnum -32768)
 
@@ -107,10 +111,25 @@
            (every1 function (rest list)))))
 
 
-(defun expand-type (type &optional environment)
-  ;;FIXME: DEFTYPE
-  type)
+(defmacro deftype (type-name lambda-list &body body)
+  `(send-by-name *type-expanders*
+                 "setObject:forKey:"
+                 (destructuring-lambda ,lambda-list ,@body)
+                 ',type-name))
 
+(defun expand-type (type &optional environment)
+  (let* ((env (if rest (car rest) nil))
+         (expansion-1 (expand-type-1 object env))
+         (expansion-2 (expand-type-1 expansion-1 env)))
+    (if (list-eqp expansion-1 expansion-2)
+        expansion-1
+        (expand-type expansion-2))))
+
+(defun expand-type-1 (type &optional environment)
+  (let ((expander (send-by-name *type-expanders* "objectForKey:" (first type))))
+    (if expander
+        (apply expander (rest type))
+        type)))
 
 (defun typep (thing typespec &optional environment)
   ;;FIXME: DEFTYPE

@@ -21,7 +21,7 @@
 (export '(defmacro defun))
 
 
-(%defun* make-defun-body (lambda-list body)
+(%defun* make-defun-body (lambda-list body destructuring-p)
   (let ((lambda-sym (gensym)))
     `(,lambda-sym
        (d-b ,lambda-list nil nil ,lambda-sym
@@ -29,7 +29,7 @@
 
 (%defmacro* defun (name lambda-list . body)
   `(%defun ,name
-     ,@(make-defun-body lambda-list body)))
+     ,@(make-defun-body lambda-list body nil)))
 
 (%defun* make-defmacro-body (lambda-list body)
   (let ((arg-sym (gensym))
@@ -49,7 +49,11 @@
 
 (%defmacro* lambda (lambda-list . body)
   `(%lambda
-     ,@(make-defun-body lambda-list body)))
+     ,@(make-defun-body lambda-list body nil)))
+
+(%defmacro* destructuring-lambda (lambda-list . body)
+  `(%lambda
+     ,@(make-defun-body lambda-list body t)))
 
 (defun funcall (function &rest arguments)
   (apply function arguments))
