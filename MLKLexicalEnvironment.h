@@ -18,7 +18,7 @@
 
 #include <Foundation/NSObject.h>
 
-@class MLKEnvironment, MLKSymbol, NSLinkedList,
+@class MLKEnvironment, MLKSymbol,
        NSMutableDictionary, NSString, NSSet;
 
 

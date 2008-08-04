@@ -22,7 +22,7 @@
 #import <Foundation/NSArray.h>
 #import <Foundation/NSSet.h>
 
-@class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSLinkedList, NSSet,
+@class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSSet,
        NSMutableDictionary, NSString, MLKCons;
 
 
