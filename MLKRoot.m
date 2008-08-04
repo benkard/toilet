@@ -170,8 +170,13 @@ static id truify (BOOL value)
 
 +(NSArray *) fixnum_eq:(NSArray *)args
 {
+#ifdef NO_FIXNUMS
+  RETURN_VALUE (truify ([[args objectAtIndex:0]
+                          isEqual:[args objectAtIndex:1]]));
+#else
   RETURN_VALUE (truify (denullify([args objectAtIndex:0])
                         == denullify([args objectAtIndex:1])));
+#endif
 }
 
 +(NSArray *) symbolp:(NSArray *)args

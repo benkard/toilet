@@ -48,10 +48,12 @@ id MLKFixnumWithInt (intptr_t value)
 
 id MLKIntegerWithInt (intptr_t value)
 {
+#ifndef NO_FIXNUMS
   intptr_t maybeFixnum = (value << 1) | 1;
   if (value == (maybeFixnum >> 1))
     return (id)maybeFixnum;
   else
+#endif
     return [MLKInteger integerWithIntptr_t:value];
 }
 

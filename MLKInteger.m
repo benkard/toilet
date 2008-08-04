@@ -165,12 +165,20 @@ DEFINE_MPZ_TWOARG_INTONLY_OPERATION (lcm:, mpz_lcm)
 
 -(BOOL) fitsIntoFixnum
 {
+#ifdef NO_FIXNUMS
+  return NO;
+#else
   return (mpz_sizeinbase (self->value, 2) <= (sizeof (id)) * 8 - 2);
+#endif
 }
 
 -(id) fixnumValue
 {
+#ifdef NO_FIXNUMS
+  return self;
+#else
   return MLKFixnumWithInt ([self intValue]);
+#endif
 }
 
 -(int) intValue
