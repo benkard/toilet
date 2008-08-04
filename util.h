@@ -1,4 +1,5 @@
 #import "runtime-compatibility.h"
+#import "functions.h"
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import "MLKSymbol.h"
@@ -49,7 +50,7 @@ static id stringify (id thing)
     return [thing name];
 
   [NSException raise:@"MLKTypeError" format:@"Can't coerce %@ to a string.",
-                                            [thing descriptionForLisp]];
+                                            MLKPrintToString(thing)];
 
   return nil;
 }

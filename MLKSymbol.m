@@ -22,6 +22,7 @@
 #import "MLKReadtable.h"
 #import "MLKSymbol.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
@@ -153,7 +154,7 @@
 
 -(NSString *) description
 {
-  return [self descriptionForLisp];
+  return MLKPrintToString(self);
 }
 
 -(BOOL) isEqual:(id)object

@@ -25,6 +25,7 @@
 #import "MLKEnvironment.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 @implementation MLKEnvironment
@@ -80,7 +81,7 @@
   if (!(binding = [self bindingForSymbol:symbol]))
     [NSException raise:@"MLKUnboundVariableError"
                  format:@"The variable %@ is unbound.",
-                       [symbol descriptionForLisp]];
+                       MLKPrintToString(symbol)];
 
   [binding setValue:value];
 }
@@ -92,7 +93,7 @@
   if (!(binding = [self bindingForSymbol:symbol]))
     [NSException raise:@"MLKUnboundVariableError"
                  format:@"The variable %@ is unbound.",
-                       [symbol descriptionForLisp]];
+                       MLKPrintToString(symbol)];
       
   return [binding value];
 }
@@ -158,7 +159,7 @@
   if (![self bindingForSymbol:symbol])
     [NSException raise:@"MLKUnboundVariableError"
                  format:@"The variable %@ is unbound.",
-                        [symbol descriptionForLisp]];
+                        MLKPrintToString(symbol)];
   [self addBinding:binding forSymbol:symbol];
 }
 

@@ -345,7 +345,7 @@ static id truify (BOOL value)
     {
       [NSException raise:@"MLKNoSuchPackageError"
                    format:@"The package %@ does not exist",
-                          [name descriptionForLisp]];
+                          MLKPrintToString(name)];
       return nil;
     }
 }
@@ -370,7 +370,7 @@ static id truify (BOOL value)
       if ([x isKindOfClass:[NSString class]])
         {
           prefix = x;
-          suffix = [[gensymCounter value] descriptionForLisp];
+          suffix = MLKPrintToString([gensymCounter value]);
           [gensymCounter
             setValue:[[gensymCounter value]
                        add:[MLKInteger integerWithInt:1]]];
@@ -379,7 +379,7 @@ static id truify (BOOL value)
         {
           // x must be an integer.
           prefix = @"G";
-          suffix = [x descriptionForLisp];
+          suffix = MLKPrintToString(x);
         }
       else
         [NSException raise:@"MLKTypeError"
@@ -388,7 +388,7 @@ static id truify (BOOL value)
   else
     {
       prefix = @"G";
-      suffix = [[gensymCounter value] descriptionForLisp];
+      suffix = MLKPrintToString([gensymCounter value]);
       [gensymCounter
         setValue:[[gensymCounter value]
                    add:[MLKInteger integerWithInt:1]]];
@@ -454,7 +454,7 @@ static id truify (BOOL value)
 
 +(NSArray *) ns_log:(NSArray *)args
 {
-  NSString *description = [[args objectAtIndex:0] descriptionForLisp];
+  NSString *description = MLKPrintToString([args objectAtIndex:0]);
   NSLog (@"%@", description);
   RETURN_VALUE ([args objectAtIndex:0]);
 }

@@ -24,6 +24,7 @@
 #import "MLKReader.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSException.h>
@@ -143,10 +144,7 @@ static const char *prompt (EditLine *e) {
               for (i = 0; i < [results count]; i++)
                 {
                   id result = [results objectAtIndex:i];
-                  if (result != [NSNull null])
-                    printf ("%s\n", [[result descriptionForLisp] UTF8String]);
-                  else
-                    printf ("()\n");
+                  printf ("%s\n", [MLKPrintToString (denullify (result)) UTF8String]);
                 }
             }
           NS_HANDLER

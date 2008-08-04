@@ -78,7 +78,7 @@ static MLKSymbol *PROGN;
 
 -(NSString *) description
 {
-  return [self descriptionForLisp];
+  return MLKPrintToString(self);
 }
 
 -(NSString *) descriptionForLisp

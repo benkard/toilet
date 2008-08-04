@@ -268,9 +268,9 @@ static NSMutableDictionary *packages = nil;
         [NSException
           raise:@"MLKSymbolConflictError"
           format:@"Imported symbol %@ conflicts with accessible symbol %@ in package %@.",
-                 [symbol descriptionForLisp],
-                 [old_symbol descriptionForLisp],
-                 [self descriptionForLisp]];
+                 MLKPrintToString(symbol),
+                 MLKPrintToString(old_symbol),
+                 MLKPrintToString(self)];
     }
 
   [_accessible_symbols setObject:symbol forKey:name];
@@ -304,9 +304,9 @@ static NSMutableDictionary *packages = nil;
     [NSException
       raise:@"MLKSymbolConflictError"
       format:@"Inherited symbol %@ conflicts with accessible symbol %@ in package %@.",
-             [symbol descriptionForLisp],
-             [old_symbol descriptionForLisp],
-             [self descriptionForLisp]];
+             MLKPrintToString(symbol),
+             MLKPrintToString(old_symbol),
+             MLKPrintToString(self)];
 
   [_accessible_symbols setObject:symbol forKey:name];
   
@@ -352,9 +352,9 @@ static NSMutableDictionary *packages = nil;
         [NSException
           raise:@"MLKSymbolConflictError"
           format:@"Exported symbol %@ conflicts with accessible symbol %@ in package %@.",
-                 [symbol descriptionForLisp],
-                 [old_symbol descriptionForLisp],
-                 [package descriptionForLisp]];
+                 MLKPrintToString(symbol),
+                 MLKPrintToString(old_symbol),
+                 MLKPrintToString(package)];
     }
 
   for (i = 0; i < [_using_packages count]; i++)
@@ -475,7 +475,7 @@ static NSMutableDictionary *packages = nil;
 
 -(NSString *) descriptionForLisp
 {
-  return [NSString stringWithFormat:@"#<Package %@>", [[self name] descriptionForLisp]];
+  return [NSString stringWithFormat:@"#<Package %@>", MLKPrintToString ([self name])];
 }
 
 -(void) dealloc

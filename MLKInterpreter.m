@@ -175,7 +175,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
     trace = YES;
 
   if (trace)
-    NSLog (@"; EVAL: %@", [program descriptionForLisp]);
+    NSLog (@"; EVAL: %@", MLKPrintToString(program));
 #endif  // TRACE_EVAL
 
   if (!program || [program isKindOfClass:[MLKSymbol class]])
@@ -208,7 +208,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         }
       else if ([context variableIsLexical:program])
         {
-          //NSLog (@"Processing lexical variable %@.", [program descriptionForLisp]);
+          //NSLog (@"Processing lexical variable %@.", MLKPrintToString(program));
           //NSLog (@"Lexical environment: %@.", lexenv);
           //NSLog (@"Lexical variable value: %@.", [lexenv valueForSymbol:program]);
           if (expandOnly)
@@ -218,7 +218,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         }
       else
         {
-          //NSLog (@"Processing special variable %@.", [program descriptionForLisp]);
+          //NSLog (@"Processing special variable %@.", MLKPrintToString(program));
           //NSLog (@"Dynamic context: %@.", dynamicContext);
           //NSLog (@"Special variable value: %@.", [dynamicContext valueForSymbol:program]);
           if (expandOnly)
@@ -1209,8 +1209,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                 [[NSException exceptionWithName:@"MLKThrow"
                               reason:[NSString stringWithFormat:
                                                  @"THROW: tag %@, values %@.",
-                                               [catchTag descriptionForLisp],
-                                               [values descriptionForLisp]]
+                                               MLKPrintToString(catchTag),
+                                               MLKPrintToString(values)]
                               userInfo:userInfo] raise];
               else
                 // FIXME: This should really be a condition rather than
@@ -1218,8 +1218,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                 [[NSException exceptionWithName:@"MLKControlError"
                               reason:[NSString stringWithFormat:
                                                  @"THROW without a corresponding CATCH: tag %@, values %@.",
-                                               [catchTag descriptionForLisp],
-                                               [values descriptionForLisp]]
+                                               MLKPrintToString(catchTag),
+                                               MLKPrintToString(values)]
                               userInfo:userInfo] raise];
 
               return nil;
@@ -1345,7 +1345,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                     {
                       [NSException raise:@"MLKNoSuchOperatorException"
                                    format:@"%@ does not name a known operator.",
-                                          [car descriptionForLisp]];
+                                          MLKPrintToString(car)];
                       return nil;
                     }
                 }
@@ -1362,7 +1362,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         {
           [NSException raise:@"MLKInvalidExpressionException"
                        format:@"%@ is not a valid operator name.",
-                       [car descriptionForLisp]];
+                       MLKPrintToString(car)];
           return nil;  
         }
     }
@@ -1384,7 +1384,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
       NSAutoreleasePool *pool;
 
       //NSLog (@"%@", code);
-      //NSLog (@"%@", [code descriptionForLisp]);
+      //NSLog (@"%@", MLKPrintToString(code));
       //NSLog (@"%@", stream);
       //NSLog (@"...");
 
@@ -1401,10 +1401,10 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 
       if ([code isKindOfClass:[MLKCons class]] && [code cdr])
         formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
-                               [[code car] descriptionForLisp],
-                               [[[code cdr] car] descriptionForLisp]];
+                               MLKPrintToString([code car]),
+                               MLKPrintToString([[code cdr] car])];
       else
-        formdesc = [code descriptionForLisp];
+        formdesc = MLKPrintToString(code);
 
       //fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
       fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
@@ -1419,10 +1419,10 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 
       if ([code isKindOfClass:[MLKCons class]] && [code cdr])
         formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
-                               [[expansion car] descriptionForLisp],
-                               [[[expansion cdr] car] descriptionForLisp]];
+                               MLKPrintToString([expansion car]),
+                               MLKPrintToString([[expansion cdr] car])];
       else
-        formdesc = [expansion descriptionForLisp];
+        formdesc = MLKPrintToString(expansion);
 
       //fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
       result = [MLKInterpreter
@@ -1438,7 +1438,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         {
           //FIXME
           //NSLog (@"; LOAD: Fnord.  Primary value: %@",
-          //       [[result objectAtIndex:0] descriptionForLisp]);
+          //       MLKPrintToString([result objectAtIndex:0]));
         }
     }
 

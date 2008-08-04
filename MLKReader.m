@@ -512,7 +512,7 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
                     [NSException raise:@"MLKReaderError"
                                  format:@"Package %@ does not export symbol %@.",
                                         [package name],
-                                        [symbol descriptionForLisp]];
+                                        MLKPrintToString(symbol)];
                 }
             }
         }

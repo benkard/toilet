@@ -102,15 +102,15 @@
 {
   if (!_cdr)
     return [NSString stringWithFormat:@"%@",
-                     (_car ? (id)[_car descriptionForLisp] : (id)@"()")];
+                     MLKPrintToString(_car)];
   else if ([_cdr isKindOfClass:[MLKCons class]])
     return [NSString stringWithFormat:@"%@ %@",
-                     (_car ? (id)[_car descriptionForLisp] : (id)@"()"),
+                     MLKPrintToString(_car),
                      [_cdr bareDescriptionForLisp]];
   else
     return [NSString stringWithFormat:@"%@ . %@",
-                     (_car ? (id)[_car descriptionForLisp] : (id)@"()"),
-                     [_cdr descriptionForLisp]];
+                     MLKPrintToString(_car),
+                     MLKPrintToString(_cdr)];
 }
 
 -(NSString *)descriptionForLisp

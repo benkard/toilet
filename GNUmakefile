@@ -31,8 +31,9 @@ else
 ADDITIONAL_OBJCFLAGS = -Wall -ggdb3
 endif
 
-ToiletKit_OBJC_FILES = MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
-                       MLKCommaReader.m MLKCons.m MLKDoubleFloat.m	\
+ToiletKit_OBJC_FILES = functions.m MLKBackquoteReader.m MLKBinding.m	\
+                       MLKCharacter.m MLKCommaReader.m MLKCons.m	\
+                       MLKDoubleFloat.m					\
                        MLKDispatchingMacroCharacterReader.m		\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m	\
                        MLKInteger.m MLKInterpretedClosure.m		\
