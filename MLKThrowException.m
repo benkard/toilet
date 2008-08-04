@@ -18,6 +18,7 @@
 
 #include "MLKThrowException.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 @implementation MLKThrowException
@@ -25,8 +26,8 @@
                                   value:(id)value
 {
   self = [super init];
-  ASSIGN (_catchTag, catchTag);
-  ASSIGN (_value, value);
+  LASSIGN (_catchTag, catchTag);
+  LASSIGN (_value, value);
   return self;
 }
 
@@ -42,8 +43,8 @@
 
 -(void) dealloc
 {
-  RELEASE (_catchTag);
-  RELEASE (_value);
+  LRELEASE (_catchTag);
+  LRELEASE (_value);
   [super dealloc];
 }
 @end

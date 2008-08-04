@@ -18,6 +18,7 @@
 
 #import "MLKStream.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSException.h>
 
@@ -52,8 +53,8 @@
                           encoding:(NSStringEncoding)encoding
 {
   self = [super init];
-  ASSIGN (_input, input);
-  ASSIGN (_output, output);
+  LASSIGN (_input, input);
+  LASSIGN (_output, output);
   _encoding = encoding;
   _cachedChar = 0;
   _charCached = NO;
@@ -164,12 +165,12 @@
     {
       [_input close];
     }
-  RELEASE (_input);
+  LRELEASE (_input);
   if (_closeOutputWhenDone)
     {
       [_output close];
     }
-  RELEASE (_output);
+  LRELEASE (_output);
   [super dealloc];
 }
 @end

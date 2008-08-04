@@ -19,6 +19,7 @@
 #import "MLKLinkedList.h"
 #import "MLKCons.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 @implementation MLKLinkedList
@@ -32,21 +33,21 @@
 -(MLKLinkedList*) initWithCons:(MLKCons*)cons
 {
   self = [super init];
-  ASSIGN (_firstCons, cons);
+  LASSIGN (_firstCons, cons);
   return self;
 }
 
 -(void) push: (id)object
 {
-  ASSIGN (_firstCons, [MLKCons cons:object with:_firstCons]);
+  LASSIGN (_firstCons, [MLKCons cons:object with:_firstCons]);
 }
 
 -(id) pop
 {
   id retval = [_firstCons car];
-  RETAIN (retval);
-  ASSIGN (_firstCons, [_firstCons cdr]);
-  AUTORELEASE (retval);
+  LRETAIN (retval);
+  LASSIGN (_firstCons, [_firstCons cdr]);
+  LAUTORELEASE (retval);
   return retval;
 }
 
@@ -82,7 +83,7 @@
 
 -(void) dealloc
 {
-  RELEASE (_firstCons);
+  LRELEASE (_firstCons);
   [super dealloc];
 }
 @end

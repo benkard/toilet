@@ -28,14 +28,14 @@
 @implementation MLKCons
 +(MLKCons*) cons:(id)car with:(id)cdr
 {
-  return AUTORELEASE ([[self alloc] initWithCar:car cdr:cdr]);
+  return LAUTORELEASE ([[self alloc] initWithCar:car cdr:cdr]);
 }
 
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr
 {
   self = [super init];
-  ASSIGN (_car, car);
-  ASSIGN (_cdr, cdr);
+  LASSIGN (_car, car);
+  LASSIGN (_cdr, cdr);
   return self;
 }
 
@@ -76,12 +76,12 @@
 
 -(void) setCar:(id)value
 {
-  ASSIGN (_car, value);
+  LASSIGN (_car, value);
 }
 
 -(void) setCdr:(id)value
 {
-  ASSIGN (_cdr, value);
+  LASSIGN (_cdr, value);
 }
 
 -(NSArray *)array
@@ -133,15 +133,15 @@
 -(id) copyWithZone:(NSZone *)zone
 {
   MLKCons *copy = [MLKCons allocWithZone:zone];
-  ASSIGN (copy->_car, _car);
-  ASSIGN (copy->_cdr, _cdr);
+  LASSIGN (copy->_car, _car);
+  LASSIGN (copy->_cdr, _cdr);
   return copy;
 }
 
 -(void) dealloc
 {
-  RELEASE (_car);
-  RELEASE (_cdr);
+  LRELEASE (_car);
+  LRELEASE (_cdr);
   [super dealloc];
 }
 @end

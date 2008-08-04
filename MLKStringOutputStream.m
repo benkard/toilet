@@ -18,6 +18,7 @@
 
 #import "MLKStringOutputStream.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSData.h>
 #import <Foundation/NSString.h>
@@ -28,7 +29,7 @@
 -(id) init
 {
   self = (id)[super initWithInputStream:nil
-                    outputStream:AUTORELEASE ([[NSOutputStream alloc] initToMemory])
+                    outputStream:LAUTORELEASE ([[NSOutputStream alloc] initToMemory])
                     encoding:NSUnicodeStringEncoding];
   return self;
 }
@@ -36,7 +37,7 @@
 -(NSString *) string
 {
   NSData *data = [_output propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-  return AUTORELEASE ([[NSString alloc] initWithData:data
+  return LAUTORELEASE ([[NSString alloc] initWithData:data
                                         encoding:NSUnicodeStringEncoding]);
 }
 @end

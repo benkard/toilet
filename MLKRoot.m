@@ -60,7 +60,7 @@ static id truify (BOOL value)
 @implementation MLKRoot
 +(void) initialize
 {
-  signature = RETAIN ([self methodSignatureForSelector:@selector(car:)]);
+  signature = LRETAIN ([self methodSignatureForSelector:@selector(car:)]);
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
 }
@@ -150,7 +150,7 @@ static id truify (BOOL value)
   BOOL success;
   NSString *fileName = denullify ([args objectAtIndex:0]);
   NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
-  MLKStream *stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+  MLKStream *stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
 
   //NSLog (@"%d", [input hasBytesAvailable]);
   [input open];

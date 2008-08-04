@@ -44,10 +44,10 @@ static MLKSymbol *PROGN;
             environment:(MLKLexicalEnvironment *)lexenv
 {
   self = [super init];
-  ASSIGN (bodyForm, [MLKCons cons:PROGN with:forms]);
-  ASSIGN (context, lexctx);
-  ASSIGN (environment, lexenv);
-  ASSIGN (lambdaListName, symbol);
+  LASSIGN (bodyForm, [MLKCons cons:PROGN with:forms]);
+  LASSIGN (context, lexctx);
+  LASSIGN (environment, lexenv);
+  LASSIGN (lambdaListName, symbol);
   return self;
 }
 

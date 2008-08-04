@@ -206,7 +206,7 @@ static NSMutableDictionary *packages = nil;
   _nicknames = [[NSMutableSet alloc] initWithSet:nicknames];
   _used_packages = [[NSMutableArray alloc] init];
   _using_packages = [[NSMutableArray alloc] init];
-  ASSIGN (_name, name);
+  LASSIGN (_name, name);
 
   return self;
 }
@@ -214,7 +214,7 @@ static NSMutableDictionary *packages = nil;
 +(MLKPackage *) packageWithName:(NSString *)name
                       nicknames:(NSSet *)nicknames
 {
-  return AUTORELEASE ([[self alloc] initWithName:name nicknames:nicknames]);
+  return LAUTORELEASE ([[self alloc] initWithName:name nicknames:nicknames]);
 }
 
 +(MLKPackage *) findPackage:(NSString *)name
@@ -480,14 +480,14 @@ static NSMutableDictionary *packages = nil;
 
 -(void) dealloc
 {
-  RELEASE (_present_symbols);
-  RELEASE (_accessible_symbols);
-  RELEASE (_exported_symbols);
-  RELEASE (_shadowing_symbols);
-  RELEASE (_nicknames);
-  RELEASE (_used_packages);
-  RELEASE (_using_packages);
-  RELEASE (_name);
+  LRELEASE (_present_symbols);
+  LRELEASE (_accessible_symbols);
+  LRELEASE (_exported_symbols);
+  LRELEASE (_shadowing_symbols);
+  LRELEASE (_nicknames);
+  LRELEASE (_used_packages);
+  LRELEASE (_using_packages);
+  LRELEASE (_name);
   [super dealloc];
 }
 @end

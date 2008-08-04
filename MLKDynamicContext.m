@@ -41,6 +41,7 @@
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
@@ -152,39 +153,39 @@ static MLKDynamicContext *global_context;
   [readtable setSyntaxType:MULTI_ESCAPE forCharacter:'|'];
 
   [readtable setSyntaxType:NONTERMINATING_MACRO forCharacter:'#'];
-  sharpsign = AUTORELEASE ([[MLKDispatchingMacroCharacterReader
+  sharpsign = LAUTORELEASE ([[MLKDispatchingMacroCharacterReader
                               alloc] init]);
   [readtable setMacroFunction:sharpsign forCharacter:'#'];
 
-  [sharpsign setMacroFunction:AUTORELEASE([[MLKSharpsignColonReader alloc]
+  [sharpsign setMacroFunction:LAUTORELEASE([[MLKSharpsignColonReader alloc]
                                             init])
              forCharacter:':'];
 
   [readtable setSyntaxType:SINGLE_ESCAPE forCharacter:'\\'];
   
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'('];
-  [readtable setMacroFunction:AUTORELEASE([[MLKParenReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKParenReader alloc] init])
              forCharacter:'('];
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:')'];
 
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'"'];
-  [readtable setMacroFunction:AUTORELEASE([[MLKStringReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKStringReader alloc] init])
              forCharacter:'"'];
 
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'\''];
-  [readtable setMacroFunction:AUTORELEASE([[MLKQuoteReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKQuoteReader alloc] init])
              forCharacter:'\''];
   
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:'`'];
-  [readtable setMacroFunction:AUTORELEASE([[MLKBackquoteReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKBackquoteReader alloc] init])
              forCharacter:'`'];
   
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:','];
-  [readtable setMacroFunction:AUTORELEASE([[MLKCommaReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKCommaReader alloc] init])
              forCharacter:','];
 
   [readtable setSyntaxType:TERMINATING_MACRO forCharacter:';'];
-  [readtable setMacroFunction:AUTORELEASE([[MLKSemicolonReader alloc] init])
+  [readtable setMacroFunction:LAUTORELEASE([[MLKSemicolonReader alloc] init])
              forCharacter:';'];
 
   for (ch = '0'; ch <= '9'; ch++)
@@ -282,14 +283,14 @@ static MLKDynamicContext *global_context;
              activeHandlerEnvironment:(MLKEnvironment *)handlerEnv;
 {
   self = [super init];
-  ASSIGN (_parent, (aContext ? aContext : [MLKDynamicContext currentContext]));
+  LASSIGN (_parent, (aContext ? aContext : [MLKDynamicContext currentContext]));
   _environment = MAKE_ENVIRONMENT(vars, _parent, _parent->_environment);
   _conditionHandlers = MAKE_ENVIRONMENT(handlers,
                                         _parent,
                                         _parent->_conditionHandlers);
   _restarts = MAKE_ENVIRONMENT(restarts, _parent, _parent->_restarts);
   _catchTags = [[NSSet alloc] initWithSet:catchTags];
-  ASSIGN (_activeHandlerEnvironment,
+  LASSIGN (_activeHandlerEnvironment,
           handlerEnv
           ? (id) handlerEnv
           : (_parent
@@ -411,12 +412,12 @@ static MLKDynamicContext *global_context;
 
 -(void) dealloc
 {
-  RELEASE (_conditionHandlers);
-  RELEASE (_restarts);
-  RELEASE (_catchTags);
-  RELEASE (_activeHandlerEnvironment);
-  RELEASE (_environment);
-  RELEASE (_parent);
+  LRELEASE (_conditionHandlers);
+  LRELEASE (_restarts);
+  LRELEASE (_catchTags);
+  LRELEASE (_activeHandlerEnvironment);
+  LRELEASE (_environment);
+  LRELEASE (_parent);
   [super dealloc];
 }
 @end

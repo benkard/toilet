@@ -35,6 +35,7 @@
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
@@ -85,20 +86,20 @@ static MLKSymbol *LEXICAL;
 {
   self = [super init];
 
-  ASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
+  LASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
   
-  ASSIGN (_variables, [NSMutableSet setWithSet:vars]);
-  ASSIGN (_functions, [NSMutableSet setWithSet:functions]);
+  LASSIGN (_variables, [NSMutableSet setWithSet:vars]);
+  LASSIGN (_functions, [NSMutableSet setWithSet:functions]);
 
   _goTags = MAKE_ENVIRONMENT (goTags, _parent, _parent->_goTags);
   _macros = MAKE_ENVIRONMENT (macros, _parent, _parent->_macros);
   _compilerMacros = MAKE_ENVIRONMENT (compilerMacros, _parent, _parent->_compilerMacros);
   _symbolMacros = MAKE_ENVIRONMENT (symbolMacros, _parent, _parent->_symbolMacros);
 
-  ASSIGN (_knownMacros, [NSMutableSet setWithArray:[macros allKeys]]);
-  ASSIGN (_knownSymbolMacros, [NSMutableSet setWithArray:[symbolMacros allKeys]]);
+  LASSIGN (_knownMacros, [NSMutableSet setWithArray:[macros allKeys]]);
+  LASSIGN (_knownSymbolMacros, [NSMutableSet setWithArray:[symbolMacros allKeys]]);
 
-  ASSIGN (_declarations, declarations);
+  LASSIGN (_declarations, declarations);
   return self;  
 }
 
@@ -111,7 +112,7 @@ static MLKSymbol *LEXICAL;
                             symbolMacros:(NSDictionary *)symbolMacros
                             declarations:(id)declarations
 {
-  return AUTORELEASE ([[self alloc]
+  return LAUTORELEASE ([[self alloc]
                         initWithParent:context
                         variables:vars
                         functions:functions
@@ -187,7 +188,7 @@ static MLKSymbol *LEXICAL;
 
 -(void) addDeclaration:(id)declaration
 {
-  ASSIGN (_declarations,
+  LASSIGN (_declarations,
           [MLKCons cons:declaration
                    with:_declarations]);
 }
@@ -287,17 +288,17 @@ static MLKSymbol *LEXICAL;
 
 -(void) dealloc
 {
-  RELEASE (_macros);
-  RELEASE (_compilerMacros);
-  RELEASE (_symbolMacros);
-  RELEASE (_knownMacros);
-  RELEASE (_knownCompilerMacros);
-  RELEASE (_knownSymbolMacros);
-  RELEASE (_goTags);
-  RELEASE (_functions);
-  RELEASE (_variables);
-  RELEASE (_declarations);
-  RELEASE (_parent);
+  LRELEASE (_macros);
+  LRELEASE (_compilerMacros);
+  LRELEASE (_symbolMacros);
+  LRELEASE (_knownMacros);
+  LRELEASE (_knownCompilerMacros);
+  LRELEASE (_knownSymbolMacros);
+  LRELEASE (_goTags);
+  LRELEASE (_functions);
+  LRELEASE (_variables);
+  LRELEASE (_declarations);
+  LRELEASE (_parent);
   [super dealloc];
 }
 @end

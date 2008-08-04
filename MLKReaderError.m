@@ -18,6 +18,7 @@
 
 #import "MLKReaderError.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 @implementation MLKReaderError
@@ -30,7 +31,7 @@
 
 -(void) dealloc
 {
-  RELEASE (stream);
+  LRELEASE (stream);
   [super dealloc];
 }
 @end

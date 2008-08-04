@@ -528,7 +528,7 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
 
 +(id) readFromString:(NSString *)string
 {
-  return [self readFromStream:AUTORELEASE([[MLKStringInputStream alloc]
+  return [self readFromStream:LAUTORELEASE([[MLKStringInputStream alloc]
                                             initWithString:string])
                eofError:YES
                eofValue:nil

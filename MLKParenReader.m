@@ -26,6 +26,7 @@
 #import "MLKPackage.h"
 #import "MLKStream.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
 
@@ -75,7 +76,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
         {
           id nextItem;
 
-          RELEASE (dotMarker);
+          LRELEASE (dotMarker);
 
           nextItem = [MLKReader readFromStream:stream
                                 eofError:YES
@@ -106,7 +107,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
           tail = [tail cdr];
         }
 
-      RELEASE (dotMarker);
+      LRELEASE (dotMarker);
     }
 
   [stream readChar];

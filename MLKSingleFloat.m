@@ -21,6 +21,7 @@
 #import "MLKSingleFloat.h"
 #import "MLKDoubleFloat.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSString.h>
 
@@ -65,7 +66,7 @@
                                       exponent:(NSString *)exponent
                               exponentNegative:(BOOL)exponentNegative
 {
-  return AUTORELEASE ([[self alloc] initWithIntegerPart:intPart
+  return LAUTORELEASE ([[self alloc] initWithIntegerPart:intPart
                                     negative:negative
                                     fractionalPart:fractPart
                                     exponent:exponent
@@ -81,7 +82,7 @@
 
 +(MLKSingleFloat *) singleFloatWithFloat:(float)aFloat
 {
-  return AUTORELEASE ([[self alloc] initWithFloat:aFloat]);
+  return LAUTORELEASE ([[self alloc] initWithFloat:aFloat]);
 }
 
 -(float) floatValue

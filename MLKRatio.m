@@ -35,7 +35,7 @@
 
 +(MLKRatio *) ratioWithMPQ:(mpq_t)mpq
 {
-  return AUTORELEASE ([[MLKRatio alloc] initWithMPQ:mpq]);
+  return LAUTORELEASE ([[MLKRatio alloc] initWithMPQ:mpq]);
 }
 
 -(MLKRatio *) initWithString:(NSString *)string
@@ -65,7 +65,7 @@
                               negative:(BOOL)negative
                                   base:(unsigned int)base
 {
-  return AUTORELEASE ([[MLKRatio alloc] initWithNumeratorString:numerString
+  return LAUTORELEASE ([[MLKRatio alloc] initWithNumeratorString:numerString
                                         denominatorString:denomString
                                         negative:negative
                                         base:base]);

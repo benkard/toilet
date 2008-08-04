@@ -39,7 +39,7 @@
 {
   self = [super init];
   _bindings = [[NSMutableDictionary alloc] initWithCapacity:10];
-  ASSIGN (_parent, parent);
+  LASSIGN (_parent, parent);
   [self addValues:bindings];
   return self;
 }
@@ -193,8 +193,8 @@
 
 -(void) dealloc
 {
-  RELEASE (_bindings);
-  RELEASE (_parent);
+  LRELEASE (_bindings);
+  LRELEASE (_parent);
   [super dealloc];
 }
 @end

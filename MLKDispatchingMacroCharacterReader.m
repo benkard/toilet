@@ -32,7 +32,7 @@
 -(id) init
 {
   self = [super init];
-  ASSIGN (_readerMacros, [NSMutableDictionary dictionary]);
+  LASSIGN (_readerMacros, [NSMutableDictionary dictionary]);
   return self;
 }
 

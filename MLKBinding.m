@@ -18,6 +18,7 @@
 
 #import "MLKBinding.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
@@ -40,23 +41,23 @@ static id UNBOUND;
 -(MLKBinding *) initWithValue:(id)something
 {
   self = [super init];
-  ASSIGN (value, something);
+  LASSIGN (value, something);
   return self;
 }
 
 +(MLKBinding *) binding
 {
-  return AUTORELEASE ([[self alloc] init]);
+  return LAUTORELEASE ([[self alloc] init]);
 }
 
 +(MLKBinding *) bindingWithValue:(id)something
 {
-  return AUTORELEASE ([[self alloc] initWithValue:something]);
+  return LAUTORELEASE ([[self alloc] initWithValue:something]);
 }
 
 -(void) setValue:(id)something
 {
-  ASSIGN (value, something);
+  LASSIGN (value, something);
 }
 
 -(id) value
@@ -75,12 +76,12 @@ static id UNBOUND;
 
 -(void) makunbound
 {
-  ASSIGN (value, UNBOUND);
+  LASSIGN (value, UNBOUND);
 }
 
 -(void) dealloc
 {
-  RELEASE (value);
+  LRELEASE (value);
   [super dealloc];
 }
 @end

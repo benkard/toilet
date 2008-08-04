@@ -321,14 +321,14 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                                     NSArray *);
 
                   [MLKDynamicContext popContext];
-                  RELEASE (newctx);
+                  LRELEASE (newctx);
 
                   NS_VALUERETURN (values, NSArray *);
                 }
               NS_HANDLER
                 {
                   [MLKDynamicContext popContext];
-                  RELEASE (newctx);
+                  LRELEASE (newctx);
 
                   if ([[localException name] isEqualToString:@"MLKThrow"])
                     {
@@ -574,7 +574,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                                                               with:nil]]]);
                 }
 
-              closure = AUTORELEASE ([[MLKInterpretedClosure alloc]
+              closure = LAUTORELEASE ([[MLKInterpretedClosure alloc]
                                        initWithBodyForms:body
                                        lambdaListName:lambdaList
                                        context:context
@@ -602,7 +602,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                   declarations = nil;
                 }
 
-              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+              ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
                                    functions:nil
@@ -675,7 +675,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                   declarations = nil;
                 }
 
-              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+              ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
                                    functions:nil
@@ -686,7 +686,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                                    declarations:declarations]);
 
               if (!expandOnly)
-                env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
+                env = LAUTORELEASE ([[MLKLexicalEnvironment alloc]
                                      initWithParent:lexenv
                                      variables:nil
                                      functions:nil]);
@@ -761,7 +761,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                   declarations = nil;
                 }
 
-              ctx = AUTORELEASE ([[MLKLexicalContext alloc]
+              ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
                                    functions:nil
@@ -773,7 +773,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 
               if (!expandOnly)
                 {
-                  env = AUTORELEASE ([[MLKLexicalEnvironment alloc]
+                  env = LAUTORELEASE ([[MLKLexicalEnvironment alloc]
                                        initWithParent:lexenv
                                        variables:nil
                                        functions:nil]);
@@ -871,7 +871,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                   NS_ENDHANDLER;
 
                   [MLKDynamicContext popContext];
-                  RELEASE (dynctx);
+                  LRELEASE (dynctx);
 
                   return result;
                 }
@@ -1022,7 +1022,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               NS_ENDHANDLER;
 
               [MLKDynamicContext popContext];
-              RELEASE (dynctx);
+              LRELEASE (dynctx);
 
               return result;
             }
@@ -1432,7 +1432,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                  expandOnly:NO];
       //NSLog (@"; LOAD: Top-level form evaluated.");
 
-      RELEASE (pool);
+      LRELEASE (pool);
 
       if (print)
         {

@@ -51,21 +51,21 @@
 
 +(MLKInteger *) integerWithMPZ:(mpz_t)mpz
 {
-  return AUTORELEASE ([[MLKInteger alloc] initWithMPZ:mpz]);
+  return LAUTORELEASE ([[MLKInteger alloc] initWithMPZ:mpz]);
 }
 
 +(MLKInteger *) integerWithString:(NSString *)string
                          negative:(BOOL)negative
                              base:(unsigned int)base
 {
-  return AUTORELEASE ([[MLKInteger alloc] initWithString:string
+  return LAUTORELEASE ([[MLKInteger alloc] initWithString:string
                                           negative:negative
                                           base:base]);
 }
 
 +(MLKInteger *) integerWithInt:(int)intValue
 {
-  return AUTORELEASE ([[MLKInteger alloc] initWithInt:intValue]);
+  return LAUTORELEASE ([[MLKInteger alloc] initWithInt:intValue]);
 }
 
 

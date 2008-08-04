@@ -59,17 +59,17 @@
 -(id) testCons
 {
   id obj1 = @"Mulk.";
-  id obj2 = AUTORELEASE ([[NSMutableDictionary alloc] init]);
+  id obj2 = LAUTORELEASE ([[NSMutableDictionary alloc] init]);
 
   MLKCons *cons2 = [MLKCons cons:obj1 with:obj2];
   MLKCons *cons3 = [MLKCons cons:obj1 with:nil];
   MLKCons *cons4 = [MLKCons cons:nil with:nil];
   MLKCons *cons5 = [MLKCons cons:nil with:obj2];
 
-  MLKCons *cons6 = AUTORELEASE ([[MLKCons alloc] initWithCar:obj1 cdr:obj2]);
-  MLKCons *cons7 = AUTORELEASE ([[MLKCons alloc] initWithCar:obj1 cdr:nil]);
-  MLKCons *cons8 = AUTORELEASE ([[MLKCons alloc] initWithCar:nil cdr:nil]);
-  MLKCons *cons9 = AUTORELEASE ([[MLKCons alloc] initWithCar:nil cdr:obj2]);
+  MLKCons *cons6 = LAUTORELEASE ([[MLKCons alloc] initWithCar:obj1 cdr:obj2]);
+  MLKCons *cons7 = LAUTORELEASE ([[MLKCons alloc] initWithCar:obj1 cdr:nil]);
+  MLKCons *cons8 = LAUTORELEASE ([[MLKCons alloc] initWithCar:nil cdr:nil]);
+  MLKCons *cons9 = LAUTORELEASE ([[MLKCons alloc] initWithCar:nil cdr:obj2]);
 
   UKTrue ([cons2 car] == obj1);
   UKTrue ([cons3 car] == obj1);

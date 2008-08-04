@@ -35,6 +35,7 @@
 #import "MLKInteger.h"
 #import "MLKValuesFunction.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
@@ -60,7 +61,7 @@ static MLKLexicalEnvironment *global_environment;
   [vars setObject:[NSNull null] forKey:[NSNull null]];
   [vars setObject:[cl intern:@"T"] forKey:[cl intern:@"T"]];
 
-  [funs setObject:AUTORELEASE ([[MLKValuesFunction alloc] init])
+  [funs setObject:LAUTORELEASE ([[MLKValuesFunction alloc] init])
         forKey:[cl intern:@"VALUES"]];
 
   global_environment = [[self alloc] initWithParent:nil
@@ -73,7 +74,7 @@ static MLKLexicalEnvironment *global_environment;
                                 functions:(NSDictionary *)functions
 {
   self = [super init];
-  ASSIGN (_parent, (aContext ? aContext : global_environment));
+  LASSIGN (_parent, (aContext ? aContext : global_environment));
   _variables = MAKE_ENVIRONMENT(vars, _parent, _parent->_variables);
   _functions = MAKE_ENVIRONMENT(functions, _parent, _parent->_functions);
   return self;
@@ -83,7 +84,7 @@ static MLKLexicalEnvironment *global_environment;
                                        variables:(NSDictionary *)vars
                                        functions:(NSDictionary *)functions
 {
-  return AUTORELEASE ([[self alloc] initWithParent:context
+  return LAUTORELEASE ([[self alloc] initWithParent:context
                                     variables:vars
                                     functions:functions]);
 }
@@ -160,9 +161,9 @@ static MLKLexicalEnvironment *global_environment;
 
 -(void) dealloc
 {
-  RELEASE (_variables);
-  RELEASE (_functions);
-  RELEASE (_parent);
+  LRELEASE (_variables);
+  LRELEASE (_functions);
+  LRELEASE (_parent);
   [super dealloc];
 }
 @end

@@ -18,6 +18,7 @@
 
 #import "MLKStringInputStream.h"
 #import "runtime-compatibility.h"
+#import "util.h"
 
 #import <Foundation/NSString.h>
 #import <Foundation/NSStream.h>
@@ -42,6 +43,6 @@
 
 +(MLKStringInputStream *) streamWithString:(NSString *)string
 {
-  return AUTORELEASE ([[self alloc] initWithString:string]);
+  return LAUTORELEASE ([[self alloc] initWithString:string]);
 }
 @end

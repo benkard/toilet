@@ -32,26 +32,26 @@
 -(MLKSymbol *) initWithName:(id)aName package:(id)aPackage
 {
   self = [super init];
-  ASSIGN (name, aName);
-  ASSIGN (homePackage, aPackage);
+  LASSIGN (name, aName);
+  LASSIGN (homePackage, aPackage);
   real_identity = nil;
   return self;
 }
 
 +(MLKSymbol *) symbolWithName:(id)aName package:(id)aPackage
 {
-  return AUTORELEASE ([[self alloc] initWithName:aName package:aPackage]);
+  return LAUTORELEASE ([[self alloc] initWithName:aName package:aPackage]);
 }
 
 -(id) copyWithZone:(NSZone *)zone
 {
   MLKSymbol *copy = [MLKSymbol allocWithZone:zone];
-  ASSIGN (copy->name, name);
-  ASSIGN (copy->homePackage, homePackage);
+  LASSIGN (copy->name, name);
+  LASSIGN (copy->homePackage, homePackage);
   if (real_identity)
-    ASSIGN (copy->real_identity, real_identity);
+    LASSIGN (copy->real_identity, real_identity);
   else
-    ASSIGN (copy->real_identity, self);
+    LASSIGN (copy->real_identity, self);
   return copy;
 }
 
@@ -67,7 +67,7 @@
 
 -(void) setHomePackage:(MLKPackage *)aPackage
 {
-  ASSIGN (homePackage, aPackage);
+  LASSIGN (homePackage, aPackage);
 }
 
 -(NSString *) descriptionForLisp
@@ -183,8 +183,8 @@
 
 -(void) dealloc
 {
-  RELEASE (name);
-  RELEASE (homePackage);
+  LRELEASE (name);
+  LRELEASE (homePackage);
   [super dealloc];
 }
 @end

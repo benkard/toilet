@@ -85,7 +85,7 @@ static const char *prompt (EditLine *e) {
   NS_DURING
     {
       input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
-      stream = AUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+      stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
 
       [input open];
       [MLKInterpreter load:stream verbose:YES print:YES];
@@ -111,7 +111,7 @@ static const char *prompt (EditLine *e) {
     forSymbol:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
                 intern:@"*SYSTEM-INITIALISED-P*"]];
 
-  RELEASE (pool);
+  LRELEASE (pool);
 
   while (1)
     {
@@ -155,7 +155,7 @@ static const char *prompt (EditLine *e) {
             }
           NS_ENDHANDLER;
 
-          RELEASE (pool);
+          LRELEASE (pool);
         }
 
       //free (line);
@@ -174,6 +174,6 @@ int main (int argc, char **argv)
   NSAutoreleasePool *pool;
   pool = [[NSAutoreleasePool alloc] init];
   [MLKReadEvalPrintLoop run];
-  RELEASE (pool);
+  LRELEASE (pool);
   return 0;
 }
