@@ -7,6 +7,93 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7A833860E476CF3005D64E0 /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833800E476CF3005D64E0 /* functions.m */; };
+		A7A833870E476CF3005D64E0 /* MLKBackquoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */; };
+		A7A833880E476CF3005D64E0 /* MLKCommaReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833820E476CF3005D64E0 /* MLKCommaReader.m */; };
+		A7A833890E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833830E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m */; };
+		A7A8338A0E476CF3005D64E0 /* MLKSharpsignColonReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833840E476CF3005D64E0 /* MLKSharpsignColonReader.m */; };
+		A7A8338B0E476CF3005D64E0 /* MLKValuesFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833850E476CF3005D64E0 /* MLKValuesFunction.m */; };
+		A7A833920E476D0D005D64E0 /* functions.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8338C0E476D0D005D64E0 /* functions.h */; };
+		A7A833930E476D0D005D64E0 /* MLKBackquoteReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8338D0E476D0D005D64E0 /* MLKBackquoteReader.h */; };
+		A7A833940E476D0D005D64E0 /* MLKCommaReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8338E0E476D0D005D64E0 /* MLKCommaReader.h */; };
+		A7A833950E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8338F0E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h */; };
+		A7A833960E476D0D005D64E0 /* MLKSharpsignColonReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A833900E476D0D005D64E0 /* MLKSharpsignColonReader.h */; };
+		A7A833970E476D0D005D64E0 /* MLKValuesFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */; };
+		A7A8340E0E477B76005D64E0 /* control-flow.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
+		A7A8340F0E477B76005D64E0 /* defun-0.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
+		A7A834100E477B76005D64E0 /* defun-1.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
+		A7A834110E477B76005D64E0 /* destructuring-bind.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
+		A7A834120E477B76005D64E0 /* evaluation.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
+		A7A834130E477B76005D64E0 /* init.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
+		A7A834140E477B76005D64E0 /* list-functions-2.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
+		A7A834150E477B76005D64E0 /* list-functions.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
+		A7A834160E477B76005D64E0 /* numbers.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
+		A7A834170E477B76005D64E0 /* reader.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
+		A7A834180E477B76005D64E0 /* sharpsign.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
+		A7A834190E477B76005D64E0 /* types.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
+		A7A8341A0E477B76005D64E0 /* util.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
+		A7A8341B0E477B80005D64E0 /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
+		A7A8341C0E477B80005D64E0 /* defun-0.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
+		A7A8341D0E477B80005D64E0 /* defun-1.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
+		A7A8341E0E477B80005D64E0 /* destructuring-bind.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
+		A7A8341F0E477B80005D64E0 /* evaluation.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
+		A7A834200E477B80005D64E0 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
+		A7A834210E477B80005D64E0 /* list-functions-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
+		A7A834220E477B80005D64E0 /* list-functions.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
+		A7A834230E477B80005D64E0 /* numbers.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
+		A7A834240E477B80005D64E0 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
+		A7A834250E477B80005D64E0 /* sharpsign.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
+		A7A834260E477B80005D64E0 /* types.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
+		A7A834270E477B80005D64E0 /* util.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
+		A7A835A30E477C27005D64E0 /* array.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
+		A7A835A40E477C27005D64E0 /* character.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
+		A7A835A50E477C27005D64E0 /* clos.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
+		A7A835A60E477C27005D64E0 /* condition.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
+		A7A835A70E477C27005D64E0 /* cons.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
+		A7A835A80E477C27005D64E0 /* core.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
+		A7A835A90E477C27005D64E0 /* data-and-control.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
+		A7A835AA0E477C27005D64E0 /* do.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
+		A7A835AB0E477C27005D64E0 /* eval.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
+		A7A835AC0E477C27005D64E0 /* hash-table.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
+		A7A835AD0E477C27005D64E0 /* init.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
+		A7A835AE0E477C27005D64E0 /* loop.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
+		A7A835AF0E477C27005D64E0 /* package.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
+		A7A835B00E477C27005D64E0 /* printer.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
+		A7A835B10E477C27005D64E0 /* reader.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
+		A7A835B20E477C27005D64E0 /* sequence.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
+		A7A835B30E477C27005D64E0 /* share-2.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
+		A7A835B40E477C27005D64E0 /* share.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
+		A7A835B50E477C27005D64E0 /* stand-in.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
+		A7A835B60E477C27005D64E0 /* stream.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
+		A7A835B70E477C27005D64E0 /* string.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
+		A7A835B80E477C27005D64E0 /* symbol.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
+		A7A835B90E477C27005D64E0 /* testbed.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
+		A7A835BA0E477C27005D64E0 /* ansi-tests.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357F0E477C26005D64E0 /* ansi-tests.lisp */; };
+		A7A835BB0E477C27005D64E0 /* desirable-printer.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835800E477C26005D64E0 /* desirable-printer.lisp */; };
+		A7A835DD0E477C27005D64E0 /* x-sequence.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835A20E477C27005D64E0 /* x-sequence.lisp */; };
+		A7A835E00E477C7F005D64E0 /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
+		A7A835E10E477C7F005D64E0 /* character.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
+		A7A835E20E477C7F005D64E0 /* clos.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
+		A7A835E30E477C7F005D64E0 /* condition.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
+		A7A835E40E477C7F005D64E0 /* cons.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
+		A7A835E50E477C7F005D64E0 /* core.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
+		A7A835E60E477C7F005D64E0 /* data-and-control.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
+		A7A835E70E477C7F005D64E0 /* do.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
+		A7A835E80E477C7F005D64E0 /* eval.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
+		A7A835E90E477C7F005D64E0 /* hash-table.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
+		A7A835EA0E477C7F005D64E0 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
+		A7A835EB0E477C7F005D64E0 /* loop.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
+		A7A835EC0E477C7F005D64E0 /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
+		A7A835ED0E477C7F005D64E0 /* printer.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
+		A7A835EE0E477C7F005D64E0 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
+		A7A835EF0E477C7F005D64E0 /* sequence.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
+		A7A835F00E477C7F005D64E0 /* share-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
+		A7A835F10E477C7F005D64E0 /* share.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
+		A7A835F20E477C7F005D64E0 /* stand-in.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
+		A7A835F30E477C7F005D64E0 /* stream.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
+		A7A835F40E477C7F005D64E0 /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
+		A7A835F50E477C7F005D64E0 /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
+		A7A835F60E477C7F005D64E0 /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -36,8 +123,6 @@
 		A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */; };
 		A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */; };
 		A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */; };
-		A7E5C45B0E21695800A01D81 /* MLKLinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4150E21695700A01D81 /* MLKLinkedList.h */; };
-		A7E5C45C0E21695800A01D81 /* MLKLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4160E21695700A01D81 /* MLKLinkedList.m */; };
 		A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4170E21695700A01D81 /* MLKLispValue.h */; };
 		A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4180E21695700A01D81 /* MLKLispValue.m */; };
 		A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41A0E21695700A01D81 /* MLKPackage.h */; };
@@ -93,7 +178,115 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A7A833FD0E477B33005D64E0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				A7A8341B0E477B80005D64E0 /* control-flow.lisp in CopyFiles */,
+				A7A8341C0E477B80005D64E0 /* defun-0.lisp in CopyFiles */,
+				A7A8341D0E477B80005D64E0 /* defun-1.lisp in CopyFiles */,
+				A7A8341E0E477B80005D64E0 /* destructuring-bind.lisp in CopyFiles */,
+				A7A8341F0E477B80005D64E0 /* evaluation.lisp in CopyFiles */,
+				A7A834200E477B80005D64E0 /* init.lisp in CopyFiles */,
+				A7A834210E477B80005D64E0 /* list-functions-2.lisp in CopyFiles */,
+				A7A834220E477B80005D64E0 /* list-functions.lisp in CopyFiles */,
+				A7A834230E477B80005D64E0 /* numbers.lisp in CopyFiles */,
+				A7A834240E477B80005D64E0 /* reader.lisp in CopyFiles */,
+				A7A834250E477B80005D64E0 /* sharpsign.lisp in CopyFiles */,
+				A7A834260E477B80005D64E0 /* types.lisp in CopyFiles */,
+				A7A834270E477B80005D64E0 /* util.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7A835DE0E477C67005D64E0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Sacla;
+			dstSubfolderSpec = 16;
+			files = (
+				A7A835E00E477C7F005D64E0 /* array.lisp in CopyFiles */,
+				A7A835E10E477C7F005D64E0 /* character.lisp in CopyFiles */,
+				A7A835E20E477C7F005D64E0 /* clos.lisp in CopyFiles */,
+				A7A835E30E477C7F005D64E0 /* condition.lisp in CopyFiles */,
+				A7A835E40E477C7F005D64E0 /* cons.lisp in CopyFiles */,
+				A7A835E50E477C7F005D64E0 /* core.lisp in CopyFiles */,
+				A7A835E60E477C7F005D64E0 /* data-and-control.lisp in CopyFiles */,
+				A7A835E70E477C7F005D64E0 /* do.lisp in CopyFiles */,
+				A7A835E80E477C7F005D64E0 /* eval.lisp in CopyFiles */,
+				A7A835E90E477C7F005D64E0 /* hash-table.lisp in CopyFiles */,
+				A7A835EA0E477C7F005D64E0 /* init.lisp in CopyFiles */,
+				A7A835EB0E477C7F005D64E0 /* loop.lisp in CopyFiles */,
+				A7A835EC0E477C7F005D64E0 /* package.lisp in CopyFiles */,
+				A7A835ED0E477C7F005D64E0 /* printer.lisp in CopyFiles */,
+				A7A835EE0E477C7F005D64E0 /* reader.lisp in CopyFiles */,
+				A7A835EF0E477C7F005D64E0 /* sequence.lisp in CopyFiles */,
+				A7A835F00E477C7F005D64E0 /* share-2.lisp in CopyFiles */,
+				A7A835F10E477C7F005D64E0 /* share.lisp in CopyFiles */,
+				A7A835F20E477C7F005D64E0 /* stand-in.lisp in CopyFiles */,
+				A7A835F30E477C7F005D64E0 /* stream.lisp in CopyFiles */,
+				A7A835F40E477C7F005D64E0 /* string.lisp in CopyFiles */,
+				A7A835F50E477C7F005D64E0 /* symbol.lisp in CopyFiles */,
+				A7A835F60E477C7F005D64E0 /* testbed.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A7A833800E476CF3005D64E0 /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
+		A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBackquoteReader.m; sourceTree = "<group>"; };
+		A7A833820E476CF3005D64E0 /* MLKCommaReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCommaReader.m; sourceTree = "<group>"; };
+		A7A833830E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKDispatchingMacroCharacterReader.m; sourceTree = "<group>"; };
+		A7A833840E476CF3005D64E0 /* MLKSharpsignColonReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSharpsignColonReader.m; sourceTree = "<group>"; };
+		A7A833850E476CF3005D64E0 /* MLKValuesFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKValuesFunction.m; sourceTree = "<group>"; };
+		A7A8338C0E476D0D005D64E0 /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
+		A7A8338D0E476D0D005D64E0 /* MLKBackquoteReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBackquoteReader.h; sourceTree = "<group>"; };
+		A7A8338E0E476D0D005D64E0 /* MLKCommaReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCommaReader.h; sourceTree = "<group>"; };
+		A7A8338F0E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKDispatchingMacroCharacterReader.h; sourceTree = "<group>"; };
+		A7A833900E476D0D005D64E0 /* MLKSharpsignColonReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKSharpsignColonReader.h; sourceTree = "<group>"; };
+		A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKValuesFunction.h; sourceTree = "<group>"; };
+		A7A834010E477B76005D64E0 /* control-flow.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "control-flow.lisp"; sourceTree = "<group>"; };
+		A7A834020E477B76005D64E0 /* defun-0.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "defun-0.lisp"; sourceTree = "<group>"; };
+		A7A834030E477B76005D64E0 /* defun-1.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "defun-1.lisp"; sourceTree = "<group>"; };
+		A7A834040E477B76005D64E0 /* destructuring-bind.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "destructuring-bind.lisp"; sourceTree = "<group>"; };
+		A7A834050E477B76005D64E0 /* evaluation.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = evaluation.lisp; sourceTree = "<group>"; };
+		A7A834060E477B76005D64E0 /* init.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init.lisp; sourceTree = "<group>"; };
+		A7A834070E477B76005D64E0 /* list-functions-2.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "list-functions-2.lisp"; sourceTree = "<group>"; };
+		A7A834080E477B76005D64E0 /* list-functions.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "list-functions.lisp"; sourceTree = "<group>"; };
+		A7A834090E477B76005D64E0 /* numbers.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = numbers.lisp; sourceTree = "<group>"; };
+		A7A8340A0E477B76005D64E0 /* reader.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reader.lisp; sourceTree = "<group>"; };
+		A7A8340B0E477B76005D64E0 /* sharpsign.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sharpsign.lisp; sourceTree = "<group>"; };
+		A7A8340C0E477B76005D64E0 /* types.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = types.lisp; sourceTree = "<group>"; };
+		A7A8340D0E477B76005D64E0 /* util.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util.lisp; sourceTree = "<group>"; };
+		A7A835670E477C26005D64E0 /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
+		A7A835680E477C26005D64E0 /* character.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = character.lisp; sourceTree = "<group>"; };
+		A7A835690E477C26005D64E0 /* clos.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = clos.lisp; sourceTree = "<group>"; };
+		A7A8356A0E477C26005D64E0 /* condition.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = condition.lisp; sourceTree = "<group>"; };
+		A7A8356B0E477C26005D64E0 /* cons.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cons.lisp; sourceTree = "<group>"; };
+		A7A8356C0E477C26005D64E0 /* core.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = core.lisp; sourceTree = "<group>"; };
+		A7A8356D0E477C26005D64E0 /* data-and-control.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "data-and-control.lisp"; sourceTree = "<group>"; };
+		A7A8356E0E477C26005D64E0 /* do.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = do.lisp; sourceTree = "<group>"; };
+		A7A8356F0E477C26005D64E0 /* eval.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eval.lisp; sourceTree = "<group>"; };
+		A7A835700E477C26005D64E0 /* hash-table.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "hash-table.lisp"; sourceTree = "<group>"; };
+		A7A835710E477C26005D64E0 /* init.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init.lisp; sourceTree = "<group>"; };
+		A7A835720E477C26005D64E0 /* loop.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = loop.lisp; sourceTree = "<group>"; };
+		A7A835730E477C26005D64E0 /* package.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = package.lisp; sourceTree = "<group>"; };
+		A7A835740E477C26005D64E0 /* printer.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = printer.lisp; sourceTree = "<group>"; };
+		A7A835750E477C26005D64E0 /* reader.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reader.lisp; sourceTree = "<group>"; };
+		A7A835760E477C26005D64E0 /* sequence.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sequence.lisp; sourceTree = "<group>"; };
+		A7A835770E477C26005D64E0 /* share-2.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "share-2.lisp"; sourceTree = "<group>"; };
+		A7A835780E477C26005D64E0 /* share.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = share.lisp; sourceTree = "<group>"; };
+		A7A835790E477C26005D64E0 /* stand-in.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "stand-in.lisp"; sourceTree = "<group>"; };
+		A7A8357A0E477C26005D64E0 /* stream.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stream.lisp; sourceTree = "<group>"; };
+		A7A8357B0E477C26005D64E0 /* string.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = string.lisp; sourceTree = "<group>"; };
+		A7A8357C0E477C26005D64E0 /* symbol.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = symbol.lisp; sourceTree = "<group>"; };
+		A7A8357D0E477C26005D64E0 /* testbed.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testbed.lisp; sourceTree = "<group>"; };
+		A7A8357F0E477C26005D64E0 /* ansi-tests.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ansi-tests.lisp"; sourceTree = "<group>"; };
+		A7A835800E477C26005D64E0 /* desirable-printer.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "desirable-printer.lisp"; sourceTree = "<group>"; };
+		A7A835A20E477C27005D64E0 /* x-sequence.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "x-sequence.lisp"; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,8 +319,6 @@
 		A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalContext.m; sourceTree = "<group>"; };
 		A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLexicalEnvironment.h; sourceTree = "<group>"; };
 		A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalEnvironment.m; sourceTree = "<group>"; };
-		A7E5C4150E21695700A01D81 /* MLKLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLinkedList.h; sourceTree = "<group>"; };
-		A7E5C4160E21695700A01D81 /* MLKLinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLinkedList.m; sourceTree = "<group>"; };
 		A7E5C4170E21695700A01D81 /* MLKLispValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLispValue.h; sourceTree = "<group>"; };
 		A7E5C4180E21695700A01D81 /* MLKLispValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLispValue.m; sourceTree = "<group>"; };
 		A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLowLevelTests.m; sourceTree = "<group>"; };
@@ -194,9 +385,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7A834A40E477B86005D64E0 /* Lisp Files */ = {
+			isa = PBXGroup;
+			children = (
+				A7A835660E477C26005D64E0 /* Sacla */,
+				A7A834010E477B76005D64E0 /* control-flow.lisp */,
+				A7A834020E477B76005D64E0 /* defun-0.lisp */,
+				A7A834030E477B76005D64E0 /* defun-1.lisp */,
+				A7A834040E477B76005D64E0 /* destructuring-bind.lisp */,
+				A7A834050E477B76005D64E0 /* evaluation.lisp */,
+				A7A834060E477B76005D64E0 /* init.lisp */,
+				A7A834070E477B76005D64E0 /* list-functions-2.lisp */,
+				A7A834080E477B76005D64E0 /* list-functions.lisp */,
+				A7A834090E477B76005D64E0 /* numbers.lisp */,
+				A7A8340A0E477B76005D64E0 /* reader.lisp */,
+				A7A8340B0E477B76005D64E0 /* sharpsign.lisp */,
+				A7A8340C0E477B76005D64E0 /* types.lisp */,
+				A7A8340D0E477B76005D64E0 /* util.lisp */,
+			);
+			name = "Lisp Files";
+			sourceTree = "<group>";
+		};
+		A7A835660E477C26005D64E0 /* Sacla */ = {
+			isa = PBXGroup;
+			children = (
+				A7A835670E477C26005D64E0 /* array.lisp */,
+				A7A835680E477C26005D64E0 /* character.lisp */,
+				A7A835690E477C26005D64E0 /* clos.lisp */,
+				A7A8356A0E477C26005D64E0 /* condition.lisp */,
+				A7A8356B0E477C26005D64E0 /* cons.lisp */,
+				A7A8356C0E477C26005D64E0 /* core.lisp */,
+				A7A8356D0E477C26005D64E0 /* data-and-control.lisp */,
+				A7A8356E0E477C26005D64E0 /* do.lisp */,
+				A7A8356F0E477C26005D64E0 /* eval.lisp */,
+				A7A835700E477C26005D64E0 /* hash-table.lisp */,
+				A7A835710E477C26005D64E0 /* init.lisp */,
+				A7A835720E477C26005D64E0 /* loop.lisp */,
+				A7A835730E477C26005D64E0 /* package.lisp */,
+				A7A835740E477C26005D64E0 /* printer.lisp */,
+				A7A835750E477C26005D64E0 /* reader.lisp */,
+				A7A835760E477C26005D64E0 /* sequence.lisp */,
+				A7A835770E477C26005D64E0 /* share-2.lisp */,
+				A7A835780E477C26005D64E0 /* share.lisp */,
+				A7A835790E477C26005D64E0 /* stand-in.lisp */,
+				A7A8357A0E477C26005D64E0 /* stream.lisp */,
+				A7A8357B0E477C26005D64E0 /* string.lisp */,
+				A7A8357C0E477C26005D64E0 /* symbol.lisp */,
+				A7A8357D0E477C26005D64E0 /* testbed.lisp */,
+				A7A8357E0E477C26005D64E0 /* tests */,
+			);
+			path = Sacla;
+			sourceTree = "<group>";
+		};
+		A7A8357E0E477C26005D64E0 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				A7A8357F0E477C26005D64E0 /* ansi-tests.lisp */,
+				A7A835800E477C26005D64E0 /* desirable-printer.lisp */,
+				A7A835A20E477C27005D64E0 /* x-sequence.lisp */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
 		A7E5C3CC0E21682800A01D81 = {
 			isa = PBXGroup;
 			children = (
+				A7A834A40E477B86005D64E0 /* Lisp Files */,
 				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
 				A7E5C48D0E216A0E00A01D81 /* Source Files */,
 				A7E5C48C0E2169CE00A01D81 /* Headers */,
@@ -217,6 +471,12 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8338C0E476D0D005D64E0 /* functions.h */,
+				A7A8338D0E476D0D005D64E0 /* MLKBackquoteReader.h */,
+				A7A8338E0E476D0D005D64E0 /* MLKCommaReader.h */,
+				A7A8338F0E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h */,
+				A7A833900E476D0D005D64E0 /* MLKSharpsignColonReader.h */,
+				A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */,
 				A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */,
 				A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */,
 				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
@@ -235,7 +495,6 @@
 				A7E5C40F0E21695700A01D81 /* MLKInterpreter.h */,
 				A7E5C4110E21695700A01D81 /* MLKLexicalContext.h */,
 				A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */,
-				A7E5C4150E21695700A01D81 /* MLKLinkedList.h */,
 				A7E5C4170E21695700A01D81 /* MLKLispValue.h */,
 				A7E5C41A0E21695700A01D81 /* MLKPackage.h */,
 				A7E5C41C0E21695700A01D81 /* MLKParenReader.h */,
@@ -263,6 +522,12 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7A833800E476CF3005D64E0 /* functions.m */,
+				A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */,
+				A7A833820E476CF3005D64E0 /* MLKCommaReader.m */,
+				A7A833830E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m */,
+				A7A833840E476CF3005D64E0 /* MLKSharpsignColonReader.m */,
+				A7A833850E476CF3005D64E0 /* MLKValuesFunction.m */,
 				A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */,
 				A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */,
 				A7E5C4850E21698100A01D81 /* MLKReadEvalPrintLoop.m */,
@@ -278,7 +543,6 @@
 				A7E5C4100E21695700A01D81 /* MLKInterpreter.m */,
 				A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */,
 				A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */,
-				A7E5C4160E21695700A01D81 /* MLKLinkedList.m */,
 				A7E5C4180E21695700A01D81 /* MLKLispValue.m */,
 				A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */,
 				A7E5C41B0E21695700A01D81 /* MLKPackage.m */,
@@ -324,7 +588,6 @@
 				A7E5C4550E21695800A01D81 /* MLKInterpreter.h in Headers */,
 				A7E5C4570E21695800A01D81 /* MLKLexicalContext.h in Headers */,
 				A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */,
-				A7E5C45B0E21695800A01D81 /* MLKLinkedList.h in Headers */,
 				A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */,
 				A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */,
 				A7E5C4620E21695800A01D81 /* MLKParenReader.h in Headers */,
@@ -347,6 +610,12 @@
 				A7E5C4830E21695800A01D81 /* util.h in Headers */,
 				A7E5C4A00E216C0F00A01D81 /* MLKNumber.h in Headers */,
 				A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */,
+				A7A833920E476D0D005D64E0 /* functions.h in Headers */,
+				A7A833930E476D0D005D64E0 /* MLKBackquoteReader.h in Headers */,
+				A7A833940E476D0D005D64E0 /* MLKCommaReader.h in Headers */,
+				A7A833950E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h in Headers */,
+				A7A833960E476D0D005D64E0 /* MLKSharpsignColonReader.h in Headers */,
+				A7A833970E476D0D005D64E0 /* MLKValuesFunction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +646,8 @@
 			buildPhases = (
 				A7E5C3F00E21690200A01D81 /* Sources */,
 				A7E5C3F10E21690200A01D81 /* Frameworks */,
+				A7A833FD0E477B33005D64E0 /* CopyFiles */,
+				A7A835DE0E477C67005D64E0 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -410,6 +681,45 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A8340E0E477B76005D64E0 /* control-flow.lisp in Resources */,
+				A7A8340F0E477B76005D64E0 /* defun-0.lisp in Resources */,
+				A7A834100E477B76005D64E0 /* defun-1.lisp in Resources */,
+				A7A834110E477B76005D64E0 /* destructuring-bind.lisp in Resources */,
+				A7A834120E477B76005D64E0 /* evaluation.lisp in Resources */,
+				A7A834130E477B76005D64E0 /* init.lisp in Resources */,
+				A7A834140E477B76005D64E0 /* list-functions-2.lisp in Resources */,
+				A7A834150E477B76005D64E0 /* list-functions.lisp in Resources */,
+				A7A834160E477B76005D64E0 /* numbers.lisp in Resources */,
+				A7A834170E477B76005D64E0 /* reader.lisp in Resources */,
+				A7A834180E477B76005D64E0 /* sharpsign.lisp in Resources */,
+				A7A834190E477B76005D64E0 /* types.lisp in Resources */,
+				A7A8341A0E477B76005D64E0 /* util.lisp in Resources */,
+				A7A835A30E477C27005D64E0 /* array.lisp in Resources */,
+				A7A835A40E477C27005D64E0 /* character.lisp in Resources */,
+				A7A835A50E477C27005D64E0 /* clos.lisp in Resources */,
+				A7A835A60E477C27005D64E0 /* condition.lisp in Resources */,
+				A7A835A70E477C27005D64E0 /* cons.lisp in Resources */,
+				A7A835A80E477C27005D64E0 /* core.lisp in Resources */,
+				A7A835A90E477C27005D64E0 /* data-and-control.lisp in Resources */,
+				A7A835AA0E477C27005D64E0 /* do.lisp in Resources */,
+				A7A835AB0E477C27005D64E0 /* eval.lisp in Resources */,
+				A7A835AC0E477C27005D64E0 /* hash-table.lisp in Resources */,
+				A7A835AD0E477C27005D64E0 /* init.lisp in Resources */,
+				A7A835AE0E477C27005D64E0 /* loop.lisp in Resources */,
+				A7A835AF0E477C27005D64E0 /* package.lisp in Resources */,
+				A7A835B00E477C27005D64E0 /* printer.lisp in Resources */,
+				A7A835B10E477C27005D64E0 /* reader.lisp in Resources */,
+				A7A835B20E477C27005D64E0 /* sequence.lisp in Resources */,
+				A7A835B30E477C27005D64E0 /* share-2.lisp in Resources */,
+				A7A835B40E477C27005D64E0 /* share.lisp in Resources */,
+				A7A835B50E477C27005D64E0 /* stand-in.lisp in Resources */,
+				A7A835B60E477C27005D64E0 /* stream.lisp in Resources */,
+				A7A835B70E477C27005D64E0 /* string.lisp in Resources */,
+				A7A835B80E477C27005D64E0 /* symbol.lisp in Resources */,
+				A7A835B90E477C27005D64E0 /* testbed.lisp in Resources */,
+				A7A835BA0E477C27005D64E0 /* ansi-tests.lisp in Resources */,
+				A7A835BB0E477C27005D64E0 /* desirable-printer.lisp in Resources */,
+				A7A835DD0E477C27005D64E0 /* x-sequence.lisp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +742,6 @@
 				A7E5C4560E21695800A01D81 /* MLKInterpreter.m in Sources */,
 				A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */,
 				A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */,
-				A7E5C45C0E21695800A01D81 /* MLKLinkedList.m in Sources */,
 				A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */,
 				A7E5C4610E21695800A01D81 /* MLKPackage.m in Sources */,
 				A7E5C4630E21695800A01D81 /* MLKParenReader.m in Sources */,
@@ -453,6 +762,12 @@
 				A7E5C4810E21695800A01D81 /* NSString-MLKPrinting.m in Sources */,
 				A7E5C4A10E216C0F00A01D81 /* MLKNumber.m in Sources */,
 				A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */,
+				A7A833860E476CF3005D64E0 /* functions.m in Sources */,
+				A7A833870E476CF3005D64E0 /* MLKBackquoteReader.m in Sources */,
+				A7A833880E476CF3005D64E0 /* MLKCommaReader.m in Sources */,
+				A7A833890E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m in Sources */,
+				A7A8338A0E476CF3005D64E0 /* MLKSharpsignColonReader.m in Sources */,
+				A7A8338B0E476CF3005D64E0 /* MLKValuesFunction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
