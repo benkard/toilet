@@ -52,11 +52,11 @@
       id item = [array objectAtIndex:i];
       if (!tail)
         {
-          cons = tail = [MLKCons cons:item with:nil];
+          cons = tail = [MLKCons cons:denullify(item) with:nil];
         }
       else
         {
-          [tail setCdr:[MLKCons cons:item with:nil]];
+          [tail setCdr:[MLKCons cons:denullify(item) with:nil]];
           tail = [tail cdr];
         }
     }
