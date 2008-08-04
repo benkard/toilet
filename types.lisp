@@ -73,8 +73,12 @@
                                      "dictionary"))
 
 
-(setq most-positive-fixnum 32767)
-(setq most-negative-fixnum -32768)
+(%shadowing-export fixnump)
+(defun fixnump (thing)
+  (sys::fixnump thing))
+
+;; (setq most-positive-fixnum 32767)
+;; (setq most-negative-fixnum -32768)
 
 
 (defun type-of (thing)
@@ -82,15 +86,8 @@
     (case primitive-type
       ((null symbol cons single-float double-float function package)
        primitive-type)
-      (integer
-       (if (and (send-by-name -1 "isEqual:" (send-by-name thing
-                                                          "compare:"
-                                                          most-positive-fixnum))
-                (send-by-name -1 "isEqual:" (send-by-name most-negative-fixnum
-                                                          "compare:"
-                                                          thing)))
-           'fixnum
-           'bignum))
+      (fixnum 'fixnum)
+      (integer 'bignum)
       (base-char 'base-char)  ;FIXME
       (sys::lexical-context 'sys::lexical-context)
       (sys::binding 'sys::binding)

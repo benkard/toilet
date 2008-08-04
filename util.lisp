@@ -159,7 +159,7 @@
   (%append lists))
 
 (%defun* %zerop (integer)
-  (send-by-name integer "isEqual:" 0))
+  (fixnum-eq integer 0))
 
 (%defun* %= (int1 int2)
   (send-by-name int1 "isEqual:" int2))

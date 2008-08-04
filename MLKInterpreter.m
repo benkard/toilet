@@ -178,7 +178,16 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
     NSLog (@"; EVAL: %@", MLKPrintToString(program));
 #endif  // TRACE_EVAL
 
-  if (!program || [program isKindOfClass:[MLKSymbol class]])
+  if (MLKFixnumP (program))
+    {
+      // Fixnums evaluate to themselves.
+      //
+      // We need to get this case out of the way as early as possible,
+      // as we're going to repeatedly send messages to `program' after
+      // this point.
+      RETURN_VALUE (program);
+    }
+  else if (!program || [program isKindOfClass:[MLKSymbol class]])
     {
       if (mode == compile_time_too_mode)
         {

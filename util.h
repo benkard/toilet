@@ -45,7 +45,7 @@
 
 #define LRELEASE(VALUE)                         \
   ({ id __object = VALUE;                       \
-     if (__object) RELEASE(__object); })
+     if (MLKInstanceP (__object)) RELEASE(__object); })
 
 #define LRETAIN(VALUE)                                                  \
   ({ id __object = VALUE;                                               \
@@ -58,7 +58,9 @@ static id stringify (id value) __attribute__ ((pure, unused));
 
 static id nullify (id value)
 {
-  if (value)
+  if (MLKFixnumP (value))
+    return [MLKInteger integerWithFixnum:value];
+  else if (value)
     return value;
   else
     return [NSNull null];
@@ -68,6 +70,8 @@ static id denullify (id value)
 {
   if (value == [NSNull null])
     return nil;
+  else if ([value isKindOfClass:[MLKInteger class]])
+    return MLKCanoniseInteger (value);
   else
     return value;
 }

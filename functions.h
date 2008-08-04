@@ -16,13 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKInteger.h"
+
 #import <Foundation/NSString.h>
 #include <stdint.h>
 
 
+NSString *MLKPrintToString (id object);
+
 BOOL MLKFixnumP (id thing);
 BOOL MLKInstanceP (id thing);
+
 intptr_t MLKIntWithFixnum (id fixnum);
 id MLKFixnumWithInt (intptr_t value);
 id MLKIntegerWithInt (intptr_t value);
-NSString *MLKPrintToString (id object);
+id MLKCanoniseInteger (MLKInteger *x);
+
+id MLKAddFixnums (id x, id y);
+id MLKSubtractFixnums (id x, id y);
+id MLKIDivideFixnums (id x, id y);
+id MLKMultiplyFixnums (id x, id y);

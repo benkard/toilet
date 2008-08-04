@@ -39,6 +39,19 @@
   return self;
 }
 
+-(MLKInteger *) initWithIntptr_t:(intptr_t)intptr_t_value
+{
+  self = [super init];
+  mpz_init_set_si (value, intptr_t_value);
+  return self;
+}
+
+-(MLKInteger *) initWithFixnum:(id)fixnum
+{
+  self = [self initWithIntptr_t:MLKIntWithFixnum(fixnum)];
+  return self;
+}
+
 -(MLKInteger *) initWithString:(NSString *)string
                       negative:(BOOL)negative
                           base:(unsigned int)base
@@ -51,21 +64,31 @@
 
 +(MLKInteger *) integerWithMPZ:(mpz_t)mpz
 {
-  return LAUTORELEASE ([[MLKInteger alloc] initWithMPZ:mpz]);
+  return AUTORELEASE ([[MLKInteger alloc] initWithMPZ:mpz]);
 }
 
 +(MLKInteger *) integerWithString:(NSString *)string
                          negative:(BOOL)negative
                              base:(unsigned int)base
 {
-  return LAUTORELEASE ([[MLKInteger alloc] initWithString:string
+  return AUTORELEASE ([[MLKInteger alloc] initWithString:string
                                           negative:negative
                                           base:base]);
 }
 
 +(MLKInteger *) integerWithInt:(int)intValue
 {
-  return LAUTORELEASE ([[MLKInteger alloc] initWithInt:intValue]);
+  return AUTORELEASE ([[MLKInteger alloc] initWithInt:intValue]);
+}
+
++(MLKInteger *) integerWithIntptr_t:(intptr_t)intptr_t_value
+{
+  return AUTORELEASE ([[MLKInteger alloc] initWithIntptr_t:intptr_t_value]);
+}
+
++(MLKInteger *) integerWithFixnum:(id)fixnum
+{
+  return AUTORELEASE ([[MLKInteger alloc] initWithFixnum:fixnum]);  
 }
 
 
@@ -138,6 +161,16 @@ DEFINE_MPZ_TWOARG_INTONLY_OPERATION (lcm:, mpz_lcm)
   mpz_clear (mpz);
 
   return obj;
+}
+
+-(BOOL) fitsIntoFixnum
+{
+  return (mpz_sizeinbase (self->value, 2) <= (sizeof (id)) * 8 - 2);
+}
+
+-(id) fixnumValue
+{
+  return MLKFixnumWithInt ([self intValue]);
 }
 
 -(int) intValue

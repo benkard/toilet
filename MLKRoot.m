@@ -168,6 +168,12 @@ static id truify (BOOL value)
   RETURN_VALUE (truify ([args objectAtIndex:0] == [args objectAtIndex:1]));
 }
 
++(NSArray *) fixnum_eq:(NSArray *)args
+{
+  RETURN_VALUE (truify (denullify([args objectAtIndex:0])
+                        == denullify([args objectAtIndex:1])));
+}
+
 +(NSArray *) symbolp:(NSArray *)args
 {
   id arg0 = [args objectAtIndex:0];
@@ -199,6 +205,12 @@ static id truify (BOOL value)
   RETURN_VALUE (truify ([args objectAtIndex:0] == [NSNull null]));
 }
 
++(NSArray *) fixnump:(NSArray *)args
+{
+  id arg0 = denullify ([args objectAtIndex:0]);
+  RETURN_VALUE (truify (MLKFixnumP (arg0)));
+}
+
 +(NSArray *) add:(NSArray *)args
 {
   RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) add:[args objectAtIndex:1]]);
@@ -217,6 +229,30 @@ static id truify (BOOL value)
 +(NSArray *) divide:(NSArray *)args
 {
   RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) divideBy:[args objectAtIndex:1]]);
+}
+
++(NSArray *) add_fixnums:(NSArray *)args
+{
+  RETURN_VALUE (MLKAddFixnums (denullify([args objectAtIndex:0]),
+                               denullify([args objectAtIndex:1])));
+}
+
++(NSArray *) subtract_fixnums:(NSArray *)args
+{
+  RETURN_VALUE (MLKSubtractFixnums (denullify([args objectAtIndex:0]),
+                                    denullify([args objectAtIndex:1])));
+}
+
++(NSArray *) multiply_fixnums:(NSArray *)args
+{
+  RETURN_VALUE (MLKMultiplyFixnums (denullify([args objectAtIndex:0]),
+                                    denullify([args objectAtIndex:1])));
+}
+
++(NSArray *) idivide_fixnums:(NSArray *)args
+{
+  RETURN_VALUE (MLKIDivideFixnums (denullify([args objectAtIndex:0]),
+                                   denullify([args objectAtIndex:1])));
 }
 
 +(NSArray *) list:(NSArray *)args
@@ -471,6 +507,8 @@ static id truify (BOOL value)
 
   if (!object)
     { RETURN_VALUE ([cl intern:@"NULL"]); }
+  else if (MLKFixnumP (object))
+    { RETURN_VALUE ([cl intern:@"FIXNUM"]); }
   else if ([object isKindOfClass:[MLKSymbol class]])
     { RETURN_VALUE ([cl intern:@"SYMBOL"]); }
   else if ([object isKindOfClass:[MLKCons class]])
@@ -511,6 +549,9 @@ static id truify (BOOL value)
   NSMethodSignature *signature;
   int i;
 
+  if (MLKFixnumP (object))
+    object = [MLKInteger integerWithFixnum:object];
+
   selector = NSSelectorFromString (methodName);
   if (!selector)
     {
@@ -538,7 +579,9 @@ static id truify (BOOL value)
       if (strcmp (type, @encode(unichar)) == 0)
         {
           unichar arg;
-          if ([argument isKindOfClass:[MLKCharacter class]])
+          if (MLKFixnumP (argument))
+            arg = MLKIntWithFixnum (argument);
+          else if ([argument isKindOfClass:[MLKCharacter class]])
             arg = [argument unicharValue];
           else if ([argument isKindOfClass:[MLKInteger class]])
             arg = [argument intValue];
@@ -550,6 +593,9 @@ static id truify (BOOL value)
         }
       else
         {
+          if (MLKFixnumP (argument))
+            argument = [MLKInteger integerWithFixnum:argument];
+
           [invocation setArgument:&argument atIndex:i];
         }
     }

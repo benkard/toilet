@@ -27,7 +27,7 @@ NSString *MLKPrintToString (id object)
     return [object descriptionForLisp];
   else if (MLKFixnumP (object))
     return MLKPrintToString ([MLKInteger
-                               integerWithInt:(MLKIntWithFixnum (object))]);
+                               integerWithIntptr_t:(MLKIntWithFixnum (object))]);
   else
     {
       NSLog (@"MLKPrintToString: Encountered a really weird object at address %p",
@@ -48,13 +48,13 @@ id MLKFixnumWithInt (intptr_t value)
 
 id MLKIntegerWithInt (intptr_t value)
 {
-  intptr_t maybeFixnum = ((intptr_t)value << 1) | 1;
+  intptr_t maybeFixnum = (value << 1) | 1;
   if (value == (maybeFixnum >> 1))
     return (id)maybeFixnum;
   else
-    return [MLKInteger integerWithInt:value];
+    return [MLKInteger integerWithIntptr_t:value];
 }
- 
+
 BOOL MLKFixnumP (id thing)
 {
   return ((intptr_t)thing & 1);
@@ -63,4 +63,61 @@ BOOL MLKFixnumP (id thing)
 BOOL MLKInstanceP (id thing)
 {
   return !((intptr_t)thing & 1);
+}
+
+id MLKCanoniseInteger (MLKInteger *x)
+{
+  if (MLKFixnumP (x))
+    {
+      return x;
+    }
+  else if (MLKInstanceP (x))
+    {
+      if ([x fitsIntoFixnum])
+        return [x fixnumValue];
+      else
+        return x;
+    }
+  else
+    {
+      NSLog (@"MLKCanoniseInteger: Encountered a really weird object at address %p",
+             x);
+      return 0;
+    }
+}
+
+id MLKAddFixnums (id x, id y)
+{
+  intptr_t ix = MLKIntWithFixnum (x);
+  intptr_t iy = MLKIntWithFixnum (y);
+  intptr_t result = ix + iy;
+
+  return MLKIntegerWithInt (result);
+}
+
+id MLKSubtractFixnums (id x, id y)
+{
+  intptr_t ix = MLKIntWithFixnum (x);
+  intptr_t iy = MLKIntWithFixnum (y);
+  intptr_t result = ix - iy;
+
+  return MLKIntegerWithInt (result);
+}
+
+id MLKIDivideFixnums (id x, id y)
+{
+  intptr_t ix = MLKIntWithFixnum (x);
+  intptr_t iy = MLKIntWithFixnum (y);
+  intptr_t result = ix / iy;
+
+  return MLKIntegerWithInt (result);
+}
+
+id MLKMultiplyFixnums (id x, id y)
+{
+  id ix = [MLKInteger integerWithFixnum:x];
+  id iy = [MLKInteger integerWithFixnum:y];
+  id result = [ix multiplyWith:iy];
+
+  return MLKCanoniseInteger (result);
 }

@@ -29,6 +29,7 @@
 #import "MLKInteger.h"
 #import "MLKRatio.h"
 #import "MLKStringInputStream.h"
+#import "functions.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -306,11 +307,12 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
       if (i == [token length])
         {
           //NSLog (@"...");
-          return [MLKInteger integerWithString:
-                               [token substringWithRange:
-                                        NSMakeRange (firstNum, [token length] - firstNum)]
-                             negative:negative
-                             base:10];
+          return MLKCanoniseInteger ([MLKInteger integerWithString:
+                                                   [token substringWithRange:
+                                                            NSMakeRange (firstNum,
+                                                                         [token length] - firstNum)]
+                                                 negative:negative
+                                                 base:10]);
         }
 
       firstSeparator = [token characterAtIndex:i];
@@ -325,11 +327,12 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
       if (i == [token length] && [readtable isDecimalPoint:firstSeparator])
         {
           //NSLog (@"+++");
-          return [MLKInteger integerWithString:
-                               [token substringWithRange:
-                                        NSMakeRange (firstNum, [token length] - firstNum - 1)]
-                             negative:negative
-                             base:10];
+          return MLKCanoniseInteger ([MLKInteger integerWithString:
+                                                   [token substringWithRange:
+                                                            NSMakeRange (firstNum,
+                                                                         [token length] - firstNum - 1)]
+                                                 negative:negative
+                                                 base:10]);
         }
       else
         {
@@ -425,11 +428,12 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
       if (i == [token length])
         {
           //NSLog (@"###");
-          return [MLKInteger integerWithString:
-                               [token substringWithRange:
-                                        NSMakeRange (firstNum, [token length] - firstNum)]
-                             negative:negative
-                             base:base];
+          return MLKCanoniseInteger ([MLKInteger integerWithString:
+                                                   [token substringWithRange:
+                                                            NSMakeRange (firstNum,
+                                                                         [token length] - firstNum)]
+                                                 negative:negative
+                                                 base:base]);
         }
 
       // Assume token[i] is a slash.

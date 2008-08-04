@@ -19,6 +19,7 @@
 #import "MLKNumber.h"
 
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <gmp.h>
 
@@ -35,12 +36,19 @@
                       negative:(BOOL)negative
                           base:(unsigned int)base;
 -(MLKInteger *) initWithInt:(int)intValue;
+-(MLKInteger *) initWithIntptr_t:(intptr_t)intptr_t_value;
+-(MLKInteger *) initWithFixnum:(id)fixnum;
 
 +(MLKInteger *) integerWithMPZ:(mpz_t)mpz;
 +(MLKInteger *) integerWithString:(NSString *)string
                          negative:(BOOL)negative
                              base:(unsigned int)base;
 +(MLKInteger *) integerWithInt:(int)intValue;
++(MLKInteger *) integerWithIntptr_t:(intptr_t)intptr_t_value;
++(MLKInteger *) integerWithFixnum:(id)fixnum;
+
+-(BOOL) fitsIntoFixnum;
+-(id) fixnumValue;
 
 -(int) intValue;
 -(double) doubleValue;
