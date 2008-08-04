@@ -413,7 +413,7 @@ static id truify (BOOL value)
           prefix = x;
           suffix = MLKPrintToString([gensymCounter value]);
           [gensymCounter
-            setValue:[[gensymCounter value]
+            setValue:[(MLKInteger*)[gensymCounter value]
                        add:[MLKInteger integerWithInt:1]]];
         }
       else if ([x isKindOfClass:[MLKInteger class]])
@@ -431,7 +431,7 @@ static id truify (BOOL value)
       prefix = @"G";
       suffix = MLKPrintToString([gensymCounter value]);
       [gensymCounter
-        setValue:[[gensymCounter value]
+        setValue:[(MLKInteger*)[gensymCounter value]
                    add:[MLKInteger integerWithInt:1]]];
     }
 
