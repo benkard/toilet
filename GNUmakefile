@@ -26,14 +26,26 @@ FRAMEWORK_NAME = ToiletKit
 BUNDLE_NAME = Test
 
 ifeq ($(DEBUG),YES)
-ADDITIONAL_OBJCFLAGS = -Wall
+ADDITIONAL_OBJCFLAGS += -ggdb3
+endif
+
+HAVE_FFI_H := $(shell echo '\#include <ffi.h>' | $(CC) $(ADDITIONAL_OBJCFLAGS) -c -o /dev/null -x c - 2>/dev/null && echo YES)
+
+ifeq ($(HAVE_FFI_H),YES)
+  ADDITIONAL_OBJCFLAGS += -DHAVE_FFI_H
 else
-ADDITIONAL_OBJCFLAGS = -Wall -ggdb3
+  HAVE_FFI_FFI_H := $(shell echo '\#include <ffi/ffi.h>' | $(CC) $(ADDITIONAL_OBJCFLAGS) -c -o /dev/null -x c - 2>/dev/null && echo YES)
+
+  ifeq ($(HAVE_FFI_FFI_H),YES)
+  ADDITIONAL_OBJCFLAGS += -DHAVE_FFI_FFI_H
+  else
+    $(error "Could not find ffi.h.  Please install libffi and pass appropriate ADDITIONAL_OBJCFLAGS and ADDITIONAL_LDFLAGS to make.")
+  endif
 endif
 
 ToiletKit_OBJC_FILES = functions.m globals.m MLKBackquoteReader.m		\
                        MLKBinding.m MLKCharacter.m MLKCommaReader.m		\
-                       MLKCons.m MLKDoubleFloat.m				\
+                       MLKCompiledProcedure.m MLKCons.m MLKDoubleFloat.m	\
                        MLKDispatchingMacroCharacterReader.m			\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
                        MLKInteger.m MLKInterpretedClosure.m			\
@@ -48,7 +60,8 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKBackquoteReader.m		\
                        MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
                        MLKValuesFunction.m NSObject-MLKPrinting.m		\
                        NSString-MLKPrinting.m
-ToiletKit_LDFLAGS = -lgmp
+ToiletKit_OBJCFLAGS = -Wall
+ToiletKit_LDFLAGS = -lgmp -lffi
 #LIBRARIES_DEPEND_UPON
 
 #TOOL_NAME = etoilet
@@ -66,6 +79,7 @@ etshell_OBJCFLAGS = -w
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
 toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework \
                     -LToiletKit.framework/Versions/Current
+toilet_OBJCFLAGS = -Wall
 
 Test_OBJC_FILES = MLKLowLevelTests.m
 Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
