@@ -85,4 +85,13 @@ static MLKSymbol *PROGN;
 {
   return [NSString stringWithFormat:@"<Interpreted closure @%p>", self];
 }
+
+-(void) dealloc
+{
+  [super dealloc];
+  LDESTROY (bodyForm);
+  LDESTROY (lambdaListName);
+  LDESTROY (context);
+  LDESTROY (environment);
+}
 @end

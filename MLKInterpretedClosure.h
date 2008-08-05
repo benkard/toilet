@@ -42,4 +42,6 @@
 
 -(NSString *) description;
 -(NSString *) descriptionForLisp;
+
+-(void) dealloc;
 @end
