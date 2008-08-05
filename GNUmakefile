@@ -1,4 +1,4 @@
-## Étoilisp, a Common Lisp subset for Étoilé.
+## Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
 ## Copyright (C) 2008  Matthias Andreas Benkard.
 ##
 ## This program is free software: you can redistribute it and/or modify
