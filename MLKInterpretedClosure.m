@@ -88,10 +88,10 @@ static MLKSymbol *PROGN;
 
 -(void) dealloc
 {
-  [super dealloc];
   LDESTROY (bodyForm);
   LDESTROY (lambdaListName);
   LDESTROY (context);
   LDESTROY (environment);
+  [super dealloc];
 }
 @end
