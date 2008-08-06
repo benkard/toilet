@@ -497,10 +497,16 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               // FIXME: Support library designators.
 
 #ifdef _WIN32
-              EnumProcessModules (...);
-              GetProcAddress (..., [name UTF8String]);
+              // FIXME
+              //EnumProcessModules (...);
+              //GetProcAddress (..., [name UTF8String]);
 #else
+#ifdef linux
               function = dlsym (RTLD_DEFAULT, [name UTF8String]);
+#else
+              // FIXME
+              function = dlsym (NULL, [name UTF8String]);
+#endif
 #endif
 
               return LAUTORELEASE ([[MLKForeignProcedure alloc]
