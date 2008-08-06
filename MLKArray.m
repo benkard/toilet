@@ -129,7 +129,55 @@ static int equalp (const void *x, const void *y)
 
 -(void) setSize:(int)size ofDimension:(int)dimension
 {
-  // FIXME: ???
+  // I'd love to comment the following code, but I can't find the right
+  // words to do so.  There's this picture of jumping pointers in
+  // parallel in my head.  How to describe it?  I pass.
+
+  int i;
+  int old_size;
+  id *sourcePointer, *destPointer;
+  int subblock_length, old_block_length, new_block_length;
+  NSEnumerator *e;
+  id el;
+  id *old_data;
+
+  old_size = _size;
+
+  subblock_length = 1;
+  for (i = dimension + 1; i < [_dimensions count]; i++)
+    subblock_length *= [[_dimensions objectAtIndex:i] intValue];
+
+  old_block_length = subblock_length * [[_dimensions objectAtIndex:dimension] intValue];
+  new_block_length = subblock_length * size;
+
+  [_dimensions replaceObjectAtIndex:dimension
+               withObject:[MLKInteger integerWithInt:size]];
+
+  _size = 1;
+  e = [_dimensions objectEnumerator];
+  while ((el = [e nextObject]))
+    {
+      el = denullify (el);
+      _size *= MLKIntWithInteger (el);
+    }
+
+  old_data = _data;
+  _data = calloc (_size, sizeof (id));
+
+  sourcePointer = old_data;
+  destPointer = _data;
+  while (destPointer < _data + size - 1)
+    {
+      memmove (destPointer, sourcePointer,
+               (old_block_length < new_block_length
+                ? old_block_length
+                : new_block_length)
+               * sizeof(id));
+      sourcePointer += old_block_length;
+      destPointer += new_block_length;
+    }
+
+  free (old_data);
 }
 
 -(void) setFillPointer:(int)fillPointer

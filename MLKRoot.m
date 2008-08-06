@@ -425,8 +425,11 @@ static id truify (BOOL value)
           suffix = MLKPrintToString(x);
         }
       else
-        [NSException raise:@"MLKTypeError"
-                     format:@"%@ is not of type (OR INTEGER STRING).", x];
+        {
+          [NSException raise:@"MLKTypeError"
+                       format:@"%@ is not of type (OR INTEGER STRING).", x];
+          return nil;
+        }
     }
   else
     {
