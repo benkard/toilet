@@ -34,6 +34,7 @@ BOOL MLKFixnumP (id thing);
 BOOL MLKInstanceP (id thing);
 
 intptr_t MLKIntWithFixnum (id fixnum);
+intptr_t MLKIntWithInteger (id integer);
 id MLKFixnumWithInt (intptr_t value);
 id MLKIntegerWithInt (intptr_t value);
 id MLKCanoniseInteger (MLKInteger *x);

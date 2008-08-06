@@ -25,6 +25,9 @@ TOOL_NAME = etshell toilet
 FRAMEWORK_NAME = ToiletKit
 BUNDLE_NAME = Test
 
+ADDITIONAL_OBJCFLAGS += $(CUSTOM_OBJCFLAGS)
+ADDITIONAL_LDFLAGS += $(CUSTOM_LDFLAGS)
+
 ifeq ($(DEBUG),YES)
 ADDITIONAL_OBJCFLAGS += -ggdb3
 endif
@@ -40,13 +43,14 @@ else
   ifeq ($(HAVE_FFI_FFI_H),YES)
   ADDITIONAL_OBJCFLAGS += -DHAVE_FFI_FFI_H
   else
-    $(error "Could not find ffi.h.  Please install libffi and pass appropriate ADDITIONAL_OBJCFLAGS and ADDITIONAL_LDFLAGS to make.")
+    $(error "Could not find ffi.h.  Please install libffi and pass appropriate CUSTOM_OBJCFLAGS and CUSTOM_LDFLAGS to make.")
   endif
 endif
 
-ToiletKit_OBJC_FILES = functions.m globals.m MLKBackquoteReader.m		\
-                       MLKBinding.m MLKCharacter.m MLKCommaReader.m		\
-                       MLKCompiledProcedure.m MLKCons.m MLKDoubleFloat.m	\
+ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
+                       MLKBackquoteReader.m MLKBinding.m MLKCharacter.m		\
+                       MLKCommaReader.m MLKCompiledProcedure.m MLKCons.m	\
+                       MLKDoubleFloat.m						\
                        MLKDispatchingMacroCharacterReader.m			\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
                        MLKForeignProcedure.m MLKInteger.m			\
