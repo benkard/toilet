@@ -21,6 +21,12 @@
 #import <Foundation/NSString.h>
 #include <stdint.h>
 
+#ifdef HAVE_FFI_H
+#include <ffi.h>
+#elif HAVE_FFI_FFI_H
+#include <ffi/ffi.h>
+#endif
+
 
 NSString *MLKPrintToString (id object);
 
@@ -36,3 +42,32 @@ id MLKAddFixnums (id x, id y);
 id MLKSubtractFixnums (id x, id y);
 id MLKIDivideFixnums (id x, id y);
 id MLKMultiplyFixnums (id x, id y);
+
+typedef enum MLKForeignType
+{
+  MLKT_PTR,
+  MLKT_SHORT,
+  MLKT_USHORT,
+  MLKT_INT,
+  MLKT_UINT,
+  MLKT_LONG,
+  MLKT_ULONG,
+  MLKT_STRING,
+  MLKT_VOID,
+  MLKT_BOOL,
+  MLKT_ID,
+  MLKT_CLASS,
+  MLKT_CHAR,
+  MLKT_UNICHAR,
+  MLKT_ERROR,
+  MLKT_INVALID,
+} MLKForeignType;
+
+MLKForeignType MLKForeignTypeWithObjectiveCType (const char *typestring);
+MLKForeignType MLKForeignTypeWithTypeDesignator (id typeDesignator);
+MLKForeignType MLKForeignTypeWithLispValue (id value);
+ffi_type *MLKFFITypeWithForeignType (MLKForeignType type);
+ffi_type *MLKFFITypeWithObjectiveCType (const char *typestring);
+ffi_type *MLKFFITypeWithLispValue (id value);
+void MLKSetForeignValueWithLispValue (void *destination, id value, MLKForeignType type);
+id MLKLispValueWithForeignValue (void *source, MLKForeignType type);

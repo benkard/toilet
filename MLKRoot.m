@@ -553,6 +553,7 @@ static id truify (BOOL value)
   SEL selector;
   NSMethodSignature *signature;
   int i;
+  MLKForeignType returnType;
 
   if (MLKFixnumP (object))
     object = [MLKInteger integerWithFixnum:object];
@@ -579,61 +580,43 @@ static id truify (BOOL value)
   for (i = 2; i < [args count]; i++)
     {
       id argument = denullify ([args objectAtIndex:i]);
-      const char *type = [signature getArgumentTypeAtIndex:i];
+      const char *objctype = [signature getArgumentTypeAtIndex:i];
+      MLKForeignType type = MLKForeignTypeWithObjectiveCType (objctype);
+      ffi_type *ffi_argtype = MLKFFITypeWithForeignType (type);
+      void *argbuf = alloca (ffi_argtype->size);
 
-      if (strcmp (type, @encode(unichar)) == 0)
-        {
-          unichar arg;
-          if (MLKFixnumP (argument))
-            arg = MLKIntWithFixnum (argument);
-          else if ([argument isKindOfClass:[MLKCharacter class]])
-            arg = [argument unicharValue];
-          else if ([argument isKindOfClass:[MLKInteger class]])
-            arg = [argument intValue];
-          else
-            [NSException raise:@"MLKInvalidArgumentError"
-                         format:@"Don't know how to coerce %@ into type \"%s\".",
-                                argument, type];
-          [invocation setArgument:&arg atIndex:i];
-        }
-      else
-        {
-          if (MLKFixnumP (argument))
-            argument = [MLKInteger integerWithFixnum:argument];
+      if (type == MLKT_INVALID)
+        [NSException raise:@"MLKInvalidArgumentError"
+                     format:@"Don't know how to coerce %@ into type \"%s\".",
+                     argument, objctype];
 
-          [invocation setArgument:&argument atIndex:i];
-        }
+      MLKSetForeignValueWithLispValue (argbuf, argument, type);
+      [invocation setArgument:argbuf atIndex:i];
     }
 
   [invocation invoke];
 
 
-#define IF_TYPE_RETURN(TYPE, VALUE_NAME, VALUE)                         \
-  if (strcmp ([signature methodReturnType], @encode(TYPE)) == 0)        \
-    {                                                                   \
-      TYPE VALUE_NAME;                                                  \
-      [invocation getReturnValue:&VALUE_NAME];                          \
-      RETURN_VALUE (VALUE);                                             \
-    }
+  returnType = MLKForeignTypeWithObjectiveCType ([signature methodReturnType]);
 
-  if (strcmp ([signature methodReturnType], @encode(void)) == 0)
-    {
-      return [NSArray array];
-    }
-  else IF_TYPE_RETURN (BOOL, retval, truify (retval))
-  else IF_TYPE_RETURN (id, retval, retval)
-  else IF_TYPE_RETURN (Class, retval, retval)
-  else IF_TYPE_RETURN (NSException *, retval, retval)
-  else IF_TYPE_RETURN (int, retval, [MLKInteger integerWithInt:retval])
-  else IF_TYPE_RETURN (unsigned int, retval, [MLKInteger integerWithInt:retval])  //FIXME
-  else IF_TYPE_RETURN (unichar, retval, [MLKCharacter characterWithUnichar:retval])
-  else
+  if (returnType == MLKT_INVALID)
     {
       [NSException raise:@"MLKInvalidReturnTypeError"
                    format:@"Cannot handle an Objective-C return type of \"%s\" \
 as provided by method %@ of object %@",
                           methodName, object, [signature methodReturnType]];
       return nil;
+    }
+  else if (returnType == MLKT_VOID)
+    {
+      return [NSArray array];
+    }
+  else
+    {
+      ffi_type *ffi_rettype = MLKFFITypeWithForeignType (returnType);
+      void *returnValue = alloca (ffi_rettype->size);
+      [invocation getReturnValue:returnValue];
+      RETURN_VALUE (MLKLispValueWithForeignValue (returnValue, returnType));
     }
 }
 @end
