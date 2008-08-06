@@ -30,6 +30,7 @@
 #endif
 
 #include <stdlib.h>
+#include <alloca.h>
 
 
 @implementation MLKForeignProcedure

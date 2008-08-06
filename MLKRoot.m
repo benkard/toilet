@@ -42,6 +42,8 @@
 #import <Foundation/NSStream.h>
 #import <Foundation/NSString.h>
 
+#include <alloca.h>
+
 
 static NSMethodSignature *signature;
 static MLKPackage *sys;

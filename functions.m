@@ -26,7 +26,8 @@
 #import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
 
-#import <string.h>
+#include <string.h>
+#include <alloca.h>
 
 
 NSString *MLKPrintToString (id object)
