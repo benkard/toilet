@@ -3,7 +3,7 @@
 #title Toilet Lisp Development Diary
 #desc Random news and stuff about just another random pet project
 
-; Time-stamp: <2008-08-02 13:54:33 mulk>
+; Time-stamp: <2008-08-06 11:36:21 mulk>
 ; 
 ; C-c i t	insert-time-stamp
 ; C-c C-t	muse-project-publish-this-file
@@ -16,6 +16,55 @@
 Context: [[http://matthias.benkard.de/toilet][The Toilet Lisp Project]].
 
 ----
+
+
+* 2008-08-06, 11:08:30 CEST
+
+** Function Calling
+
+I'm pondering function call conventions.  My current design looks like this:
+
+*** Entry Points
+
+ - For each function, provide two distinct entry points: a trampoline
+   for use by C code and the “direct” entry point.
+
+ - The direct entry point requires supplying the closure variable vector
+   to be passed explicitly as the first argument, while the trampoline
+   doesn't.
+
+ - The trampoline uses the normal C calling convention.  The direct
+   entry point may use a different one (it's not clear to me that LLVM
+   allows such, though).
+
+*** Arguments
+
+ - All functions are varargs, because there is no other way to ensure
+   the safety of passing more arguments than are expected.  Should we
+   provide yet a third entry point for unsafe code?
+
+ - There is a thread-local global variable that controls the use of
+   multiple value returns.  The caller sets it to 1 if they want to have
+   multiple values returned to them.  In this case, the callee
+   immediately sets the variable to 0 again and before returning either
+   arranges for the thread-local variable to contain a pointer to a
+   vector of values (along with their number or an end-of-vector marker,
+   of course) or it leaves it as 0 if there is exactly one return value.
+   The caller is responsible for freeing the memory used by the return
+   vector.
+
+*** Return Values
+
+ - (multiple-value-call ... (values ...)) is handled specially by the
+   compiler, because (values ...) isn't a function call.
+
+*** Foreign Functions
+
+ - C functions may simply be placed in the global environment as-is as
+   long as they only take =id= arguments and return a single id value.
+
+ - Other C functions are wrapped in a Lisp-to-C trampoline that does the
+   needed conversions of arguments and return values.
 
 
 * 2008-08-02, 13:46:14 CEST
