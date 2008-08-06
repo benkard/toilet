@@ -29,6 +29,7 @@ ifeq ($(DEBUG),YES)
 ADDITIONAL_OBJCFLAGS += -ggdb3
 endif
 
+# I know, I know.  I'm emulating ‘configure’ here.  *shrug* Whatever.
 HAVE_FFI_H := $(shell echo '\#include <ffi.h>' | $(CC) $(ADDITIONAL_OBJCFLAGS) -c -o /dev/null -x c - 2>/dev/null && echo YES)
 
 ifeq ($(HAVE_FFI_H),YES)
@@ -48,20 +49,21 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKBackquoteReader.m		\
                        MLKCompiledProcedure.m MLKCons.m MLKDoubleFloat.m	\
                        MLKDispatchingMacroCharacterReader.m			\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
-                       MLKInteger.m MLKInterpretedClosure.m			\
-                       MLKInterpreter.m MLKLexicalContext.m			\
-                       MLKLexicalEnvironment.m MLKLispValue.m			\
-                       MLKNumber.m MLKPackage.m MLKParenReader.m		\
-                       MLKQuoteReader.m MLKRatio.m MLKReader.m			\
-                       MLKReadtable.m MLKReaderError.m MLKRoot.m		\
-                       MLKSemicolonReader.m MLKSharpsignColonReader.m		\
-                       MLKSingleFloat.m MLKStream.m				\
-                       MLKStringInputStream.m MLKStringOutputStream.m		\
-                       MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
+                       MLKForeignProcedure.m MLKInteger.m			\
+                       MLKInterpretedClosure.m MLKInterpreter.m			\
+                       MLKLexicalContext.m MLKLexicalEnvironment.m		\
+                       MLKLispValue.m MLKNumber.m MLKPackage.m			\
+                       MLKParenReader.m MLKQuoteReader.m MLKRatio.m		\
+                       MLKReader.m MLKReadtable.m MLKReaderError.m		\
+                       MLKRoot.m MLKSemicolonReader.m				\
+                       MLKSharpsignColonReader.m MLKSingleFloat.m		\
+                       MLKStream.m MLKStringInputStream.m			\
+                       MLKStringOutputStream.m MLKStringReader.m		\
+                       MLKSymbol.m MLKThrowException.m				\
                        MLKValuesFunction.m NSObject-MLKPrinting.m		\
                        NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
-ToiletKit_LDFLAGS = -lgmp -lffi
+ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 #LIBRARIES_DEPEND_UPON
 
 #TOOL_NAME = etoilet

@@ -16,10 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define _XOPEN_SOURCE 600
+#define _GNU_SOURCE  // for RTLD_DEFAULT
+#define _ISOC99_SOURCE
+
 #import "MLKInterpretedClosure.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
+#import "MLKForeignProcedure.h"
 #import "MLKFuncallable.h"
 #import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
@@ -36,6 +41,12 @@
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
+
+#ifndef _WIN32
+#include <dlfcn.h>
+#else
+#include <windows.h>
+#endif
 
 #include <stdio.h>
 
@@ -72,6 +83,7 @@ static MLKSymbol *PROGV;
 static MLKSymbol *UNWIND_PROTECT;
 static MLKSymbol *VALUES;
 static MLKSymbol *_DEFMACRO;
+static MLKSymbol *_FOREIGN_LAMBDA;
 static MLKSymbol *_LAMBDA;
 static MLKSymbol *_LOOP;
 static MLKSymbol *V_INITP;
@@ -120,6 +132,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
   VALUES = [cl intern:@"VALUES"];
   UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
   _DEFMACRO = [sys intern:@"%DEFMACRO"];
+  _FOREIGN_LAMBDA = [sys intern:@"%FOREIGN-LAMBDA"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
   MULTIPLE_VALUE_CALL = [cl intern:@"MULTIPLE-VALUE-CALL"];
@@ -472,6 +485,28 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
                       RETURN_VALUE (nil);
                     }
                 }
+            }
+          else if (car == _FOREIGN_LAMBDA)
+            {
+              int (*function)();
+              NSString *name = [[program cdr] car];
+              id libraryDesignator = [[[program cdr] cdr] car];
+              id argtypes = [[[[program cdr] cdr] cdr] car];
+              id returnType = [[[[[program cdr] cdr] cdr] cdr] car];
+
+              // FIXME: Support library designators.
+
+#ifdef _WIN32
+              EnumProcessModules (...);
+              GetProcAddress (..., [name UTF8String]);
+#else
+              function = dlsym (RTLD_DEFAULT, [name UTF8String]);
+#endif
+
+              return LAUTORELEASE ([[MLKForeignProcedure alloc]
+                                     initWithCode:function
+                                     argumentTypes:[argtypes array]
+                                     returnType:returnType]);
             }
           else if (car == FUNCTION)
             {
