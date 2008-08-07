@@ -32,6 +32,8 @@
 
 -(id) initWithDimensions:(NSArray *)dimensions;
 
+-(NSArray *) dimensions;
+
 // The following methods are like the similarly named
 // NSArray/NSMutableArray methods but treat nil as just another object.
 // Where nil would be returned otherwise, these methods throw an

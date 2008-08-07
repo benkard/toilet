@@ -18,31 +18,16 @@
 
 (in-package #:common-lisp)
 
-(load "util.lisp")
-(load "defun-0.lisp")
-(load "list-functions.lisp")
-(load "destructuring-bind.lisp")
-(load "defun-1.lisp")
-(load "list-functions.lisp")
-(load "reader.lisp")
-(load "sharpsign.lisp")
-(load "control-flow.lisp")
-(load "types.lisp")
-(load "numbers.lisp")
-(load "list-functions-2.lisp")
+(export '(aref row-major-aref))
 
-(load "Sacla/share.lisp")
-(load "Sacla/do.lisp")
 
-(load "evaluation.lisp")
+(defun row-major-aref (array row-major-index)
+  (send-by-name array "idAtIndex:" row-major-index))
 
-(load "Sacla/share-2.lisp")
+(defun (setf row-major-aref) (new-value array row-major-index)
+  (send-by-name array "replaceIdAtIndex:withId:" row-major-index new-value))
 
-(load "Sacla/data-and-control.lisp")
-
-(load "array.lisp")
-(load "Sacla/array.lisp")
-
-(setq *system-initialised-p* t)
-
-(in-package #:common-lisp-user)
+(defun array-dimensions (array)
+  (send-by-name (find-objc-class "MLKCons")
+                "listWithArray:"
+                (send-by-name array "dimensions")))

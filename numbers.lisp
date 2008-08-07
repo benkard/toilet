@@ -18,7 +18,7 @@
 
 (in-package #:common-lisp)
 
-(export '(1+ 1- =))
+(export '(1+ 1- = mod evenp oddp zerop + - *))
 
 
 (defun 1+ (n)
@@ -39,3 +39,55 @@
     (integer (etypecase y
                (fixnum nil)
                (integer (%= x y))))))
+
+(defun + (x y)
+  (etypecase x
+    (fixnum (etypecase y
+              (fixnum (add-fixnums x y))
+              (integer (send-by-name x "add:" y))))
+    (integer (etypecase y
+               (integer (send-by-name x "add:" y))))))
+
+(defun - (x y)
+  (etypecase x
+    (fixnum (etypecase y
+              (fixnum (subtract-fixnums x y))
+              (integer (send-by-name x "subtract:" y))))
+    (integer (etypecase y
+               (integer (send-by-name x "subtract:" y))))))
+
+(defun * (x y)
+  (etypecase x
+    (fixnum (etypecase y
+              (fixnum (multiply-fixnums x y))
+              (integer (send-by-name x "multiplyWith:" y))))
+    (integer (etypecase y
+               (integer (send-by-name x "multiplyWith:" y))))))
+
+(defun idiv (x y)
+  (etypecase x
+    (fixnum (etypecase y
+              (fixnum (idivide-fixnums x y))
+              (integer (send-by-name x "divideBy:" y))))
+    (integer (etypecase y
+               (integer (send-by-name x "divideBy:" y))))))
+
+(defun mod (n m)
+;;   (if (and (typep n 'fixnum)
+;;            (typep m 'fixnum))
+;;       (fixnum-mod n m)
+;;       (send-by-name n "mod:" m))
+  (send-by-name n "mod:" m))
+
+
+(defun evenp (n)
+  (etypecase n
+    (fixnum (zerop (mod n 2)))
+    (integer (send-by-name n "evenp"))))
+
+(defun oddp (n)
+  (not (evenp n)))
+
+(defun zerop (n)
+  (etypecase n
+    (integer (%zerop n))))

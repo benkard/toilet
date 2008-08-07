@@ -27,6 +27,15 @@
 ;; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+(in-package #:common-lisp)
+
+(export '(aref array-dimenion array-in-bounds-p array-rank
+          array-row-major-index array-total-size bit-andc1 bit-andc2
+          bit-eqv bit-nand bit-nor bit-orc1 bit-orc2 bit-vector-p
+          simple-bit-vector-p vector vector-pop vector-push
+          vector-push-extend vectorp ))
+
+
 (defun aref (array &rest subscripts)
   "Access an element of ARRAY specified by SUBSCRIPTS."
   (row-major-aref array (apply #'array-row-major-index array subscripts)))

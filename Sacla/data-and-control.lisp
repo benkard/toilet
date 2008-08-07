@@ -26,6 +26,9 @@
 ;; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ;; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+(in-package #:common-lisp)
+
+
 (defun expand-case (keyform clauses &key (test #'eql))
   (let ((key (gensym))
 	(last (car (last clauses))))

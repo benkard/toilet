@@ -50,6 +50,11 @@
   return self;
 }
 
+-(NSArray *) dimensions
+{
+  return _dimensions;
+}
+
 -(id) idAtIndex:(NSUInteger)index
 {
   if (index > _size || (_fillPointer != -1 && index > _fillPointer))

@@ -236,3 +236,24 @@
 
 (defun values-list (list)
   (apply #'values list))
+
+
+;; FIXME
+(defmacro assert (form &optional places datum &rest args)
+  )
+
+;; FIXME
+(defmacro check-type (thing type &rest strings)
+  )
+
+;; FIXME
+(defmacro defsetf (&rest args)
+  )
+
+;; FIXME
+(defun get-setf-expansion (&rest args)
+  (values nil nil nil `(error "SETF not implemented") `(error "SETF not implemented")))
+
+;; FIXME
+(defmacro define-setf-expander (&rest args)
+  )
