@@ -633,25 +633,14 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
             }
           else if (car == _MACROLET)
             {
-              id declarations;
+              id declarations, doc;
               id clauses;
               id body;
               NSArray *result;
               MLKLexicalContext *ctx;
 
-              body = [[program cdr] cdr];
-
-              if ([[body car] isKindOfClass:[MLKCons class]]
-                  && [[body car] car] == DECLARE)
-                {
-                  declarations = [[body car] cdr];
-                  body = [body cdr];
-                }
-              else
-                {
-                  declarations = nil;
-                }
-
+              MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
+                                               [[program cdr] cdr]);
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
@@ -704,7 +693,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
             }
           else if (car == _FLET)
             {
-              id declarations;
+              id declarations, doc;
               id clauses;
               NSMutableArray *new_clauses;
               id body;
@@ -712,18 +701,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               MLKLexicalContext *ctx;
               MLKLexicalEnvironment *env;
 
-              body = [[program cdr] cdr];
-
-              if ([[body car] isKindOfClass:[MLKCons class]]
-                  && [[body car] car] == DECLARE)
-                {
-                  declarations = [[body car] cdr];
-                  body = [body cdr];
-                }
-              else
-                {
-                  declarations = nil;
-                }
+              MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
+                                               [[program cdr] cdr]);
 
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
@@ -790,7 +769,7 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
             }
           else if (car == LET)
             {
-              id declarations;
+              id declarations, doc;
               id clauses;
               id body;
               NSArray *result;
@@ -799,17 +778,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               MLKLexicalEnvironment *env;
               MLKDynamicContext *dynctx;
 
-              body = [[program cdr] cdr];
-              if ([[body car] isKindOfClass:[MLKCons class]]
-                  && [[body car] car] == DECLARE)
-                {
-                  declarations = [[body car] cdr];
-                  body = [body cdr];
-                }
-              else
-                {
-                  declarations = nil;
-                }
+              MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
+                                               [[program cdr] cdr]);
 
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context

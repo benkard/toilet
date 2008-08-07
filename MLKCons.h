@@ -37,14 +37,19 @@
 -(void) setCar:(id)value;
 -(void) setCdr:(id)value;
 
--(NSArray *)array;
+-(NSArray *) array;
 
--(NSString *)bareDescriptionForLisp;  // description without
-                                      // parentheses, for internal use
-                                      // only
--(NSString *)descriptionForLisp;
+-(void) appendObject:(id)object;
+-(MLKCons *) listByAppendingObject:(id)object;
+-(MLKCons *) copyList;
+
+-(NSString *) bareDescriptionForLisp;  // description without
+                                       // parentheses, for internal use
+                                       // only
+-(NSString *) descriptionForLisp;
 
 -(id) copyWithZone:(NSZone *)zone;
+-(BOOL) isEqual:(id)object;
   
 -(void) dealloc;
 @end

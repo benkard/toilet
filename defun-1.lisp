@@ -22,10 +22,16 @@
 
 
 (%defun* make-defun-body (lambda-list body destructuring-p)
-  (let ((lambda-sym (gensym)))
+  (let* ((lambda-sym (gensym))
+         (ddf (declarations-and-doc-and-forms body))
+         (decls (car ddf))
+         (docstring (cadr ddf))
+         (forms (caddr ddf)))
     `(,lambda-sym
+       ,@(when docstring (list docstring))
        (d-b ,lambda-list nil nil ,lambda-sym
-         ,@body))))
+         ,@decls
+         ,@forms))))
 
 (%defmacro* defun (name lambda-list . body)
   `(%defun ,name
@@ -36,12 +42,18 @@
         (lambda-sym (gensym))
         (whole-sym (gensym))
         (env-sym (gensym)))
-    `(,arg-sym
-       (let ((,whole-sym (first ,arg-sym))
-             (,lambda-sym (cdr (first ,arg-sym)))
-             (,env-sym (second ,arg-sym)))
-         (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
-           ,@body)))))
+    (let* ((ddf (declarations-and-doc-and-forms body))
+           (decls (car ddf))
+           (docstring (cadr ddf))
+           (forms (caddr ddf)))
+      `(,arg-sym
+         ,@(when docstring (list docstring))
+         (let ((,whole-sym (first ,arg-sym))
+               (,lambda-sym (cdr (first ,arg-sym)))
+               (,env-sym (second ,arg-sym)))
+           (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
+                ,@decls
+                ,@forms))))))
 
 (%defmacro* defmacro (name lambda-list . body)
   `(%defmacro ,name

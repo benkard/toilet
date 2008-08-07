@@ -18,6 +18,7 @@
 
 #import "functions.h"
 #import "util.h"
+#import "MLKCons.h"
 #import "MLKCharacter.h"
 #import "MLKInteger.h"
 #import "MLKPackage.h"
@@ -147,6 +148,7 @@ id MLKMultiplyFixnums (id x, id y)
 static MLKSymbol *INT, *SHORT, *LONG, *VOID, *POINTER,
   *UINT, *USHORT, *ULONG, *STRING, *ID, *BOOLEAN, *CLASS, *UNICHAR, *CHAR,
   *ERROR;
+static MLKSymbol *DECLARE;
 static MLKPackage *keyword = nil, *cl = nil;
 
 #define INTERN_KEYWORD(VAR, NAME)               \
@@ -174,6 +176,53 @@ static void init_symbols ()
   INTERN_KEYWORD (CHAR, @"CHAR");
   INTERN_KEYWORD (ERROR, @"ERROR");
   INTERN_KEYWORD (VOID, @"VOID");
+
+  DECLARE = [cl intern:@"DECLARE"];
+}
+
+
+void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body)
+{
+  id declarations;
+
+  init_symbols ();
+
+  *doc = nil;
+
+  declarations = nil;
+  while (([[body car] isKindOfClass:[MLKCons class]]
+          && [[body car] car] == DECLARE)
+         || [[body car] isKindOfClass:[NSString class]])
+    {
+      id thing = [body car];
+
+      if ([thing isKindOfClass:[NSString class]])
+        {
+          if (*doc)
+            {
+              body = [body cdr];
+              break;
+            }
+          else
+            {
+              *doc = thing;
+            }
+        }
+      else
+        {
+          thing = [thing cdr];
+
+          if (declarations)
+            declarations = [declarations listByAppendingObject:thing];
+          else
+            declarations = thing;
+        }
+
+      body = [body cdr];
+    }
+
+  *decls = declarations;
+  *forms = body;
 }
 
 

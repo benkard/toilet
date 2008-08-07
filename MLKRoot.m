@@ -624,4 +624,21 @@ as provided by method %@ of object %@",
       RETURN_VALUE (MLKLispValueWithForeignValue (returnValue, returnType));
     }
 }
+
+
++(NSArray *) declarations_and_doc_and_forms:(NSArray *)args
+{
+  id decls, doc, forms;
+  id bodyAndDecls = denullify ([args objectAtIndex:0]);
+
+  MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls);
+
+  RETURN_VALUE ([MLKCons
+                  cons:decls
+                  with:[MLKCons
+                         cons:doc
+                         with:[MLKCons
+                                cons:forms
+                                with:nil]]]);
+}
 @end

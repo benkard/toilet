@@ -98,7 +98,42 @@
   return array;
 }
 
--(NSString *)bareDescriptionForLisp
+-(void) appendObject:(id)object
+{
+  MLKCons *rest;
+
+  rest = self;
+  while (rest->_cdr)
+    {
+      rest = rest->_cdr;
+    }
+
+  LASSIGN (rest->_cdr, object);
+}
+
+-(MLKCons *) listByAppendingObject:(id)object
+{
+  MLKCons *rest = _cdr;
+  MLKCons *new_list = [MLKCons cons:_car with:nil];
+  MLKCons *tail = new_list;
+
+  while (rest)
+    {
+      LASSIGN (tail->_cdr, [MLKCons cons:rest->_car with:nil]);
+      tail = tail->_cdr;
+    }
+
+  LASSIGN (tail->_cdr, object);
+
+  return new_list;
+}
+
+-(MLKCons *) copyList
+{
+  return [self listByAppendingObject:nil];
+}
+
+-(NSString *) bareDescriptionForLisp
 {
   if (!_cdr)
     return [NSString stringWithFormat:@"%@",
@@ -128,6 +163,15 @@
     }
 
     return [NSString stringWithFormat:@"(%@)", [self bareDescriptionForLisp]];
+}
+
+-(BOOL) isEqual:(id)object
+{
+  if ([object isKindOfClass:[MLKCons class]])
+    return ([((MLKCons*)object)->_car isEqual:_car]
+            && [((MLKCons*)object)->_cdr isEqual:_cdr]);
+  else
+    return NO;
 }
 
 -(id) copyWithZone:(NSZone *)zone
