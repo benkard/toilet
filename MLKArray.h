@@ -17,6 +17,7 @@
  */
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSData.h>
 
 #define NSUInteger unsigned int
 
@@ -24,8 +25,7 @@
 @interface MLKArray : NSMutableArray
 {
   int _fillPointer;
-  int _size;
-  id *_data;
+  NSMutableData *_data;
   NSMutableArray *_dimensions;
   NSArray *_displacement;
 }

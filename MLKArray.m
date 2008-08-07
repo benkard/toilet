@@ -33,17 +33,19 @@
 {
   NSEnumerator *e;
   id el;
+  int size;
 
-  _size = 1;
+  size = 1;
   e = [dimensions objectEnumerator];
   while ((el = [e nextObject]))
     {
       el = denullify (el);
-      _size *= MLKIntWithInteger (el);
+      size *= MLKIntWithInteger (el);
     }
 
   LASSIGN (_dimensions, [dimensions mutableCopy]);
-  _data = calloc (_size, sizeof (id));
+  _data = [[NSMutableData alloc]
+            initWithLength:(size * sizeof(id))];
   _fillPointer = -1;
   _displacement = nil;
 
@@ -57,43 +59,53 @@
 
 -(id) idAtIndex:(NSUInteger)index
 {
-  if (index > _size || (_fillPointer != -1 && index > _fillPointer))
+  if (index > [_data length] || (_fillPointer != -1 && index > _fillPointer))
     [NSException raise:@"NSRangeException"
                  format:@"Array index out of bounds"];
 
-  return _data[index];
+  return ((id*)[_data bytes])[index];
 }
 
 -(void) insertId:(id)anObject atIndex:(NSUInteger)index
 {
-  _size++;
+  id *buffer;
+  int size;
+
   if (_fillPointer != -1)
     _fillPointer++;
 
-  _data = realloc (_data, _size * sizeof (id));
-  memmove (_data+index+1, _data+index, _size-index);
-  _data[index] = anObject;
+  [_data increaseLengthBy:sizeof(id)];
+  size = [_data length];
+  buffer = [_data mutableBytes];
+
+  memmove (buffer+index+1, buffer+index, size - index*sizeof(id));
+  buffer[index] = anObject;
 }
 
 -(void) removeObjectAtIndex:(NSUInteger)index
 {
-  _size--;
+  id *buffer;
+  int size;
+
   if (_fillPointer != -1)
     _fillPointer--;
 
-  memmove (_data+index, _data+index+1, _size-index-1);
-  _data = realloc (_data, _size * sizeof (id));
+  buffer = [_data mutableBytes];
+  size = [_data length];
+
+  memmove (buffer+index, buffer+index+1, size - (index+1)*sizeof(id));
+  [_data setLength:((size-1) * sizeof(id))];
 }
 
 -(void) replaceIdAtIndex:(NSUInteger)index withId:(id)anObject
 {
-  _data[index] = anObject;
+  ((id*)[_data mutableBytes])[index] = anObject;
 }
 
 -(NSUInteger) indexOfObjectIdenticalTo:(id)anObject
 {
   return [self indexOfObjectIdenticalTo:anObject
-               inRange:NSMakeRange(0, _size)];
+               inRange:NSMakeRange(0, [_data length])];
 }
 
 static int eq (const void *x, const void *y)
@@ -104,13 +116,14 @@ static int eq (const void *x, const void *y)
 -(NSUInteger) indexOfObjectIdenticalTo:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  return ((id*)lfind (anObject, _data + range.location, &range.length, sizeof(id), eq)
-          - _data);
+  const id *buffer = [_data bytes];
+  return ((id*)lfind (anObject, buffer + range.location, &range.length, sizeof(id), eq)
+          - buffer) / sizeof(id);
 }
 
 -(NSUInteger) indexOfObject:(id)anObject
 {
-  return [self indexOfObject:anObject inRange:NSMakeRange(0, _size)];
+  return [self indexOfObject:anObject inRange:NSMakeRange(0, [_data length])];
 }
 
 static int equalp (const void *x, const void *y)
@@ -122,14 +135,18 @@ static int equalp (const void *x, const void *y)
 -(NSUInteger) indexOfObject:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  return ((id*)lfind (anObject, _data + range.location, &range.length, sizeof(id), equalp)
-          - _data);
+  const id *buffer = [_data bytes];
+  return ((id*)lfind (anObject, buffer + range.location, &range.length, sizeof(id), equalp)
+          - buffer) / sizeof(id);
 }
 
 
 -(void) addId:(id)anObject
 {
-  [self insertId:anObject atIndex:(_fillPointer == -1 ? _size-1 : _fillPointer-1)];
+  [self insertId:anObject
+        atIndex:(_fillPointer == -1
+                 ? ([_data length]/sizeof(id))-1
+                 : _fillPointer-1)];
 }
 
 -(void) setSize:(int)size ofDimension:(int)dimension
@@ -139,14 +156,15 @@ static int equalp (const void *x, const void *y)
   // parallel in my head.  How to describe it?  I pass.
 
   int i;
-  int old_size;
-  id *sourcePointer, *destPointer;
+  int new_size;
+  const id *sourcePointer;
+  id *destPointer;
   int subblock_length, old_block_length, new_block_length;
   NSEnumerator *e;
   id el;
-  id *old_data;
-
-  old_size = _size;
+  NSMutableData *old_data;
+  id *buffer;
+  const id *old_buffer;
 
   subblock_length = 1;
   for (i = dimension + 1; i < [_dimensions count]; i++)
@@ -158,20 +176,24 @@ static int equalp (const void *x, const void *y)
   [_dimensions replaceObjectAtIndex:dimension
                withObject:[MLKInteger integerWithInt:size]];
 
-  _size = 1;
+  new_size = 1;
   e = [_dimensions objectEnumerator];
   while ((el = [e nextObject]))
     {
       el = denullify (el);
-      _size *= MLKIntWithInteger (el);
+      new_size *= MLKIntWithInteger (el);
     }
 
   old_data = _data;
-  _data = calloc (_size, sizeof (id));
+  _data = [[NSMutableData alloc]
+            initWithLength:(new_size * sizeof(id))];
 
-  sourcePointer = old_data;
-  destPointer = _data;
-  while (destPointer < _data + size - 1)
+  old_buffer = [old_data bytes];
+  buffer = [_data mutableBytes];
+
+  sourcePointer = old_buffer;
+  destPointer = buffer;
+  while (destPointer < buffer + (new_size/sizeof(id)) - 1)
     {
       memmove (destPointer, sourcePointer,
                (old_block_length < new_block_length
@@ -182,7 +204,7 @@ static int equalp (const void *x, const void *y)
       destPointer += new_block_length;
     }
 
-  free (old_data);
+   LDESTROY (old_data);
 }
 
 -(void) setFillPointer:(int)fillPointer
@@ -207,7 +229,7 @@ static int equalp (const void *x, const void *y)
 
 -(NSUInteger) count
 {
-  return (_fillPointer == -1 ? _size : _fillPointer);
+  return (_fillPointer == -1 ? [_data length]/sizeof(id) : _fillPointer);
 }
 
 -(id) objectAtIndex:(NSUInteger)index
@@ -240,7 +262,7 @@ static int equalp (const void *x, const void *y)
 -(void) removeLastObject
 {
   if (_fillPointer == -1)
-    [self removeObjectAtIndex:(_size-1)];
+    [self removeObjectAtIndex:([_data length]/sizeof(id) - 1)];
   else if (_fillPointer == 0)
     [NSException raise:@"NSRangeException"
                  format:@"Tried to remove an object from an empty array"];
@@ -255,7 +277,7 @@ static int equalp (const void *x, const void *y)
 
 -(void) dealloc
 {
-  free (_data);
+  LDESTROY (_data);
   LDESTROY (_dimensions);
   LDESTROY (_displacement);
   [super dealloc];
