@@ -46,6 +46,7 @@
   LASSIGN (_dimensions, [dimensions mutableCopy]);
   _data = [[NSMutableData alloc]
             initWithLength:(size * sizeof(id))];
+  _buffer = [_data mutableBytes];
   _fillPointer = -1;
   _displacement = nil;
 
@@ -63,43 +64,41 @@
     [NSException raise:@"NSRangeException"
                  format:@"Array index out of bounds"];
 
-  return ((id*)[_data bytes])[index];
+  return _buffer[index];
 }
 
 -(void) insertId:(id)anObject atIndex:(NSUInteger)index
 {
-  id *buffer;
   int size;
 
   if (_fillPointer != -1)
     _fillPointer++;
 
   [_data increaseLengthBy:sizeof(id)];
+  _buffer = [_data mutableBytes];
   size = [_data length];
-  buffer = [_data mutableBytes];
 
-  memmove (buffer+index+1, buffer+index, size - index*sizeof(id));
-  buffer[index] = anObject;
+  memmove (_buffer+index+1, _buffer+index, size - index*sizeof(id));
+  _buffer[index] = anObject;
 }
 
 -(void) removeObjectAtIndex:(NSUInteger)index
 {
-  id *buffer;
   int size;
 
   if (_fillPointer != -1)
     _fillPointer--;
 
-  buffer = [_data mutableBytes];
   size = [_data length];
 
-  memmove (buffer+index, buffer+index+1, size - (index+1)*sizeof(id));
+  memmove (_buffer+index, _buffer+index+1, size - (index+1)*sizeof(id));
   [_data setLength:((size-1) * sizeof(id))];
+  _buffer = [_data mutableBytes];
 }
 
 -(void) replaceIdAtIndex:(NSUInteger)index withId:(id)anObject
 {
-  ((id*)[_data mutableBytes])[index] = anObject;
+  _buffer[index] = anObject;
 }
 
 -(NSUInteger) indexOfObjectIdenticalTo:(id)anObject
@@ -116,9 +115,8 @@ static int eq (const void *x, const void *y)
 -(NSUInteger) indexOfObjectIdenticalTo:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  const id *buffer = [_data bytes];
-  return ((id*)lfind (anObject, buffer + range.location, &range.length, sizeof(id), eq)
-          - buffer) / sizeof(id);
+  return ((id*)lfind (anObject, _buffer + range.location, &range.length, sizeof(id), eq)
+          - _buffer) / sizeof(id);
 }
 
 -(NSUInteger) indexOfObject:(id)anObject
@@ -135,9 +133,8 @@ static int equalp (const void *x, const void *y)
 -(NSUInteger) indexOfObject:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  const id *buffer = [_data bytes];
-  return ((id*)lfind (anObject, buffer + range.location, &range.length, sizeof(id), equalp)
-          - buffer) / sizeof(id);
+  return ((id*)lfind (anObject, _buffer + range.location, &range.length, sizeof(id), equalp)
+          - _buffer) / sizeof(id);
 }
 
 
@@ -163,7 +160,6 @@ static int equalp (const void *x, const void *y)
   NSEnumerator *e;
   id el;
   NSMutableData *old_data;
-  id *buffer;
   const id *old_buffer;
 
   subblock_length = 1;
@@ -188,12 +184,12 @@ static int equalp (const void *x, const void *y)
   _data = [[NSMutableData alloc]
             initWithLength:(new_size * sizeof(id))];
 
+  _buffer = [_data mutableBytes];
   old_buffer = [old_data bytes];
-  buffer = [_data mutableBytes];
 
   sourcePointer = old_buffer;
-  destPointer = buffer;
-  while (destPointer < buffer + (new_size/sizeof(id)) - 1)
+  destPointer = _buffer;
+  while (destPointer < _buffer + (new_size/sizeof(id)) - 1)
     {
       memmove (destPointer, sourcePointer,
                (old_block_length < new_block_length

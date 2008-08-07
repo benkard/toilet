@@ -25,6 +25,7 @@
 @interface MLKArray : NSMutableArray
 {
   int _fillPointer;
+  id *_buffer;
   NSMutableData *_data;
   NSMutableArray *_dimensions;
   NSArray *_displacement;
