@@ -1392,6 +1392,9 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 +(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print
 {
   id eofValue = [[NSObject alloc] init];
+  int level = MLKIntWithInteger ([[MLKDynamicContext currentContext]
+                                   valueForSymbol:[sys intern:@"*LOAD-LEVEL*"]]);
+  int i;
 
   while (YES)
     {
@@ -1427,7 +1430,10 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         formdesc = MLKPrintToString(code);
 
       //fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
-      fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
+      fprintf (stderr, "; ");
+      for (i = 0; i < level; i++)
+        fprintf (stderr, "| ");
+      fprintf (stderr, "LOAD: %s\n", [formdesc UTF8String]);
       expansion = denullify([[MLKInterpreter
                                eval:code
                                inLexicalContext:[MLKLexicalContext
@@ -1462,7 +1468,6 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
         }
     }
 
-  //NSLog (@"; LOAD: END");
   return YES;
 }
 @end

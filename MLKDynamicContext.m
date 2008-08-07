@@ -265,6 +265,9 @@ static MLKDynamicContext *global_context;
 
   [vars setObject:NIL forKey:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
                                intern:@"*SYSTEM-INITIALISED-P*"]];
+  [vars setObject:[MLKInteger integerWithInt:0]
+        forKey:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
+                 intern:@"*LOAD-LEVEL*"]];
 
   global_context = [[self alloc] initWithParent:nil
                                  variables:vars

@@ -150,17 +150,63 @@ static id truify (BOOL value)
 {
   // FIXME
   BOOL success;
+  int l, i;
   NSString *fileName = denullify ([args objectAtIndex:0]);
   NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
   MLKStream *stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+  MLKDynamicContext *oldContext = [MLKDynamicContext currentContext];
+  int level = MLKIntWithInteger ([oldContext
+                                   valueForSymbol:[sys intern:@"*LOAD-LEVEL*"]]);
+  MLKDynamicContext *ctx;
+
+  l = [fileName length];
+  fprintf (stderr, ";\n;  ");
+  for (i = 0; i < 68 - 2*level; i++)
+    fprintf (stderr, "_");
+
+  fprintf (stderr, "\n; /");
+  for (i = 0; i < 30 - l/2 - level; i++)
+    fprintf (stderr, "-");
+  fprintf (stderr, " LOAD: %s ", [fileName UTF8String]);
+  for (i = 0; i < 30 - (l+1)/2 - level; i++)
+    fprintf (stderr, "-");
+  fprintf (stderr, "\n; |\n");
 
   //NSLog (@"%d", [input hasBytesAvailable]);
   [input open];
   //NSLog (@"%d", [input hasBytesAvailable]);
 
-  success = [MLKInterpreter load:stream verbose:YES print:YES];
+  ctx = [[MLKDynamicContext alloc]
+          initWithParent:oldContext
+          variables:nil
+          handlers:nil
+          restarts:nil
+          catchTags:nil
+          activeHandlerEnvironment:nil];
+  [ctx addValue:MLKIntegerWithInt(level + 1)
+       forSymbol:[sys intern:@"*LOAD-LEVEL*"]];
+  [ctx pushContext];
 
+  NS_DURING
+    {
+      success = [MLKInterpreter load:stream verbose:YES print:YES];
+    }
+  NS_HANDLER
+    {
+      [MLKDynamicContext popContext];
+      LRELEASE (ctx);
+      [input close];
+    }
+  NS_ENDHANDLER;
+
+  [MLKDynamicContext popContext];
+  LRELEASE (ctx);
   [input close];
+
+  fprintf (stderr, "; \\");
+  for (i = 0; i < 68 - 2*level; i++)
+    fprintf (stderr, "_");
+  fprintf (stderr, "\n; \n");
 
   RETURN_VALUE (truify (success));
 }
