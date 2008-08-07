@@ -21,7 +21,7 @@
 @class NSArray;
 
 
-@interface MLKCons : MLKLispValue
+@interface MLKCons : MLKLispValue <NSCopying>
 {
   id _car;
   id _cdr;

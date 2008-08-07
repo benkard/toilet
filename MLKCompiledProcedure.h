@@ -38,4 +38,5 @@
 -(NSString *) descriptionForLisp;
 
 -(void) dealloc;
+-(void) finalize;
 @end

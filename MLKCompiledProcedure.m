@@ -89,4 +89,10 @@
   free (_code);
   [super dealloc];
 }
+
+-(void) finalize
+{
+  // FIXME:  Can we really just use free() here?
+  free (_code);
+}
 @end
