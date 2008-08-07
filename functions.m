@@ -17,10 +17,12 @@
  */
 
 #import "functions.h"
+#import "globals.h"
 #import "util.h"
 #import "MLKCons.h"
 #import "MLKCharacter.h"
 #import "MLKInteger.h"
+#import "MLKInterpretedClosure.h"
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 
@@ -28,6 +30,7 @@
 #import <Foundation/NSString.h>
 
 #include <string.h>
+#include <stdarg.h>
 #include <alloca.h>
 
 
@@ -373,3 +376,35 @@ MLKForeignType MLKForeignTypeWithObjectiveCType (const char *typestring)
 MLKForeignType MLKForeignTypeWithLispValue (id value);
 ffi_type *MLKFFITypeWithObjectiveCType (const char *typestring);
 ffi_type *MLKFFITypeWithLispValue (id value);
+
+
+id MLKInterpretedFunctionTrampoline (void *target, ...)
+{
+  // Our first argument is the fat pointer's closure data pointer.  We
+  // simply treat it as a pointer to the MLKInterpretedClosure that we
+  // want to call, because that is what we put there when setting this
+  // trampoline up with a specific MLKInterpretedClosure.
+
+  // FIXME: Implement multiple-value return, or at least set the
+  // multiple-value return flag to 0 before doing anything else.
+
+  NSArray *values;
+  NSMutableArray *arguments = [NSMutableArray array];
+  MLKInterpretedClosure *closure = target;
+  id arg;
+  va_list ap;
+
+  va_start (ap, target);
+  while ((arg = va_arg (ap, id)) != MLKEndOfArgumentsMarker)
+    {
+      [arguments addObject:arg];
+    }
+  va_end (ap);
+
+  values = [closure applyToArray:arguments];
+
+  if ([values count] > 0)
+    return [values objectAtIndex:0];
+  else
+    return nil;
+}

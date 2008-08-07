@@ -74,3 +74,5 @@ ffi_type *MLKFFITypeWithObjectiveCType (const char *typestring);
 ffi_type *MLKFFITypeWithLispValue (id value);
 void MLKSetForeignValueWithLispValue (void *destination, id value, MLKForeignType type);
 id MLKLispValueWithForeignValue (void *source, MLKForeignType type);
+
+id MLKInterpretedFunctionTrampoline (void *target, ...);
