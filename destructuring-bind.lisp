@@ -134,10 +134,10 @@
                                        `((,var (if (eq ,value-sym ',missing)
                                                    nil
                                                    ,value-sym))))
-                                      ((null (if (eq ,value-sym ',missing)
+                                      ((null (cdr head))
+                                       `((,var (if (eq ,value-sym ',missing)
                                                    nil
-                                                   ,value-sym))
-                                       `((,var ,value-sym)))
+                                                   ,value-sym))))
                                       ((null (cddr head))
                                        `((,var (if (eq ,value-sym ',missing)
                                                    ,(cadr head)
