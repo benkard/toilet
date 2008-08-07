@@ -30,7 +30,7 @@
     `(,lambda-sym
        ,@(when docstring (list docstring))
        (d-b ,lambda-list nil nil ,lambda-sym
-         ,@decls
+         ,@(if decls `((declare ,@decls)))
          ,@forms))))
 
 (%defmacro* defun (name lambda-list . body)
@@ -52,7 +52,7 @@
                (,lambda-sym (cdr (first ,arg-sym)))
                (,env-sym (second ,arg-sym)))
            (d-b ,lambda-list ,env-sym ,whole-sym ,lambda-sym
-                ,@decls
+                ,@(if decls `((declare ,@decls)))
                 ,@forms))))))
 
 (%defmacro* defmacro (name lambda-list . body)
