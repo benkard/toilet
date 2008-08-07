@@ -397,7 +397,7 @@ id MLKInterpretedFunctionTrampoline (void *target, ...)
   va_start (ap, target);
   while ((arg = va_arg (ap, id)) != MLKEndOfArgumentsMarker)
     {
-      [arguments addObject:arg];
+      [arguments addObject:nullify(arg)];
     }
   va_end (ap);
 
