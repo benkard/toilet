@@ -156,7 +156,8 @@
                        (d-b ,(cdr lambda-list) ,environment ,whole-sym (%cdr ,sym)
                          ,@body)))))))
             ((null lambda-list)
-             `(progn ,@body))
+             ;;FIXME `(locally (declare ,@decls) ,@forms)
+             `(let () ,@body))
             (t `(let ((,lambda-list ,expression))
                   ,@body)))))
 
