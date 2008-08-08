@@ -17,9 +17,9 @@
  */
 
 #import "MLKLispValue.h"
-#import <Foundation/Foundation.h>
 
-@class NSInputStream, NSOutputStream;
+#import <Foundation/NSStream.h>
+#import <Foundation/NSString.h>
 
 
 @interface MLKStream : MLKLispValue
