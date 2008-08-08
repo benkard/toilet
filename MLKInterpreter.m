@@ -510,10 +510,10 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 #endif
 #endif
 
-              return LAUTORELEASE ([[MLKForeignProcedure alloc]
-                                     initWithCode:function
-                                     argumentTypes:[argtypes array]
-                                     returnType:returnType]);
+              RETURN_VALUE (LAUTORELEASE ([[MLKForeignProcedure alloc]
+                                            initWithCode:function
+                                            argumentTypes:[argtypes array]
+                                            returnType:returnType]));
             }
           else if (car == FUNCTION)
             {

@@ -97,6 +97,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%LOOP"]];
   [sys export:[sys intern:@"%FLET"]];
   [sys export:[sys intern:@"%MACROLET"]];
+  [sys export:[sys intern:@"%FOREIGN-LAMBDA"]];
 
   [sys export:[sys intern:@"*SYSTEM-INITIALISED-P*"]];
 
