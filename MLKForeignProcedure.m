@@ -105,21 +105,17 @@
 
 -(NSString *) descriptionForLisp
 {
-  return [NSString stringWithFormat:@"<Compiled procedure @%p>", self];
+  return [NSString stringWithFormat:@"<Foreign procedure %p @%p>", _code, self];
 }
 
 -(void) dealloc
 {
-  // FIXME:  Can we really just use free() here?
-  free (_code);
   free (_argumentTypes);
   [super dealloc];
 }
 
 -(void) finalize
 {
-  // FIXME:  Can we really just use free() here?
-  free (_code);
   free (_argumentTypes);
 }
 @end
