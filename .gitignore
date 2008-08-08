@@ -1,7 +1,9 @@
+build/
 obj/
 derived_src/
 Test.bundle/
 ToiletKit.framework/
+.DS_Store
 *~
 a123
 Notizen.txt
