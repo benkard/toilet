@@ -975,6 +975,168 @@
 			};
 			name = "Debug 10.4+ (fast + GC)";
 		};
+		A78712520E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712530E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
+		A78712540E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712550E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
+		A78712560E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712570E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
 		A7E5C3D00E21682800A01D81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1025,6 +1187,12 @@
 		A7E5C3EF0E2168A000A01D81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1086,6 +1254,12 @@
 		A7E5C3F70E21692100A01D81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1121,6 +1295,8 @@
 				A78711430E4C46FA00A7191F /* Debug 10.4+ (fast) */,
 				A78711460E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3D10E21682800A01D81 /* Release */,
+				A78712560E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712570E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1132,6 +1308,8 @@
 				A78711410E4C46FA00A7191F /* Debug 10.4+ (fast) */,
 				A78711440E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3EF0E2168A000A01D81 /* Release */,
+				A78712520E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712530E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1143,6 +1321,8 @@
 				A78711420E4C46FA00A7191F /* Debug 10.4+ (fast) */,
 				A78711450E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3F70E21692100A01D81 /* Release */,
+				A78712540E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712550E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
