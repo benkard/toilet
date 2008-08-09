@@ -129,6 +129,9 @@ static const char *prompt (EditLine *e) {
 
           history (commands, &event, H_ENTER, line);
 
+          if (strcmp (line, ":q\n") == 0 || strncmp (line, ":q ", 3) == 0)
+            break;
+
           NS_DURING
             {
               int i;
