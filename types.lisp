@@ -26,7 +26,7 @@
           array simple-array simple-vector simple-string
           simple-bit-vector sequence two-way-stream stream echo-stream
           broadcast-stream file-stream synonym-stream string-stream
-          concatenated-stream deftype typecase etypecase))
+          concatenated-stream deftype typecase etypecase char= eql))
 
 
 (setq *subtype-supertypes-dict*
@@ -200,3 +200,15 @@
   `(typecase ,expression
      ,@cases
      (otherwise (error "~A fell through ETYPECASE expression" expression))))
+
+
+(defun char= (x y)
+  (send-by-name x "isEqual:" y))
+
+(defun eql (x y)
+  (typecase x
+    (number (and (numberp y)
+                 (= x y))
+    (character (and (characterp y)
+                    (char= x y)))
+    (t (eq x y)))))

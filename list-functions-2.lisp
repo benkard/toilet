@@ -20,7 +20,7 @@
 
 (export '(copy-tree assoc assoc-if assoc-if-not rassoc rassoc-if
           rassoc-if-not sublis nsublis mapcar mapcan mapcon acons
-          reverse nreverse maplist))
+          reverse nreverse maplist nthcdr last nth))
 
 
 (defun copy-tree (tree)
@@ -128,7 +128,25 @@
       (sys::cons (sys::car objects) (sys::cdr objects))
       nil))
 
+(defun dotted-length (list)
+  (if (consp list)
+      (1+ (dotted-length (cdr list)))
+      0))
+
 (defun length (list)
   (if list
       (%1+ (length (cdr list)))
       0))
+
+(defun last (list &optional (n 1))
+  (let ((l (dotted-length list)))
+    (nthcdr (- l n))))
+
+(defun nthcdr (n list)
+  (check-type n (integer 0))
+  (if (zerop n)
+      list
+      (nthcdr (1- n) (cdr list))))
+
+(defun nth (n list)
+  (car (nthcdr n list)))
