@@ -16,37 +16,11 @@
 ;;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-(in-package #:common-lisp)
+(in-package #:toilet-lisp)
 
-(load "util.lisp")
-(load "defun-0.lisp")
-(load "list-functions.lisp")
-(load "destructuring-bind.lisp")
-(load "defun-1.lisp")
-(load "list-functions.lisp")
-(load "reader.lisp")
-(load "sharpsign.lisp")
-(load "control-flow.lisp")
-(load "types.lisp")
-(load "numbers.lisp")
-(load "list-functions-2.lisp")
-(load "ffi.lisp")
+(export '(define-foreign-function))
 
-(load "Sacla/share.lisp")
-(load "Sacla/do.lisp")
 
-(load "evaluation.lisp")
-
-(load "Sacla/share-2.lisp")
-
-(load "Sacla/data-and-control.lisp")
-
-(load "array.lisp")
-(load "Sacla/array.lisp")
-
-(load "string.lisp")
-(load "package.lisp")
-
-(setq *system-initialised-p* t)
-
-(in-package #:common-lisp-user)
+(defmacro define-foreign-function (name foreign-name return-type
+                                   &body argument-types)
+  `(%fset ',name (%foreign-lambda ,foreign-name nil ',return-type ',argument-types)))
