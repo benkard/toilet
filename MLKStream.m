@@ -22,6 +22,9 @@
 
 #import <Foundation/NSException.h>
 
+#include <unistd.h>
+#include <stdlib.h>
+
 
 @implementation MLKStream
 -(MLKStream *) init;
@@ -66,7 +69,7 @@
 -(unichar) readChar
 {
   uint8_t *buffer;
-  int i;
+  size_t i;
   unichar retval;
 
   if (_charCached)
@@ -92,7 +95,7 @@
 
       //NSLog (@"%@", _input);
 
-      buffer = realloc (buffer, i+1);
+      buffer = (uint8_t *) realloc (buffer, i+1);
       bytes_read = [_input read:(buffer+i) maxLength:1];
       //NSLog (@"%d bytes read", bytes_read);
 

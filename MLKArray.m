@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 #include <search.h>
+#include <string.h>
 
 
 @implementation MLKArray
@@ -115,7 +116,8 @@ static int eq (const void *x, const void *y)
 -(NSUInteger) indexOfObjectIdenticalTo:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  return ((id*)lfind (anObject, _buffer + range.location, &range.length, sizeof(id), eq)
+  size_t length = range.length;
+  return ((id*)lfind (anObject, _buffer + range.location, &length, sizeof(id), eq)
           - _buffer) / sizeof(id);
 }
 
@@ -133,7 +135,8 @@ static int equalp (const void *x, const void *y)
 -(NSUInteger) indexOfObject:(id)anObject inRange:(NSRange)range
 {
   // FIXME: How to treat [NSNull null]?
-  return ((id*)lfind (anObject, _buffer + range.location, &range.length, sizeof(id), equalp)
+  size_t length = range.length;
+  return ((id*)lfind (anObject, _buffer + range.location, &length, sizeof(id), equalp)
           - _buffer) / sizeof(id);
 }
 

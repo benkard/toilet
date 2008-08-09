@@ -25,6 +25,8 @@
 #include <ffi.h>
 #elif HAVE_FFI_FFI_H
 #include <ffi/ffi.h>
+#else
+#error "Couldn't include ffi.h."
 #endif
 
 

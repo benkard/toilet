@@ -38,17 +38,20 @@
 #import "util.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
-#ifndef _WIN32
-#include <dlfcn.h>
-#else
-#include <windows.h>
-#endif
-
 #include <stdio.h>
+
+#ifdef _WIN32
+  #include <windows.h>
+#else
+  #define _BSD_SOURCE
+  #undef _POSIX_C_SOURCE  // needed at least on Mac OS X for RTLD_DEFAULT to be defined
+  #include <dlfcn.h>    
+#endif
 
 
 static MLKPackage *cl;
@@ -501,18 +504,13 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
               //EnumProcessModules (...);
               //GetProcAddress (..., [name UTF8String]);
 #else
-#ifdef linux
               function = dlsym (RTLD_DEFAULT, [name UTF8String]);
-#else
-              // FIXME
-              function = dlsym (NULL, [name UTF8String]);
-#endif
 #endif
 
-              return LAUTORELEASE ([[MLKForeignProcedure alloc]
-                                     initWithCode:function
-                                     argumentTypes:[argtypes array]
-                                     returnType:returnType]);
+              RETURN_VALUE (LAUTORELEASE ([[MLKForeignProcedure alloc]
+                                            initWithCode:function
+                                            argumentTypes:[argtypes array]
+                                            returnType:returnType]));
             }
           else if (car == FUNCTION)
             {

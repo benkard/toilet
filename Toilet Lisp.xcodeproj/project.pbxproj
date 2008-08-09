@@ -7,6 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A78711320E4C459200A7191F /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112E0E4C459200A7191F /* globals.m */; };
+		A78711330E4C459200A7191F /* MLKArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112F0E4C459200A7191F /* MLKArray.m */; };
+		A78711340E4C459200A7191F /* MLKCompiledProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711300E4C459200A7191F /* MLKCompiledProcedure.m */; };
+		A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711310E4C459200A7191F /* MLKForeignProcedure.m */; };
+		A787113A0E4C45A300A7191F /* globals.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711360E4C45A300A7191F /* globals.h */; };
+		A787113B0E4C45A300A7191F /* MLKArray.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711370E4C45A300A7191F /* MLKArray.h */; };
+		A787113C0E4C45A300A7191F /* MLKCompiledProcedure.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */; };
+		A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711390E4C45A300A7191F /* MLKForeignProcedure.h */; };
+		A78712010E4C4AC500A7191F /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787112C0E4C456C00A7191F /* array.lisp */; };
+		A78712020E4C4AC500A7191F /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
+		A78712030E4C4AC500A7191F /* defun-0.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
+		A78712040E4C4AC500A7191F /* defun-1.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
+		A78712050E4C4AC500A7191F /* destructuring-bind.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
+		A78712060E4C4AC500A7191F /* evaluation.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
+		A78712070E4C4AC500A7191F /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
+		A78712080E4C4AC500A7191F /* list-functions-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
+		A78712090E4C4AC500A7191F /* list-functions.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
+		A787120A0E4C4AC500A7191F /* numbers.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
+		A787120B0E4C4AC500A7191F /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
+		A787120C0E4C4AC500A7191F /* sharpsign.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
+		A787120D0E4C4AC500A7191F /* types.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
+		A787120E0E4C4AC500A7191F /* util.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
+		A787120F0E4C4ADE00A7191F /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
+		A78712100E4C4ADE00A7191F /* character.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
+		A78712110E4C4ADE00A7191F /* clos.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
+		A78712120E4C4ADE00A7191F /* condition.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
+		A78712130E4C4ADE00A7191F /* cons.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
+		A78712140E4C4ADE00A7191F /* core.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
+		A78712150E4C4ADE00A7191F /* data-and-control.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
+		A78712160E4C4ADE00A7191F /* do.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
+		A78712170E4C4ADE00A7191F /* eval.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
+		A78712180E4C4ADE00A7191F /* hash-table.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
+		A78712190E4C4ADE00A7191F /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
+		A787121A0E4C4ADE00A7191F /* loop.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
+		A787121B0E4C4ADE00A7191F /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
+		A787121C0E4C4ADE00A7191F /* printer.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
+		A787121D0E4C4ADE00A7191F /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
+		A787121E0E4C4ADE00A7191F /* sequence.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
+		A787121F0E4C4ADE00A7191F /* share-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
+		A78712200E4C4ADE00A7191F /* share.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
+		A78712210E4C4ADE00A7191F /* stand-in.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
+		A78712220E4C4ADE00A7191F /* stream.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
+		A78712230E4C4ADE00A7191F /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
+		A78712240E4C4ADE00A7191F /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
+		A78712250E4C4ADE00A7191F /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
 		A7A833860E476CF3005D64E0 /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833800E476CF3005D64E0 /* functions.m */; };
 		A7A833870E476CF3005D64E0 /* MLKBackquoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */; };
 		A7A833880E476CF3005D64E0 /* MLKCommaReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833820E476CF3005D64E0 /* MLKCommaReader.m */; };
@@ -19,19 +64,6 @@
 		A7A833950E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8338F0E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h */; };
 		A7A833960E476D0D005D64E0 /* MLKSharpsignColonReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A833900E476D0D005D64E0 /* MLKSharpsignColonReader.h */; };
 		A7A833970E476D0D005D64E0 /* MLKValuesFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */; };
-		A7A8340E0E477B76005D64E0 /* control-flow.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
-		A7A8340F0E477B76005D64E0 /* defun-0.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
-		A7A834100E477B76005D64E0 /* defun-1.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
-		A7A834110E477B76005D64E0 /* destructuring-bind.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
-		A7A834120E477B76005D64E0 /* evaluation.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
-		A7A834130E477B76005D64E0 /* init.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
-		A7A834140E477B76005D64E0 /* list-functions-2.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
-		A7A834150E477B76005D64E0 /* list-functions.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
-		A7A834160E477B76005D64E0 /* numbers.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
-		A7A834170E477B76005D64E0 /* reader.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
-		A7A834180E477B76005D64E0 /* sharpsign.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
-		A7A834190E477B76005D64E0 /* types.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
-		A7A8341A0E477B76005D64E0 /* util.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
 		A7A8341B0E477B80005D64E0 /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
 		A7A8341C0E477B80005D64E0 /* defun-0.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
 		A7A8341D0E477B80005D64E0 /* defun-1.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
@@ -45,32 +77,6 @@
 		A7A834250E477B80005D64E0 /* sharpsign.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
 		A7A834260E477B80005D64E0 /* types.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
 		A7A834270E477B80005D64E0 /* util.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
-		A7A835A30E477C27005D64E0 /* array.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
-		A7A835A40E477C27005D64E0 /* character.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
-		A7A835A50E477C27005D64E0 /* clos.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
-		A7A835A60E477C27005D64E0 /* condition.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
-		A7A835A70E477C27005D64E0 /* cons.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
-		A7A835A80E477C27005D64E0 /* core.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
-		A7A835A90E477C27005D64E0 /* data-and-control.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
-		A7A835AA0E477C27005D64E0 /* do.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
-		A7A835AB0E477C27005D64E0 /* eval.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
-		A7A835AC0E477C27005D64E0 /* hash-table.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
-		A7A835AD0E477C27005D64E0 /* init.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
-		A7A835AE0E477C27005D64E0 /* loop.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
-		A7A835AF0E477C27005D64E0 /* package.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
-		A7A835B00E477C27005D64E0 /* printer.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
-		A7A835B10E477C27005D64E0 /* reader.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
-		A7A835B20E477C27005D64E0 /* sequence.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
-		A7A835B30E477C27005D64E0 /* share-2.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
-		A7A835B40E477C27005D64E0 /* share.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
-		A7A835B50E477C27005D64E0 /* stand-in.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
-		A7A835B60E477C27005D64E0 /* stream.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
-		A7A835B70E477C27005D64E0 /* string.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
-		A7A835B80E477C27005D64E0 /* symbol.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
-		A7A835B90E477C27005D64E0 /* testbed.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
-		A7A835BA0E477C27005D64E0 /* ansi-tests.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A8357F0E477C26005D64E0 /* ansi-tests.lisp */; };
-		A7A835BB0E477C27005D64E0 /* desirable-printer.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835800E477C26005D64E0 /* desirable-printer.lisp */; };
-		A7A835DD0E477C27005D64E0 /* x-sequence.lisp in Resources */ = {isa = PBXBuildFile; fileRef = A7A835A20E477C27005D64E0 /* x-sequence.lisp */; };
 		A7A835E00E477C7F005D64E0 /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
 		A7A835E10E477C7F005D64E0 /* character.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
 		A7A835E20E477C7F005D64E0 /* clos.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
@@ -179,6 +185,61 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		A787116F0E4C4A0200A7191F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				A78712010E4C4AC500A7191F /* array.lisp in CopyFiles */,
+				A78712020E4C4AC500A7191F /* control-flow.lisp in CopyFiles */,
+				A78712030E4C4AC500A7191F /* defun-0.lisp in CopyFiles */,
+				A78712040E4C4AC500A7191F /* defun-1.lisp in CopyFiles */,
+				A78712050E4C4AC500A7191F /* destructuring-bind.lisp in CopyFiles */,
+				A78712060E4C4AC500A7191F /* evaluation.lisp in CopyFiles */,
+				A78712070E4C4AC500A7191F /* init.lisp in CopyFiles */,
+				A78712080E4C4AC500A7191F /* list-functions-2.lisp in CopyFiles */,
+				A78712090E4C4AC500A7191F /* list-functions.lisp in CopyFiles */,
+				A787120A0E4C4AC500A7191F /* numbers.lisp in CopyFiles */,
+				A787120B0E4C4AC500A7191F /* reader.lisp in CopyFiles */,
+				A787120C0E4C4AC500A7191F /* sharpsign.lisp in CopyFiles */,
+				A787120D0E4C4AC500A7191F /* types.lisp in CopyFiles */,
+				A787120E0E4C4AC500A7191F /* util.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A78711740E4C4A4700A7191F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Sacla;
+			dstSubfolderSpec = 16;
+			files = (
+				A787120F0E4C4ADE00A7191F /* array.lisp in CopyFiles */,
+				A78712100E4C4ADE00A7191F /* character.lisp in CopyFiles */,
+				A78712110E4C4ADE00A7191F /* clos.lisp in CopyFiles */,
+				A78712120E4C4ADE00A7191F /* condition.lisp in CopyFiles */,
+				A78712130E4C4ADE00A7191F /* cons.lisp in CopyFiles */,
+				A78712140E4C4ADE00A7191F /* core.lisp in CopyFiles */,
+				A78712150E4C4ADE00A7191F /* data-and-control.lisp in CopyFiles */,
+				A78712160E4C4ADE00A7191F /* do.lisp in CopyFiles */,
+				A78712170E4C4ADE00A7191F /* eval.lisp in CopyFiles */,
+				A78712180E4C4ADE00A7191F /* hash-table.lisp in CopyFiles */,
+				A78712190E4C4ADE00A7191F /* init.lisp in CopyFiles */,
+				A787121A0E4C4ADE00A7191F /* loop.lisp in CopyFiles */,
+				A787121B0E4C4ADE00A7191F /* package.lisp in CopyFiles */,
+				A787121C0E4C4ADE00A7191F /* printer.lisp in CopyFiles */,
+				A787121D0E4C4ADE00A7191F /* reader.lisp in CopyFiles */,
+				A787121E0E4C4ADE00A7191F /* sequence.lisp in CopyFiles */,
+				A787121F0E4C4ADE00A7191F /* share-2.lisp in CopyFiles */,
+				A78712200E4C4ADE00A7191F /* share.lisp in CopyFiles */,
+				A78712210E4C4ADE00A7191F /* stand-in.lisp in CopyFiles */,
+				A78712220E4C4ADE00A7191F /* stream.lisp in CopyFiles */,
+				A78712230E4C4ADE00A7191F /* string.lisp in CopyFiles */,
+				A78712240E4C4ADE00A7191F /* symbol.lisp in CopyFiles */,
+				A78712250E4C4ADE00A7191F /* testbed.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7A833FD0E477B33005D64E0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -236,6 +297,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
+		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
+		A787112F0E4C459200A7191F /* MLKArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKArray.m; sourceTree = "<group>"; };
+		A78711300E4C459200A7191F /* MLKCompiledProcedure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledProcedure.m; sourceTree = "<group>"; };
+		A78711310E4C459200A7191F /* MLKForeignProcedure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKForeignProcedure.m; sourceTree = "<group>"; };
+		A78711360E4C45A300A7191F /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		A78711370E4C45A300A7191F /* MLKArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKArray.h; sourceTree = "<group>"; };
+		A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledProcedure.h; sourceTree = "<group>"; };
+		A78711390E4C45A300A7191F /* MLKForeignProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKForeignProcedure.h; sourceTree = "<group>"; };
 		A7A833800E476CF3005D64E0 /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
 		A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBackquoteReader.m; sourceTree = "<group>"; };
 		A7A833820E476CF3005D64E0 /* MLKCommaReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCommaReader.m; sourceTree = "<group>"; };
@@ -389,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				A7A835660E477C26005D64E0 /* Sacla */,
+				A787112C0E4C456C00A7191F /* array.lisp */,
 				A7A834010E477B76005D64E0 /* control-flow.lisp */,
 				A7A834020E477B76005D64E0 /* defun-0.lisp */,
 				A7A834030E477B76005D64E0 /* defun-1.lisp */,
@@ -471,6 +542,10 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A78711360E4C45A300A7191F /* globals.h */,
+				A78711370E4C45A300A7191F /* MLKArray.h */,
+				A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */,
+				A78711390E4C45A300A7191F /* MLKForeignProcedure.h */,
 				A7A8338C0E476D0D005D64E0 /* functions.h */,
 				A7A8338D0E476D0D005D64E0 /* MLKBackquoteReader.h */,
 				A7A8338E0E476D0D005D64E0 /* MLKCommaReader.h */,
@@ -522,6 +597,10 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A787112E0E4C459200A7191F /* globals.m */,
+				A787112F0E4C459200A7191F /* MLKArray.m */,
+				A78711300E4C459200A7191F /* MLKCompiledProcedure.m */,
+				A78711310E4C459200A7191F /* MLKForeignProcedure.m */,
 				A7A833800E476CF3005D64E0 /* functions.m */,
 				A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */,
 				A7A833820E476CF3005D64E0 /* MLKCommaReader.m */,
@@ -616,6 +695,10 @@
 				A7A833950E476D0D005D64E0 /* MLKDispatchingMacroCharacterReader.h in Headers */,
 				A7A833960E476D0D005D64E0 /* MLKSharpsignColonReader.h in Headers */,
 				A7A833970E476D0D005D64E0 /* MLKValuesFunction.h in Headers */,
+				A787113A0E4C45A300A7191F /* globals.h in Headers */,
+				A787113B0E4C45A300A7191F /* MLKArray.h in Headers */,
+				A787113C0E4C45A300A7191F /* MLKCompiledProcedure.h in Headers */,
+				A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,9 +710,10 @@
 			buildConfigurationList = A7E5C3ED0E2168A000A01D81 /* Build configuration list for PBXNativeTarget "ToiletKit" */;
 			buildPhases = (
 				A7E5C3E60E21689F00A01D81 /* Headers */,
-				A7E5C3E70E21689F00A01D81 /* Resources */,
+				A787116F0E4C4A0200A7191F /* CopyFiles */,
 				A7E5C3E80E21689F00A01D81 /* Sources */,
 				A7E5C3E90E21689F00A01D81 /* Frameworks */,
+				A78711740E4C4A4700A7191F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -676,55 +760,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		A7E5C3E70E21689F00A01D81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A7A8340E0E477B76005D64E0 /* control-flow.lisp in Resources */,
-				A7A8340F0E477B76005D64E0 /* defun-0.lisp in Resources */,
-				A7A834100E477B76005D64E0 /* defun-1.lisp in Resources */,
-				A7A834110E477B76005D64E0 /* destructuring-bind.lisp in Resources */,
-				A7A834120E477B76005D64E0 /* evaluation.lisp in Resources */,
-				A7A834130E477B76005D64E0 /* init.lisp in Resources */,
-				A7A834140E477B76005D64E0 /* list-functions-2.lisp in Resources */,
-				A7A834150E477B76005D64E0 /* list-functions.lisp in Resources */,
-				A7A834160E477B76005D64E0 /* numbers.lisp in Resources */,
-				A7A834170E477B76005D64E0 /* reader.lisp in Resources */,
-				A7A834180E477B76005D64E0 /* sharpsign.lisp in Resources */,
-				A7A834190E477B76005D64E0 /* types.lisp in Resources */,
-				A7A8341A0E477B76005D64E0 /* util.lisp in Resources */,
-				A7A835A30E477C27005D64E0 /* array.lisp in Resources */,
-				A7A835A40E477C27005D64E0 /* character.lisp in Resources */,
-				A7A835A50E477C27005D64E0 /* clos.lisp in Resources */,
-				A7A835A60E477C27005D64E0 /* condition.lisp in Resources */,
-				A7A835A70E477C27005D64E0 /* cons.lisp in Resources */,
-				A7A835A80E477C27005D64E0 /* core.lisp in Resources */,
-				A7A835A90E477C27005D64E0 /* data-and-control.lisp in Resources */,
-				A7A835AA0E477C27005D64E0 /* do.lisp in Resources */,
-				A7A835AB0E477C27005D64E0 /* eval.lisp in Resources */,
-				A7A835AC0E477C27005D64E0 /* hash-table.lisp in Resources */,
-				A7A835AD0E477C27005D64E0 /* init.lisp in Resources */,
-				A7A835AE0E477C27005D64E0 /* loop.lisp in Resources */,
-				A7A835AF0E477C27005D64E0 /* package.lisp in Resources */,
-				A7A835B00E477C27005D64E0 /* printer.lisp in Resources */,
-				A7A835B10E477C27005D64E0 /* reader.lisp in Resources */,
-				A7A835B20E477C27005D64E0 /* sequence.lisp in Resources */,
-				A7A835B30E477C27005D64E0 /* share-2.lisp in Resources */,
-				A7A835B40E477C27005D64E0 /* share.lisp in Resources */,
-				A7A835B50E477C27005D64E0 /* stand-in.lisp in Resources */,
-				A7A835B60E477C27005D64E0 /* stream.lisp in Resources */,
-				A7A835B70E477C27005D64E0 /* string.lisp in Resources */,
-				A7A835B80E477C27005D64E0 /* symbol.lisp in Resources */,
-				A7A835B90E477C27005D64E0 /* testbed.lisp in Resources */,
-				A7A835BA0E477C27005D64E0 /* ansi-tests.lisp in Resources */,
-				A7A835BB0E477C27005D64E0 /* desirable-printer.lisp in Resources */,
-				A7A835DD0E477C27005D64E0 /* x-sequence.lisp in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		A7E5C3E80E21689F00A01D81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -768,6 +803,10 @@
 				A7A833890E476CF3005D64E0 /* MLKDispatchingMacroCharacterReader.m in Sources */,
 				A7A8338A0E476CF3005D64E0 /* MLKSharpsignColonReader.m in Sources */,
 				A7A8338B0E476CF3005D64E0 /* MLKValuesFunction.m in Sources */,
+				A78711320E4C459200A7191F /* globals.m in Sources */,
+				A78711330E4C459200A7191F /* MLKArray.m in Sources */,
+				A78711340E4C459200A7191F /* MLKCompiledProcedure.m in Sources */,
+				A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +829,314 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A78711410E4C46FA00A7191F /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A78711420E4C46FA00A7191F /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A78711430E4C46FA00A7191F /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A78711440E4C473D00A7191F /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A78711450E4C473D00A7191F /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A78711460E4C473D00A7191F /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A78712520E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712530E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = "ToiletKit-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-lffi",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ToiletKit;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
+		A78712540E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712550E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
+		A78712560E4C6BA300A7191F /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A78712570E4C6BA300A7191F /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
 		A7E5C3D00E21682800A01D81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -814,18 +1161,22 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "ToiletKit-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
+					"-lffi",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -836,23 +1187,33 @@
 		A7E5C3EF0E2168A000A01D81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = "ToiletKit-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
+					"-lffi",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -867,13 +1228,15 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -891,15 +1254,23 @@
 		A7E5C3F70E21692100A01D81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -921,7 +1292,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7E5C3D00E21682800A01D81 /* Debug */,
+				A78711430E4C46FA00A7191F /* Debug 10.4+ (fast) */,
+				A78711460E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3D10E21682800A01D81 /* Release */,
+				A78712560E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712570E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -930,7 +1305,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7E5C3EE0E2168A000A01D81 /* Debug */,
+				A78711410E4C46FA00A7191F /* Debug 10.4+ (fast) */,
+				A78711440E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3EF0E2168A000A01D81 /* Release */,
+				A78712520E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712530E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -939,7 +1318,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7E5C3F60E21692100A01D81 /* Debug */,
+				A78711420E4C46FA00A7191F /* Debug 10.4+ (fast) */,
+				A78711450E4C473D00A7191F /* Debug 10.4+ (fast + GC) */,
 				A7E5C3F70E21692100A01D81 /* Release */,
+				A78712540E4C6BA300A7191F /* Release 10.4+ (fast) */,
+				A78712550E4C6BA300A7191F /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

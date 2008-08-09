@@ -33,26 +33,39 @@ static NSMutableDictionary *packages = nil;
 @implementation MLKPackage
 +(void) initialize
 {
-  packages = [[NSMutableDictionary alloc] init];
-  
-  MLKPackage *cl = [MLKPackage packageWithName:@"COMMON-LISP"
-                               nicknames:[NSSet setWithObject:@"CL"]];
-  MLKPackage *clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
-                                   nicknames:[NSSet setWithObject:@"CL-USER"]];;
-  MLKPackage *sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
-                                nicknames:[NSSet setWithObjects:
-                                                   @"TL-SYS", @"SYSTEM",
-                                                   @"SYS", nil]];
-  MLKPackage *toilet = [MLKPackage packageWithName:@"TOILET-LISP"
-                                   nicknames:[NSSet setWithObjects:
-                                                      @"TL", @"TOILET", nil]];
-  MLKPackage *tlUser = [MLKPackage packageWithName:@"TOILET-LISP-USER"
-                                   nicknames:[NSSet setWithObjects:
-                                                      @"TL-USER",
-                                                      @"TOILET-USER",
-                                                    nil]];
+  MLKPackage *cl, *clUser, *sys, *toilet, *tlUser;
 
-  [MLKPackage packageWithName:@"KEYWORD" nicknames:[NSSet set]];
+  if (!packages)
+    {
+      packages = [[NSMutableDictionary alloc] init];
+
+      cl = [MLKPackage packageWithName:@"COMMON-LISP"
+                       nicknames:[NSSet setWithObject:@"CL"]];
+      clUser = [MLKPackage packageWithName:@"COMMON-LISP-USER"
+                           nicknames:[NSSet setWithObject:@"CL-USER"]];;
+      sys = [MLKPackage packageWithName:@"TOILET-SYSTEM"
+                        nicknames:[NSSet setWithObjects:
+                                           @"TL-SYS", @"SYSTEM",
+                                           @"SYS", nil]];
+      toilet = [MLKPackage packageWithName:@"TOILET-LISP"
+                           nicknames:[NSSet setWithObjects:
+                                              @"TL", @"TOILET", nil]];
+      tlUser = [MLKPackage packageWithName:@"TOILET-LISP-USER"
+                           nicknames:[NSSet setWithObjects:
+                                              @"TL-USER",
+                                              @"TOILET-USER",
+                                              nil]];
+ 
+      [MLKPackage packageWithName:@"KEYWORD" nicknames:[NSSet set]];      
+    }
+  else
+    {
+      cl = [self findPackage:@"COMMON-LISP"];
+      clUser = [self findPackage:@"COMMON-LISP-USER"];
+      sys = [self findPackage:@"TOILET-SYSTEM"];
+      toilet = [self findPackage:@"TOILET-LISP"];
+      tlUser = [self findPackage:@"TOILET-LISP-USER"];
+    }
 
   [cl usePackage:sys];
 
@@ -97,6 +110,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"%LOOP"]];
   [sys export:[sys intern:@"%FLET"]];
   [sys export:[sys intern:@"%MACROLET"]];
+  [sys export:[sys intern:@"%FOREIGN-LAMBDA"]];
 
   [sys export:[sys intern:@"*SYSTEM-INITIALISED-P*"]];
 
