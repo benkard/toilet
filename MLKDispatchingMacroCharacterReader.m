@@ -27,6 +27,8 @@
 #import "runtime-compatibility.h"
 #import "util.h"
 
+#import <Foundation/NSValue.h>
+
 
 @implementation MLKDispatchingMacroCharacterReader
 -(id) init

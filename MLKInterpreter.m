@@ -48,7 +48,9 @@
 #ifdef _WIN32
   #include <windows.h>
 #else
-  #define _BSD_SOURCE
+  #ifndef _BSD_SOURCE
+    #define _BSD_SOURCE
+  #endif
   #undef _POSIX_C_SOURCE  // needed at least on Mac OS X for RTLD_DEFAULT to be defined
   #include <dlfcn.h>    
 #endif

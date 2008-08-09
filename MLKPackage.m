@@ -72,6 +72,9 @@ static NSMutableDictionary *packages = nil;
   [tlUser usePackage:cl];
   [tlUser usePackage:toilet];
   //[tlUser usePackage:clUser];
+  
+  [toilet usePackage:cl];
+  [toilet usePackage:sys];
 
   [clUser usePackage:cl];
   [clUser usePackage:toilet];

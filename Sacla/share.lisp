@@ -26,6 +26,9 @@
 ;; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ;; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+(in-package #:common-lisp)
+
+
 (deftype proper-list () '(satisfies proper-list-p))
 (deftype proper-sequence () '(satisfies proper-sequence-p))
 (deftype string-designator () '(or character symbol string))
