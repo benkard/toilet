@@ -70,6 +70,13 @@ ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 #LIBRARIES_DEPEND_UPON
 
+USE_LLVM := YES
+ifeq ($(USE_LLVM),YES)
+ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
+ToiletKit_OBJCCFLAGS = `llvm-config --cflags`
+ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs`
+endif
+
 #TOOL_NAME = etoilet
 #etoilet_OBJC_FILES = main.m
 #etoilet_OBJC_LIBS = -lToiletKit -LToiletKit.framework
