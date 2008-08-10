@@ -23,8 +23,8 @@
 #import <Foundation/NSString.h>
 
 #ifdef __cplusplus
-#include <Value.h>
-#include <BasicBlock.h>
+#include <llvm/Value.h>
+#include <llvm/BasicBlock.h>
 using namespace llvm;
 #endif
 

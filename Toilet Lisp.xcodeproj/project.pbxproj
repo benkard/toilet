@@ -52,6 +52,14 @@
 		A78712230E4C4ADE00A7191F /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
 		A78712240E4C4ADE00A7191F /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
 		A78712250E4C4ADE00A7191F /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
+		A78713820E4EFF4000A7191F /* MLKForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A78713800E4EFF4000A7191F /* MLKForm.m */; };
+		A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */ = {isa = PBXBuildFile; fileRef = A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */; };
+		A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713840E4EFF5D00A7191F /* MLKForm.h */; };
+		A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */; };
+		A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713860E4EFF5D00A7191F /* special-symbols.h */; };
+		A787138E0E4EFF8A00A7191F /* ffi.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138B0E4EFF8A00A7191F /* ffi.lisp */; };
+		A787138F0E4EFF8A00A7191F /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138C0E4EFF8A00A7191F /* package.lisp */; };
+		A78713900E4EFF8A00A7191F /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138D0E4EFF8A00A7191F /* string.lisp */; };
 		A7A833860E476CF3005D64E0 /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833800E476CF3005D64E0 /* functions.m */; };
 		A7A833870E476CF3005D64E0 /* MLKBackquoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */; };
 		A7A833880E476CF3005D64E0 /* MLKCommaReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833820E476CF3005D64E0 /* MLKCommaReader.m */; };
@@ -205,6 +213,9 @@
 				A787120C0E4C4AC500A7191F /* sharpsign.lisp in CopyFiles */,
 				A787120D0E4C4AC500A7191F /* types.lisp in CopyFiles */,
 				A787120E0E4C4AC500A7191F /* util.lisp in CopyFiles */,
+				A787138E0E4EFF8A00A7191F /* ffi.lisp in CopyFiles */,
+				A787138F0E4EFF8A00A7191F /* package.lisp in CopyFiles */,
+				A78713900E4EFF8A00A7191F /* string.lisp in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +317,14 @@
 		A78711370E4C45A300A7191F /* MLKArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKArray.h; sourceTree = "<group>"; };
 		A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledProcedure.h; sourceTree = "<group>"; };
 		A78711390E4C45A300A7191F /* MLKForeignProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKForeignProcedure.h; sourceTree = "<group>"; };
+		A78713800E4EFF4000A7191F /* MLKForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKForm.m; sourceTree = "<group>"; };
+		A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MLKLLVMCompiler.mm; sourceTree = "<group>"; };
+		A78713840E4EFF5D00A7191F /* MLKForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKForm.h; sourceTree = "<group>"; };
+		A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLLVMCompiler.h; sourceTree = "<group>"; };
+		A78713860E4EFF5D00A7191F /* special-symbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "special-symbols.h"; sourceTree = "<group>"; };
+		A787138B0E4EFF8A00A7191F /* ffi.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ffi.lisp; sourceTree = "<group>"; };
+		A787138C0E4EFF8A00A7191F /* package.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = package.lisp; sourceTree = "<group>"; };
+		A787138D0E4EFF8A00A7191F /* string.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = string.lisp; sourceTree = "<group>"; };
 		A7A833800E476CF3005D64E0 /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
 		A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBackquoteReader.m; sourceTree = "<group>"; };
 		A7A833820E476CF3005D64E0 /* MLKCommaReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCommaReader.m; sourceTree = "<group>"; };
@@ -458,6 +477,9 @@
 		A7A834A40E477B86005D64E0 /* Lisp Files */ = {
 			isa = PBXGroup;
 			children = (
+				A787138B0E4EFF8A00A7191F /* ffi.lisp */,
+				A787138C0E4EFF8A00A7191F /* package.lisp */,
+				A787138D0E4EFF8A00A7191F /* string.lisp */,
 				A7A835660E477C26005D64E0 /* Sacla */,
 				A787112C0E4C456C00A7191F /* array.lisp */,
 				A7A834010E477B76005D64E0 /* control-flow.lisp */,
@@ -542,6 +564,9 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A78713840E4EFF5D00A7191F /* MLKForm.h */,
+				A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */,
+				A78713860E4EFF5D00A7191F /* special-symbols.h */,
 				A78711360E4C45A300A7191F /* globals.h */,
 				A78711370E4C45A300A7191F /* MLKArray.h */,
 				A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */,
@@ -597,6 +622,8 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A78713800E4EFF4000A7191F /* MLKForm.m */,
+				A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */,
 				A787112E0E4C459200A7191F /* globals.m */,
 				A787112F0E4C459200A7191F /* MLKArray.m */,
 				A78711300E4C459200A7191F /* MLKCompiledProcedure.m */,
@@ -699,6 +726,9 @@
 				A787113B0E4C45A300A7191F /* MLKArray.h in Headers */,
 				A787113C0E4C45A300A7191F /* MLKCompiledProcedure.h in Headers */,
 				A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */,
+				A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */,
+				A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */,
+				A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +837,8 @@
 				A78711330E4C459200A7191F /* MLKArray.m in Sources */,
 				A78711340E4C459200A7191F /* MLKCompiledProcedure.m in Sources */,
 				A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */,
+				A78713820E4EFF4000A7191F /* MLKForm.m in Sources */,
+				A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,11 +883,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -924,11 +1000,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1001,11 +1121,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1040,11 +1204,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1172,11 +1380,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1209,11 +1461,55 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-lgmp",
 					"-lffi",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					/opt/local/lib/LLVMX86.o,
+					/opt/local/lib/LLVMSparc.o,
+					/opt/local/lib/LLVMPIC16.o,
+					/opt/local/lib/LLVMMSIL.o,
+					/opt/local/lib/LLVMMips.o,
+					"-lLLVMLinker",
+					"-lLLVMipo",
+					/opt/local/lib/LLVMInterpreter.o,
+					"-lLLVMInstrumentation",
+					/opt/local/lib/LLVMIA64.o,
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					"-lLLVMDebugger",
+					/opt/local/lib/LLVMCppBackend.o,
+					/opt/local/lib/LLVMCellSPU.o,
+					/opt/local/lib/LLVMCBackend.o,
+					"-lLLVMBitWriter",
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMAsmParser",
+					/opt/local/lib/LLVMARM.o,
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMAlpha.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;

@@ -21,15 +21,15 @@
 #import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
 
-#include <Analysis/Verifier.h>
-#include <BasicBlock.h>
-#include <DerivedTypes.h>
-#include <ExecutionEngine/ExecutionEngine.h>
-#include <Module.h>
-#include <ModuleProvider.h>
-#include <PassManager.h>
-#include <Support/IRBuilder.h>
-#include <Value.h>
+#include <llvm/Analysis/Verifier.h>
+#include <llvm/BasicBlock.h>
+#include <llvm/DerivedTypes.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/Module.h>
+#include <llvm/ModuleProvider.h>
+#include <llvm/PassManager.h>
+#include <llvm/Support/IRBuilder.h>
+#include <llvm/Value.h>
 
 using namespace llvm;
 
