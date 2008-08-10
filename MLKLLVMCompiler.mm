@@ -40,23 +40,14 @@ static IRBuilder builder;
 static FunctionPassManager *fpm;
 
 
-static BasicBlock *process (Value **value,
-                            id object,
-                            MLKLexicalContext *context,
-                            BasicBlock *block)
-{
-  
-}
-
-
 @implementation MLKLLVMCompiler
--(void) initialize
++(void) initialize
 {
   module = new llvm::Module ("MLKLLVMModule");
   execution_engine = ExecutionEngine::create (module);
 }
 
--(id) compile:(id)object
++(id) compile:(id)object
     inContext:(MLKLexicalContext *)context
 {
   Value *v = NULL;
@@ -74,7 +65,10 @@ static BasicBlock *process (Value **value,
   block = BasicBlock::Create ("entry", function);
   builder.SetInsertPoint (block);
 
-  process (&v, object, context, block);
+  v = [self processForm:[MLKForm formWithObject:object
+                                 inContext:context
+                                 forCompiler:self]
+            inBlock:&block];
 
   builder.CreateRet (v);
   verifyFunction (*function);
@@ -85,8 +79,23 @@ static BasicBlock *process (Value **value,
   return fn ();
 }
 
--(void) processTopLevelForm:(id)object
++(void) processTopLevelForm:(id)object
 {
   //FIXME
+}
+
++(Value *) processForm:(MLKForm *)form
+               inBlock:(BasicBlock **)block
+{
+  return [form processForLLVMInBlock:block];
+}
+@end
+
+
+@implementation MLKForm (MLKLLVMCompilation)
+-(Value *) processForLLVMInBlock:(BasicBlock **)block
+{
+  NSLog (@"WARNING: Unrecognised form type: %@", self);
+  return NULL;
 }
 @end

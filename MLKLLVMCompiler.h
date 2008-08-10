@@ -16,21 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKForm.h"
 #import "MLKLexicalContext.h"
 
+#import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
-/*
 #ifdef __cplusplus
 #include <Value.h>
 #include <BasicBlock.h>
 using namespace llvm;
 #endif
-*/
 
-@interface MLKLLVMCompiler
--(id) compile:(id)object
+@interface MLKLLVMCompiler : NSObject
++(void) initialize;
+
++(id) compile:(id)object
     inContext:(MLKLexicalContext *)context;
 
--(void) processTopLevelForm:(id)object;
++(void) processTopLevelForm:(id)object;
+
+#ifdef __cplusplus
++(Value *) processForm:(MLKForm *)form
+               inBlock:(BasicBlock **)block;
+#endif
+@end
+
+
+@interface MLKForm (MLKLLVMCompilation)
+-(Value *) processForLLVMInBlock:(BasicBlock **)block;
 @end
