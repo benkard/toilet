@@ -35,6 +35,7 @@
 #import "MLKSymbol.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
+#import "special-symbols.h"
 #import "util.h"
 
 #import <Foundation/NSArray.h>
@@ -56,97 +57,10 @@
 #endif
 
 
-static MLKPackage *cl;
-static MLKPackage *sys;
-static MLKPackage *keyword;
-static MLKSymbol *IF;
-static MLKSymbol *IN_PACKAGE;
-static MLKSymbol *DECLARE;
-static MLKSymbol *PROGN;
-static MLKSymbol *TAGBODY;
-static MLKSymbol *GO;
-static MLKSymbol *CATCH;
-static MLKSymbol *THROW;
-static MLKSymbol *_FLET;
-static MLKSymbol *_MACROLET;
-static MLKSymbol *LAMBDA;
-static MLKSymbol *LET;
-static MLKSymbol *LOCALLY;
-static MLKSymbol *APPLY;
-static MLKSymbol *FUNCALL;
-static MLKSymbol *FUNCTION;
-static MLKSymbol *EVAL;
-static MLKSymbol *EVAL_WHEN;
-static MLKSymbol *QUOTE;
-static MLKSymbol *SETQ;
-static MLKSymbol *SETF;
-static MLKSymbol *SET;
-static MLKSymbol *_FSETQ;
-static MLKSymbol *_FSET;
-static MLKSymbol *SYMBOL_MACROLET;
-static MLKSymbol *PROGV;
-static MLKSymbol *UNWIND_PROTECT;
-static MLKSymbol *VALUES;
-static MLKSymbol *_DEFMACRO;
-static MLKSymbol *_FOREIGN_LAMBDA;
-static MLKSymbol *_LAMBDA;
-static MLKSymbol *_LOOP;
-static MLKSymbol *V_INITP;
-static MLKSymbol *COMPILE_TOPLEVEL;
-static MLKSymbol *COMPILE;
-static MLKSymbol *LOAD_TOPLEVEL;
-static MLKSymbol *LOAD;
-static MLKSymbol *EXECUTE;
-static MLKSymbol *MULTIPLE_VALUE_CALL;
-
-
 @implementation MLKInterpreter
 +(void) initialize
 {
-  cl = [MLKPackage findPackage:@"COMMON-LISP"];
-  sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
-  keyword = [MLKPackage findPackage:@"KEYWORD"];
-
-  IF = [cl intern:@"IF"];
-  IN_PACKAGE = [cl intern:@"IN-PACKAGE"];
-  DECLARE = [cl intern:@"DECLARE"];
-  PROGN = [cl intern:@"PROGN"];
-  TAGBODY = [cl intern:@"TAGBODY"];
-  GO = [cl intern:@"GO"];
-  CATCH = [cl intern:@"CATCH"];
-  THROW = [cl intern:@"THROW"];
-  LAMBDA = [cl intern:@"LAMBDA"];
-  LET = [cl intern:@"LET"];
-  LOCALLY = [cl intern:@"LOCALLY"];
-  _FLET = [sys intern:@"%FLET"];
-  _MACROLET = [sys intern:@"%MACROLET"];
-  _LOOP = [sys intern:@"%LOOP"];
-  APPLY = [cl intern:@"APPLY"];
-  EVAL = [cl intern:@"EVAL"];
-  EVAL_WHEN = [cl intern:@"EVAL-WHEN"];
-  FUNCALL = [cl intern:@"FUNCALL"];
-  FUNCTION = [cl intern:@"FUNCTION"];
-  QUOTE = [cl intern:@"QUOTE"];
-  SETQ = [cl intern:@"SETQ"];
-  SETF = [cl intern:@"SETF"];
-  SET = [cl intern:@"SET"];
-  _FSETQ = [sys intern:@"%FSETQ"];
-  _FSET = [sys intern:@"%FSET"];
-  SYMBOL_MACROLET = [cl intern:@"SYMBOL-MACROLET"];
-  PROGV = [cl intern:@"PROGV"];
-  VALUES = [cl intern:@"VALUES"];
-  UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
-  _DEFMACRO = [sys intern:@"%DEFMACRO"];
-  _FOREIGN_LAMBDA = [sys intern:@"%FOREIGN-LAMBDA"];
-  _LAMBDA = [sys intern:@"%LAMBDA"];
-  V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
-  MULTIPLE_VALUE_CALL = [cl intern:@"MULTIPLE-VALUE-CALL"];
-
-  COMPILE_TOPLEVEL = [keyword intern:@"COMPILE-TOPLEVEL"];
-  COMPILE = [cl intern:@"COMPILE"];
-  LOAD_TOPLEVEL = [keyword intern:@"LOAD-TOPLEVEL"];
-  LOAD = [cl intern:@"LOAD"];
-  EXECUTE = [keyword intern:@"EXECUTE"];
+  ensure_symbols ();
 }
 
 
