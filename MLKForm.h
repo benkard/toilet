@@ -18,6 +18,7 @@
 
 #import "MLKForm.h"
 #import "MLKLexicalContext.h"
+#import "functions.h"
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
@@ -84,51 +85,137 @@
 @end
 
 
+@interface MLKBodyForm : MLKCompoundForm
+{
+  id _body;
+  NSArray *_bodyForms;
+}
+@end
+
+
+@interface MLKDeclaringForm : MLKBodyForm
+{
+  id _declarations;
+  NSArray *_declarationForms;
+}
+@end
+
+
+@interface MLKDocstringForm : MLKDeclaringForm
+{
+  NSString *_documentation;
+}
+@end
+
+
 @interface MLKFunctionCallForm : MLKSimpleCompoundForm
+{
+  NSArray *_argumentForms;
+}
 @end
 
 
-@interface MLKCatchForm : MLKCompoundForm
+@interface MLKCatchForm : MLKBodyForm
+{
+  MLKForm *_tagForm;
+}
 @end
 
 
-@interface MLKSimpleDefmacroForm : MLKCompoundForm
+@interface MLKSimpleDefmacroForm : MLKDeclaringForm
+{
+  MLKSymbol *_name;
+}
 @end
 
 
-@interface MLKEvalWhenForm : MLKCompoundForm
+@interface MLKEvalWhenForm : MLKBodyForm
+{
+  BOOL _compileToplevel;
+  BOOL _loadToplevel;
+  BOOL _execute;
+}
 @end
 
 
 @interface MLKForeignLambdaForm : MLKCompoundForm
+{
+  NSString *_foreignName;
+  MLKSymbol *_name;
+  MLKForeignType _returnType;
+  MLKForeignType *_argumentTypes;
+  int _argc;
+}
+@end
+
+
+@interface MLKLambdaForm : MLKDocstringForm
+{
+  id _lambdaList;
+}
 @end
 
 
 @interface MLKFunctionForm : MLKCompoundForm
++(Class) dispatchClassForObject:(id)object;
+@end
+
+
+@interface MLKLambdaFunctionForm : MLKFunctionForm
+{
+  MLKLambdaForm *_lambdaForm;
+}
+@end
+
+
+@interface MLKSimpleFunctionForm : MLKFunctionForm
+{
+  id _functionName;
+}
 @end
 
 
 @interface MLKIfForm : MLKCompoundForm
+{
+  MLKForm *_conditionForm;
+  MLKForm *_consequentForm;
+  MLKForm *_alternativeForm;
+}
 @end
 
 
 @interface MLKInPackageForm : MLKCompoundForm
+{
+  id _packageDesignator;
+}
 @end
 
 
-@interface MLKSimpleLambdaForm : MLKCompoundForm
+@interface MLKSimpleLambdaForm : MLKDocstringForm
+{
+  MLKSymbol *_lambdaListName;
+}
 @end
 
 
-@interface MLKSimpleMacroletForm : MLKCompoundForm
+@interface MLKSimpleMacroletForm : MLKDeclaringForm
+-(id) initWithObject:(id)object
+           inContext:(MLKLexicalContext *)context
+         forCompiler:(id)compiler;
 @end
 
 
-@interface MLKSimpleFletForm : MLKCompoundForm
+@interface MLKSimpleFletForm : MLKDeclaringForm
+{
+  NSArray *_functionBindingForms;
+}
 @end
 
 
-@interface MLKLetForm : MLKCompoundForm
+@interface MLKLetForm : MLKDeclaringForm
+{
+  NSArray *_bindingForms;
+}
 @end
 
 
@@ -137,40 +224,74 @@
 
 
 @interface MLKMultipleValueCallForm : MLKCompoundForm
+{
+  id _functionForm;
+  NSArray *_subforms;
+}
 @end
 
 
-@interface MLKProgNForm : MLKCompoundForm
+@interface MLKProgNForm : MLKBodyForm
 @end
 
 
-@interface MLKProgVForm : MLKCompoundForm
+@interface MLKProgVForm : MLKBodyForm
+{
+  MLKForm *_variableListForm;
+  MLKForm *_valueListForm;
+}
 @end
 
 
 @interface MLKQuoteForm : MLKCompoundForm
+{
+  MLKForm *_quotedForm;
+}
 @end
 
 
 @interface MLKSetQForm : MLKCompoundForm
+{
+  NSArray *_variableForms;
+  NSArray *_valueForms;
+}
 @end
 
 
 @interface MLKFSetQForm : MLKCompoundForm
+{
+  NSArray *_functionNameForms;
+  NSArray *_valueForms;
+}
 @end
 
 
 @interface MLKSetForm : MLKCompoundForm
+{
+  MLKForm *_variableForm;
+  MLKForm *_valueForm;
+}
 @end
 
 
 @interface MLKFSetForm : MLKCompoundForm
+{
+  MLKForm *_functionNameForm;
+  MLKForm *_valueForm;
+}
 @end
 
 
 @interface MLKThrowForm : MLKCompoundForm
+{
+  MLKForm *_tagForm;
+  MLKForm *_valueForm;
+}
 @end
 
 
-@interface MLKUnwindProtectForm : MLKCompoundForm
+@interface MLKUnwindProtectForm : MLKBodyForm
+{
+  MLKForm *_protectedForm;
+}
 @end

@@ -72,8 +72,9 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 
 USE_LLVM := YES
 ifeq ($(USE_LLVM),YES)
+ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
 ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
-ToiletKit_OBJCCFLAGS = `llvm-config --cflags`
+ToiletKit_OBJCCFLAGS = `llvm-config --cflags` $(ToiletKit_OBJCFLAGS)
 ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs`
 endif
 

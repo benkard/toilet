@@ -209,7 +209,23 @@
 @end
 
 
+@implementation MLKBodyForm
+@end
+
+
+@implementation MLKDeclaringForm
+@end
+
+
+@implementation MLKDocstringForm
+@end
+
+
 @implementation MLKFunctionCallForm
+// -(id <MLKFuncallable>) functionInfo
+// {
+//   return [_context functionInfoForSymbol:_head];
+// }
 @end
 
 
@@ -230,6 +246,23 @@
 
 
 @implementation MLKFunctionForm
++(Class) dispatchClassForObject:(id)object
+{
+  id funname = [[object cdr] car];
+  if ([funname isKindOfClass:[MLKCons class]]
+      && [funname car] == LAMBDA)
+    return [MLKLambdaFunctionForm class];
+  else
+    return [MLKSimpleFunctionForm class];
+}
+@end
+
+
+@implementation MLKLambdaFunctionForm
+@end
+
+
+@implementation MLKSimpleFunctionForm
 @end
 
 
