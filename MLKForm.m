@@ -186,7 +186,7 @@
 @end
 
 
-@implementation MLKMacroCallForm : MLKSimpleCompoundForm
+@implementation MLKMacroCallForm
 -(id) initWithObject:(id)object
            inContext:(MLKLexicalContext *)context
          forCompiler:(id)compiler
@@ -206,4 +206,96 @@
                   inContext:context
                   forCompiler:compiler];
 }
+@end
+
+
+@implementation MLKFunctionCallForm
+@end
+
+
+@implementation MLKCatchForm
+@end
+
+
+@implementation MLKSimpleDefmacroForm
+@end
+
+
+@implementation MLKEvalWhenForm
+@end
+
+
+@implementation MLKForeignLambdaForm
+@end
+
+
+@implementation MLKFunctionForm
+@end
+
+
+@implementation MLKIfForm
+@end
+
+
+@implementation MLKInPackageForm
+@end
+
+
+@implementation MLKSimpleLambdaForm
+@end
+
+
+@implementation MLKSimpleMacroletForm
+@end
+
+
+@implementation MLKSimpleFletForm
+@end
+
+
+@implementation MLKLetForm
+@end
+
+
+@implementation MLKSimpleLoopForm
+@end
+
+
+@implementation MLKMultipleValueCallForm
+@end
+
+
+@implementation MLKProgNForm
+@end
+
+
+@implementation MLKProgVForm
+@end
+
+
+@implementation MLKQuoteForm
+@end
+
+
+@implementation MLKSetQForm
+@end
+
+
+@implementation MLKFSetQForm
+@end
+
+
+@implementation MLKSetForm
+@end
+
+
+@implementation MLKFSetForm
+@end
+
+
+@implementation MLKThrowForm
+@end
+
+
+@implementation MLKUnwindProtectForm
 @end
