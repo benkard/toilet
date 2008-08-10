@@ -133,6 +133,14 @@
   return [self listByAppendingObject:nil];
 }
 
+-(int) length
+{
+  if (_cdr)
+    return 1 + [_cdr length];
+  else
+    return 1;
+}
+
 -(NSString *) bareDescriptionForLisp
 {
   if (!_cdr)

@@ -124,6 +124,7 @@
 
 @interface MLKSimpleDefmacroForm : MLKDeclaringForm
 {
+  MLKSymbol *_lambdaListName;
   MLKSymbol *_name;
 }
 @end
@@ -219,14 +220,17 @@
 @end
 
 
+@interface MLKLocallyForm : MLKDeclaringForm
+@end
+
+
 @interface MLKSimpleLoopForm : MLKCompoundForm
 @end
 
 
-@interface MLKMultipleValueCallForm : MLKCompoundForm
+@interface MLKMultipleValueCallForm : MLKBodyForm
 {
   id _functionForm;
-  NSArray *_subforms;
 }
 @end
 
@@ -245,14 +249,14 @@
 
 @interface MLKQuoteForm : MLKCompoundForm
 {
-  MLKForm *_quotedForm;
+  id _quotedData;
 }
 @end
 
 
 @interface MLKSetQForm : MLKCompoundForm
 {
-  NSArray *_variableForms;
+  NSArray *_variables;
   NSArray *_valueForms;
 }
 @end
@@ -260,7 +264,7 @@
 
 @interface MLKFSetQForm : MLKCompoundForm
 {
-  NSArray *_functionNameForms;
+  NSArray *_functionNames;
   NSArray *_valueForms;
 }
 @end
@@ -294,4 +298,16 @@
 {
   MLKForm *_protectedForm;
 }
+@end
+
+
+@interface MLKSimpleFunctionBindingForm : MLKDocstringForm
+{
+  id _name;
+  MLKSymbol *_lambdaListName;
+}
+
++(id) formWithObject:(id)object
+           inContext:(MLKLexicalContext *)context
+         forCompiler:(id)compiler;
 @end

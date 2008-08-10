@@ -42,6 +42,7 @@
 -(void) appendObject:(id)object;
 -(MLKCons *) listByAppendingObject:(id)object;
 -(MLKCons *) copyList;
+-(int) length;
 
 -(NSString *) bareDescriptionForLisp;  // description without
                                        // parentheses, for internal use

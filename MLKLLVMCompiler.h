@@ -43,6 +43,8 @@ using namespace llvm;
 @end
 
 
+#ifdef __cplusplus
 @interface MLKForm (MLKLLVMCompilation)
 -(Value *) processForLLVMInBlock:(BasicBlock **)block;
 @end
+#endif
