@@ -46,9 +46,6 @@ static llvm::Module *module;
 static IRBuilder builder;
 static FunctionPassManager *fpm;
 static Type *PointerTy;
-static Function *f_sel_get_uid;
-static Function *f_objc_msg_send;
-static Function *f_objc_get_class;
 
 
 static Constant
@@ -75,47 +72,6 @@ static Constant
   module = new llvm::Module ("MLKLLVMModule");
   execution_engine = ExecutionEngine::create (module);
   PointerTy = PointerType::get(Type::Int8Ty, 0);
-
-  std::vector<const Type*> argtypes1 (1, PointerTy);
-  FunctionType* ftype = FunctionType::get (PointerTy, argtypes1, false);
-  f_sel_get_uid = Function::Create(ftype,
-                                   GlobalValue::ExternalLinkage,
-#ifdef __NEXT_RUNTIME__
-                                   "sel_getUid",
-#else
-                                   "sel_get_uid",
-#endif
-                                   module);
-  //sel_get_uid->setCallingConv (CallingConv::C);
-
-
-  std::vector<const Type*> argtypes2 (2, PointerTy);
-  ftype = FunctionType::get (PointerTy, argtypes2, true);
-  f_objc_msg_send = Function::Create(ftype,
-                                     GlobalValue::ExternalLinkage,
-#ifdef __NEXT_RUNTIME__
-                                     "objc_msgSend",
-#else
-                                     "objc_msg_send",
-#endif
-                                     module);
-
-
-#if 0
-  std::vector<const Type*> argtypes3 (1, PointerTy);
-  ftype = FunctionType::get (PointerTy, argtypes3, false);
-  f_objc_get_class = Function::Create(ftype,
-                                      GlobalValue::ExternalLinkage,
-#ifdef __NEXT_RUNTIME__
-                                      "objc_getClass",
-#else
-                                      "objc_get_class",
-#endif
-                                      module);
-  f_objc_get_class->setCallingConv (CallingConv::C);
-
-  f_objc_get_class->dump();
-#endif
 }
 
 +(id) compile:(id)object
@@ -135,8 +91,6 @@ static Constant
 
   block = BasicBlock::Create ("entry", function);
   builder.SetInsertPoint (block);
-
-  function->dump();
 
   v = [self processForm:[MLKForm formWithObject:object
                                  inContext:context
@@ -164,20 +118,42 @@ static Constant
 
 +(Value *) insertSelectorLookup:(NSString *)name
 {
-  llvm::Constant *nameval = ConstantArray::get ([name UTF8String]);
-  return builder.CreateCall (f_sel_get_uid, nameval);
+  Constant *function = 
+    module->getOrInsertFunction (
+#ifdef __NEXT_RUNTIME__
+                                 "sel_getUid",
+#else
+                                 "sel_get_uid",
+#endif
+                                 PointerTy,
+                                 PointerTy,
+                                 NULL);
+
+  Constant *nameptr = createGlobalStringPtr ([name UTF8String]);
+  return builder.CreateCall (function, nameptr);
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
          withArgumentVector:(std::vector<Value*> *)argv
 {
+  std::vector <const Type *> argtypes (2, PointerTy);
+  FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
+  Constant *function = 
+    module->getOrInsertFunction (
+#ifdef __NEXT_RUNTIME__
+                                 "objc_msgSend",
+#else
+                                 "objc_msg_send",
+#endif
+                                 ftype);
+
   Value *sel = [self insertSelectorLookup:messageName];
 
   std::deque <Value *> argd (argv->begin(), argv->end());
   argd.push_front (object);
   argd.push_front (sel);
-  return builder.CreateCall (f_objc_msg_send, argd.begin(), argd.end());
+  return builder.CreateCall (function, argd.begin(), argd.end());
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
@@ -191,27 +167,19 @@ static Constant
 
 +(Value *) insertClassLookup:(NSString *)className
 {
-//   Constant *nameval = ConstantArray::get (std::string ([className UTF8String]));
-//   GlobalVariable *namevar = new GlobalVariable (nameval->getType(),  //ArrayType::get(IntegerType::get (8), 4),
-//                                                 true,
-//                                                 GlobalValue::InternalLinkage,
-//                                                 nameval,
-//                                                 ".blargh");
-//  Value *ptr = builder.CreateGEP (namevar, Constant::getNullValue(IntegerType::get(32)));
-
-//  nameval->dump();
-//  namevar->dump();
-
   Constant *function = 
-    module->getOrInsertFunction ("objc_get_class",
+    module->getOrInsertFunction (
+#ifdef __NEXT_RUNTIME__
+                                 "objc_getClass",
+#else
+                                 "objc_get_class",
+#endif
                                  PointerTy,
                                  PointerTy,
                                  NULL);
 
-  //  Value *nameptr = builder.CreateGlobalStringPtr ([className UTF8String], ".blargh");
+  // Value *nameptr = builder.CreateGlobalStringPtr ([className UTF8String], "");
   Constant *nameptr = createGlobalStringPtr ([className UTF8String]);
-  nameptr->dump();
-  builder.GetInsertBlock()->getParent()->dump();
   return builder.CreateCall (function, nameptr);
 }
 @end
@@ -346,14 +314,11 @@ static Constant
                                          Function::ExternalLinkage,
                                          "",
                                          module);
-  function->dump();
 
   BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
   BasicBlock *loopBlock = BasicBlock::Create ("load_args");
   BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_init");
   BasicBlock *joinBlock = BasicBlock::Create ("after_load_args");
-
-  function->dump();
 
   builder.SetInsertPoint (initBlock);
 
@@ -362,14 +327,15 @@ static Constant
                                                               false),
                                              PointerType::get(Type::Int8Ty, 0));
 
-  function->dump();
-
   Value *ap = builder.CreateAlloca (Type::Int8Ty);
 
-  function->dump();
+  builder.CreateCall (module->getOrInsertFunction ("llvm.va_start",
+                                                   Type::VoidTy,
+                                                   PointerTy,
+                                                   NULL),
+                      ap);
 
   Value *nsmutablearray = [_compiler insertClassLookup:@"NSMutableArray"];
-  function->dump();
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
   Value *lambdaList = builder.CreateAlloca (PointerType::get (Type::Int8Ty, 0));
 
@@ -397,11 +363,37 @@ static Constant
   builder.SetInsertPoint (joinBlock);
   function->getBasicBlockList().push_back (joinBlock);
 
+  builder.CreateCall (module->getOrInsertFunction ("llvm.va_end",
+                                                   Type::VoidTy,
+                                                   PointerTy,
+                                                   NULL),
+                      ap);
+
   argv[0] = builder.CreateLoad(lambdaList);
   builder.CreateStore ([_compiler insertMethodCall:@"listWithArray:"
                                   onObject:mlkcons
                                   withArgumentVector:&argv],
                        lambdaList);
+
+  function->dump();
+
+  NSEnumerator *e = [_bodyForms objectEnumerator];
+  MLKForm *form;
+  Value *value = NULL;
+
+  if ([_bodyForms count] == 0)
+    {
+      //NSLog (@"%LAMBDA: No body.");
+      value = ConstantPointerNull::get (PointerType::get(Type::Int8Ty, 0));
+    }
+
+  while ((form = [e nextObject]))
+    {
+      //NSLog (@"%LAMBDA: Processing subform.");
+      value = [form processForLLVM];
+    }
+
+  builder.CreateRet (value);
 
   function->dump();
   verifyFunction (*function);
