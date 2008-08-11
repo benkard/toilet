@@ -130,6 +130,9 @@ static FunctionPassManager *fpm;
   MLKForm *form;
   Value *value;
 
+  if ([_bodyForms count] == 0)
+    value = ConstantPointerNull::get (PointerType::get(Type::VoidTy, 0));
+
   while ((form = [e nextObject]))
     {
       value = [form processForLLVM];
