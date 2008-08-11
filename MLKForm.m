@@ -34,7 +34,7 @@
               forCompiler:_compiler]
 
 @implementation MLKForm
--(void) initialize
++(void) initialize
 {
   ensure_symbols ();
 }
@@ -166,7 +166,11 @@
                 inContext:context
                 forCompiler:compiler];
 
-  if ([_head isKindOfClass:[MLKCons class]])
+  if ([self class] != [MLKSimpleCompoundForm class])
+    {
+      return self;
+    }
+  else if ([_head isKindOfClass:[MLKCons class]])
     {
       LRELEASE (self);
       return [MLKForm formWithObject:[MLKCons cons:FUNCALL
@@ -230,7 +234,7 @@
 -(void) processBody:(id)object inContext:(MLKLexicalContext *)context
 {
   id rest;
-  NSMutableArray *bodyForms;
+  NSMutableArray *bodyForms = [NSMutableArray array];
 
   [self splitDeclarationsAndBody:object];
   rest = _body;
@@ -877,8 +881,6 @@
 
 -(id) complete
 {
-  MLKLexicalContext *newContext;
-
   self = [super complete];
 
   if ([_form isKindOfClass:[MLKCons class]])

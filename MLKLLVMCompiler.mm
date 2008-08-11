@@ -55,7 +55,7 @@ static FunctionPassManager *fpm;
   Value *v = NULL;
   BasicBlock *block;
   std::vector<const Type*> noargs (0, Type::VoidTy);
-  FunctionType *function_type = FunctionType::get (PointerType::get (Type::VoidTy, 0),
+  FunctionType *function_type = FunctionType::get (PointerType::get (Type::Int8Ty, 0),
                                                    noargs,
                                                    false);
   Function *function = Function::Create (function_type,
@@ -131,7 +131,7 @@ static FunctionPassManager *fpm;
   Value *value;
 
   if ([_bodyForms count] == 0)
-    value = ConstantPointerNull::get (PointerType::get(Type::VoidTy, 0));
+    value = ConstantPointerNull::get (PointerType::get(Type::Int8Ty, 0));
 
   while ((form = [e nextObject]))
     {
@@ -218,8 +218,10 @@ static FunctionPassManager *fpm;
       args.push_back ([form processForLLVM]);
     }
 
-  args.push_back (ConstantInt::get (PointerType::get (Type::VoidTy, 0),
-                                    (uint64_t)MLKEndOfArgumentsMarker, false));
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                              (uint64_t)MLKEndOfArgumentsMarker,
+                                                              false),
+  args.push_back (endmarker);
 
   CallInst *call = builder.CreateCall (functionPtr,
                                        args.begin(),
@@ -234,17 +236,14 @@ static FunctionPassManager *fpm;
 @implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
 {
-  std::vector <const Type *> argtypes (1, PointerType::get(Type::VoidTy, 0));
-  FunctionType *ftype = FunctionType::get (PointerType::get(Type::VoidTy, 0),
+  std::vector <const Type *> argtypes (1, PointerType::get(Type::Int8Ty, 0));
+  FunctionType *ftype = FunctionType::get (PointerType::get(Type::Int8Ty, 0),
                                            argtypes,
                                            true);
   Function *function = Function::Create (ftype,
                                          Function::ExternalLinkage,
                                          "",
                                          module);
-  Value *endmarker = ConstantInt::get (PointerType::get (Type::VoidTy, 0),
-                                       (uint64_t)MLKEndOfArgumentsMarker, false);
-
   BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
   BasicBlock *loopBlock = BasicBlock::Create ("load_args");
   BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_init");
@@ -252,11 +251,16 @@ static FunctionPassManager *fpm;
 
   builder.SetInsertPoint (initBlock);
 
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                              (uint64_t)MLKEndOfArgumentsMarker,
+                                                              false),
+                                             PointerType::get(Type::Int8Ty, 0));
+
   Value *ap = builder.CreateAlloca (Type::Int8Ty);
 
   Value *nsmutablearray = [_compiler insertFindClass:@"NSMutableArray"];
   Value *mlkcons = [_compiler insertFindClass:@"MLKCons"];
-  Value *lambdaList = builder.CreateAlloca (PointerType::get (Type::VoidTy, 0));
+  Value *lambdaList = builder.CreateAlloca (PointerType::get (Type::Int8Ty, 0));
 
   builder.CreateStore ([_compiler insertMethodCall:@"array"
                                   onObject:nsmutablearray],
@@ -266,7 +270,7 @@ static FunctionPassManager *fpm;
   builder.SetInsertPoint (loopInitBlock);
   function->getBasicBlockList().push_back (loopInitBlock);
 
-  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::VoidTy, 0));
+  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::Int8Ty, 0));
   Value *cond = builder.CreateICmpEQ (arg, endmarker);
   builder.CreateCondBr (cond, joinBlock, loopBlock);
   builder.SetInsertPoint (loopBlock);

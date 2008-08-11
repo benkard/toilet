@@ -19,7 +19,7 @@
 #import "MLKSymbol.h"
 #import "MLKPackage.h"
 
-static MLKPackage *cl;
+static MLKPackage *cl = nil;
 static MLKPackage *sys;
 static MLKPackage *keyword;
 
@@ -67,6 +67,8 @@ static MLKSymbol *MULTIPLE_VALUE_CALL;
 static void
 ensure_symbols ()
 {
+  if (cl) return;
+
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
   keyword = [MLKPackage findPackage:@"KEYWORD"];
