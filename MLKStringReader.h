@@ -17,11 +17,10 @@
  */
 
 #import "MLKFuncallable.h"
-#import "MLKLispValue.h"
 
 #import <Foundation/NSArray.h>
 
 
-@interface MLKStringReader : MLKLispValue <MLKFuncallable>
+@interface MLKStringReader : NSObject <MLKFuncallable>
 -(NSArray *) applyToArray:(NSArray *)arguments;
 @end

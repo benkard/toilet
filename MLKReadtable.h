@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
 #import "MLKFuncallable.h"
 
 #import <Foundation/NSDictionary.h>
@@ -59,7 +58,7 @@ enum MLKConstituentTrait
 };
 
 
-@interface MLKReadtable : MLKLispValue <NSCopying>
+@interface MLKReadtable : NSObject <NSCopying>
 {
   NSMutableDictionary *_syntaxTable;
   NSMutableDictionary *_readerMacros;

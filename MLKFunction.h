@@ -16,10 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
-
-@interface MLKFunction : MLKLispValue
+@interface MLKFunction : NSObject
 {
   void (*_function)();
   NSDictionary *_closedOverVariableIndices;

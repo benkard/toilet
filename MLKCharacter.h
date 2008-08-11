@@ -16,12 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
 #import <Foundation/NSString.h>
 
 
-@interface MLKCharacter : MLKLispValue
+@interface MLKCharacter : NSObject
 {
   unichar unichar;
 }

@@ -17,7 +17,6 @@
  */
 
 #import "MLKBinding.h"
-#import "MLKLispValue.h"
 #import "MLKSymbol.h"
 
 #import <Foundation/NSArray.h>
@@ -26,7 +25,7 @@
 #import <Foundation/NSString.h>
 
 
-@interface MLKEnvironment : MLKLispValue
+@interface MLKEnvironment : NSObject
 {
   MLKEnvironment *_parent;
   NSMutableDictionary *_bindings;

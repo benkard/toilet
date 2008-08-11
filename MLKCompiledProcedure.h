@@ -17,7 +17,6 @@
  */
 
 #import "MLKFuncallable.h"
-#import "MLKLispValue.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 
@@ -25,7 +24,7 @@
 #import <Foundation/NSString.h>
 
 
-@interface MLKCompiledProcedure : MLKLispValue <MLKFuncallable>
+@interface MLKCompiledProcedure : NSObject <MLKFuncallable>
 {
   void *_code;
 }

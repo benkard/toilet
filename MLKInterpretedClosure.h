@@ -17,7 +17,6 @@
  */
 
 #import "MLKFuncallable.h"
-#import "MLKLispValue.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 
@@ -25,7 +24,7 @@
 #import <Foundation/NSString.h>
 
 
-@interface MLKInterpretedClosure : MLKLispValue <MLKFuncallable>
+@interface MLKInterpretedClosure : NSObject <MLKFuncallable>
 {
   id bodyForm;
   MLKSymbol *lambdaListName;

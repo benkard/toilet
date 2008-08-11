@@ -16,8 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
 #import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
@@ -26,7 +24,7 @@
 @class MLKSymbol;
 
 
-@interface MLKPackage : MLKLispValue
+@interface MLKPackage : NSObject
 {
   NSMutableDictionary *_accessible_symbols;
   NSMutableSet *_present_symbols;

@@ -137,8 +137,6 @@
 		A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */; };
 		A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */; };
 		A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */; };
-		A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4170E21695700A01D81 /* MLKLispValue.h */; };
-		A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4180E21695700A01D81 /* MLKLispValue.m */; };
 		A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41A0E21695700A01D81 /* MLKPackage.h */; };
 		A7E5C4610E21695800A01D81 /* MLKPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C41B0E21695700A01D81 /* MLKPackage.m */; };
 		A7E5C4620E21695800A01D81 /* MLKParenReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C41C0E21695700A01D81 /* MLKParenReader.h */; };
@@ -408,8 +406,6 @@
 		A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalContext.m; sourceTree = "<group>"; };
 		A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLexicalEnvironment.h; sourceTree = "<group>"; };
 		A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLexicalEnvironment.m; sourceTree = "<group>"; };
-		A7E5C4170E21695700A01D81 /* MLKLispValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLispValue.h; sourceTree = "<group>"; };
-		A7E5C4180E21695700A01D81 /* MLKLispValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLispValue.m; sourceTree = "<group>"; };
 		A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKLowLevelTests.m; sourceTree = "<group>"; };
 		A7E5C41A0E21695700A01D81 /* MLKPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKPackage.h; sourceTree = "<group>"; };
 		A7E5C41B0E21695700A01D81 /* MLKPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKPackage.m; sourceTree = "<group>"; };
@@ -595,7 +591,6 @@
 				A7E5C40F0E21695700A01D81 /* MLKInterpreter.h */,
 				A7E5C4110E21695700A01D81 /* MLKLexicalContext.h */,
 				A7E5C4130E21695700A01D81 /* MLKLexicalEnvironment.h */,
-				A7E5C4170E21695700A01D81 /* MLKLispValue.h */,
 				A7E5C41A0E21695700A01D81 /* MLKPackage.h */,
 				A7E5C41C0E21695700A01D81 /* MLKParenReader.h */,
 				A7E5C41E0E21695700A01D81 /* MLKQuoteReader.h */,
@@ -649,7 +644,6 @@
 				A7E5C4100E21695700A01D81 /* MLKInterpreter.m */,
 				A7E5C4120E21695700A01D81 /* MLKLexicalContext.m */,
 				A7E5C4140E21695700A01D81 /* MLKLexicalEnvironment.m */,
-				A7E5C4180E21695700A01D81 /* MLKLispValue.m */,
 				A7E5C4190E21695700A01D81 /* MLKLowLevelTests.m */,
 				A7E5C41B0E21695700A01D81 /* MLKPackage.m */,
 				A7E5C41D0E21695700A01D81 /* MLKParenReader.m */,
@@ -694,7 +688,6 @@
 				A7E5C4550E21695800A01D81 /* MLKInterpreter.h in Headers */,
 				A7E5C4570E21695800A01D81 /* MLKLexicalContext.h in Headers */,
 				A7E5C4590E21695800A01D81 /* MLKLexicalEnvironment.h in Headers */,
-				A7E5C45D0E21695800A01D81 /* MLKLispValue.h in Headers */,
 				A7E5C4600E21695800A01D81 /* MLKPackage.h in Headers */,
 				A7E5C4620E21695800A01D81 /* MLKParenReader.h in Headers */,
 				A7E5C4640E21695800A01D81 /* MLKQuoteReader.h in Headers */,
@@ -807,7 +800,6 @@
 				A7E5C4560E21695800A01D81 /* MLKInterpreter.m in Sources */,
 				A7E5C4580E21695800A01D81 /* MLKLexicalContext.m in Sources */,
 				A7E5C45A0E21695800A01D81 /* MLKLexicalEnvironment.m in Sources */,
-				A7E5C45E0E21695800A01D81 /* MLKLispValue.m in Sources */,
 				A7E5C4610E21695800A01D81 /* MLKPackage.m in Sources */,
 				A7E5C4630E21695800A01D81 /* MLKParenReader.m in Sources */,
 				A7E5C4650E21695800A01D81 /* MLKQuoteReader.m in Sources */,

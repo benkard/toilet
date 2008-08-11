@@ -17,14 +17,13 @@
  */
 
 #import "MLKFuncallable.h"
-#import "MLKLispValue.h"
 #import "MLKCharacter.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSDictionary.h>
 
 
-@interface MLKDispatchingMacroCharacterReader : MLKLispValue <MLKFuncallable>
+@interface MLKDispatchingMacroCharacterReader : NSObject <MLKFuncallable>
 {
   NSMutableDictionary *_readerMacros;
 }

@@ -16,12 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
-@class NSArray;
+#import <Foundation/NSArray.h>
 
 
-@interface MLKCons : MLKLispValue <NSCopying>
+@interface MLKCons : NSObject <NSCopying>
 {
   id _car;
   id _cdr;

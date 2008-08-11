@@ -16,13 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
 #import <Foundation/NSStream.h>
 #import <Foundation/NSString.h>
 
 
-@interface MLKStream : MLKLispValue
+@interface MLKStream : NSObject
 {
   NSInputStream *_input;
   NSOutputStream *_output;

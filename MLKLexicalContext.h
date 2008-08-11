@@ -17,7 +17,6 @@
  */
 
 #import "MLKFuncallable.h"
-#import "MLKLispValue.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSSet.h>
@@ -26,7 +25,7 @@
        NSMutableDictionary, NSString, MLKCons;
 
 
-@interface MLKLexicalContext : MLKLispValue
+@interface MLKLexicalContext : NSObject
 {
   NSMutableSet *_knownMacros;
   NSMutableSet *_knownCompilerMacros;

@@ -16,14 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
-
 #import <Foundation/NSObject.h>
 
 @class MLKPackage;
 
 
-@interface MLKSymbol : MLKLispValue <NSCopying>
+@interface MLKSymbol : NSObject <NSCopying>
 {
   NSString *name;
   MLKPackage *homePackage;

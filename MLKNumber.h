@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
+#import <Foundation/NSObject.h>
 
 
-@interface MLKNumber : MLKLispValue
+@interface MLKNumber : NSObject
 -(MLKNumber *) add:(MLKNumber *)arg;
 -(MLKNumber *) subtract:(MLKNumber *)arg;
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;

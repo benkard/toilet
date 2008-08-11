@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKLispValue.h"
 #import "MLKEnvironment.h"
 #import "MLKFuncallable.h"
 #import "MLKFunction.h"
@@ -25,7 +24,7 @@
 #import <Foundation/NSData.h>
 
 
-@interface MLKClosure : MLKLispValue <MLKFuncallable>
+@interface MLKClosure : NSObject <MLKFuncallable>
 {
   MLKFunction *_code;
   NSData *_closedOverVariableVector;
