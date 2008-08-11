@@ -184,18 +184,19 @@ static void init_symbols ()
 }
 
 
-void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body)
+void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body, BOOL docp)
 {
   id declarations;
 
   init_symbols ();
 
-  *doc = nil;
+  if (docp)
+    *doc = nil;
 
   declarations = nil;
   while (([[body car] isKindOfClass:[MLKCons class]]
           && [[body car] car] == DECLARE)
-         || [[body car] isKindOfClass:[NSString class]])
+         || (docp && [[body car] isKindOfClass:[NSString class]]))
     {
       id thing = [body car];
 

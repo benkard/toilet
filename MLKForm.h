@@ -90,6 +90,10 @@
   id _body;
   NSArray *_bodyForms;
 }
+
+-(void) splitDeclarationsAndBody:(id)object;
+-(void) processBody:(id)object inContext:(MLKLexicalContext *)context;
+-(void) processBody:(id)object;
 @end
 
 
@@ -98,6 +102,9 @@
   id _declarations;
   NSArray *_declarationForms;
 }
+
+-(void) splitDeclarationsAndBody:(id)object;
+-(id) declarationsWithForms:(id)object;
 @end
 
 
@@ -105,6 +112,8 @@
 {
   NSString *_documentation;
 }
+
+-(void) splitDeclarationsAndBody:(id)object;
 @end
 
 
@@ -215,7 +224,7 @@
 
 @interface MLKLetForm : MLKDeclaringForm
 {
-  NSArray *_bindingForms;
+  NSArray *_variableBindingForms;
 }
 @end
 
@@ -224,7 +233,7 @@
 @end
 
 
-@interface MLKSimpleLoopForm : MLKCompoundForm
+@interface MLKSimpleLoopForm : MLKBodyForm
 @end
 
 
@@ -307,7 +316,25 @@
   MLKSymbol *_lambdaListName;
 }
 
-+(id) formWithObject:(id)object
-           inContext:(MLKLexicalContext *)context
-         forCompiler:(id)compiler;
++(Class) dispatchClassForObject:(id)object;
+@end
+
+
+@interface MLKVariableBindingForm : MLKForm
+{
+  id _name;
+  MLKForm *_valueForm;
+}
+
++(Class) dispatchClassForObject:(id)object;
+@end
+
+
+@interface MLKDeclarationForm : MLKCompoundForm
+{
+  id _type;
+  NSArray *_arguments;
+}
+
++(Class) dispatchClassForObject:(id)object;
 @end

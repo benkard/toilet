@@ -677,7 +677,7 @@ as provided by method %@ of object %@",
   id decls, doc, forms;
   id bodyAndDecls = denullify ([args objectAtIndex:0]);
 
-  MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls);
+  MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls, YES);
 
   RETURN_VALUE ([MLKCons
                   cons:decls
@@ -686,5 +686,20 @@ as provided by method %@ of object %@",
                          with:[MLKCons
                                 cons:forms
                                 with:nil]]]);
+}
+
+
++(NSArray *) declarations_and_forms:(NSArray *)args
+{
+  id decls, doc, forms;
+  id bodyAndDecls = denullify ([args objectAtIndex:0]);
+  
+  MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls, NO);
+  
+  RETURN_VALUE ([MLKCons
+                  cons:decls
+                  with:[MLKCons
+                         cons:forms
+                         with:nil]]);
 }
 @end

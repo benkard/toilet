@@ -153,6 +153,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"SYMBOL-NAME"]];
   [sys export:[sys intern:@"FIXNUM-EQ"]];
   [sys export:[sys intern:@"DECLARATIONS-AND-DOC-AND-FORMS"]];
+  [sys export:[sys intern:@"DECLARATIONS-AND-FORMS"]];
 
   [sys export:[sys intern:@"OBJC-CLASS-OF"]];
   [sys export:[sys intern:@"OBJC-SUBCLASSP"]];

@@ -219,23 +219,59 @@
 
 
 @implementation MLKBodyForm
+-(void) splitDeclarationsAndBody:(id)object
+{
+  _body = object;
+}
+
+-(void) processBody:(id)object inContext:(MLKLexicalContext *)context
+{
+  id rest;
+  NSMutableArray *bodyForms;
+
+  [self splitDeclarationsAndBody:object];
+  rest = _body;
+  while (rest)
+    {
+      [bodyForms addObject:[MLKForm formWithObject:[rest car]
+                                         inContext:context
+                                       forCompiler:_compiler]];
+      rest = [rest cdr];
+    }
+
+  LASSIGN (_bodyForms, bodyForms);
+}
+
+-(void) processBody:(id)object
+{
+  [self processBody:object inContext:_context];
+}
 @end
 
 
 @implementation MLKDeclaringForm
+-(void) splitDeclarationsAndBody:(id)object
+{
+  MLKSplitDeclarationsDocAndForms(&_declarations, nil, &_body, object, NO);
+}
+
+-(id) declarationsWithForms:(id)object
+{
+  [self splitDeclarationsAndBody:object];
+  return _declarations;
+}
 @end
 
 
 @implementation MLKDocstringForm
+-(void) splitDeclarationsAndBody:(id)object
+{
+  MLKSplitDeclarationsDocAndForms(&_declarations, &_documentation, &_body, object, YES);
+}
 @end
 
 
 @implementation MLKFunctionCallForm
-// -(id <MLKFuncallable>) functionInfo
-// {
-//   return [_context functionInfoForSymbol:_head];
-// }
-
 -(id) complete
 {
   self = [super complete];
@@ -272,7 +308,7 @@
                                              macros:nil
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[[_tail cdr] cdr]]];
+                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
 
   [self processBody:[[_tail cdr] cdr]
           inContext:newContext];
@@ -297,7 +333,7 @@
       rest = [rest cdr];
     }
 
-  [self procesRawBody:[_tail cdr]];
+  [self processBody:[_tail cdr]];
   return self;
 }
 @end
@@ -414,7 +450,7 @@
                                              macros:nil
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[_tail cdr]]];
+                                       declarations:[self declarationsWithForms:[_tail cdr]]];
   
   [self processBody:[_tail cdr]
           inContext:newContext];
@@ -453,14 +489,14 @@
                                              macros:macros
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[_tail cdr]]];
-  [self processDeclarationsAndBody:[_tail cdr]];
+                                       declarations:[self declarationsWithForms:[_tail cdr]]];
+
   newForm = [MLKForm formWithObject:[MLKCons cons:LET
                                              with:[MLKCons cons:nil
                                                            with:[_tail cdr]]]
                           inContext:newContext
                         forCompiler:_compiler];
-  LDEALLOC (self);
+  LRELEASE (self);  //?FIXME
   return newForm;
 }
 @end
@@ -496,7 +532,7 @@
                                              macros:nil
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[[_tail cdr] cdr]]];
+                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
 
   LASSIGN (_functionBindingForms, bindingForms);
   [self processBody:[_tail cdr]
@@ -509,10 +545,36 @@
 @implementation MLKLetForm
 -(id) complete
 {
+  NSMutableArray *bindingForms;
+  MLKCons *bindings;
+  NSMutableSet *variables;
   MLKLexicalContext *newContext;
-
+  
   self = [super complete];
-  // FIXME
+  
+  bindingForms = [NSMutableArray array];
+  variables = [NSMutableSet set];
+  bindings = [_tail car];
+  
+  while (bindings)
+    {
+      [bindingForms addObject:[MLKVariableBindingForm formWithObject:[bindings car]
+                                                           inContext:_context
+                                                         forCompiler:_compiler]];
+      [variables addObject:[[bindings car] car]];
+      bindings = [bindings cdr];
+    }
+  
+  newContext = [MLKLexicalContext contextWithParent:_context
+                                          variables:variables
+                                          functions:nil
+                                             goTags:nil
+                                             macros:nil
+                                     compilerMacros:nil
+                                       symbolMacros:nil
+                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
+  
+  LASSIGN (_variableBindingForms, bindingForms);
   [self processBody:[_tail cdr]
           inContext:newContext];
   return self;
@@ -533,9 +595,9 @@
                                              macros:nil
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[[_tail cdr] cdr]]];
+                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
   
-  [self processRawBody:[_tail cdr]];
+  [self processBody:[_tail cdr]];
   return self;
 }
 @end
@@ -545,7 +607,7 @@
 -(id) complete
 {
   self = [super complete];
-  [self processRawBody:_tail];
+  [self processBody:_tail];
   return self;
 }
 @end
@@ -556,7 +618,7 @@
 {
   self = [super complete];
   LASSIGN (_functionForm, [_tail car]);
-  [self processRawBody:[_tail cdr]];
+  [self processBody:[_tail cdr]];
   return self;
 }
 @end
@@ -566,7 +628,7 @@
 -(id) complete
 {
   self = [super complete];
-  [self processRawBody:_tail];
+  [self processBody:_tail];
   return self;
 }
 @end
@@ -578,7 +640,7 @@
   self = [super complete];
   LASSIGN (_variableListForm, MAKE_FORM ([_tail car]));
   LASSIGN (_valueListForm, MAKE_FORM ([[_tail cdr] car]));
-  [self processRawBody:[[_tail cdr] cdr]];
+  [self processBody:[[_tail cdr] cdr]];
   return self;
 }
 @end
@@ -680,20 +742,16 @@
 {
   self = [super complete];
   LASSIGN (_protectedForm, MAKE_FORM ([_tail car]));
-  [self processRawBody:[_tail cdr]];
+  [self processBody:[_tail cdr]];
   return self;
 }
 @end
 
 
 @implementation MLKSimpleFunctionBindingForm
-+(id) formWithObject:(id)object
-           inContext:(MLKLexicalContext *)context
-         forCompiler:(id)compiler
++(Class) dispatchClassForObject:(id)object
 {
-  return [[self alloc] initWithObject:(id)object
-                            inContext:(MLKLexicalContext *)context
-                          forCompiler:(id)compiler];
+  return self;
 }
 
 -(id) complete
@@ -712,10 +770,56 @@
                                              macros:nil
                                      compilerMacros:nil
                                        symbolMacros:nil
-                                       declarations:[self processDeclarations:[_tail cdr]]];
+                                       declarations:[self declarationsWithForms:[_tail cdr]]];
 
   [self processBody:[_tail cdr]
           inContext:newContext];
+  return self;
+}
+@end
+
+
+@implementation MLKVariableBindingForm
++(Class) dispatchClassForObject:(id)object
+{
+  return self;
+}
+
+-(id) complete
+{
+  MLKLexicalContext *newContext;
+
+  self = [super complete];
+
+  if ([_form isKindOfClass:[MLKCons class]])
+    {
+      LASSIGN (_name, [_form car]);
+      LASSIGN (_valueForm, MAKE_FORM ([[_form cdr] car]));
+    }
+  else
+    {
+      LASSIGN (_name, _form);
+      LASSIGN (_valueForm, MAKE_FORM (nil));
+    }
+
+  return self;
+}
+@end
+
+
+@implementation MLKDeclarationForm : MLKCompoundForm
++(Class) dispatchClassForObject:(id)object
+{
+  return self;
+}
+
+-(id) complete
+{
+  self = [super complete];
+
+  LASSIGN (_type, [_form car]);
+  LASSIGN (_arguments, [_form cdr] ? [[_form cdr] array] : [NSArray array]);
+
   return self;
 }
 @end

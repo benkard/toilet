@@ -46,7 +46,7 @@ id MLKSubtractFixnums (id x, id y);
 id MLKIDivideFixnums (id x, id y);
 id MLKMultiplyFixnums (id x, id y);
 
-void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body);
+void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body, BOOL docp);
 
 typedef enum MLKForeignType
 {

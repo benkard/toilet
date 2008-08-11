@@ -554,7 +554,7 @@
               MLKLexicalContext *ctx;
 
               MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
-                                               [[program cdr] cdr]);
+                                               [[program cdr] cdr], NO);
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
                                    variables:nil
@@ -616,7 +616,7 @@
               MLKLexicalEnvironment *env;
 
               MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
-                                               [[program cdr] cdr]);
+                                               [[program cdr] cdr], NO);
 
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
@@ -693,7 +693,7 @@
               MLKDynamicContext *dynctx;
 
               MLKSplitDeclarationsDocAndForms (&declarations, &doc, &body,
-                                               [[program cdr] cdr]);
+                                               [[program cdr] cdr], NO);
 
               ctx = LAUTORELEASE ([[MLKLexicalContext alloc]
                                    initWithParent:context
