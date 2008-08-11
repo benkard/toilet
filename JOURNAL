@@ -3,7 +3,7 @@
 #title Toilet Lisp Development Diary
 #desc Random news and stuff about just another random pet project
 
-; Time-stamp: <2008-08-06 11:36:21 mulk>
+; Time-stamp: <2008-08-11 02:35:35 mulk>
 ; 
 ; C-c i t	insert-time-stamp
 ; C-c C-t	muse-project-publish-this-file
@@ -16,6 +16,44 @@
 Context: [[http://matthias.benkard.de/toilet][The Toilet Lisp Project]].
 
 ----
+
+
+* 2008-08-11, 02:09:21 CEST
+
+** Function Calling, 2nd Take
+
+More thoughts:
+
+ - Fat pointers are =MLKClosure= instances.  =(funcall x a b c)= is compiled
+   into:
+
+   <example>
+   %tmp1 = x->code
+   %tmp2 = x->closure_data_pointer
+   tail call %tmp1 (%tmp2, a, b, c)
+   </example>
+
+   Of course, the =code= and =closure_data_pointer= ivar offsets have to be
+   known in advance, but that should be doable.
+
+ - Contrary to what I said earlier, I now think it should be possible to
+   not always require the use of varargs.  Simply accept one more
+   argument than we really expect, then look for the end-of-arguments
+   marker in the supplied arguments.  If it's there, determine whether
+   it's in an expected place (i.e. not at a position that a required
+   argument was expected at), if not, signal an error.
+
+ - It should also be possible to skip argument list checking entirely,
+   either by providing another thread-local flag or by putting the same
+   =BasicBlock= into two different functions so that there are two entry
+   points (a safe one and an unsafe one).
+
+ - **lambda** is just as dumb as **flet**: Neither operator causes an =MLKClosure=
+   object to be created at runtime.  Both yield two values upon
+   compilation: a =Value*= that contains the closure data value at runtime
+   (i.e. the first argument of the function to call) and a code pointer.
+   Now, where do =MLKClosure= objects come from, then?  Easy: **function** is
+   the one that creates them from all that information.
 
 
 * 2008-08-06, 11:08:30 CEST
@@ -116,27 +154,27 @@ proto-name) to become a Lisp compiler for the Étoilé runtime (and maybe
 Mac OS X as well, but that's of a lower priority) with the following
 features:
 
- * A proper subset of ANSI Common Lisp, with an eye towards full ANSI
+ - A proper subset of ANSI Common Lisp, with an eye towards full ANSI
    compliance in the far future.
- * CFFI support.
- * Lexical **and** dynamic scoping.
- * Integration with the Étoilé object system.
- * DEFMACRO.
- * Hygienic macros by way of Explicit Renaming and Syntactic Closures.
- * Read macros. (?)
- * TAGBODY and GO. (?)
- * CATCH and THROW. (?)
- * Places (that is, SETF).
- * A package system.
- * Arrays and hash tables compatible with their Common Lisp counterparts,
+ - CFFI support.
+ - Lexical **and** dynamic scoping.
+ - Integration with the Étoilé object system.
+ - DEFMACRO.
+ - Hygienic macros by way of Explicit Renaming and Syntactic Closures.
+ - Read macros. (?)
+ - TAGBODY and GO. (?)
+ - CATCH and THROW. (?)
+ - Places (that is, SETF).
+ - A package system.
+ - Arrays and hash tables compatible with their Common Lisp counterparts,
    but based on the Étoilé/GNUstep ones.
- * Direct compilation to Étoilé runtime code (as with Étoilé Smalltalk).
- * A REPL.
- * Conditions and restarts.
- * Multiple namespaces.
- * Bignums and rationals.
- * JIT and explicit compilation (COMPILE) via LLVM. (?)
- * Optional static typing with Cells-based/Hindley-Milner/whatever type
+ - Direct compilation to Étoilé runtime code (as with Étoilé Smalltalk).
+ - A REPL.
+ - Conditions and restarts.
+ - Multiple namespaces.
+ - Bignums and rationals.
+ - JIT and explicit compilation (COMPILE) via LLVM. (?)
+ - Optional static typing with Cells-based/Hindley-Milner/whatever type
    inference. (?)
 
 Well, that's what I'm dreaming of.  At least now you have something new
