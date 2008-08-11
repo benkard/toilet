@@ -78,6 +78,11 @@
                            inContext:context
                            forCompiler:compiler]);
 }
+
+-(NSArray *) subforms
+{
+  return [NSArray array];
+}
 @end
 
 
@@ -93,8 +98,6 @@
 
 
 @implementation MLKSelfEvaluatingForm
-// FIXME
-
 +(Class) dispatchClassForObject:(id)object
 {
   return self;
@@ -246,6 +249,11 @@
 {
   [self processBody:object inContext:_context];
 }
+
+-(NSArray *) subforms
+{
+  return _bodyForms;
+}
 @end
 
 
@@ -259,6 +267,11 @@
 {
   [self splitDeclarationsAndBody:object];
   return _declarations;
+}
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_declarationForms];
 }
 @end
 
@@ -278,6 +291,11 @@
   LASSIGN (_argumentForms, [_tail array]);
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_argumentForms];
+}
 @end
 
 
@@ -288,6 +306,12 @@
   LASSIGN (_tagForm, [_tail car]);
   LASSIGN (_bodyForms, [[_tail cdr] array]);
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[[super subforms] arrayByAddingObject:_tagForm]
+          arrayByAddingObjectsFromArray:_bodyForms];
 }
 @end
 
@@ -400,6 +424,11 @@
   LASSIGN (_lambdaForm, MAKE_FORM ([_tail car]));
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObject:_lambdaForm];
+}
 @end
 
 
@@ -421,6 +450,13 @@
   LASSIGN (_consequentForm, MAKE_FORM ([[_tail cdr] car]));
   LASSIGN (_alternativeForm, MAKE_FORM ([[[_tail cdr] cdr] car]));
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[[[super subforms] arrayByAddingObject:_conditionForm]
+           arrayByAddingObject:_consequentForm]
+          arrayByAddingObject:_alternativeForm];
 }
 @end
 
@@ -539,6 +575,11 @@
           inContext:newContext];
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_functionBindingForms];
+}
 @end
 
 
@@ -578,6 +619,11 @@
   [self processBody:[_tail cdr]
           inContext:newContext];
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_variableBindingForms];
 }
 @end
 
@@ -621,6 +667,11 @@
   [self processBody:[_tail cdr]];
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObject:_functionForm];
+}
 @end
 
 
@@ -642,6 +693,12 @@
   LASSIGN (_valueListForm, MAKE_FORM ([[_tail cdr] car]));
   [self processBody:[[_tail cdr] cdr]];
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[[super subforms] arrayByAddingObject:_variableListForm]
+          arrayByAddingObject:_valueListForm];
 }
 @end
 
@@ -677,6 +734,11 @@
   LASSIGN (_valueForms, valueForms);
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
+}
 @end
 
 
@@ -701,6 +763,11 @@
   LASSIGN (_valueForms, valueForms);
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
+}
 @end
 
 
@@ -711,6 +778,12 @@
   LASSIGN (_variableForm, MAKE_FORM ([_tail car]));
   LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[[super subforms] arrayByAddingObject:_variableForm]
+          arrayByAddingObject:_valueForm];
 }
 @end
 
@@ -723,6 +796,12 @@
   LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[[super subforms] arrayByAddingObject:_functionNameForm]
+          arrayByAddingObject:_valueForm];
+}
 @end
 
 
@@ -734,6 +813,12 @@
   LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
   return self;
 }
+
+-(NSArray *) subforms
+{
+  return [[[super subforms] arrayByAddingObject:_tagForm]
+          arrayByAddingObject:_valueForm];
+}
 @end
 
 
@@ -744,6 +829,11 @@
   LASSIGN (_protectedForm, MAKE_FORM ([_tail car]));
   [self processBody:[_tail cdr]];
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObject:_protectedForm];
 }
 @end
 
@@ -803,6 +893,11 @@
     }
 
   return self;
+}
+
+-(NSArray *) subforms
+{
+  return [[super subforms] arrayByAddingObject:_valueForm];
 }
 @end
 

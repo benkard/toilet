@@ -41,6 +41,8 @@
 +(id) formWithObject:(id)object
            inContext:(MLKLexicalContext *)context
          forCompiler:(id)compiler;
+
+-(NSArray *) subforms;
 @end
 
 
