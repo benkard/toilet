@@ -260,7 +260,7 @@
 @implementation MLKDeclaringForm
 -(void) splitDeclarationsAndBody:(id)object
 {
-  MLKSplitDeclarationsDocAndForms(&_declarations, nil, &_body, object, NO);
+  MLKSplitDeclarationsDocAndForms(&_declarations, NULL, &_body, object, NO);
 }
 
 -(id) declarationsWithForms:(id)object

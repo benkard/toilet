@@ -37,14 +37,25 @@ using namespace llvm;
 +(void) processTopLevelForm:(id)object;
 
 #ifdef __cplusplus
-+(Value *) processForm:(MLKForm *)form
-               inBlock:(BasicBlock **)block;
++(Value *) processForm:(MLKForm *)form;
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object;
 #endif
 @end
 
 
 #ifdef __cplusplus
 @interface MLKForm (MLKLLVMCompilation)
--(Value *) processForLLVMInBlock:(BasicBlock **)block;
+-(Value *) processForLLVM;
+@end
+
+
+@interface MLKLexicalContext (MLKLLVMCompilation)
+-(BOOL) isHeapVariable:(id)name;
+-(Value *) functionCellForSymbol:(id)name;
+-(Value *) closureDataPointerForSymbol:(id)name;
+-(Value *) bindingForSymbol:(id)name;
+-(Value *) valueForSymbol:(id)name;
 @end
 #endif

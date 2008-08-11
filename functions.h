@@ -30,6 +30,10 @@
 #endif
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 NSString *MLKPrintToString (id object);
 
 BOOL MLKFixnumP (id thing);
@@ -78,3 +82,8 @@ void MLKSetForeignValueWithLispValue (void *destination, id value, MLKForeignTyp
 id MLKLispValueWithForeignValue (void *source, MLKForeignType type);
 
 id MLKInterpretedFunctionTrampoline (void *target, ...);
+  
+
+#ifdef __cplusplus
+}
+#endif

@@ -17,8 +17,10 @@
  */
 
 #import "MLKLLVMCompiler.h"
+#import "globals.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSEnumerator.h>
 #import <Foundation/NSString.h>
 
 #include <llvm/Analysis/Verifier.h>
@@ -67,8 +69,7 @@ static FunctionPassManager *fpm;
 
   v = [self processForm:[MLKForm formWithObject:object
                                  inContext:context
-                                 forCompiler:self]
-            inBlock:&block];
+                                 forCompiler:self]];
 
   builder.CreateRet (v);
   verifyFunction (*function);
@@ -85,17 +86,207 @@ static FunctionPassManager *fpm;
 }
 
 +(Value *) processForm:(MLKForm *)form
-               inBlock:(BasicBlock **)block
 {
-  return [form processForLLVMInBlock:block];
+  return [form processForLLVM];
+}
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv
+{
+#ifdef __NEXT_RUNTIME__
+#else
+#endif
+}
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+{
+  std::vector<Value*> argv;
+  return [self insertMethodCall:messageName
+               onObject:object
+               withArgumentVector:&argv];
+}
+
++(Value *) insertFindClass:(NSString *)className
+{
 }
 @end
 
 
 @implementation MLKForm (MLKLLVMCompilation)
--(Value *) processForLLVMInBlock:(BasicBlock **)block
+-(Value *) processForLLVM
 {
   NSLog (@"WARNING: Unrecognised form type: %@", self);
   return NULL;
+}
+@end
+
+
+@implementation MLKProgNForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  NSEnumerator *e = [_bodyForms objectEnumerator];
+  MLKForm *form;
+  Value *value;
+
+  while ((form = [e nextObject]))
+    {
+      value = [form processForLLVM];
+    }
+  
+  return value;
+}
+@end
+
+
+@implementation MLKSimpleLoopForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  NSEnumerator *e = [_bodyForms objectEnumerator];
+  MLKForm *form;
+
+  Function *function = builder.GetInsertBlock()->getParent();
+
+  BasicBlock *loopBlock = BasicBlock::Create ("loop", function);
+  BasicBlock *joinBlock = BasicBlock::Create ("after_loop");
+
+  builder.CreateBr (loopBlock);
+  builder.SetInsertPoint (loopBlock);
+
+  while ((form = [e nextObject]))
+    {
+      [form processForLLVM];
+    }
+
+  builder.CreateBr (loopBlock);
+  builder.SetInsertPoint (joinBlock);
+  function->getBasicBlockList().push_back (joinBlock);
+
+  builder.CreateUnreachable ();
+
+  return NULL;
+}
+@end
+
+
+@implementation MLKSymbolForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  Value *value;
+
+  if ([_context isHeapVariable:self])
+    {
+      Value *binding = builder.CreateLoad ([_context bindingForSymbol:_form]);
+      value = [_compiler insertMethodCall:@"value" onObject:binding];
+    }
+  else
+    {
+      value = builder.CreateLoad ([_context valueForSymbol:_form],
+                                  [MLKPrintToString(_form) UTF8String]);
+    }
+
+  return value;
+}
+@end
+
+
+@implementation MLKFunctionCallForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  if (![_context symbolNamesFunction:_head])
+    {
+      NSLog (@"Compiler: Don't know function %@", MLKPrintToString(_head));
+      // XXX Issue a style warning.
+    }
+
+  Value *functionCell = builder.CreateLoad ([_context functionCellForSymbol:_head]);
+  Value *functionPtr = builder.CreateLoad (functionCell);
+  Value *closureDataPointer = builder.CreateLoad ([_context closureDataPointerForSymbol:_head]);
+
+  NSEnumerator *e = [_argumentForms objectEnumerator];
+  MLKForm *form;
+
+  std::vector<Value *> args;
+  args.push_back (closureDataPointer);
+
+  while ((form = [e nextObject]))
+    {
+      args.push_back ([form processForLLVM]);
+    }
+
+  args.push_back (ConstantInt::get (PointerType::get (Type::VoidTy, 0),
+                                    (uint64_t)MLKEndOfArgumentsMarker, false));
+
+  CallInst *call = builder.CreateCall (functionPtr,
+                                       args.begin(),
+                                       args.end(),
+                                       [MLKPrintToString(_head) UTF8String]);
+
+  return call;
+}
+@end
+
+
+@implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  std::vector <const Type *> argtypes (1, PointerType::get(Type::VoidTy, 0));
+  FunctionType *ftype = FunctionType::get (PointerType::get(Type::VoidTy, 0),
+                                           argtypes,
+                                           true);
+  Function *function = Function::Create (ftype,
+                                         Function::ExternalLinkage,
+                                         "",
+                                         module);
+  Value *endmarker = ConstantInt::get (PointerType::get (Type::VoidTy, 0),
+                                       (uint64_t)MLKEndOfArgumentsMarker, false);
+
+  BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
+  BasicBlock *loopBlock = BasicBlock::Create ("load_args");
+  BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_init");
+  BasicBlock *joinBlock = BasicBlock::Create ("after_load_args");
+
+  builder.SetInsertPoint (initBlock);
+
+  Value *ap = builder.CreateAlloca (Type::Int8Ty);
+
+  Value *nsmutablearray = [_compiler insertFindClass:@"NSMutableArray"];
+  Value *mlkcons = [_compiler insertFindClass:@"MLKCons"];
+  Value *lambdaList = builder.CreateAlloca (PointerType::get (Type::VoidTy, 0));
+
+  builder.CreateStore ([_compiler insertMethodCall:@"array"
+                                  onObject:nsmutablearray],
+                       lambdaList);
+
+  builder.CreateBr (loopInitBlock);
+  builder.SetInsertPoint (loopInitBlock);
+  function->getBasicBlockList().push_back (loopInitBlock);
+
+  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::VoidTy, 0));
+  Value *cond = builder.CreateICmpEQ (arg, endmarker);
+  builder.CreateCondBr (cond, joinBlock, loopBlock);
+  builder.SetInsertPoint (loopBlock);
+  function->getBasicBlockList().push_back (loopBlock);
+
+  std::vector <Value *> argv (1, arg);
+  builder.CreateStore ([_compiler insertMethodCall:@"addObject:"
+                                  onObject:builder.CreateLoad(lambdaList)
+                                  withArgumentVector:&argv],
+                       lambdaList);
+
+  builder.CreateBr (loopInitBlock);
+  builder.SetInsertPoint (joinBlock);
+  function->getBasicBlockList().push_back (joinBlock);
+
+  argv[0] = builder.CreateLoad(lambdaList);
+  builder.CreateStore ([_compiler insertMethodCall:@"listWithArray:"
+                                  onObject:mlkcons
+                                  withArgumentVector:&argv],
+                       lambdaList);
+
+  verifyFunction (*function);
+  fpm->run (*function);
+  return function;
 }
 @end
