@@ -32,7 +32,7 @@
 @implementation MLKCompiledClosure
 -(id) initWithCode:(void *)code
               data:(id *)data
-            length:(int)dataLength
+            length:(intptr_t)dataLength
 {
   int i;
 
@@ -53,7 +53,7 @@
 
 +(id) closureWithCode:(void *)code
                  data:(id *)data
-               length:(int)dataLength
+               length:(intptr_t)dataLength
 {
   return LAUTORELEASE ([[self alloc] initWithCode:code data:data length:dataLength]);
 }

@@ -32,13 +32,15 @@
   BOOL _ownPointer;  // do we own the _code pointer cell?
 }
 
+// Why intptr_t?  Because it makes it easier to call this method from
+// LLVM-generated code without proper type handling.
 -(id) initWithCode:(void *)code
               data:(id *)data
-            length:(int)dataLength;
+            length:(intptr_t)dataLength;
 
 +(id) closureWithCode:(void *)code
                  data:(id *)data
-               length:(int)dataLength;;
+               length:(intptr_t)dataLength;;
 
 -(NSArray *) applyToArray:(NSArray *)arguments;
 
