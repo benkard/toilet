@@ -108,7 +108,6 @@ static Constant
                                  forCompiler:self]];
 
   builder.CreateRet (v);
-  function->dump();
   verifyFunction (*function);
   fpm->run (*function);
 
@@ -400,6 +399,8 @@ static Constant
 
   Value *nsmutablearray = [_compiler insertClassLookup:@"NSMutableArray"];
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
+
+  // FIXME: Heap-allocate if appropriate.
   Value *lambdaList = builder.CreateAlloca (PointerTy, NULL, "lambda_list");
 
   builder.CreateStore ([_compiler insertMethodCall:@"array"
@@ -451,6 +452,7 @@ static Constant
   while ((form = [e nextObject]))
     {
       //NSLog (@"%LAMBDA: Processing subform.");
+      [form->_context setValue:lambdaList forSymbol:_lambdaListName];
       value = [form processForLLVM];
     }
 
