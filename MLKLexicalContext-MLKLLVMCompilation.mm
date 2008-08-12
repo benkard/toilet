@@ -72,4 +72,32 @@ using namespace std;
                           key:@"LLVM.variable-value"]
                      pointerValue];
 }
+
+-(void) setFunctionCell:(Value *)cellPtr forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:cellPtr]
+        forFunction:name
+        key:@"LLVM.function-cell"];
+}
+
+-(void) setClosureDataPointer:(Value *)pointer forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:pointer]
+        forFunction:name
+        key:@"LLVM.closure-data"];
+}
+
+-(void) setBinding:(Value *)binding forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:binding]
+        forVariable:name
+        key:@"LLVM.variable-binding"];
+}
+
+-(void) setValue:(Value *)value forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:value]
+        forVariable:name
+        key:@"LLVM.variable-value"];
+}
 @end
