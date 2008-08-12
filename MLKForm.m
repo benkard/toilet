@@ -915,7 +915,7 @@
   self = [super complete];
 
   LASSIGN (_type, [_form car]);
-  LASSIGN (_arguments, [_form cdr] ? [[_form cdr] array] : [NSArray array]);
+  LASSIGN (_arguments, [_form cdr] ? (id)[[_form cdr] array] : (id)[NSArray array]);
 
   return self;
 }

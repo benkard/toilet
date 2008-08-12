@@ -17,6 +17,7 @@
  */
 
 #import "MLKForm.h"
+#import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
 
 #import <Foundation/NSObject.h>
@@ -35,6 +36,8 @@ using namespace llvm;
     inContext:(MLKLexicalContext *)context;
 
 +(void) processTopLevelForm:(id)object;
++(void) processTopLevelForm:(id)object
+                     inMode:(enum MLKProcessingMode)mode;
 
 #ifdef __cplusplus
 +(Value *) processForm:(MLKForm *)form;

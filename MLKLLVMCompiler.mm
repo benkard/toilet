@@ -45,7 +45,7 @@ static ExecutionEngine *execution_engine;
 static llvm::Module *module;
 static IRBuilder builder;
 static FunctionPassManager *fpm;
-static Type *PointerTy;
+static PointerType *PointerTy;
 
 
 static Constant
@@ -87,6 +87,7 @@ static Constant
                                          Function::ExternalLinkage,
                                          "",
                                          module);
+  id lambdaForm;
   id (*fn)();
 
   block = BasicBlock::Create ("entry", function);
@@ -103,12 +104,27 @@ static Constant
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
-  return fn ();
+
+  // Execute.
+  lambdaForm = fn();
+
+  return lambdaForm;
 }
 
 +(void) processTopLevelForm:(id)object
 {
+  [self processTopLevelForm:object
+        inMode:not_compile_time_mode];
+}
+
+
++(void) processTopLevelForm:(id)object
+                     inMode:(enum MLKProcessingMode)mode
+{
   //FIXME
+  // If PROGN, do this...  If EVAL-WHEN, do that...
+
+  
 }
 
 +(Value *) processForm:(MLKForm *)form
@@ -202,7 +218,7 @@ static Constant
   Value *value = NULL;
 
   if ([_bodyForms count] == 0)
-    value = ConstantPointerNull::get (PointerType::get(Type::Int8Ty, 0));
+    value = ConstantPointerNull::get (PointerTy);
 
   while ((form = [e nextObject]))
     {
@@ -311,10 +327,11 @@ static Constant
   std::vector <const Type *> argtypes (1, PointerTy);
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
   Function *function = Function::Create (ftype,
-                                         Function::ExternalLinkage,
+                                         Function::InternalLinkage,
                                          "",
                                          module);
 
+  BasicBlock *outerBlock = builder.GetInsertBlock ();
   BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
   BasicBlock *loopBlock = BasicBlock::Create ("load_args");
   BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_init");
@@ -398,6 +415,21 @@ static Constant
   function->dump();
   verifyFunction (*function);
   fpm->run (*function);
-  return function;
+
+  builder.SetInsertPoint (outerBlock);
+
+  Value *closure_data = ConstantPointerNull::get (PointerTy);
+
+  argv[0] = function;
+  argv.push_back (closure_data);
+  Value *mlkcompiledclosure = [_compiler
+                                insertClassLookup:@"MLKCompiledClosure"];
+  Value *closure =
+    builder.CreateStore ([_compiler insertMethodCall:@"closureWithCode:data:"
+                                    onObject:mlkcompiledclosure
+                                    withArgumentVector:&argv],
+                         lambdaList);
+
+  return closure;
 }
 @end
