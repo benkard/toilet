@@ -177,9 +177,18 @@ static Constant
 
   Value *sel = [self insertSelectorLookup:messageName];
 
-  std::deque <Value *> argd (argv->begin(), argv->end());
-  argd.push_front (sel);
-  argd.push_front (object);
+  // XXX The following doesn't work.  Why?
+  //  std::deque <Value *> argd (*argv);
+  //  argd.push_front (sel);
+  //  argd.push_front (object);
+
+  std::vector <Value *> argd;
+  argd.push_back (object);
+  argd.push_back (sel);
+  std::vector<Value *>::iterator e;
+  for (e = argv->begin(); e != argv->end(); e++)
+    argd.push_back (*e);
+
   return builder.CreateCall (function, argd.begin(), argd.end());
 }
 
@@ -391,7 +400,7 @@ static Constant
   builder.SetInsertPoint (loopInitBlock);
   function->getBasicBlockList().push_back (loopInitBlock);
 
-  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::Int8Ty, 0), "arg");
+  Value *arg = builder.CreateVAArg (ap, PointerTy, "arg");
   Value *cond = builder.CreateICmpEQ (arg, endmarker);
   builder.CreateCondBr (cond, joinBlock, loopBlock);
   builder.SetInsertPoint (loopBlock);
