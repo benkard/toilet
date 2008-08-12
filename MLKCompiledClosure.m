@@ -16,45 +16,64 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKCompiledProcedure.h"
+#import "MLKCompiledClosure.h"
+
+#import "functions.h"
 #import "globals.h"
+#import "runtime-compatibility.h"
 #import "util.h"
 
-#import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSSet.h>
 
-#ifdef HAVE_FFI_H
-#include <ffi.h>
-#elif HAVE_FFI_FFI_H
-#include <ffi/ffi.h>
-#endif
-
-#include <stdlib.h>
+#import <stdlib.h>
 
 
-@implementation MLKCompiledProcedure
+@implementation MLKCompiledClosure
 -(id) initWithCode:(void *)code
+              data:(id *)data
+            length:(int)dataLength
 {
-  self = [super init];
+  int i;
+
+  _data = data;
+  _dataLength = dataLength;
   _code = code;
+
+  for (i = 0; i < _dataLength; i++)
+    {
+      LRETAIN (_data[i]);
+    }
+
   return self;
+}
+
++(id) closureWithCode:(void *)code
+                 data:(id *)data
+               length:(int)dataLength
+{
+  return LAUTORELEASE ([[self alloc] initWithCode:code data:data length:dataLength]);
 }
 
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  int argc = ([arguments count] + 1);
+  int argc = ([arguments count] + 2);
   ffi_cif cif;
   ffi_type *arg_types[argc];
   ffi_status status;
-  id *argv[argc];
+  void *argv[argc];
   id argpointers[argc - 1];
   id return_value;
   int i;
 
-  for (i = 0; i < argc - 1; i++)
+  arg_types[0] = &ffi_type_pointer;
+  argv[0] = &_data;
+
+  for (i = 1; i < argc - 1; i++)
     {
       arg_types[i] = &ffi_type_pointer;
-      argpointers[i] = denullify([arguments objectAtIndex:i]);
-      argv[i] = &argpointers[i];
+      argpointers[i-1] = denullify([arguments objectAtIndex:i]);
+      argv[i] = &argpointers[i-1];
     }
 
   arg_types[argc - 1] = &ffi_type_pointer;
@@ -75,24 +94,25 @@
 
 -(NSString *) description
 {
-  return MLKPrintToString(self);
+  return MLKPrintToString (self);
 }
 
 -(NSString *) descriptionForLisp
 {
-  return [NSString stringWithFormat:@"<Compiled procedure @%p>", self];
+  return [NSString stringWithFormat:@"<Compiled closure @%p>", self];
 }
 
 -(void) dealloc
 {
-  // FIXME:  Can we really just use free() here?
-  free (_code);
-  [super dealloc];
-}
+  int i;
 
--(void) finalize
-{
-  // FIXME:  Can we really just use free() here?
-  free (_code);
+  [super dealloc];
+
+  // FIXME: Decrease refcount of _code.
+  for (i = 0; i < _dataLength; i++)
+    {
+      LRELEASE (_data[i]);
+    }
+  free (_data);
 }
 @end

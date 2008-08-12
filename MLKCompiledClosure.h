@@ -24,12 +24,20 @@
 #import <Foundation/NSString.h>
 
 
-@interface MLKCompiledProcedure : NSObject <MLKFuncallable>
+@interface MLKCompiledClosure : NSObject <MLKFuncallable>
 {
-  void *_code;
+  int _dataLength;
+  id (*_code)();
+  id *_data;
 }
 
--(id) initWithCode:(void *)code;
+-(id) initWithCode:(void *)code
+              data:(id *)data
+            length:(int)dataLength;
+
++(id) closureWithCode:(void *)code
+                 data:(id *)data
+               length:(int)dataLength;;
 
 -(NSArray *) applyToArray:(NSArray *)arguments;
 
@@ -37,5 +45,4 @@
 -(NSString *) descriptionForLisp;
 
 -(void) dealloc;
--(void) finalize;
 @end

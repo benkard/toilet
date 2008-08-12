@@ -49,7 +49,7 @@ endif
 
 ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        MLKBackquoteReader.m MLKBinding.m MLKCharacter.m		\
-                       MLKCommaReader.m MLKCompiledProcedure.m MLKCons.m	\
+                       MLKCommaReader.m MLKCompiledClosure.m MLKCons.m		\
                        MLKDoubleFloat.m						\
                        MLKDispatchingMacroCharacterReader.m			\
                        MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
