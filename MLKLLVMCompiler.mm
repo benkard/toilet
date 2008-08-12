@@ -33,6 +33,8 @@
 #include <llvm/ModuleProvider.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/IRBuilder.h>
+#include <llvm/Target/TargetData.h>
+#include <llvm/Transforms/Scalar.h>
 #include <llvm/Value.h>
 
 #include <deque>
@@ -46,6 +48,7 @@ static llvm::Module *module;
 static IRBuilder builder;
 static FunctionPassManager *fpm;
 static PointerType *PointerTy;
+static ModuleProvider *module_provider;
 
 
 static Constant
@@ -72,6 +75,13 @@ static Constant
   module = new llvm::Module ("MLKLLVMModule");
   execution_engine = ExecutionEngine::create (module);
   PointerTy = PointerType::get(Type::Int8Ty, 0);
+  module_provider = new ExistingModuleProvider (module);
+  fpm = new FunctionPassManager (module_provider);
+  fpm->add (new TargetData (*execution_engine->getTargetData()));
+  fpm->add (createInstructionCombiningPass());
+  fpm->add (createReassociatePass());
+  fpm->add (createGVNPass());
+  fpm->add (createCFGSimplificationPass());
 }
 
 +(id) compile:(id)object
@@ -100,7 +110,7 @@ static Constant
   builder.CreateRet (v);
   function->dump();
   verifyFunction (*function);
-  //fpm->run (*function);
+  fpm->run (*function);
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
@@ -449,9 +459,11 @@ static Constant
   function->dump();
   NSLog (@"Verify...");
   verifyFunction (*function);
-  //  NSLog (@"FPM...");
-  //  fpm->run (*function);
+  NSLog (@"Optimise...");
+  fpm->run (*function);
   NSLog (@"Done.");
+  function->dump();
+  NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
 
