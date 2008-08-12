@@ -100,7 +100,7 @@ static Constant
   builder.CreateRet (v);
   function->dump();
   verifyFunction (*function);
-  fpm->run (*function);
+  //fpm->run (*function);
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
@@ -297,7 +297,7 @@ static Constant
 {
   Value *value;
 
-  if ([_context isHeapVariable:self])
+  if ([_context variableHeapAllocationForSymbol:_form])
     {
       Value *binding = builder.CreateLoad ([_context bindingForSymbol:_form]);
       value = [_compiler insertMethodCall:@"value" onObject:binding];
@@ -449,8 +449,9 @@ static Constant
   function->dump();
   NSLog (@"Verify...");
   verifyFunction (*function);
-  NSLog (@"FPM...");
-  fpm->run (*function);
+  //  NSLog (@"FPM...");
+  //  fpm->run (*function);
+  NSLog (@"Done.");
 
   builder.SetInsertPoint (outerBlock);
 
@@ -458,13 +459,16 @@ static Constant
 
   argv[0] = function;
   argv.push_back (closure_data);
+  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                           0,
+                                                           false),
+                                          PointerTy));
   Value *mlkcompiledclosure = [_compiler
                                 insertClassLookup:@"MLKCompiledClosure"];
   Value *closure =
-    [_compiler insertMethodCall:@"closureWithCode:data:"
+    [_compiler insertMethodCall:@"closureWithCode:data:length:"
                onObject:mlkcompiledclosure
                withArgumentVector:&argv];
-  outerBlock->dump();
 
   return closure;
 }

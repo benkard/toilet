@@ -99,6 +99,9 @@ static MLKSymbol *LEXICAL;
   LASSIGN (_knownSymbolMacros, [NSMutableSet setWithArray:[symbolMacros allKeys]]);
 
   LASSIGN (_declarations, declarations);
+
+  _functionInfo = [[NSMutableDictionary alloc] init];
+  _variableInfo = [[NSMutableDictionary alloc] init];
   return self;  
 }
 
@@ -285,6 +288,76 @@ static MLKSymbol *LEXICAL;
   [_functions addObject:symbol];
 }
 
+-(id) deepPropertyForVariable:(id)name key:(id)key
+{
+  NSDictionary *props = [_variableInfo objectForKey:name];
+  id property;
+
+  if (props && (property = [props objectForKey:key]))
+    return property;
+  else if (!_parent || [_variables containsObject:name])
+    return nil;
+  else
+    return [_parent deepPropertyForVariable:name key:key];
+}
+
+-(void) setDeepProperty:(id)object
+            forVariable:(id)name
+                    key:(id)key
+{
+  // Changes propagate up to the origin of the binding.  If there is no
+  // lexically apparent binding, the property is set in the global
+  // context.  This does not make it pervasive, however.
+
+  if (!_parent || [_variables containsObject:name])
+    {
+      NSMutableDictionary *props = [_variableInfo objectForKey:name];
+      if (!props)
+        {
+          props = [NSMutableDictionary dictionary];
+          [_variableInfo setObject:props forKey:name];
+        }
+      [props setObject:object forKey:key];
+    }
+  else
+    {
+      [_parent setDeepProperty:object forVariable:name key:key];
+    }
+}
+
+-(id) deepPropertyForFunction:(id)name key:(id)key
+{
+  NSDictionary *props = [_functionInfo objectForKey:name];
+  id property;
+
+  if (props && (property = [props objectForKey:key]))
+    return property;
+  else if (!_parent || [_functions containsObject:name])
+    return nil;
+  else
+    return [_parent deepPropertyForFunction:name key:key];
+}
+
+-(void) setDeepProperty:(id)object
+            forFunction:(id)name
+                    key:(id)key
+{
+  if (!_parent || [_functions containsObject:name])
+    {
+      NSMutableDictionary *props = [_functionInfo objectForKey:name];
+      if (!props)
+        {
+          props = [NSMutableDictionary dictionary];
+          [_functionInfo setObject:props forKey:name];
+        }
+      [props setObject:object forKey:key];
+    }
+  else
+    {
+      [_parent setDeepProperty:object forFunction:name key:key];
+    }
+}
+
 -(void) dealloc
 {
   LRELEASE (_macros);
@@ -298,6 +371,8 @@ static MLKSymbol *LEXICAL;
   LRELEASE (_variables);
   LRELEASE (_declarations);
   LRELEASE (_parent);
+  LRELEASE (_variableInfo);
+  LRELEASE (_functionInfo);
   [super dealloc];
 }
 @end
