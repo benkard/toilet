@@ -38,10 +38,7 @@
 
   _data = data;
   _dataLength = dataLength;
-  _ownPointer = YES;
-
-  _code = malloc (sizeof (id (*)()));
-  *_code = code;
+  _code = code;
 
   for (i = 0; i < _dataLength; i++)
     {
@@ -89,7 +86,7 @@
                    format:@"FFI type is invalid (this is probably a bug)."];
     }
 
-  ffi_call (&cif, FFI_FN (*_code), &return_value, (void**)argv);
+  ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
 
   // FIXME
   return [NSArray arrayWithObject:nullify(return_value)];
@@ -111,16 +108,11 @@
 
   [super dealloc];
 
-  // FIXME: Decrease refcount of *_code.  Note: When releasing *_code,
-  // also release _code regardless of whether we own it.
-
+  // FIXME: Decrease refcount of _code.
   for (i = 0; i < _dataLength; i++)
     {
       LRELEASE (_data[i]);
     }
   free (_data);
-
-  if (_ownPointer)
-    free (_code);
 }
 @end
