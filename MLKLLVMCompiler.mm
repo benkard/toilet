@@ -146,12 +146,23 @@ static Constant
                                  NULL);
 
   Constant *nameptr = createGlobalStringPtr ([name UTF8String]);
-  return builder.CreateCall (function, nameptr);
+  return builder.CreateCall (function, nameptr, "selector");
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
          withArgumentVector:(std::vector<Value*> *)argv
+{
+  return [self insertMethodCall:messageName
+               onObject:object
+               withArgumentVector:argv
+               name:@""];
+}
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv
+                       name:(NSString *)name;
 {
   std::vector <const Type *> argtypes (2, PointerTy);
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
@@ -167,18 +178,28 @@ static Constant
   Value *sel = [self insertSelectorLookup:messageName];
 
   std::deque <Value *> argd (argv->begin(), argv->end());
-  argd.push_front (object);
   argd.push_front (sel);
+  argd.push_front (object);
   return builder.CreateCall (function, argd.begin(), argd.end());
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
+                   withName:(NSString *)name
 {
   std::vector<Value*> argv;
   return [self insertMethodCall:messageName
                onObject:object
-               withArgumentVector:&argv];
+               withArgumentVector:&argv
+               name:name];
+}
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+{
+  return [self insertMethodCall:messageName
+               onObject:object
+               withName:@""];
 }
 
 +(Value *) insertClassLookup:(NSString *)className
@@ -194,9 +215,11 @@ static Constant
                                  PointerTy,
                                  NULL);
 
-  // Value *nameptr = builder.CreateGlobalStringPtr ([className UTF8String], "");
-  Constant *nameptr = createGlobalStringPtr ([className UTF8String]);
-  return builder.CreateCall (function, nameptr);
+  const char *cname = [className UTF8String];
+
+  // Value *nameptr = builder.CreateGlobalStringPtr (cname, "");
+  Constant *nameptr = createGlobalStringPtr (cname);
+  return builder.CreateCall (function, nameptr, cname);
 }
 @end
 
@@ -331,11 +354,15 @@ static Constant
                                          "",
                                          module);
 
+  Function::arg_iterator args = function->arg_begin();
+  Value *closure_data_arg = args++;
+  closure_data_arg->setName ("closure_data");
+
   BasicBlock *outerBlock = builder.GetInsertBlock ();
   BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
   BasicBlock *loopBlock = BasicBlock::Create ("load_args");
-  BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_init");
-  BasicBlock *joinBlock = BasicBlock::Create ("after_load_args");
+  BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_prelude");
+  BasicBlock *joinBlock = BasicBlock::Create ("function_body");
 
   builder.SetInsertPoint (initBlock);
 
@@ -344,7 +371,7 @@ static Constant
                                                               false),
                                              PointerType::get(Type::Int8Ty, 0));
 
-  Value *ap = builder.CreateAlloca (Type::Int8Ty);
+  Value *ap = builder.CreateAlloca (Type::Int8Ty, NULL, "ap");
 
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_start",
                                                    Type::VoidTy,
@@ -354,7 +381,7 @@ static Constant
 
   Value *nsmutablearray = [_compiler insertClassLookup:@"NSMutableArray"];
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
-  Value *lambdaList = builder.CreateAlloca (PointerType::get (Type::Int8Ty, 0));
+  Value *lambdaList = builder.CreateAlloca (PointerTy, NULL, "lambda_list");
 
   builder.CreateStore ([_compiler insertMethodCall:@"array"
                                   onObject:nsmutablearray],
@@ -364,7 +391,7 @@ static Constant
   builder.SetInsertPoint (loopInitBlock);
   function->getBasicBlockList().push_back (loopInitBlock);
 
-  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::Int8Ty, 0));
+  Value *arg = builder.CreateVAArg (ap, PointerType::get(Type::Int8Ty, 0), "arg");
   Value *cond = builder.CreateICmpEQ (arg, endmarker);
   builder.CreateCondBr (cond, joinBlock, loopBlock);
   builder.SetInsertPoint (loopBlock);
@@ -392,8 +419,6 @@ static Constant
                                   withArgumentVector:&argv],
                        lambdaList);
 
-  function->dump();
-
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
   Value *value = NULL;
@@ -401,7 +426,7 @@ static Constant
   if ([_bodyForms count] == 0)
     {
       //NSLog (@"%LAMBDA: No body.");
-      value = ConstantPointerNull::get (PointerType::get(Type::Int8Ty, 0));
+      value = ConstantPointerNull::get (PointerTy);
     }
 
   while ((form = [e nextObject]))
@@ -413,7 +438,9 @@ static Constant
   builder.CreateRet (value);
 
   function->dump();
+  NSLog (@"Verify...");
   verifyFunction (*function);
+  NSLog (@"FPM...");
   fpm->run (*function);
 
   builder.SetInsertPoint (outerBlock);
@@ -425,10 +452,10 @@ static Constant
   Value *mlkcompiledclosure = [_compiler
                                 insertClassLookup:@"MLKCompiledClosure"];
   Value *closure =
-    builder.CreateStore ([_compiler insertMethodCall:@"closureWithCode:data:"
-                                    onObject:mlkcompiledclosure
-                                    withArgumentVector:&argv],
-                         lambdaList);
+    [_compiler insertMethodCall:@"closureWithCode:data:"
+               onObject:mlkcompiledclosure
+               withArgumentVector:&argv];
+  outerBlock->dump();
 
   return closure;
 }

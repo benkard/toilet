@@ -24,6 +24,7 @@
 #import <Foundation/NSString.h>
 
 #ifdef __cplusplus
+#include <vector>
 #include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
 using namespace llvm;
@@ -42,8 +43,23 @@ using namespace llvm;
 #ifdef __cplusplus
 +(Value *) processForm:(MLKForm *)form;
 
++(Value *) insertSelectorLookup:(NSString *)name;
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv;
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv
+                       name:(NSString *)name;
+
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object;
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+                   withName:(NSString *)name;
+
++(Value *) insertClassLookup:(NSString *)className;
 #endif
 @end
 
