@@ -38,5 +38,9 @@ using namespace llvm;
 -(Value *) closureDataPointerForSymbol:(id)name;
 -(Value *) bindingForSymbol:(id)name;
 -(Value *) valueForSymbol:(id)name;
+-(void) setFunctionCell:(Value *)cellPtr forSymbol:(id)name;
+-(void) setClosureDataPointer:(Value *)pointer forSymbol:(id)name;
+-(void) setBinding:(Value *)binding forSymbol:(id)name;
+-(void) setValue:(Value *)value forSymbol:(id)name;
 #endif
 @end
