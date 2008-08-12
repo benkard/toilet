@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
+		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
 		A78711320E4C459200A7191F /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112E0E4C459200A7191F /* globals.m */; };
 		A78711330E4C459200A7191F /* MLKArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112F0E4C459200A7191F /* MLKArray.m */; };
-		A78711340E4C459200A7191F /* MLKCompiledProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711300E4C459200A7191F /* MLKCompiledProcedure.m */; };
 		A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711310E4C459200A7191F /* MLKForeignProcedure.m */; };
 		A787113A0E4C45A300A7191F /* globals.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711360E4C45A300A7191F /* globals.h */; };
 		A787113B0E4C45A300A7191F /* MLKArray.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711370E4C45A300A7191F /* MLKArray.h */; };
-		A787113C0E4C45A300A7191F /* MLKCompiledProcedure.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */; };
 		A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */ = {isa = PBXBuildFile; fileRef = A78711390E4C45A300A7191F /* MLKForeignProcedure.h */; };
 		A78712010E4C4AC500A7191F /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787112C0E4C456C00A7191F /* array.lisp */; };
 		A78712020E4C4AC500A7191F /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
@@ -306,19 +306,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledClosure.h; sourceTree = "<group>"; };
+		A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledClosure.m; sourceTree = "<group>"; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
 		A787112F0E4C459200A7191F /* MLKArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKArray.m; sourceTree = "<group>"; };
-		A78711300E4C459200A7191F /* MLKCompiledProcedure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledProcedure.m; sourceTree = "<group>"; };
 		A78711310E4C459200A7191F /* MLKForeignProcedure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKForeignProcedure.m; sourceTree = "<group>"; };
 		A78711360E4C45A300A7191F /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
 		A78711370E4C45A300A7191F /* MLKArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKArray.h; sourceTree = "<group>"; };
-		A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledProcedure.h; sourceTree = "<group>"; };
 		A78711390E4C45A300A7191F /* MLKForeignProcedure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKForeignProcedure.h; sourceTree = "<group>"; };
 		A78713800E4EFF4000A7191F /* MLKForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKForm.m; sourceTree = "<group>"; };
 		A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MLKLLVMCompiler.mm; sourceTree = "<group>"; };
 		A78713840E4EFF5D00A7191F /* MLKForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKForm.h; sourceTree = "<group>"; };
-		A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKLLVMCompiler.h; sourceTree = "<group>"; };
+		A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = MLKLLVMCompiler.h; sourceTree = "<group>"; };
 		A78713860E4EFF5D00A7191F /* special-symbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "special-symbols.h"; sourceTree = "<group>"; };
 		A787138B0E4EFF8A00A7191F /* ffi.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ffi.lisp; sourceTree = "<group>"; };
 		A787138C0E4EFF8A00A7191F /* package.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = package.lisp; sourceTree = "<group>"; };
@@ -560,12 +560,12 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */,
 				A78713840E4EFF5D00A7191F /* MLKForm.h */,
 				A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */,
 				A78713860E4EFF5D00A7191F /* special-symbols.h */,
 				A78711360E4C45A300A7191F /* globals.h */,
 				A78711370E4C45A300A7191F /* MLKArray.h */,
-				A78711380E4C45A300A7191F /* MLKCompiledProcedure.h */,
 				A78711390E4C45A300A7191F /* MLKForeignProcedure.h */,
 				A7A8338C0E476D0D005D64E0 /* functions.h */,
 				A7A8338D0E476D0D005D64E0 /* MLKBackquoteReader.h */,
@@ -617,11 +617,11 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */,
 				A78713800E4EFF4000A7191F /* MLKForm.m */,
 				A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */,
 				A787112E0E4C459200A7191F /* globals.m */,
 				A787112F0E4C459200A7191F /* MLKArray.m */,
-				A78711300E4C459200A7191F /* MLKCompiledProcedure.m */,
 				A78711310E4C459200A7191F /* MLKForeignProcedure.m */,
 				A7A833800E476CF3005D64E0 /* functions.m */,
 				A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */,
@@ -717,11 +717,11 @@
 				A7A833970E476D0D005D64E0 /* MLKValuesFunction.h in Headers */,
 				A787113A0E4C45A300A7191F /* globals.h in Headers */,
 				A787113B0E4C45A300A7191F /* MLKArray.h in Headers */,
-				A787113C0E4C45A300A7191F /* MLKCompiledProcedure.h in Headers */,
 				A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */,
 				A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */,
 				A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */,
 				A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */,
+				A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,10 +827,10 @@
 				A7A8338B0E476CF3005D64E0 /* MLKValuesFunction.m in Sources */,
 				A78711320E4C459200A7191F /* globals.m in Sources */,
 				A78711330E4C459200A7191F /* MLKArray.m in Sources */,
-				A78711340E4C459200A7191F /* MLKCompiledProcedure.m in Sources */,
 				A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */,
 				A78713820E4EFF4000A7191F /* MLKForm.m in Sources */,
 				A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */,
+				A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
