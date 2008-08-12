@@ -19,6 +19,7 @@
 #import "MLKForm.h"
 #import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
+#import "MLKLexicalContext-MLKLLVMCompilation.h"
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
@@ -67,14 +68,5 @@ using namespace llvm;
 #ifdef __cplusplus
 @interface MLKForm (MLKLLVMCompilation)
 -(Value *) processForLLVM;
-@end
-
-
-@interface MLKLexicalContext (MLKLLVMCompilation)
--(BOOL) isHeapVariable:(id)name;
--(Value *) functionCellForSymbol:(id)name;
--(Value *) closureDataPointerForSymbol:(id)name;
--(Value *) bindingForSymbol:(id)name;
--(Value *) valueForSymbol:(id)name;
 @end
 #endif

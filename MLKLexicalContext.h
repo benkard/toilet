@@ -19,6 +19,7 @@
 #import "MLKFuncallable.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 
 @class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSSet,
@@ -36,6 +37,8 @@
   MLKEnvironment *_goTags;
   NSMutableSet *_functions;
   NSMutableSet *_variables;
+  NSMutableDictionary *_functionInfo;
+  NSMutableDictionary *_variableInfo;
   id _declarations;
   MLKLexicalContext *_parent;
 }
@@ -91,6 +94,16 @@
 -(void) addFunction:(MLKSymbol *)symbol;
 
 -(BOOL) variableIsLexical:(MLKSymbol *)symbol;
+
+-(id) deepPropertyForVariable:(id)name key:(id)key;
+-(void) setDeepProperty:(id)object
+            forVariable:(id)name
+                    key:(id)key;
+
+-(id) deepPropertyForFunction:(id)name key:(id)key;
+-(void) setDeepProperty:(id)object
+            forFunction:(id)name
+                    key:(id)key;
 
 -(void) dealloc;
 @end

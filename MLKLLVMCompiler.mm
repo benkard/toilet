@@ -33,6 +33,8 @@
 #include <llvm/ModuleProvider.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/IRBuilder.h>
+#include <llvm/Target/TargetData.h>
+#include <llvm/Transforms/Scalar.h>
 #include <llvm/Value.h>
 
 #include <deque>
@@ -46,6 +48,7 @@ static llvm::Module *module;
 static IRBuilder builder;
 static FunctionPassManager *fpm;
 static PointerType *PointerTy;
+static ModuleProvider *module_provider;
 
 
 static Constant
@@ -72,6 +75,13 @@ static Constant
   module = new llvm::Module ("MLKLLVMModule");
   execution_engine = ExecutionEngine::create (module);
   PointerTy = PointerType::get(Type::Int8Ty, 0);
+  module_provider = new ExistingModuleProvider (module);
+  fpm = new FunctionPassManager (module_provider);
+  fpm->add (new TargetData (*execution_engine->getTargetData()));
+  fpm->add (createInstructionCombiningPass());
+  fpm->add (createReassociatePass());
+  fpm->add (createGVNPass());
+  fpm->add (createCFGSimplificationPass());
 }
 
 +(id) compile:(id)object
@@ -297,7 +307,7 @@ static Constant
 {
   Value *value;
 
-  if ([_context isHeapVariable:self])
+  if ([_context variableHeapAllocationForSymbol:_form])
     {
       Value *binding = builder.CreateLoad ([_context bindingForSymbol:_form]);
       value = [_compiler insertMethodCall:@"value" onObject:binding];
@@ -449,8 +459,11 @@ static Constant
   function->dump();
   NSLog (@"Verify...");
   verifyFunction (*function);
-  NSLog (@"FPM...");
+  NSLog (@"Optimise...");
   fpm->run (*function);
+  NSLog (@"Done.");
+  function->dump();
+  NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
 
@@ -458,13 +471,16 @@ static Constant
 
   argv[0] = function;
   argv.push_back (closure_data);
+  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                           0,
+                                                           false),
+                                          PointerTy));
   Value *mlkcompiledclosure = [_compiler
                                 insertClassLookup:@"MLKCompiledClosure"];
   Value *closure =
-    [_compiler insertMethodCall:@"closureWithCode:data:"
+    [_compiler insertMethodCall:@"closureWithCode:data:length:"
                onObject:mlkcompiledclosure
                withArgumentVector:&argv];
-  outerBlock->dump();
 
   return closure;
 }

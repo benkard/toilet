@@ -47,23 +47,25 @@ else
   endif
 endif
 
-ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
-                       MLKBackquoteReader.m MLKBinding.m MLKCharacter.m		\
-                       MLKCommaReader.m MLKCompiledClosure.m MLKCons.m		\
-                       MLKDoubleFloat.m						\
-                       MLKDispatchingMacroCharacterReader.m			\
-                       MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
-                       MLKForeignProcedure.m MLKForm.m MLKInteger.m		\
-                       MLKInterpretedClosure.m MLKInterpreter.m			\
-                       MLKLexicalContext.m MLKLexicalEnvironment.m		\
-                       MLKNumber.m MLKPackage.m MLKParenReader.m		\
-                       MLKQuoteReader.m MLKRatio.m MLKReader.m			\
-                       MLKReadtable.m MLKReaderError.m MLKRoot.m		\
-                       MLKSemicolonReader.m MLKSharpsignColonReader.m		\
-                       MLKSingleFloat.m MLKStream.m				\
-                       MLKStringInputStream.m MLKStringOutputStream.m		\
-                       MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
-                       MLKValuesFunction.m NSObject-MLKPrinting.m		\
+ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m			\
+                       MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
+                       MLKCommaReader.m MLKCompiledClosure.m MLKCons.m	\
+                       MLKDoubleFloat.m					\
+                       MLKDispatchingMacroCharacterReader.m		\
+                       MLKDynamicContext.m MLKEnvironment.m MLKFloat.m	\
+                       MLKForeignProcedure.m MLKForm.m MLKInteger.m	\
+                       MLKInterpretedClosure.m MLKInterpreter.m		\
+                       MLKLexicalContext.m				\
+                       MLKLexicalContext-MLKLLVMCompilation.m		\
+                       MLKLexicalEnvironment.m MLKNumber.m MLKPackage.m	\
+                       MLKParenReader.m MLKQuoteReader.m MLKRatio.m	\
+                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
+                       MLKRoot.m MLKSemicolonReader.m			\
+                       MLKSharpsignColonReader.m MLKSingleFloat.m	\
+                       MLKStream.m MLKStringInputStream.m		\
+                       MLKStringOutputStream.m MLKStringReader.m	\
+                       MLKSymbol.m MLKThrowException.m			\
+                       MLKValuesFunction.m NSObject-MLKPrinting.m	\
                        NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl
@@ -74,7 +76,7 @@ ifeq ($(USE_LLVM),YES)
 ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
 ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
 ToiletKit_OBJCCFLAGS = `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
-ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen`
+ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis`
 endif
 
 #TOOL_NAME = etoilet
