@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
 		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
+		A72E9E6C0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */; };
+		A72E9E6E0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */; };
 		A78711320E4C459200A7191F /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112E0E4C459200A7191F /* globals.m */; };
 		A78711330E4C459200A7191F /* MLKArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112F0E4C459200A7191F /* MLKArray.m */; };
 		A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711310E4C459200A7191F /* MLKForeignProcedure.m */; };
@@ -308,6 +310,8 @@
 /* Begin PBXFileReference section */
 		A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledClosure.h; sourceTree = "<group>"; };
 		A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledClosure.m; sourceTree = "<group>"; };
+		A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MLKLexicalContext-MLKLLVMCompilation.mm"; sourceTree = "<group>"; };
+		A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLKLexicalContext-MLKLLVMCompilation.h"; sourceTree = "<group>"; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
 		A787112F0E4C459200A7191F /* MLKArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKArray.m; sourceTree = "<group>"; };
@@ -560,6 +564,7 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */,
 				A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */,
 				A78713840E4EFF5D00A7191F /* MLKForm.h */,
 				A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */,
@@ -617,6 +622,7 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */,
 				A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */,
 				A78713800E4EFF4000A7191F /* MLKForm.m */,
 				A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */,
@@ -722,6 +728,7 @@
 				A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */,
 				A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */,
 				A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */,
+				A72E9E6E0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +838,7 @@
 				A78713820E4EFF4000A7191F /* MLKForm.m in Sources */,
 				A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */,
 				A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */,
+				A72E9E6C0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
