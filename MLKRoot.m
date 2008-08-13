@@ -22,6 +22,7 @@
 #import "MLKDynamicContext.h"
 #import "MLKInterpretedClosure.h"
 #import "MLKInterpreter.h"
+#import "MLKLLVMCompiler.h"
 #import "MLKNumber.h"
 #import "MLKPackage.h"
 #import "MLKRoot.h"
@@ -701,5 +702,16 @@ as provided by method %@ of object %@",
                   with:[MLKCons
                          cons:forms
                          with:nil]]);
+}
+
+
++(NSArray *) compile:(NSArray *)args
+{
+  NSLog (@"Compiling lambda form.");
+  id thing = [MLKLLVMCompiler compile:denullify([args objectAtIndex:0])
+                              inContext:[MLKLexicalContext globalContext]];
+  NSLog (@"Compilation done.");
+  NSLog (@"Compiled: %@", thing);
+  RETURN_VALUE (thing);
 }
 @end
