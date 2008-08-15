@@ -93,7 +93,7 @@ etshell_OBJCFLAGS = -w
 
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
 toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework \
-                    -LToiletKit.framework/Versions/Current
+                    -LToiletKit.framework/Versions/Current `llvm-config --ldflags` `llvm-config --libs scalaropts analysis ipo`
 toilet_OBJCFLAGS = -Wall
 
 Test_OBJC_FILES = MLKLowLevelTests.m
