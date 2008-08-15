@@ -18,6 +18,10 @@
 
 (in-package #:common-lisp)
 
+(%fset 'test (compile '(sys::%lambda args)))
+(ns-log (test))
+(%fset 'test (compile '(sys::%lambda args args)))
+
 (load "util.lisp")
 (load "defun-0.lisp")
 (load "list-functions.lisp")
