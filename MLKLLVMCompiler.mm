@@ -175,16 +175,24 @@ static Constant
 {
   std::vector <const Type *> argtypes (2, PointerTy);
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
-  Constant *function = 
-    module->getOrInsertFunction (
-#ifdef __NEXT_RUNTIME__
-                                 "objc_msgSend",
-#else
-                                 "objc_msg_send",
-#endif
-                                 ftype);
 
   Value *sel = [self insertSelectorLookup:messageName];
+
+#ifdef __NEXT_RUNTIME__
+  Constant *function = 
+    module->getOrInsertFunction ("objc_msgSend",
+                                 ftype);
+#else
+  std::vector <const Type *> lookup_argtypes (2, PointerTy);
+  FunctionType *lookup_ftype = FunctionType::get (PointerType::get (ftype, 0),
+                                                  lookup_argtypes,
+                                                  false);
+  Constant *lookup_function = 
+    module->getOrInsertFunction ("objc_msg_lookup",
+                                 lookup_ftype);
+  Value *function =
+    builder.CreateCall2 (lookup_function, object, sel, "method_impl");
+#endif
 
   // XXX The following doesn't work.  Why?
   //  std::deque <Value *> argd (*argv);
