@@ -86,9 +86,16 @@
                    format:@"FFI type is invalid (this is probably a bug)."];
     }
 
+  NSLog (@"Calling %p (argc = %d)", _code, argc);
+  _code(0, MLKEndOfArgumentsMarker);
+  for (i = 0; i < argc; i++)
+    {
+      NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
+    }
+
   ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
 
-  // FIXME
+  // FIXME: multiple values
   return [NSArray arrayWithObject:nullify(return_value)];
 }
 
