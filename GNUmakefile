@@ -76,7 +76,7 @@ ifeq ($(USE_LLVM),YES)
 ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
 ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
 ToiletKit_OBJCCFLAGS = `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
-ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis`
+ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis ipo`
 endif
 
 #TOOL_NAME = etoilet
