@@ -35,6 +35,8 @@
 #include <llvm/Support/IRBuilder.h>
 #include <llvm/Target/TargetData.h>
 #include <llvm/Transforms/Scalar.h>
+#include <llvm/Transforms/IPO.h>
+#include <llvm/Transforms/Utils/UnifyFunctionExitNodes.h>
 #include <llvm/Value.h>
 
 #include <deque>
@@ -81,7 +83,17 @@ static Constant
   fpm->add (createInstructionCombiningPass());
   fpm->add (createReassociatePass());
   fpm->add (createGVNPass());
-  fpm->add (createCFGSimplificationPass());
+  //  fpm->add (createVerifierPass());
+  //  fpm->add (createLowerSetJmpPass());
+  //  fpm->add (createRaiseAllocationsPass());
+  //  fpm->add (createCFGSimplificationPass());
+  //  fpm->add (createPromoteMemoryToRegisterPass());
+  //  fpm->add (createGlobalOptimizerPass());
+  //  fpm->add (createGlobalDCEPass());
+  //  fpm->add (createFunctionInliningPass());
+
+  // Utilities.
+  //  fpm->add (createUnifyFunctionExitNodesPass());
 }
 
 +(id) compile:(id)object
@@ -107,15 +119,21 @@ static Constant
                                  inContext:context
                                  forCompiler:self]];
 
+  [self insertTrace:@"Bla.\n"];
+
   builder.CreateRet (v);
   verifyFunction (*function);
   fpm->run (*function);
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
+  module->dump();
+  NSLog (@"%p", fn);
 
   // Execute.
   lambdaForm = fn();
+
+  NSLog (@"Closure built.");
 
   return lambdaForm;
 }
@@ -247,6 +265,23 @@ static Constant
   Constant *nameptr = createGlobalStringPtr (cname);
   return builder.CreateCall (function, nameptr, cname);
 }
+
++(void) insertTrace:(NSString *)message
+{
+  Constant *function =
+    module->getOrInsertFunction ("puts",
+                                 Type::Int32Ty,
+                                 PointerTy,
+                                 NULL);
+  
+  builder.CreateCall (function, createGlobalStringPtr ([message UTF8String]));
+
+  Constant *function2 =
+    module->getOrInsertFunction ("fflush",
+                                 Type::Int32Ty,
+                                 PointerTy,
+                                 NULL);
+}
 @end
 
 
@@ -341,13 +376,14 @@ static Constant
 
   Value *functionCell = builder.CreateLoad ([_context functionCellForSymbol:_head]);
   Value *functionPtr = builder.CreateLoad (functionCell);
-  Value *closureDataPointer = builder.CreateLoad ([_context closureDataPointerForSymbol:_head]);
+  Value *closureDataCell = builder.CreateLoad ([_context closureDataPointerForSymbol:_head]);
+  Value *closureDataPtr = builder.CreateLoad (closureDataCell);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
   MLKForm *form;
 
   std::vector<Value *> args;
-  args.push_back (closureDataPointer);
+  args.push_back (closureDataPtr);
 
   while ((form = [e nextObject]))
     {
@@ -391,6 +427,7 @@ static Constant
   BasicBlock *joinBlock = BasicBlock::Create ("function_body");
 
   builder.SetInsertPoint (initBlock);
+  [_compiler insertTrace:@"In function."];
 
   Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
@@ -404,6 +441,7 @@ static Constant
                                                    PointerTy,
                                                    NULL),
                       ap);
+  [_compiler insertTrace:@"After va_start."];
 
   Value *nsmutablearray = [_compiler insertClassLookup:@"NSMutableArray"];
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
@@ -419,12 +457,14 @@ static Constant
   builder.SetInsertPoint (loopInitBlock);
   function->getBasicBlockList().push_back (loopInitBlock);
 
+  [_compiler insertTrace:@"In loop."];
   Value *arg = builder.CreateVAArg (ap, PointerTy, "arg");
   Value *cond = builder.CreateICmpEQ (arg, endmarker);
   builder.CreateCondBr (cond, joinBlock, loopBlock);
   builder.SetInsertPoint (loopBlock);
   function->getBasicBlockList().push_back (loopBlock);
 
+  [_compiler insertTrace:@"Adding argument."];
   std::vector <Value *> argv (1, arg);
   builder.CreateStore ([_compiler insertMethodCall:@"addObject:"
                                   onObject:builder.CreateLoad(lambdaList)
@@ -435,6 +475,7 @@ static Constant
   builder.SetInsertPoint (joinBlock);
   function->getBasicBlockList().push_back (joinBlock);
 
+  [_compiler insertTrace:@"After loop."];
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_end",
                                                    Type::VoidTy,
                                                    PointerTy,
@@ -464,6 +505,7 @@ static Constant
       value = [form processForLLVM];
     }
 
+  [_compiler insertTrace:@"Returning."];
   builder.CreateRet (value);
 
   function->dump();
@@ -471,7 +513,10 @@ static Constant
   verifyFunction (*function);
   NSLog (@"Optimise...");
   fpm->run (*function);
+  //NSLog (@"Assemble...");
+  //id (*function_code)(...) = (id (*)(...)) execution_engine->getPointerToFunction (function);
   NSLog (@"Done.");
+  //function_code (0, MLKEndOfArgumentsMarker);
   function->dump();
   NSLog (@"Function built.");
 
@@ -480,6 +525,10 @@ static Constant
   Value *closure_data = ConstantPointerNull::get (PointerTy);
 
   argv[0] = function;
+  //  argv[0] = (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  //                                                      (uint64_t)function_code,
+  //                                                      false),
+  //                                     PointerTy));
   argv.push_back (closure_data);
   argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                            0,

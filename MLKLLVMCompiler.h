@@ -61,6 +61,8 @@ using namespace llvm;
                    withName:(NSString *)name;
 
 +(Value *) insertClassLookup:(NSString *)className;
+
++(void) insertTrace:(NSString *)message;
 #endif
 @end
 
