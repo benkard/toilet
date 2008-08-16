@@ -80,6 +80,7 @@ static Constant
   module_provider = new ExistingModuleProvider (module);
   fpm = new FunctionPassManager (module_provider);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
+  //fpm->add (new TargetData (module));
   fpm->add (createInstructionCombiningPass());
   fpm->add (createReassociatePass());
   fpm->add (createGVNPass());
@@ -119,7 +120,7 @@ static Constant
                                  inContext:context
                                  forCompiler:self]];
 
-  [self insertTrace:@"Bla.\n"];
+  [self insertTrace:@"Bla."];
 
   builder.CreateRet (v);
   verifyFunction (*function);
@@ -275,12 +276,6 @@ static Constant
                                  NULL);
   
   builder.CreateCall (function, createGlobalStringPtr ([message UTF8String]));
-
-  Constant *function2 =
-    module->getOrInsertFunction ("fflush",
-                                 Type::Int32Ty,
-                                 PointerTy,
-                                 NULL);
 }
 @end
 
@@ -525,10 +520,6 @@ static Constant
   Value *closure_data = ConstantPointerNull::get (PointerTy);
 
   argv[0] = function;
-  //  argv[0] = (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
-  //                                                      (uint64_t)function_code,
-  //                                                      false),
-  //                                     PointerTy));
   argv.push_back (closure_data);
   argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                            0,
@@ -540,6 +531,8 @@ static Constant
     [_compiler insertMethodCall:@"closureWithCode:data:length:"
                onObject:mlkcompiledclosure
                withArgumentVector:&argv];
+
+  //function->viewCFG();
 
   return closure;
 }
