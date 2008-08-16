@@ -120,8 +120,6 @@ static Constant
                                  inContext:context
                                  forCompiler:self]];
 
-  [self insertTrace:@"Bla."];
-
   builder.CreateRet (v);
   verifyFunction (*function);
   fpm->run (*function);
@@ -446,7 +444,6 @@ static Constant
   BasicBlock *lambdaListUpdateBlock = BasicBlock::Create ("lambda_list_update");
 
   builder.SetInsertPoint (initBlock);
-  [_compiler insertTrace:@"In function."];
 
   Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
@@ -460,7 +457,6 @@ static Constant
                                                    PointerTy,
                                                    NULL),
                       ap);
-  [_compiler insertTrace:@"After va_start."];
 
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
 
@@ -475,14 +471,12 @@ static Constant
   builder.SetInsertPoint (loopInitBlock);
   function->getBasicBlockList().push_back (loopInitBlock);
 
-  [_compiler insertTrace:@"In loop."];
   Value *arg = builder.CreateVAArg (ap, PointerTy, "arg");
   Value *cond = builder.CreateICmpEQ (arg, endmarker);
   builder.CreateCondBr (cond, joinBlock, loopBlock);
   builder.SetInsertPoint (loopBlock);
   function->getBasicBlockList().push_back (loopBlock);
 
-  [_compiler insertTrace:@"Adding argument."];
   builder.CreateCondBr (builder.CreateICmpEQ (builder.CreateLoad (lambdaList),
                                               ConstantPointerNull::get (PointerTy)),
                         lambdaListNewBlock,
@@ -515,7 +509,6 @@ static Constant
   builder.SetInsertPoint (joinBlock);
   function->getBasicBlockList().push_back (joinBlock);
 
-  [_compiler insertTrace:@"After loop."];
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_end",
                                                    Type::VoidTy,
                                                    PointerTy,
@@ -539,21 +532,20 @@ static Constant
       value = [form processForLLVM];
     }
 
-  [_compiler insertTrace:@"Returning."];
   builder.CreateRet (value);
 
   function->dump();
-  NSLog (@"Verify...");
+  //NSLog (@"Verify...");
   verifyFunction (*function);
-  NSLog (@"Optimise...");
+  //NSLog (@"Optimise...");
   fpm->run (*function);
-  NSLog (@"Assemble...");
-  // Assembling explicitly is needed in order to allow libffi to call
+  //NSLog (@"Assemble...");
+  // Explicit assembly is needed in order to allow libffi to call
   // the function.
   execution_engine->getPointerToFunction (function);
-  NSLog (@"Done.");
+  //NSLog (@"Done.");
   function->dump();
-  NSLog (@"Function built.");
+  //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
 

@@ -86,11 +86,11 @@
                    format:@"FFI type is invalid (this is probably a bug)."];
     }
 
-  NSLog (@"Calling %p (argc = %d)", _code, argc);
-  for (i = 0; i < argc; i++)
-    {
-      NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
-    }
+//   NSLog (@"Calling %p (argc = %d)", _code, argc);
+//   for (i = 0; i < argc; i++)
+//     {
+//       NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
+//     }
 
   ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
 
