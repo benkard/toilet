@@ -105,5 +105,9 @@
             forFunction:(id)name
                     key:(id)key;
 
+-(void *) functionCellForSymbol:(id)name;
+-(void *) closureDataPointerForSymbol:(id)name;
+-(id) bindingForSymbol:(id)name;
+
 -(void) dealloc;
 @end

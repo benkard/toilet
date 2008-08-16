@@ -34,13 +34,13 @@ using namespace llvm;
 #ifdef __cplusplus
 -(void) setVariableHeapAllocation:(BOOL)heapp forSymbol:(id)name;
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
--(Value *) functionCellForSymbol:(id)name;
--(Value *) closureDataPointerForSymbol:(id)name;
--(Value *) bindingForSymbol:(id)name;
--(Value *) valueForSymbol:(id)name;
--(void) setFunctionCell:(Value *)cellPtr forSymbol:(id)name;
--(void) setClosureDataPointer:(Value *)pointer forSymbol:(id)name;
--(void) setBinding:(Value *)binding forSymbol:(id)name;
--(void) setValue:(Value *)value forSymbol:(id)name;
+-(Value *) functionCellValueForSymbol:(id)name;
+-(Value *) closureDataPointerValueForSymbol:(id)name;
+-(Value *) bindingValueForSymbol:(id)name;
+-(Value *) valueValueForSymbol:(id)name;
+//-(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name;
+//-(void) setClosureDataPointerValue:(Value *)pointer forSymbol:(id)name;
+//-(void) setBindingValue:(Value *)binding forSymbol:(id)name;
+-(void) setValueValue:(Value *)value forSymbol:(id)name;
 #endif
 @end

@@ -366,12 +366,12 @@ static Constant
 
   if ([_context variableHeapAllocationForSymbol:_form])
     {
-      Value *binding = builder.CreateLoad ([_context bindingForSymbol:_form]);
+      Value *binding = builder.CreateLoad ([_context bindingValueForSymbol:_form]);
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
   else
     {
-      value = builder.CreateLoad ([_context valueForSymbol:_form],
+      value = builder.CreateLoad ([_context valueValueForSymbol:_form],
                                   [MLKPrintToString(_form) UTF8String]);
     }
 
@@ -389,9 +389,9 @@ static Constant
       // XXX Issue a style warning.
     }
 
-  Value *functionCell = builder.CreateLoad ([_context functionCellForSymbol:_head]);
+  Value *functionCell = builder.CreateLoad ([_context functionCellValueForSymbol:_head]);
   Value *functionPtr = builder.CreateLoad (functionCell);
-  Value *closureDataCell = builder.CreateLoad ([_context closureDataPointerForSymbol:_head]);
+  Value *closureDataCell = builder.CreateLoad ([_context closureDataPointerValueForSymbol:_head]);
   Value *closureDataPtr = builder.CreateLoad (closureDataCell);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
@@ -528,7 +528,7 @@ static Constant
   while ((form = [e nextObject]))
     {
       //NSLog (@"%LAMBDA: Processing subform.");
-      [form->_context setValue:lambdaList forSymbol:_lambdaListName];
+      [form->_context setValueValue:lambdaList forSymbol:_lambdaListName];
       value = [form processForLLVM];
     }
 
