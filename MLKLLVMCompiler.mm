@@ -47,7 +47,7 @@ using namespace llvm;
 
 static ExecutionEngine *execution_engine;
 static llvm::Module *module;
-static IRBuilder builder;
+static IRBuilder<true, ConstantFolder> builder;
 static FunctionPassManager *fpm;
 static PointerType *PointerTy;
 static ModuleProvider *module_provider;
