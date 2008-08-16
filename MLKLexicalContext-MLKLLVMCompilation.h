@@ -26,6 +26,7 @@
 #include <vector>
 #include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
+#include <llvm/Instructions.h>
 using namespace llvm;
 #endif
 
@@ -34,8 +35,8 @@ using namespace llvm;
 #ifdef __cplusplus
 -(void) setVariableHeapAllocation:(BOOL)heapp forSymbol:(id)name;
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
--(Value *) functionCellValueForSymbol:(id)name;
--(Value *) closureDataPointerValueForSymbol:(id)name;
+-(Instruction *) functionCellValueForSymbol:(id)name;
+-(Instruction *) closureDataPointerValueForSymbol:(id)name;
 -(Value *) bindingValueForSymbol:(id)name;
 -(Value *) valueValueForSymbol:(id)name;
 //-(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name;

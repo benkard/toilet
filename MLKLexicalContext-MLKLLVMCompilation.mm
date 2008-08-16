@@ -48,19 +48,21 @@ using namespace std;
   return (flag && [flag boolValue]);
 }
 
--(Value *) functionCellValueForSymbol:(id)name
+-(Instruction *) functionCellValueForSymbol:(id)name
 {
   std::vector<const Type *> types (1, PointerType::get(Type::Int8Ty, 0));
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self functionCellForSymbol:name],
                                              false),
-                            PointerType::get(FunctionType::get(PointerType::get(Type::Int8Ty, 0),
-                                                               types,
-                                                               true),
+                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(Type::Int8Ty,
+                                                                                                 0),
+                                                                                types,
+                                                                                true),
+                                                              0),
                                              0)));
 }
 
--(Value *) closureDataPointerValueForSymbol:(id)name
+-(Instruction *) closureDataPointerValueForSymbol:(id)name
 {
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self closureDataPointerForSymbol:name],
