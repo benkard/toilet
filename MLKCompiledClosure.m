@@ -108,6 +108,16 @@
   return [NSString stringWithFormat:@"<Compiled closure @%p>", self];
 }
 
+-(id (*)()) code
+{
+  return _code;
+}
+
+-(void *) closureData
+{
+  return _data;
+}
+
 -(void) dealloc
 {
   int i;

@@ -46,5 +46,8 @@
 -(NSString *) description;
 -(NSString *) descriptionForLisp;
 
+-(id (*)()) code;
+-(void *) closureData;
+
 -(void) dealloc;
 @end
