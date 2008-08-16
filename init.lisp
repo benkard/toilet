@@ -22,6 +22,8 @@
 (ns-log (test 'a 'b 'c))
 (%fset 'test (compile '(sys::%lambda args args)))
 (ns-log (test 1 2 3))
+(%fset 'test2 (compile '(sys::%lambda args (test args))))
+(ns-log (test2 1 2 3))
 
 ;; (load "util.lisp")
 ;; (load "defun-0.lisp")
