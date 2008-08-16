@@ -85,13 +85,13 @@ static Constant
   fpm->add (createReassociatePass());
   fpm->add (createGVNPass());
   //  fpm->add (createVerifierPass());
-  //  fpm->add (createLowerSetJmpPass());
-  //  fpm->add (createRaiseAllocationsPass());
-  //  fpm->add (createCFGSimplificationPass());
-  //  fpm->add (createPromoteMemoryToRegisterPass());
-  //  fpm->add (createGlobalOptimizerPass());
-  //  fpm->add (createGlobalDCEPass());
-  //  fpm->add (createFunctionInliningPass());
+  //fpm->add (createLowerSetJmpPass());
+  //fpm->add (createRaiseAllocationsPass());
+  fpm->add (createCFGSimplificationPass());
+  fpm->add (createPromoteMemoryToRegisterPass());
+  //fpm->add (createGlobalOptimizerPass());
+  //fpm->add (createGlobalDCEPass());
+  //fpm->add (createFunctionInliningPass());
 
   // Utilities.
   //  fpm->add (createUnifyFunctionExitNodesPass());
