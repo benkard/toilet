@@ -53,6 +53,14 @@ using namespace llvm;
                    onObject:(Value *)object
          withArgumentVector:(std::vector<Value*> *)argv
                        name:(NSString *)name;
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv
+                       name:(NSString *)name
+                 returnType:(const Type *)returnType;
++(Value *) insertVoidMethodCall:(NSString *)messageName
+                       onObject:(Value *)object
+             withArgumentVector:(std::vector<Value*> *)argv;
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object;
