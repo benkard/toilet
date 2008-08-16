@@ -72,7 +72,7 @@
   for (i = 1; i < argc - 1; i++)
     {
       arg_types[i] = &ffi_type_pointer;
-      argpointers[i-1] = denullify([arguments objectAtIndex:i]);
+      argpointers[i-1] = denullify([arguments objectAtIndex:(i-1)]);
       argv[i] = &argpointers[i-1];
     }
 
