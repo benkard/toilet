@@ -27,9 +27,8 @@
 @interface MLKCompiledClosure : NSObject <MLKFuncallable>
 {
   int _dataLength;
-  id (**_code)();
+  id (*_code)();
   id *_data;
-  BOOL _ownPointer;  // do we own the _code pointer cell?
 }
 
 // Why intptr_t?  Because it makes it easier to call this method from
@@ -46,6 +45,9 @@
 
 -(NSString *) description;
 -(NSString *) descriptionForLisp;
+
+-(id (*)()) code;
+-(void *) closureData;
 
 -(void) dealloc;
 @end

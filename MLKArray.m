@@ -30,6 +30,14 @@
 
 
 @implementation MLKArray
++(id) array
+{
+  return LAUTORELEASE ([[self alloc]
+                         initWithDimensions:
+                           [NSArray arrayWithObject:
+                                      [MLKInteger integerWithInt:0]]]);
+}
+
 -(id) initWithDimensions:(NSArray *)dimensions
 {
   NSEnumerator *e;

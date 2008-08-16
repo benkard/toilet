@@ -24,8 +24,10 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
+#import "MLKCompiledClosure.h"
 #import "MLKCons.h"
 #import "MLKEnvironment.h"
+#import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 #import "MLKPackage.h"
 #import "MLKParenReader.h"
@@ -141,11 +143,61 @@ static MLKLexicalEnvironment *global_environment;
 -(void) setFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
   [_functions setValue:value forSymbol:symbol];
+
+  if ([_functions environmentForSymbol:symbol] == global_environment->_functions)
+    {
+      // If we're changing the global environment, we need to
+      // interoperate with compiled code.  In this case, be sure to set
+      // the global function cell.
+      //
+      // Note that this reserves memory for the function cell that is
+      // never freed, which is why we do it for global function bindings
+      // only!
+      id (**cell)(void *, ...) = [[MLKLexicalContext globalContext]
+                                   functionCellForSymbol:symbol];
+      void **closure_data_cell = [[MLKLexicalContext globalContext]
+                                   closureDataPointerForSymbol:symbol];
+      if ([value isKindOfClass:[MLKCompiledClosure class]])
+        {
+          *cell = (id (*)(void *, ...))[value code];
+          *closure_data_cell = [value closureData];
+        }
+      else
+        {
+          *cell = MLKInterpretedFunctionTrampoline;
+          *closure_data_cell = value;
+        }
+    }
 }
 
 -(void) addFunction:(id)value forSymbol:(MLKSymbol *)symbol
 {
   [_functions addValue:value forSymbol:symbol];
+
+  if (self == global_environment)
+    {
+      // If we're changing the global environment, we need to
+      // interoperate with compiled code.  In this case, be sure to set
+      // the global function cell.
+      //
+      // Note that this reserves memory for the function cell that is
+      // never freed, which is why we do it for global function bindings
+      // only!
+      id (**cell)(void *, ...) = [[MLKLexicalContext globalContext]
+                                   functionCellForSymbol:symbol];
+      void **closure_data_cell = [[MLKLexicalContext globalContext]
+                                   closureDataPointerForSymbol:symbol];
+      if ([value isKindOfClass:[MLKCompiledClosure class]])
+        {
+          *cell = (id (*)(void *, ...))[value code];
+          *closure_data_cell = [value closureData];
+        }
+      else
+        {
+          *cell = MLKInterpretedFunctionTrampoline;
+          *closure_data_cell = value;
+        }
+    }
 }
 
 -(BOOL) fboundp:(MLKSymbol *)symbol

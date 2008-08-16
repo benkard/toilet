@@ -35,6 +35,8 @@
 #include <llvm/Support/IRBuilder.h>
 #include <llvm/Target/TargetData.h>
 #include <llvm/Transforms/Scalar.h>
+#include <llvm/Transforms/IPO.h>
+#include <llvm/Transforms/Utils/UnifyFunctionExitNodes.h>
 #include <llvm/Value.h>
 
 #include <deque>
@@ -45,7 +47,7 @@ using namespace llvm;
 
 static ExecutionEngine *execution_engine;
 static llvm::Module *module;
-static IRBuilder builder;
+static IRBuilder<true, ConstantFolder> builder;
 static FunctionPassManager *fpm;
 static PointerType *PointerTy;
 static ModuleProvider *module_provider;
@@ -78,10 +80,21 @@ static Constant
   module_provider = new ExistingModuleProvider (module);
   fpm = new FunctionPassManager (module_provider);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
+  //fpm->add (new TargetData (module));
   fpm->add (createInstructionCombiningPass());
   fpm->add (createReassociatePass());
   fpm->add (createGVNPass());
+  //  fpm->add (createVerifierPass());
+  //fpm->add (createLowerSetJmpPass());
+  //fpm->add (createRaiseAllocationsPass());
   fpm->add (createCFGSimplificationPass());
+  fpm->add (createPromoteMemoryToRegisterPass());
+  //fpm->add (createGlobalOptimizerPass());
+  //fpm->add (createGlobalDCEPass());
+  //fpm->add (createFunctionInliningPass());
+
+  // Utilities.
+  //  fpm->add (createUnifyFunctionExitNodesPass());
 }
 
 +(id) compile:(id)object
@@ -108,15 +121,18 @@ static Constant
                                  forCompiler:self]];
 
   builder.CreateRet (v);
-  function->dump();
   verifyFunction (*function);
   fpm->run (*function);
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
+  module->dump();
+  NSLog (@"%p", fn);
 
   // Execute.
   lambdaForm = fn();
+
+  NSLog (@"Closure built.");
 
   return lambdaForm;
 }
@@ -169,23 +185,53 @@ static Constant
                name:@""];
 }
 
++(Value *) insertVoidMethodCall:(NSString *)messageName
+                       onObject:(Value *)object
+             withArgumentVector:(std::vector<Value*> *)argv
+{
+  return [self insertMethodCall:messageName
+               onObject:object
+               withArgumentVector:argv
+               name:@""
+               returnType:(Type::VoidTy)];
+}
+
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
          withArgumentVector:(std::vector<Value*> *)argv
-                       name:(NSString *)name;
+                       name:(NSString *)name
+{
+  return [self insertMethodCall:messageName
+               onObject:object
+               withArgumentVector:argv
+               name:@""
+               returnType:PointerTy];
+}
+
++(Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(Value *)object
+         withArgumentVector:(std::vector<Value*> *)argv
+                       name:(NSString *)name
+                 returnType:(const Type *)returnType
 {
   std::vector <const Type *> argtypes (2, PointerTy);
-  FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
-  Constant *function = 
-    module->getOrInsertFunction (
-#ifdef __NEXT_RUNTIME__
-                                 "objc_msgSend",
-#else
-                                 "objc_msg_send",
-#endif
-                                 ftype);
+  FunctionType *ftype = FunctionType::get (returnType, argtypes, true);
 
   Value *sel = [self insertSelectorLookup:messageName];
+
+#ifdef __NEXT_RUNTIME__
+  Constant *function = 
+    module->getOrInsertFunction ("objc_msgSend", ftype);
+#else
+  std::vector <const Type *> lookup_argtypes (2, PointerTy);
+  FunctionType *lookup_ftype = FunctionType::get (PointerType::get (ftype, 0),
+                                                  lookup_argtypes,
+                                                  false);
+  Constant *lookup_function = 
+    module->getOrInsertFunction ("objc_msg_lookup", lookup_ftype);
+  Value *function =
+    builder.CreateCall2 (lookup_function, object, sel, "method_impl");
+#endif
 
   // XXX The following doesn't work.  Why?
   //  std::deque <Value *> argd (*argv);
@@ -239,6 +285,17 @@ static Constant
   // Value *nameptr = builder.CreateGlobalStringPtr (cname, "");
   Constant *nameptr = createGlobalStringPtr (cname);
   return builder.CreateCall (function, nameptr, cname);
+}
+
++(void) insertTrace:(NSString *)message
+{
+  Constant *function =
+    module->getOrInsertFunction ("puts",
+                                 Type::Int32Ty,
+                                 PointerTy,
+                                 NULL);
+  
+  builder.CreateCall (function, createGlobalStringPtr ([message UTF8String]));
 }
 @end
 
@@ -309,12 +366,12 @@ static Constant
 
   if ([_context variableHeapAllocationForSymbol:_form])
     {
-      Value *binding = builder.CreateLoad ([_context bindingForSymbol:_form]);
+      Value *binding = builder.CreateLoad ([_context bindingValueForSymbol:_form]);
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
   else
     {
-      value = builder.CreateLoad ([_context valueForSymbol:_form],
+      value = builder.CreateLoad ([_context valueValueForSymbol:_form],
                                   [MLKPrintToString(_form) UTF8String]);
     }
 
@@ -332,15 +389,16 @@ static Constant
       // XXX Issue a style warning.
     }
 
-  Value *functionCell = builder.CreateLoad ([_context functionCellForSymbol:_head]);
+  Value *functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
   Value *functionPtr = builder.CreateLoad (functionCell);
-  Value *closureDataPointer = builder.CreateLoad ([_context closureDataPointerForSymbol:_head]);
+  Value *closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
+  Value *closureDataPtr = builder.CreateLoad (closureDataCell);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
   MLKForm *form;
 
   std::vector<Value *> args;
-  args.push_back (closureDataPointer);
+  args.push_back (closureDataPtr);
 
   while ((form = [e nextObject]))
     {
@@ -382,6 +440,8 @@ static Constant
   BasicBlock *loopBlock = BasicBlock::Create ("load_args");
   BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_prelude");
   BasicBlock *joinBlock = BasicBlock::Create ("function_body");
+  BasicBlock *lambdaListNewBlock = BasicBlock::Create ("lambda_list_new");
+  BasicBlock *lambdaListUpdateBlock = BasicBlock::Create ("lambda_list_update");
 
   builder.SetInsertPoint (initBlock);
 
@@ -398,13 +458,14 @@ static Constant
                                                    NULL),
                       ap);
 
-  Value *nsmutablearray = [_compiler insertClassLookup:@"NSMutableArray"];
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
-  Value *lambdaList = builder.CreateAlloca (PointerTy, NULL, "lambda_list");
 
-  builder.CreateStore ([_compiler insertMethodCall:@"array"
-                                  onObject:nsmutablearray],
-                       lambdaList);
+  // FIXME: Heap-allocate if appropriate.
+  Value *lambdaList = builder.CreateAlloca (PointerTy, NULL, "lambda_list");
+  Value *lambdaListTail = builder.CreateAlloca (PointerTy, NULL, "lambda_list_tail");
+
+  builder.CreateStore (ConstantPointerNull::get (PointerTy), lambdaList);
+  builder.CreateStore (ConstantPointerNull::get (PointerTy), lambdaListTail);
 
   builder.CreateBr (loopInitBlock);
   builder.SetInsertPoint (loopInitBlock);
@@ -416,13 +477,35 @@ static Constant
   builder.SetInsertPoint (loopBlock);
   function->getBasicBlockList().push_back (loopBlock);
 
-  std::vector <Value *> argv (1, arg);
-  builder.CreateStore ([_compiler insertMethodCall:@"addObject:"
-                                  onObject:builder.CreateLoad(lambdaList)
-                                  withArgumentVector:&argv],
-                       lambdaList);
+  builder.CreateCondBr (builder.CreateICmpEQ (builder.CreateLoad (lambdaList),
+                                              ConstantPointerNull::get (PointerTy)),
+                        lambdaListNewBlock,
+                        lambdaListUpdateBlock);
 
+  builder.SetInsertPoint (lambdaListNewBlock);
+  function->getBasicBlockList().push_back (lambdaListNewBlock);
+  std::vector <Value *> argv (1, arg);
+  argv.push_back (ConstantPointerNull::get (PointerTy));
+  Value *newLambdaList = [_compiler insertMethodCall:@"cons:with:"
+                                    onObject:mlkcons
+                                    withArgumentVector:&argv];
+  builder.CreateStore (newLambdaList, lambdaList);
+  builder.CreateStore (newLambdaList, lambdaListTail);
   builder.CreateBr (loopInitBlock);
+
+  builder.SetInsertPoint (lambdaListUpdateBlock);
+  function->getBasicBlockList().push_back (lambdaListUpdateBlock);
+
+  Value *newCons = [_compiler insertMethodCall:@"cons:with:"
+                              onObject:mlkcons
+                              withArgumentVector:&argv];
+  std::vector <Value *> setcdr_argv (1, newCons);
+  [_compiler insertVoidMethodCall:@"setCdr:"
+             onObject:builder.CreateLoad(lambdaListTail)
+             withArgumentVector:&setcdr_argv];
+  builder.CreateStore (newCons, lambdaListTail);
+  builder.CreateBr (loopInitBlock);
+
   builder.SetInsertPoint (joinBlock);
   function->getBasicBlockList().push_back (joinBlock);
 
@@ -431,12 +514,6 @@ static Constant
                                                    PointerTy,
                                                    NULL),
                       ap);
-
-  argv[0] = builder.CreateLoad(lambdaList);
-  builder.CreateStore ([_compiler insertMethodCall:@"listWithArray:"
-                                  onObject:mlkcons
-                                  withArgumentVector:&argv],
-                       lambdaList);
 
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
@@ -451,26 +528,31 @@ static Constant
   while ((form = [e nextObject]))
     {
       //NSLog (@"%LAMBDA: Processing subform.");
+      [form->_context setValueValue:lambdaList forSymbol:_lambdaListName];
       value = [form processForLLVM];
     }
 
   builder.CreateRet (value);
 
   function->dump();
-  NSLog (@"Verify...");
+  //NSLog (@"Verify...");
   verifyFunction (*function);
-  NSLog (@"Optimise...");
+  //NSLog (@"Optimise...");
   fpm->run (*function);
-  NSLog (@"Done.");
+  //NSLog (@"Assemble...");
+  // Explicit assembly is needed in order to allow libffi to call
+  // the function.
+  execution_engine->getPointerToFunction (function);
+  //NSLog (@"Done.");
   function->dump();
-  NSLog (@"Function built.");
+  //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
 
   Value *closure_data = ConstantPointerNull::get (PointerTy);
 
   argv[0] = function;
-  argv.push_back (closure_data);
+  argv[1] = closure_data;
   argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                            0,
                                                            false),
@@ -481,6 +563,8 @@ static Constant
     [_compiler insertMethodCall:@"closureWithCode:data:length:"
                onObject:mlkcompiledclosure
                withArgumentVector:&argv];
+
+  //function->viewCFG();
 
   return closure;
 }

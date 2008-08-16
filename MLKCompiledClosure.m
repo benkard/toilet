@@ -38,10 +38,7 @@
 
   _data = data;
   _dataLength = dataLength;
-  _ownPointer = YES;
-
-  _code = malloc (sizeof (id (*)()));
-  *_code = code;
+  _code = code;
 
   for (i = 0; i < _dataLength; i++)
     {
@@ -75,7 +72,7 @@
   for (i = 1; i < argc - 1; i++)
     {
       arg_types[i] = &ffi_type_pointer;
-      argpointers[i-1] = denullify([arguments objectAtIndex:i]);
+      argpointers[i-1] = denullify([arguments objectAtIndex:(i-1)]);
       argv[i] = &argpointers[i-1];
     }
 
@@ -89,9 +86,15 @@
                    format:@"FFI type is invalid (this is probably a bug)."];
     }
 
-  ffi_call (&cif, FFI_FN (*_code), &return_value, (void**)argv);
+//   NSLog (@"Calling %p (argc = %d)", _code, argc);
+//   for (i = 0; i < argc; i++)
+//     {
+//       NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
+//     }
 
-  // FIXME
+  ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
+
+  // FIXME: multiple values
   return [NSArray arrayWithObject:nullify(return_value)];
 }
 
@@ -105,22 +108,27 @@
   return [NSString stringWithFormat:@"<Compiled closure @%p>", self];
 }
 
+-(id (*)()) code
+{
+  return _code;
+}
+
+-(void *) closureData
+{
+  return _data;
+}
+
 -(void) dealloc
 {
   int i;
 
   [super dealloc];
 
-  // FIXME: Decrease refcount of *_code.  Note: When releasing *_code,
-  // also release _code regardless of whether we own it.
-
+  // FIXME: Decrease refcount of _code.
   for (i = 0; i < _dataLength; i++)
     {
       LRELEASE (_data[i]);
     }
   free (_data);
-
-  if (_ownPointer)
-    free (_code);
 }
 @end

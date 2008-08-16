@@ -1320,7 +1320,6 @@
       NSString *formdesc;
       NSAutoreleasePool *pool;
 
-      //NSLog (@"%@", code);
       //NSLog (@"%@", MLKPrintToString(code));
       //NSLog (@"%@", stream);
       //NSLog (@"...");
@@ -1328,9 +1327,9 @@
       pool = [[NSAutoreleasePool alloc] init];
 
       code = [MLKReader readFromStream:stream
-                           eofError:NO
-                           eofValue:eofValue
-                           recursive:NO
+                        eofError:NO
+                        eofValue:eofValue
+                        recursive:NO
                         preserveWhitespace:NO];
 
       if (code == eofValue)

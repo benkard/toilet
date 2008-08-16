@@ -22,8 +22,11 @@
 #import <Foundation/NSValue.h>
 
 #include <vector>
-#include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
+#include <llvm/Constants.h>
+#include <llvm/DerivedTypes.h>
+#include <llvm/Instructions.h>
+#include <llvm/Value.h>
 using namespace llvm;
 using namespace std;
 
@@ -45,56 +48,65 @@ using namespace std;
   return (flag && [flag boolValue]);
 }
 
--(Value *) functionCellForSymbol:(id)name
+-(Instruction *) functionCellValueForSymbol:(id)name
 {
-  return (Value *) [[self deepPropertyForFunction:name
-                          key:@"LLVM.function-cell"]
-                     pointerValue];
+  std::vector<const Type *> types (1, PointerType::get(Type::Int8Ty, 0));
+  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+                                             (uint64_t)[self functionCellForSymbol:name],
+                                             false),
+                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(Type::Int8Ty,
+                                                                                                 0),
+                                                                                types,
+                                                                                true),
+                                                              0),
+                                             0)));
 }
 
--(Value *) closureDataPointerForSymbol:(id)name
+-(Instruction *) closureDataPointerValueForSymbol:(id)name
 {
-  return (Value *) [[self deepPropertyForFunction:name
-                          key:@"LLVM.closure-data-pointer"]
-                     pointerValue];
+  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+                                             (uint64_t)[self closureDataPointerForSymbol:name],
+                                             false),
+                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
 }
 
--(Value *) bindingForSymbol:(id)name
+-(Value *) bindingValueForSymbol:(id)name
 {
-  return (Value *) [[self deepPropertyForVariable:name
-                          key:@"LLVM.variable-binding"]
-                     pointerValue];
+  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+                                             (uint64_t)[self bindingForSymbol:name],
+                                             false),
+                            PointerType::get(Type::Int8Ty, 0)));
 }
 
--(Value *) valueForSymbol:(id)name
+-(Value *) valueValueForSymbol:(id)name
 {
   return (Value *) [[self deepPropertyForVariable:name
                           key:@"LLVM.variable-value"]
                      pointerValue];
 }
 
--(void) setFunctionCell:(Value *)cellPtr forSymbol:(id)name
-{
-  [self setDeepProperty:[NSValue valueWithPointer:cellPtr]
-        forFunction:name
-        key:@"LLVM.function-cell"];
-}
+// -(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name
+// {
+//   [self setDeepProperty:[NSValue valueWithPointer:cellPtr]
+//         forFunction:name
+//         key:@"LLVM.function-cell"];
+// }
 
--(void) setClosureDataPointer:(Value *)pointer forSymbol:(id)name
-{
-  [self setDeepProperty:[NSValue valueWithPointer:pointer]
-        forFunction:name
-        key:@"LLVM.closure-data"];
-}
+// -(void) setClosureDataPointerValue:(Value *)pointer forSymbol:(id)name
+// {
+//   [self setDeepProperty:[NSValue valueWithPointer:pointer]
+//         forFunction:name
+//         key:@"LLVM.closure-data"];
+// }
 
--(void) setBinding:(Value *)binding forSymbol:(id)name
-{
-  [self setDeepProperty:[NSValue valueWithPointer:binding]
-        forVariable:name
-        key:@"LLVM.variable-binding"];
-}
+// -(void) setBindingValue:(Value *)binding forSymbol:(id)name
+// {
+//   [self setDeepProperty:[NSValue valueWithPointer:binding]
+//         forVariable:name
+//         key:@"LLVM.variable-binding"];
+// }
 
--(void) setValue:(Value *)value forSymbol:(id)name
+-(void) setValueValue:(Value *)value forSymbol:(id)name
 {
   [self setDeepProperty:[NSValue valueWithPointer:value]
         forVariable:name

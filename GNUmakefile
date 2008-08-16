@@ -56,7 +56,6 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m			\
                        MLKForeignProcedure.m MLKForm.m MLKInteger.m	\
                        MLKInterpretedClosure.m MLKInterpreter.m		\
                        MLKLexicalContext.m				\
-                       MLKLexicalContext-MLKLLVMCompilation.m		\
                        MLKLexicalEnvironment.m MLKNumber.m MLKPackage.m	\
                        MLKParenReader.m MLKQuoteReader.m MLKRatio.m	\
                        MLKReader.m MLKReadtable.m MLKReaderError.m	\
@@ -74,9 +73,11 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 USE_LLVM := YES
 ifeq ($(USE_LLVM),YES)
 ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
+ToiletKit_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
 ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
-ToiletKit_OBJCCFLAGS = `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
-ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis`
+ToiletKit_OBJCFLAGS = -DUSE_LLVM
+ToiletKit_OBJCCFLAGS = -DUSE_LLVM `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
+ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis ipo`
 endif
 
 #TOOL_NAME = etoilet
@@ -93,7 +94,7 @@ etshell_OBJCFLAGS = -w
 
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
 toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework \
-                    -LToiletKit.framework/Versions/Current
+                    -LToiletKit.framework/Versions/Current `llvm-config --ldflags` `llvm-config --libs scalaropts analysis ipo`
 toilet_OBJCFLAGS = -Wall
 
 Test_OBJC_FILES = MLKLowLevelTests.m

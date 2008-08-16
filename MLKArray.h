@@ -31,6 +31,7 @@
   NSArray *_displacement;
 }
 
++(id) array;
 -(id) initWithDimensions:(NSArray *)dimensions;
 
 -(NSArray *) dimensions;

@@ -22,6 +22,7 @@
 #import <Foundation/NSNull.h>
 #import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
+#import <Foundation/NSValue.h>
 
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
@@ -356,6 +357,62 @@ static MLKSymbol *LEXICAL;
     {
       [_parent setDeepProperty:object forFunction:name key:key];
     }
+}
+
+-(void *) functionCellForSymbol:(id)name
+{
+  id prop = [self deepPropertyForFunction:name
+                  key:@"LEXCTX.function-cell"];
+
+  if (!prop)
+    {
+      void *cell = malloc (sizeof(id (*)()));
+      prop = [NSValue valueWithPointer:cell];
+      [self setDeepProperty:prop
+            forFunction:name
+            key:@"LEXCTX.function-cell"];
+      return cell;
+    }
+  else
+    {
+      return [prop pointerValue];
+    }
+}
+
+-(void *) closureDataPointerForSymbol:(id)name
+{
+  id prop = [self deepPropertyForFunction:name
+                  key:@"LEXCTX.closure-data"];
+
+  if (!prop)
+    {
+      void *cell = malloc (sizeof(id (*)()));
+      prop = [NSValue valueWithPointer:cell];
+      [self setDeepProperty:prop
+            forFunction:name
+            key:@"LEXCTX.closure-data"];
+      return cell;
+    }
+  else
+    {
+      return [prop pointerValue];
+    }
+}
+
+-(id) bindingForSymbol:(id)name
+{
+  id prop = [self deepPropertyForVariable:name
+                  key:@"LEXCTX.variable-binding"];
+
+  if (!prop)
+    {
+      prop = [MLKBinding binding];
+      [self setDeepProperty:prop
+            forVariable:name
+            key:@"LEXCTX.variable-binding"];
+    }
+
+  return prop;
 }
 
 -(void) dealloc

@@ -292,7 +292,20 @@
 -(id) complete
 {
   self = [super complete];
-  LASSIGN (_argumentForms, [_tail array]);
+
+  id rest;
+  NSMutableArray *argumentForms = [NSMutableArray array];
+
+  rest = [_form cdr];
+  while (rest)
+    {
+      [argumentForms addObject:[MLKForm formWithObject:[rest car]
+                                        inContext:_context
+                                        forCompiler:_compiler]];
+      rest = [rest cdr];
+    }
+
+  LASSIGN (_argumentForms, argumentForms);
   return self;
 }
 
