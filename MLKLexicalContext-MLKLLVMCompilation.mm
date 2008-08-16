@@ -50,10 +50,14 @@ using namespace std;
 
 -(Value *) functionCellValueForSymbol:(id)name
 {
+  std::vector<const Type *> types (1, PointerType::get(Type::Int8Ty, 0));
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self functionCellForSymbol:name],
                                              false),
-                            PointerType::get(Type::Int8Ty, 0)));
+                            PointerType::get(FunctionType::get(PointerType::get(Type::Int8Ty, 0),
+                                                               types,
+                                                               true),
+                                             0)));
 }
 
 -(Value *) closureDataPointerValueForSymbol:(id)name
@@ -61,7 +65,7 @@ using namespace std;
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self closureDataPointerForSymbol:name],
                                              false),
-                            PointerType::get(Type::Int8Ty, 0)));
+                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
 }
 
 -(Value *) bindingValueForSymbol:(id)name
