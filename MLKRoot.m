@@ -704,7 +704,7 @@ as provided by method %@ of object %@",
                          with:nil]]);
 }
 
-
+#ifdef USE_LLVM
 +(NSArray *) compile:(NSArray *)args
 {
   NSLog (@"Compiling lambda form.");
@@ -714,4 +714,5 @@ as provided by method %@ of object %@",
   NSLog (@"Compiled: %@", thing);
   RETURN_VALUE (thing);
 }
+#endif
 @end
