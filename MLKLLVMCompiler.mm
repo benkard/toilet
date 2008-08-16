@@ -389,9 +389,9 @@ static Constant
       // XXX Issue a style warning.
     }
 
-  Value *functionCell = builder.CreateLoad ([_context functionCellValueForSymbol:_head]);
+  Value *functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
   Value *functionPtr = builder.CreateLoad (functionCell);
-  Value *closureDataCell = builder.CreateLoad ([_context closureDataPointerValueForSymbol:_head]);
+  Value *closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
   Value *closureDataPtr = builder.CreateLoad (closureDataCell);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
