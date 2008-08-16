@@ -87,7 +87,6 @@
     }
 
   NSLog (@"Calling %p (argc = %d)", _code, argc);
-  _code(0, MLKEndOfArgumentsMarker);
   for (i = 0; i < argc; i++)
     {
       NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
