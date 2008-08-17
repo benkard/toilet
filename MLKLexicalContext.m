@@ -37,6 +37,8 @@
 #import "runtime-compatibility.h"
 #import "util.h"
 
+#include <stdlib.h>
+
 
 #define MAKE_ENVIRONMENT(variable, parent, parent_member)               \
   [[MLKEnvironment alloc]                                               \
