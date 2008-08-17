@@ -734,16 +734,17 @@
 @implementation MLKSetQForm
 -(id) complete
 {
-  id rest = _tail;
+  id rest;
   NSMutableArray *variables, *valueForms;
 
   self = [super complete];
 
+  rest = _tail;
   variables = [NSMutableArray array];
   valueForms = [NSMutableArray array];
   while (rest)
     {
-      [variables addObject:[rest car]];
+      [variables addObject:nullify([rest car])];
       [valueForms addObject:MAKE_FORM([[rest cdr] car])];
       rest = [[rest cdr] cdr];
     }
@@ -763,16 +764,17 @@
 @implementation MLKFSetQForm
 -(id) complete
 {
-  id rest = _tail;
+  id rest;
   NSMutableArray *functionNames, *valueForms;
   
   self = [super complete];
   
+  rest = _tail;
   functionNames = [NSMutableArray array];
   valueForms = [NSMutableArray array];
   while (rest)
     {
-      [functionNames addObject:[rest car]];
+      [functionNames addObject:nullify([rest car])];
       [valueForms addObject:MAKE_FORM([[rest cdr] car])];
       rest = [[rest cdr] cdr];
     }
