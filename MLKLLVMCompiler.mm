@@ -601,3 +601,14 @@ static Constant
   return value;
 }
 @end
+
+
+@implementation MLKQuoteForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)_quotedData,
+                                                  false),
+                                 PointerTy);
+}
+@end
