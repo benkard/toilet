@@ -18,6 +18,10 @@
 
 (in-package #:common-lisp)
 
+100
+
+(ns-log 100)
+
 (%fset 'test (compile '(sys::%lambda args)))
 (ns-log (test 'a 'b 'c))
 (%fset 'test2 (compile '(sys::%lambda args args)))
@@ -52,7 +56,7 @@
                              (ns-log x)))))
 (test11)
 
-;; (load "util.lisp")
+(load "util.lisp")
 ;; (load "defun-0.lisp")
 ;; (load "list-functions.lisp")
 ;; (load "destructuring-bind.lisp")
