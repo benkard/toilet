@@ -56,7 +56,7 @@
 
 +(Class) dispatchClassForObject:(id)object
 {
-  if ([object isKindOfClass:[MLKCons class]])
+  if (MLKInstanceP (object) && [object isKindOfClass:[MLKCons class]])
     return [MLKCompoundForm class];
   else
     return [MLKAtomicForm class];
@@ -89,7 +89,7 @@
 @implementation MLKAtomicForm
 +(Class) dispatchClassForObject:(id)object
 {
-  if ([object isKindOfClass:[MLKSymbol class]])
+  if (MLKInstanceP (object) && [object isKindOfClass:[MLKSymbol class]])
     return [MLKSymbolForm class];
   else
     return [MLKSelfEvaluatingForm class];
