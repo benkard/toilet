@@ -91,6 +91,7 @@
 {
   id _body;
   NSArray *_bodyForms;
+  id _bodyContext;
 }
 
 -(void) splitDeclarationsAndBody:(id)object;
@@ -319,6 +320,10 @@
 }
 
 +(Class) dispatchClassForObject:(id)object;
+
+-(id) name;
+-(id) lambdaListName;
+-(id) bodyForms;
 @end
 
 
@@ -329,6 +334,9 @@
 }
 
 +(Class) dispatchClassForObject:(id)object;
+
+-(id) name;
+-(id) valueForm;
 @end
 
 

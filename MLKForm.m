@@ -246,6 +246,7 @@
       rest = [rest cdr];
     }
 
+  LASSIGN (_bodyContext, context);
   LASSIGN (_bodyForms, bodyForms);
 }
 
@@ -883,6 +884,21 @@
           inContext:newContext];
   return self;
 }
+
+-(id) name
+{
+  return _name;
+}
+
+-(id) lambdaListName
+{
+  return _lambdaListName;
+}
+
+-(id) bodyForms
+{
+  return _bodyForms;
+}
 @end
 
 
@@ -913,6 +929,16 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObject:_valueForm];
+}
+
+-(id) name
+{
+  return _name;
+}
+
+-(id) valueForm
+{
+  return _valueForm;
 }
 @end
 
