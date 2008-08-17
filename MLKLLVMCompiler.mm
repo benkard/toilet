@@ -135,15 +135,15 @@ static Constant
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
   //module->dump();
-  NSLog (@"%p", fn);
+  //NSLog (@"%p", fn);
 
   [pool release];
-  NSLog (@"Code compiled.");
+  //NSLog (@"Code compiled.");
 
   // Execute.
   lambdaForm = fn();
 
-  NSLog (@"Closure built.");
+  //NSLog (@"Closure built.");
 
   return lambdaForm;
 }
@@ -586,7 +586,7 @@ static Constant
 
   builder.CreateRet (value);
 
-  function->dump();
+  //function->dump();
   //NSLog (@"Verify...");
   verifyFunction (*function);
   //NSLog (@"Optimise...");
@@ -596,7 +596,7 @@ static Constant
   // the function.
   execution_engine->getPointerToFunction (function);
   //NSLog (@"Done.");
-  function->dump();
+  //function->dump();
   //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
