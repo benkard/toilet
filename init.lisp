@@ -41,6 +41,8 @@
 (%fset 'test9 (compile '(sys::%lambda args (if args 'some-args 'no-args))))
 (ns-log (test9))
 (ns-log (test9 1 2 3))
+(%fset 'test10 (compile '(sys::%lambda args (cons 1 2))))
+(ns-log (test10))
 
 ;; (load "util.lisp")
 ;; (load "defun-0.lisp")
