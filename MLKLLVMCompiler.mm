@@ -706,7 +706,7 @@ static Constant
 
 @implementation MLKSetQForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
-{  
+{
   NSEnumerator *var_e, *value_e;
   MLKForm *valueForm;
   Value *value = ConstantPointerNull::get (PointerTy);
