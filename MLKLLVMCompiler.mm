@@ -702,3 +702,38 @@ static Constant
   return value;
 }
 @end
+
+
+@implementation MLKSetQForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{  
+  NSEnumerator *var_e, *value_e;
+  MLKForm *valueForm;
+  Value *value = ConstantPointerNull::get (PointerTy);
+  id variable;
+
+  var_e = [_variables objectEnumerator];
+  value_e = [_valueForms objectEnumerator];
+  while ((valueForm = [value_e nextObject]))
+    {
+      variable = [var_e nextObject];
+      value = [valueForm processForLLVM];
+      if ([_context variableHeapAllocationForSymbol:variable])
+        {
+          Value *binding = builder.CreateLoad ([_context
+                                                 bindingValueForSymbol:variable]);
+          std::vector<Value *> args (1, value);
+
+          [_compiler insertVoidMethodCall:@"setValue:"
+                     onObject:binding
+                     withArgumentVector:&args];
+        }
+      else
+        {
+          builder.CreateStore (value, [_context valueValueForSymbol:variable]);
+        }
+    }
+
+  return value;
+}
+@end
