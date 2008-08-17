@@ -49,7 +49,6 @@ static MLKSymbol *SYMBOL_MACROLET;
 static MLKSymbol *PROGV;
 static MLKSymbol *UNWIND_PROTECT;
 static MLKSymbol *VALUES;
-static MLKSymbol *_DEFMACRO;
 static MLKSymbol *_FOREIGN_LAMBDA;
 static MLKSymbol *_LAMBDA;
 static MLKSymbol *_LOOP;
@@ -98,7 +97,6 @@ ensure_symbols ()
   PROGV = [cl intern:@"PROGV"];
   VALUES = [cl intern:@"VALUES"];
   UNWIND_PROTECT = [cl intern:@"UNWIND-PROTECT"];
-  _DEFMACRO = [sys intern:@"%DEFMACRO"];
   _FOREIGN_LAMBDA = [sys intern:@"%FOREIGN-LAMBDA"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
