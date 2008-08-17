@@ -18,6 +18,7 @@
 
 #import "MLKLLVMCompiler.h"
 #import "globals.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSEnumerator.h>
@@ -606,9 +607,61 @@ static Constant
 @implementation MLKQuoteForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
 {
+  // FIXME: When to release _quotedData?  At the same time the code is
+  // released, probably...
+  LRETAIN (_quotedData);
   return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                   (uint64_t)_quotedData,
                                                   false),
                                  PointerTy);
+}
+@end
+
+
+@implementation MLKSelfEvaluatingForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  // FIXME: When to release _form?  At the same time the code is
+  // released, probably...
+  LRETAIN (_form);
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)_form,
+                                                  false),
+                                 PointerTy);
+}
+@end
+
+
+@implementation MLKIfForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  Function *function = builder.GetInsertBlock()->getParent();
+  BasicBlock *thenBlock = BasicBlock::Create ("if_then", function);
+  BasicBlock *elseBlock = BasicBlock::Create ("if_else");
+  BasicBlock *joinBlock = BasicBlock::Create ("if_join");
+
+  Value *thenValue, *elseValue;
+
+  Value *test = builder.CreateICmpNE ([_conditionForm processForLLVM],
+                                      ConstantPointerNull::get (PointerTy));
+  builder.CreateCondBr (test, thenBlock, elseBlock);
+
+  builder.SetInsertPoint (thenBlock);
+  thenValue = [_consequentForm processForLLVM];
+  builder.CreateBr (joinBlock);
+
+  builder.SetInsertPoint (elseBlock);
+  function->getBasicBlockList().push_back (elseBlock);
+  elseValue = [_alternativeForm processForLLVM];
+  builder.CreateBr (joinBlock);
+
+  builder.SetInsertPoint (joinBlock);
+  function->getBasicBlockList().push_back (joinBlock);
+
+  PHINode *value = builder.CreatePHI (PointerTy, "if_result");
+  value->addIncoming (thenValue, thenBlock);
+  value->addIncoming (elseValue, elseBlock);
+
+  return value;
 }
 @end
