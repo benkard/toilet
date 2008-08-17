@@ -751,3 +751,21 @@ static Constant
   return value;
 }
 @end
+
+
+@implementation MLKInPackageForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  id package = [MLKPackage findPackage:stringify(_packageDesignator)];
+
+  [[MLKDynamicContext currentContext]
+    setValue:package
+    forSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
+                intern:@"*PACKAGE*"]];
+
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)package,
+                                                  false),
+                                 PointerTy);
+}
+@end
