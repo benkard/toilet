@@ -152,7 +152,12 @@ static Constant
   //FIXME
   // If PROGN, do this...  If EVAL-WHEN, do that...
 
-  
+}
+
++(id) eval:(id)object
+{
+  return [self compile:object
+               inContext:[MLKLexicalContext globalContext]];
 }
 
 +(Value *) processForm:(MLKForm *)form
