@@ -746,4 +746,15 @@ as provided by method %@ of object %@",
 
   RETURN_VALUE (value);
 }
+
++(NSArray *) macroset:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+
+  [[MLKLexicalContext globalContext] addMacro:value
+                                     forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
 @end

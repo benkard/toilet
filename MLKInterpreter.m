@@ -289,46 +289,6 @@
 
               return nil;
             }
-          else if (car == _DEFMACRO)
-            {
-              // No real lambda lists here.  This SYS::%DEFMACRO is
-              // really as low-level as it gets.
-              id name = [[program cdr] car];
-              id lambdaListAndBody = [[program cdr] cdr];
-
-              id <MLKFuncallable> function;
-
-              if (expandOnly)
-                {
-                  id lambdaList = [lambdaListAndBody car];
-                  id body = [lambdaListAndBody cdr];
-                  id body_expansion =
-                    denullify([[self eval:[MLKCons cons:PROGN with:body]
-                                     inLexicalContext:context
-                                     withEnvironment:lexenv
-                                     expandOnly:expandOnly]
-                                objectAtIndex:0]);
-                  RETURN_VALUE ([MLKCons
-                                  cons:_DEFMACRO
-                                  with:[MLKCons
-                                         cons:name
-                                         with:[MLKCons
-                                                cons:lambdaList
-                                                with:[MLKCons
-                                                       cons:body_expansion
-                                                       with:nil]]]]);
-                }
-
-              function = denullify([[self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
-                                          inLexicalContext:context
-                                          withEnvironment:lexenv
-                                          expandOnly:expandOnly]
-                                     objectAtIndex:0]);
-
-              [context addMacro:function forSymbol:name];
-
-              RETURN_VALUE (name);
-            }
           else if (car == EVAL)
             {
               NSArray *evaluand = denullify([[self eval:[[program cdr] car]

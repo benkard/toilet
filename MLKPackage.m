@@ -105,10 +105,10 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"MULTIPLE-VALUE-CALL"]];
   [cl export:[cl intern:@"EVAL-WHEN"]];
 
-  [sys export:[sys intern:@"%DEFMACRO"]];
   [sys export:[sys intern:@"%LAMBDA"]];
   [sys export:[sys intern:@"%FSET"]];
   [sys export:[sys intern:@"%FSETQ"]];
+  [sys export:[sys intern:@"%MACROSET"]];
   [sys export:[sys intern:@"%LOOP"]];
   [sys export:[sys intern:@"%FLET"]];
   [sys export:[sys intern:@"%MACROLET"]];

@@ -134,14 +134,6 @@
 @end
 
 
-@interface MLKSimpleDefmacroForm : MLKDeclaringForm
-{
-  MLKSymbol *_lambdaListName;
-  MLKSymbol *_name;
-}
-@end
-
-
 @interface MLKEvalWhenForm : MLKBodyForm
 {
   BOOL _compileToplevel;

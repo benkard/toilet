@@ -130,7 +130,6 @@
 
   if (car == APPLY) return [MLKFunctionCallForm class];
   else if (car == CATCH) return [MLKCatchForm class];
-  else if (car == _DEFMACRO) return [MLKSimpleDefmacroForm class];
   else if (car == EVAL) return [MLKFunctionCallForm class];
   else if (car == EVAL_WHEN) return [MLKEvalWhenForm class];
   else if (car == _FOREIGN_LAMBDA) return [MLKForeignLambdaForm class];
@@ -328,31 +327,6 @@
 {
   return [[[super subforms] arrayByAddingObject:_tagForm]
           arrayByAddingObjectsFromArray:_bodyForms];
-}
-@end
-
-
-@implementation MLKSimpleDefmacroForm
--(id) complete
-{
-  MLKLexicalContext *newContext;
-
-  self = [super complete];
-
-  LASSIGN (_name, [_tail car]);
-  LASSIGN (_lambdaListName, [[_tail cdr] car]);
-  newContext = [MLKLexicalContext contextWithParent:_context
-                                          variables:[NSSet setWithObject:_lambdaListName]
-                                          functions:nil
-                                             goTags:nil
-                                             macros:nil
-                                     compilerMacros:nil
-                                       symbolMacros:nil
-                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
-
-  [self processBody:[[_tail cdr] cdr]
-          inContext:newContext];
-  return self;
 }
 @end
 
