@@ -99,6 +99,10 @@ static id truify (BOOL value)
               withString:@"_"
               options:NSLiteralSearch
               range:NSMakeRange(0, [methodName length])];
+  [methodName replaceOccurrencesOfString:@"%"
+              withString:@""
+              options:NSLiteralSearch
+              range:NSMakeRange(0, [methodName length])];
   [methodName appendString:@":"];
 
   selector = NSSelectorFromString (methodName);
@@ -715,4 +719,31 @@ as provided by method %@ of object %@",
   RETURN_VALUE (thing);
 }
 #endif
+
++(NSArray *) fset:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+
+  [[MLKLexicalContext globalContext] addFunction:symbol];
+  [[MLKLexicalEnvironment globalEnvironment] addFunction:value
+                                             forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
+
++(NSArray *) set:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+  MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
+
+  if ([dynamicContext bindingForSymbol:symbol])
+    [dynamicContext setValue:value forSymbol:symbol];
+  else
+    [[MLKDynamicContext globalContext] addValue:value
+                                       forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
 @end

@@ -148,8 +148,6 @@
   else if (car == QUOTE) return [MLKQuoteForm class];
   else if (car == SETQ) return [MLKSetQForm class];
   else if (car == _FSETQ) return [MLKFSetQForm class];
-  else if (car == SET) return [MLKSetForm class];
-  else if (car == _FSET) return [MLKFSetForm class];
   else if (car == THROW) return [MLKThrowForm class];
   else if (car == UNWIND_PROTECT) return [MLKUnwindProtectForm class];
   else return [MLKSimpleCompoundForm class];
@@ -787,40 +785,6 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
-}
-@end
-
-
-@implementation MLKSetForm
--(id) complete
-{
-  self = [super complete];
-  LASSIGN (_variableForm, MAKE_FORM ([_tail car]));
-  LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
-  return self;
-}
-
--(NSArray *) subforms
-{
-  return [[[super subforms] arrayByAddingObject:_variableForm]
-          arrayByAddingObject:_valueForm];
-}
-@end
-
-
-@implementation MLKFSetForm
--(id) complete
-{
-  self = [super complete];
-  LASSIGN (_functionNameForm, MAKE_FORM ([_tail car]));
-  LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
-  return self;
-}
-
--(NSArray *) subforms
-{
-  return [[[super subforms] arrayByAddingObject:_functionNameForm]
-          arrayByAddingObject:_valueForm];
 }
 @end
 

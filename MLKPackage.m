@@ -101,7 +101,6 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"VALUES"]];
   [cl export:[cl intern:@"EVAL"]];
   [cl export:[cl intern:@"SPECIAL"]];
-  [cl export:[cl intern:@"SET"]];
   [cl export:[cl intern:@"UNWIND-PROTECT"]];
   [cl export:[cl intern:@"MULTIPLE-VALUE-CALL"]];
   [cl export:[cl intern:@"EVAL-WHEN"]];
@@ -155,6 +154,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"DECLARATIONS-AND-DOC-AND-FORMS"]];
   [sys export:[sys intern:@"DECLARATIONS-AND-FORMS"]];
   [sys export:[sys intern:@"COMPILE"]];
+  [sys export:[sys intern:@"SET"]];
 
   [sys export:[sys intern:@"OBJC-CLASS-OF"]];
   [sys export:[sys intern:@"OBJC-SUBCLASSP"]];

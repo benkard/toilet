@@ -282,22 +282,6 @@
 @end
 
 
-@interface MLKSetForm : MLKCompoundForm
-{
-  MLKForm *_variableForm;
-  MLKForm *_valueForm;
-}
-@end
-
-
-@interface MLKFSetForm : MLKCompoundForm
-{
-  MLKForm *_functionNameForm;
-  MLKForm *_valueForm;
-}
-@end
-
-
 @interface MLKThrowForm : MLKCompoundForm
 {
   MLKForm *_tagForm;

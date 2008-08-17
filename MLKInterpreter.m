@@ -1059,59 +1059,6 @@
               else
                 RETURN_VALUE (value);
             }
-          else if (car == SET)
-            {
-              id symbol = [[self eval:[[program cdr] car]
-                                 inLexicalContext:context
-                                 withEnvironment:lexenv
-                                 expandOnly:expandOnly]
-                           objectAtIndex:0];
-              id value = [[self eval:[[[program cdr] cdr] car]
-                                inLexicalContext:context
-                                withEnvironment:lexenv
-                                expandOnly:expandOnly]
-                          objectAtIndex:0];
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:SET
-                                       with:[MLKCons cons:symbol
-                                                     with:[MLKCons cons:value
-                                                                   with:nil]]]);
-
-              if ([dynamicContext bindingForSymbol:symbol])
-                [dynamicContext setValue:value forSymbol:symbol];
-              else
-                [[MLKDynamicContext globalContext] addValue:value
-                                                   forSymbol:symbol];
-
-              return [NSArray arrayWithObject:symbol];
-            }
-          else if (car == _FSET)
-            {
-              // Like SET, but for the function cell.
-              id symbol = [[self eval:[[program cdr] car]
-                                 inLexicalContext:context
-                                 withEnvironment:lexenv
-                                 expandOnly:expandOnly]
-                            objectAtIndex:0];
-              id value = [[self eval:[[[program cdr] cdr] car]
-                                inLexicalContext:context
-                                withEnvironment:lexenv
-                                expandOnly:expandOnly]
-                           objectAtIndex:0];
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:_FSET
-                                       with:[MLKCons cons:symbol
-                                                     with:[MLKCons cons:value
-                                                                   with:nil]]]);
-
-              [[MLKLexicalContext globalContext] addFunction:symbol];
-              [[MLKLexicalEnvironment globalEnvironment] addFunction:value
-                                                         forSymbol:symbol];
-
-              return [NSArray arrayWithObject:symbol];
-            }
           else if (car == THROW)
             {
               id catchTag;
