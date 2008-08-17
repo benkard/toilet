@@ -146,7 +146,7 @@
   if (!_cdr)
     return [NSString stringWithFormat:@"%@",
                      MLKPrintToString(_car)];
-  else if ([_cdr isKindOfClass:[MLKCons class]])
+  else if (MLKInstanceP (_cdr) && [_cdr isKindOfClass:[MLKCons class]])
     return [NSString stringWithFormat:@"%@ %@",
                      MLKPrintToString(_car),
                      [_cdr bareDescriptionForLisp]];
@@ -158,7 +158,7 @@
 
 -(NSString *)descriptionForLisp
 {
-  if ([_cdr isKindOfClass:[MLKCons class]])
+  if (MLKInstanceP (_cdr) && [_cdr isKindOfClass:[MLKCons class]])
     {
       if (_car == [[MLKPackage findPackage:@"COMMON-LISP"] intern:@"QUOTE"])
         return [NSString stringWithFormat:@"'%@", [_cdr bareDescriptionForLisp]];
