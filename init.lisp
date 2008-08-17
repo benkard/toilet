@@ -30,6 +30,10 @@
                                                  (y args))
                                              args x y))))
 (ns-log (test5 1 2 3))
+(%fset 'test6 (compile '(sys::%lambda args (let ((x 'value-x)
+                                                 (y 'value-y))
+                                             args x y))))
+(ns-log (test6 1 2 3))
 
 ;; (load "util.lisp")
 ;; (load "defun-0.lisp")
