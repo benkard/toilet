@@ -43,6 +43,14 @@
 (ns-log (test9 1 2 3))
 (%fset 'test10 (compile '(sys::%lambda args (cons 1 2))))
 (ns-log (test10))
+(%fset 'test11 (compile '(sys::%lambda args
+                           (let ((x 'outer))
+                             (let ((x 'inner))
+                               (ns-log x)
+                               (setq x 'new-inner)
+                               (ns-log x))
+                             (ns-log x)))))
+(test11)
 
 ;; (load "util.lisp")
 ;; (load "defun-0.lisp")
