@@ -92,7 +92,6 @@ static NSMutableDictionary *packages = nil;
   [cl export:[cl intern:@"FUNCALL"]];
   [cl export:[cl intern:@"FUNCTION"]];
   [cl export:[cl intern:@"PROGN"]];
-  [cl export:[cl intern:@"APPLY"]];
   [cl export:[cl intern:@"PROGV"]];
   [cl export:[cl intern:@"SETQ"]];
   [cl export:[cl intern:@"SETF"]];
@@ -155,6 +154,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"DECLARATIONS-AND-FORMS"]];
   [sys export:[sys intern:@"COMPILE"]];
   [sys export:[sys intern:@"SET"]];
+  [sys export:[sys intern:@"APPLY"]];
 
   [sys export:[sys intern:@"OBJC-CLASS-OF"]];
   [sys export:[sys intern:@"OBJC-SUBCLASSP"]];

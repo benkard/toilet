@@ -36,7 +36,6 @@ static MLKSymbol *_MACROLET;
 static MLKSymbol *LAMBDA;
 static MLKSymbol *LET;
 static MLKSymbol *LOCALLY;
-static MLKSymbol *APPLY;
 static MLKSymbol *FUNCALL;
 static MLKSymbol *FUNCTION;
 static MLKSymbol *EVAL;
@@ -84,7 +83,6 @@ ensure_symbols ()
   _FLET = [sys intern:@"%FLET"];
   _MACROLET = [sys intern:@"%MACROLET"];
   _LOOP = [sys intern:@"%LOOP"];
-  APPLY = [cl intern:@"APPLY"];
   EVAL = [cl intern:@"EVAL"];
   EVAL_WHEN = [cl intern:@"EVAL-WHEN"];
   FUNCALL = [cl intern:@"FUNCALL"];

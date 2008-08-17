@@ -193,34 +193,7 @@
                 }
             }
 
-          if (car == APPLY)
-            {
-              MLKCons *rest = denullify([[self eval:[[[program cdr] cdr] car]
-                                               inLexicalContext:context
-                                               withEnvironment:lexenv
-                                               expandOnly:expandOnly]
-                                          objectAtIndex:0]);
-
-              id function = denullify([[self eval:[[program cdr] car]
-                                             inLexicalContext:context
-                                             withEnvironment:lexenv
-                                             expandOnly:expandOnly]
-                                        objectAtIndex:0]);
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:APPLY
-                                       with:[MLKCons cons:function
-                                                     with:[MLKCons cons:rest
-                                                                   with:nil]]]);
-
-              if ([function isKindOfClass:[MLKSymbol class]])
-                function = [lexenv functionForSymbol:function];
-
-              return [function applyToArray:(rest
-                                             ? (id)[rest array]
-                                             : (id)[NSArray array])];
-            }
-          else if (car == CATCH)
+          if (car == CATCH)
             {
               id catchTag;
               NSArray *values;

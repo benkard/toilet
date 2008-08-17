@@ -711,11 +711,11 @@ as provided by method %@ of object %@",
 #ifdef USE_LLVM
 +(NSArray *) compile:(NSArray *)args
 {
-  NSLog (@"Compiling lambda form.");
+  //NSLog (@"Compiling lambda form.");
   id thing = [MLKLLVMCompiler compile:denullify([args objectAtIndex:0])
                               inContext:[MLKLexicalContext globalContext]];
-  NSLog (@"Compilation done.");
-  NSLog (@"Compiled: %@", thing);
+  //NSLog (@"Compilation done.");
+  //NSLog (@"Compiled: %@", thing);
   RETURN_VALUE (thing);
 }
 #endif
@@ -756,5 +756,21 @@ as provided by method %@ of object %@",
                                      forSymbol:symbol];
 
   RETURN_VALUE (value);
+}
+
++(NSArray *) apply:(NSArray *)args
+{
+  id function = denullify ([args objectAtIndex:0]);
+  id arglist = denullify ([args objectAtIndex:1]);
+
+  if (!function || [function isKindOfClass:[MLKSymbol class]])
+    {
+      function = [[MLKLexicalEnvironment globalEnvironment]
+                   functionForSymbol:function];
+    }
+
+  return [function applyToArray:(arglist
+                                 ? (id)[arglist array]
+                                 : (id)[NSArray array])];
 }
 @end

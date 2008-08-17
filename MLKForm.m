@@ -129,8 +129,7 @@
 {
   id car = [object car];
 
-  if (car == APPLY) return [MLKFunctionCallForm class];
-  else if (car == CATCH) return [MLKCatchForm class];
+  if (car == CATCH) return [MLKCatchForm class];
   else if (car == EVAL) return [MLKFunctionCallForm class];
   else if (car == EVAL_WHEN) return [MLKEvalWhenForm class];
   else if (car == _FOREIGN_LAMBDA) return [MLKForeignLambdaForm class];
