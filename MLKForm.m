@@ -43,9 +43,10 @@
            inContext:(MLKLexicalContext *)context
          forCompiler:(id)compiler
 {
-  _form = object;
-  _context = context;
-  _compiler = compiler;
+  self = [super init];
+  LASSIGN (_form, object);
+  LASSIGN (_context, context);
+  LASSIGN (_compiler, compiler);
   return [self complete];
 }
 
@@ -170,24 +171,24 @@
   else if ([_head isKindOfClass:[MLKCons class]])
     {
       LRELEASE (self);
-      return [MLKForm formWithObject:[MLKCons cons:FUNCALL
-                                              with:object]
-                      inContext:context
-                      forCompiler:compiler];
+      return LRETAIN ([MLKForm formWithObject:[MLKCons cons:FUNCALL
+                                                       with:object]
+                               inContext:context
+                               forCompiler:compiler]);
     }
   else if ([context symbolNamesMacro:_head])
     {
       LRELEASE (self);
-      return [MLKMacroCallForm formWithObject:object
-                               inContext:context
-                               forCompiler:compiler];
+      return LRETAIN ([MLKMacroCallForm formWithObject:object
+                                        inContext:context
+                                        forCompiler:compiler]);
     }
   else
     {
       LRELEASE (self);
-      return [MLKFunctionCallForm formWithObject:object
-                                  inContext:context
-                                  forCompiler:compiler];
+      return LRETAIN ([MLKFunctionCallForm formWithObject:object
+                                           inContext:context
+                                           forCompiler:compiler]);
     }
 }
 
@@ -215,9 +216,9 @@
                                             _form, context, nil]]
                               objectAtIndex:0]);
 
-  return [MLKForm formWithObject:expansion
-                  inContext:context
-                  forCompiler:compiler];
+  return LRETAIN ([MLKForm formWithObject:expansion
+                           inContext:context
+                           forCompiler:compiler]);
 }
 @end
 
@@ -225,7 +226,7 @@
 @implementation MLKBodyForm
 -(void) splitDeclarationsAndBody:(id)object
 {
-  _body = object;
+  LASSIGN (_body, object);
 }
 
 -(void) processBody:(id)object inContext:(MLKLexicalContext *)context
@@ -523,7 +524,7 @@
                           inContext:newContext
                         forCompiler:_compiler];
   LRELEASE (self);  //?FIXME
-  return newForm;
+  return LRETAIN (newForm);
 }
 @end
 
