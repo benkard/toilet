@@ -126,7 +126,7 @@ static Constant
 
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
-  module->dump();
+  //module->dump();
   NSLog (@"%p", fn);
 
   // Execute.
@@ -314,10 +314,7 @@ static Constant
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
-  Value *value = NULL;
-
-  if ([_bodyForms count] == 0)
-    value = ConstantPointerNull::get (PointerTy);
+  Value *value = ConstantPointerNull::get (PointerTy);
 
   while ((form = [e nextObject]))
     {
@@ -405,6 +402,9 @@ static Constant
       args.push_back ([form processForLLVM]);
     }
 
+  //GlobalVariable *endmarker = module->getGlobalVariable ("MLKEndOfArgumentsMarker", false);
+  //endmarker->setConstant (true);
+  //GlobalVariable *endmarker = new GlobalVariable (PointerTy, true, GlobalValue::ExternalWeakLinkage);
   Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
@@ -567,5 +567,37 @@ static Constant
   //function->viewCFG();
 
   return closure;
+}
+@end
+
+
+@implementation MLKLetForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  NSEnumerator *e = [_variableBindingForms objectEnumerator];
+  Value *value = ConstantPointerNull::get (PointerTy);
+  MLKForm *form;
+  MLKVariableBindingForm *binding_form;
+
+  while ((binding_form = [e nextObject]))
+    {
+      // FIXME: Handle heap allocation.
+      Value *binding_value = [[binding_form valueForm] processForLLVM];
+      Value *binding_variable = builder.CreateAlloca (PointerTy,
+                                                      NULL,
+                                                      [(MLKPrintToString([binding_form name]))
+                                                        UTF8String]);
+      builder.CreateStore (binding_value, binding_variable);
+      [_bodyContext setValueValue:binding_variable
+                    forSymbol:[binding_form name]];
+    }
+
+  e = [_bodyForms objectEnumerator];
+  while ((form = [e nextObject]))
+    {
+      value = [form processForLLVM];
+    }
+
+  return value;
 }
 @end
