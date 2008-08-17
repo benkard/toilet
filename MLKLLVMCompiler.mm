@@ -16,12 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKDynamicContext.h"
 #import "MLKLLVMCompiler.h"
 #import "MLKPackage.h"
 #import "globals.h"
 #import "util.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSEnumerator.h>
 #import <Foundation/NSString.h>
 
@@ -102,6 +104,9 @@ static Constant
 +(id) compile:(id)object
     inContext:(MLKLexicalContext *)context
 {
+  NSAutoreleasePool *pool;
+  pool = [[NSAutoreleasePool alloc] init];
+
   Value *v = NULL;
   BasicBlock *block;
   std::vector<const Type*> noargs (0, Type::VoidTy);
@@ -114,13 +119,14 @@ static Constant
                                          module);
   id lambdaForm;
   id (*fn)();
+  MLKForm *form = [MLKForm formWithObject:object
+                           inContext:context
+                           forCompiler:self];
 
   block = BasicBlock::Create ("entry", function);
   builder.SetInsertPoint (block);
 
-  v = [self processForm:[MLKForm formWithObject:object
-                                 inContext:context
-                                 forCompiler:self]];
+  v = [self processForm:form];
 
   builder.CreateRet (v);
   verifyFunction (*function);
@@ -130,6 +136,9 @@ static Constant
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
   //module->dump();
   NSLog (@"%p", fn);
+
+  [pool release];
+  NSLog (@"Code compiled.");
 
   // Execute.
   lambdaForm = fn();
