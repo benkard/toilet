@@ -29,6 +29,7 @@
 #import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
+#import "MLKLLVMCompiler.h"
 #import "MLKPackage.h"
 #import "MLKReader.h"
 #import "MLKRoot.h"
@@ -1242,7 +1243,8 @@
       if (code == eofValue)
         break;
 
-      if ([code isKindOfClass:[MLKCons class]] && [code cdr])
+      if (MLKInstanceP(code)
+          && [code isKindOfClass:[MLKCons class]] && [code cdr])
         formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
                                MLKPrintToString([code car]),
                                MLKPrintToString([[code cdr] car])];
@@ -1254,6 +1256,11 @@
       for (i = 0; i < level; i++)
         fprintf (stderr, "| ");
       fprintf (stderr, "LOAD: %s\n", [formdesc UTF8String]);
+
+#ifdef USE_LLVM
+      expansion = code;
+      result = [MLKLLVMCompiler eval:code];
+#else // !USE_LLVM
       expansion = denullify([[MLKInterpreter
                                eval:code
                                inLexicalContext:[MLKLexicalContext
@@ -1277,6 +1284,7 @@
                  withEnvironment:[MLKLexicalEnvironment globalEnvironment]
                  expandOnly:NO];
       //NSLog (@"; LOAD: Top-level form evaluated.");
+#endif  //!USE_LLVM
 
       LRELEASE (pool);
 
