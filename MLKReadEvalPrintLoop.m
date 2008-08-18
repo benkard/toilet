@@ -31,7 +31,12 @@
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
 
-#import <histedit.h>
+#ifdef GNUSTEP
+#import <Foundation/NSDebug.h>
+#endif
+
+#include <histedit.h>
+#include <string.h>
 
 
 static int _argc;
@@ -132,7 +137,13 @@ static const char *prompt (EditLine *e) {
           if (strcmp (line, ":q\n") == 0 || strncmp (line, ":q ", 3) == 0)
             break;
 
+#if 1
           NS_DURING
+#else
+          GSDebugAllocationActive (YES);
+          [NSObject enableDoubleReleaseCheck:YES];
+          NSZombieEnabled = YES;
+#endif
             {
               int i;
 
@@ -150,6 +161,7 @@ static const char *prompt (EditLine *e) {
                   printf ("%s\n", [MLKPrintToString (denullify (result)) UTF8String]);
                 }
             }
+#if 1
           NS_HANDLER
             {
               printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
@@ -157,6 +169,7 @@ static const char *prompt (EditLine *e) {
                       [[localException reason] UTF8String]);
             }
           NS_ENDHANDLER;
+#endif
 
           LRELEASE (pool);
         }

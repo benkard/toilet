@@ -99,6 +99,10 @@ static id truify (BOOL value)
               withString:@"_"
               options:NSLiteralSearch
               range:NSMakeRange(0, [methodName length])];
+  [methodName replaceOccurrencesOfString:@"%"
+              withString:@""
+              options:NSLiteralSearch
+              range:NSMakeRange(0, [methodName length])];
   [methodName appendString:@":"];
 
   selector = NSSelectorFromString (methodName);
@@ -707,12 +711,66 @@ as provided by method %@ of object %@",
 #ifdef USE_LLVM
 +(NSArray *) compile:(NSArray *)args
 {
-  NSLog (@"Compiling lambda form.");
+  //NSLog (@"Compiling lambda form.");
   id thing = [MLKLLVMCompiler compile:denullify([args objectAtIndex:0])
                               inContext:[MLKLexicalContext globalContext]];
-  NSLog (@"Compilation done.");
-  NSLog (@"Compiled: %@", thing);
+  //NSLog (@"Compilation done.");
+  //NSLog (@"Compiled: %@", thing);
   RETURN_VALUE (thing);
 }
 #endif
+
++(NSArray *) fset:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+
+  [[MLKLexicalContext globalContext] addFunction:symbol];
+  [[MLKLexicalEnvironment globalEnvironment] addFunction:value
+                                             forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
+
++(NSArray *) set:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+  MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
+
+  if ([dynamicContext bindingForSymbol:symbol])
+    [dynamicContext setValue:value forSymbol:symbol];
+  else
+    [[MLKDynamicContext globalContext] addValue:value
+                                       forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
+
++(NSArray *) macroset:(NSArray *)args
+{
+  id symbol = denullify ([args objectAtIndex:0]);
+  id value = denullify ([args objectAtIndex:1]);
+
+  [[MLKLexicalContext globalContext] addMacro:value
+                                     forSymbol:symbol];
+
+  RETURN_VALUE (value);
+}
+
++(NSArray *) apply:(NSArray *)args
+{
+  id function = denullify ([args objectAtIndex:0]);
+  id arglist = denullify ([args objectAtIndex:1]);
+
+  if (!function || [function isKindOfClass:[MLKSymbol class]])
+    {
+      function = [[MLKLexicalEnvironment globalEnvironment]
+                   functionForSymbol:function];
+    }
+
+  return [function applyToArray:(arglist
+                                 ? (id)[arglist array]
+                                 : (id)[NSArray array])];
+}
 @end

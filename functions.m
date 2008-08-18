@@ -25,7 +25,9 @@
 #import "MLKInterpretedClosure.h"
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
+#import "MLKRoot.h"
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSException.h>
 #import <Foundation/NSString.h>
 
@@ -405,7 +407,31 @@ id MLKInterpretedFunctionTrampoline (void *target, ...)
   values = [closure applyToArray:arguments];
 
   if ([values count] > 0)
-    return [values objectAtIndex:0];
+    return denullify ([values objectAtIndex:0]);
+  else
+    return nil;
+}
+
+id MLKDispatchRootFunction (MLKSymbol *name, ...)
+{
+  NSArray *values;
+  NSMutableArray *arguments;
+  id arg;
+  va_list ap;
+
+  arguments = [NSMutableArray array];
+
+  va_start (ap, name);
+  while ((arg = va_arg (ap, id)) != MLKEndOfArgumentsMarker)
+    {
+      [arguments addObject:nullify(arg)];
+    }
+  va_end (ap);
+
+  values = [MLKRoot dispatch:name withArguments:arguments];
+
+  if ([values count] > 0)
+    return denullify ([values objectAtIndex:0]);
   else
     return nil;
 }

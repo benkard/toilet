@@ -29,6 +29,7 @@
 #import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
+#import "MLKLLVMCompiler.h"
 #import "MLKPackage.h"
 #import "MLKReader.h"
 #import "MLKRoot.h"
@@ -192,34 +193,7 @@
                 }
             }
 
-          if (car == APPLY)
-            {
-              MLKCons *rest = denullify([[self eval:[[[program cdr] cdr] car]
-                                               inLexicalContext:context
-                                               withEnvironment:lexenv
-                                               expandOnly:expandOnly]
-                                          objectAtIndex:0]);
-
-              id function = denullify([[self eval:[[program cdr] car]
-                                             inLexicalContext:context
-                                             withEnvironment:lexenv
-                                             expandOnly:expandOnly]
-                                        objectAtIndex:0]);
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:APPLY
-                                       with:[MLKCons cons:function
-                                                     with:[MLKCons cons:rest
-                                                                   with:nil]]]);
-
-              if ([function isKindOfClass:[MLKSymbol class]])
-                function = [lexenv functionForSymbol:function];
-
-              return [function applyToArray:(rest
-                                             ? (id)[rest array]
-                                             : (id)[NSArray array])];
-            }
-          else if (car == CATCH)
+          if (car == CATCH)
             {
               id catchTag;
               NSArray *values;
@@ -288,46 +262,6 @@
               NS_ENDHANDLER;
 
               return nil;
-            }
-          else if (car == _DEFMACRO)
-            {
-              // No real lambda lists here.  This SYS::%DEFMACRO is
-              // really as low-level as it gets.
-              id name = [[program cdr] car];
-              id lambdaListAndBody = [[program cdr] cdr];
-
-              id <MLKFuncallable> function;
-
-              if (expandOnly)
-                {
-                  id lambdaList = [lambdaListAndBody car];
-                  id body = [lambdaListAndBody cdr];
-                  id body_expansion =
-                    denullify([[self eval:[MLKCons cons:PROGN with:body]
-                                     inLexicalContext:context
-                                     withEnvironment:lexenv
-                                     expandOnly:expandOnly]
-                                objectAtIndex:0]);
-                  RETURN_VALUE ([MLKCons
-                                  cons:_DEFMACRO
-                                  with:[MLKCons
-                                         cons:name
-                                         with:[MLKCons
-                                                cons:lambdaList
-                                                with:[MLKCons
-                                                       cons:body_expansion
-                                                       with:nil]]]]);
-                }
-
-              function = denullify([[self eval:[MLKCons cons:_LAMBDA with:lambdaListAndBody]
-                                          inLexicalContext:context
-                                          withEnvironment:lexenv
-                                          expandOnly:expandOnly]
-                                     objectAtIndex:0]);
-
-              [context addMacro:function forSymbol:name];
-
-              RETURN_VALUE (name);
             }
           else if (car == EVAL)
             {
@@ -1059,59 +993,6 @@
               else
                 RETURN_VALUE (value);
             }
-          else if (car == SET)
-            {
-              id symbol = [[self eval:[[program cdr] car]
-                                 inLexicalContext:context
-                                 withEnvironment:lexenv
-                                 expandOnly:expandOnly]
-                           objectAtIndex:0];
-              id value = [[self eval:[[[program cdr] cdr] car]
-                                inLexicalContext:context
-                                withEnvironment:lexenv
-                                expandOnly:expandOnly]
-                          objectAtIndex:0];
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:SET
-                                       with:[MLKCons cons:symbol
-                                                     with:[MLKCons cons:value
-                                                                   with:nil]]]);
-
-              if ([dynamicContext bindingForSymbol:symbol])
-                [dynamicContext setValue:value forSymbol:symbol];
-              else
-                [[MLKDynamicContext globalContext] addValue:value
-                                                   forSymbol:symbol];
-
-              return [NSArray arrayWithObject:symbol];
-            }
-          else if (car == _FSET)
-            {
-              // Like SET, but for the function cell.
-              id symbol = [[self eval:[[program cdr] car]
-                                 inLexicalContext:context
-                                 withEnvironment:lexenv
-                                 expandOnly:expandOnly]
-                            objectAtIndex:0];
-              id value = [[self eval:[[[program cdr] cdr] car]
-                                inLexicalContext:context
-                                withEnvironment:lexenv
-                                expandOnly:expandOnly]
-                           objectAtIndex:0];
-
-              if (expandOnly)
-                RETURN_VALUE ([MLKCons cons:_FSET
-                                       with:[MLKCons cons:symbol
-                                                     with:[MLKCons cons:value
-                                                                   with:nil]]]);
-
-              [[MLKLexicalContext globalContext] addFunction:symbol];
-              [[MLKLexicalEnvironment globalEnvironment] addFunction:value
-                                                         forSymbol:symbol];
-
-              return [NSArray arrayWithObject:symbol];
-            }
           else if (car == THROW)
             {
               id catchTag;
@@ -1335,7 +1216,8 @@
       if (code == eofValue)
         break;
 
-      if ([code isKindOfClass:[MLKCons class]] && [code cdr])
+      if (MLKInstanceP(code)
+          && [code isKindOfClass:[MLKCons class]] && [code cdr])
         formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
                                MLKPrintToString([code car]),
                                MLKPrintToString([[code cdr] car])];
@@ -1347,6 +1229,11 @@
       for (i = 0; i < level; i++)
         fprintf (stderr, "| ");
       fprintf (stderr, "LOAD: %s\n", [formdesc UTF8String]);
+
+#ifdef USE_LLVM
+      expansion = code;
+      result = [MLKLLVMCompiler eval:code];
+#else // !USE_LLVM
       expansion = denullify([[MLKInterpreter
                                eval:code
                                inLexicalContext:[MLKLexicalContext
@@ -1370,6 +1257,7 @@
                  withEnvironment:[MLKLexicalEnvironment globalEnvironment]
                  expandOnly:NO];
       //NSLog (@"; LOAD: Top-level form evaluated.");
+#endif  //!USE_LLVM
 
       LRELEASE (pool);
 

@@ -16,10 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKDynamicContext.h"
 #import "MLKLLVMCompiler.h"
+#import "MLKPackage.h"
 #import "globals.h"
+#import "util.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSEnumerator.h>
 #import <Foundation/NSString.h>
 
@@ -100,6 +104,9 @@ static Constant
 +(id) compile:(id)object
     inContext:(MLKLexicalContext *)context
 {
+  NSAutoreleasePool *pool;
+  pool = [[NSAutoreleasePool alloc] init];
+
   Value *v = NULL;
   BasicBlock *block;
   std::vector<const Type*> noargs (0, Type::VoidTy);
@@ -112,27 +119,33 @@ static Constant
                                          module);
   id lambdaForm;
   id (*fn)();
+  MLKForm *form = [MLKForm formWithObject:object
+                           inContext:context
+                           forCompiler:self];
 
   block = BasicBlock::Create ("entry", function);
   builder.SetInsertPoint (block);
 
-  v = [self processForm:[MLKForm formWithObject:object
-                                 inContext:context
-                                 forCompiler:self]];
+  v = [self processForm:form];
 
   builder.CreateRet (v);
   verifyFunction (*function);
   fpm->run (*function);
 
+  //function->dump();
+
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
-  module->dump();
-  NSLog (@"%p", fn);
+  //module->dump();
+  //NSLog (@"%p", fn);
+
+  [pool release];
+  //NSLog (@"Code compiled.");
 
   // Execute.
   lambdaForm = fn();
 
-  NSLog (@"Closure built.");
+  //NSLog (@"Closure built.");
 
   return lambdaForm;
 }
@@ -150,7 +163,12 @@ static Constant
   //FIXME
   // If PROGN, do this...  If EVAL-WHEN, do that...
 
-  
+}
+
++(id) eval:(id)object
+{
+  return [self compile:object
+               inContext:[MLKLexicalContext globalContext]];
 }
 
 +(Value *) processForm:(MLKForm *)form
@@ -314,10 +332,7 @@ static Constant
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
-  Value *value = NULL;
-
-  if ([_bodyForms count] == 0)
-    value = ConstantPointerNull::get (PointerTy);
+  Value *value = ConstantPointerNull::get (PointerTy);
 
   while ((form = [e nextObject]))
     {
@@ -364,9 +379,31 @@ static Constant
 {
   Value *value;
 
-  if ([_context variableHeapAllocationForSymbol:_form])
+  //NSLog (@"Symbol: %@", MLKPrintToString (_form));
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Symbol: %@", _form]];
+
+  if (![_context variableIsLexical:_form])
     {
-      Value *binding = builder.CreateLoad ([_context bindingValueForSymbol:_form]);
+      //[_compiler insertTrace:@"Dynamic."];
+      Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+      Value *dynctx = [_compiler insertMethodCall:@"currentContext"
+                                 onObject:mlkdynamiccontext];
+
+      LRETAIN (_form);  // FIXME: release
+      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                                (uint64_t)_form,
+                                                                false),
+                                               PointerTy);
+
+      std::vector<Value *> args (1, symbolV);
+      value = [_compiler insertMethodCall:@"valueForSymbol:"
+                         onObject:dynctx
+                         withArgumentVector:&args];
+    }
+  else if ([_context variableHeapAllocationForSymbol:_form])
+    {
+      //[_compiler insertTrace:@"Global."];
+      Value *binding = builder.CreateLoad (builder.Insert ([_context bindingCellValueForSymbol:_form]));
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
   else
@@ -383,28 +420,67 @@ static Constant
 @implementation MLKFunctionCallForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
 {
+  static MLKPackage *sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+
+  BOOL special_dispatch = NO;
+  Value *functionCell;
+  Value *functionPtr;
+  Value *closureDataCell;
+  Value *closureDataPtr;
+  std::vector<Value *> args;
+
   if (![_context symbolNamesFunction:_head])
     {
-      NSLog (@"Compiler: Don't know function %@", MLKPrintToString(_head));
-      // XXX Issue a style warning.
+      if (_head && [_head homePackage] == sys)
+        {
+          special_dispatch = YES;
+        }
+      else
+        {
+          NSLog (@"Compiler: Don't know function %@", MLKPrintToString(_head));
+          // XXX Issue a style warning.
+        }
     }
 
-  Value *functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
-  Value *functionPtr = builder.CreateLoad (functionCell);
-  Value *closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
-  Value *closureDataPtr = builder.CreateLoad (closureDataCell);
+  if (!special_dispatch)
+    {
+      functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
+      functionPtr = builder.CreateLoad (functionCell);
+      closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
+      closureDataPtr = builder.CreateLoad (closureDataCell);
+
+      args.push_back (closureDataPtr);
+    }
+  else
+    {
+      std::vector<const Type *> argtypes (1, PointerTy);
+      functionPtr = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                             (uint64_t)MLKDispatchRootFunction,
+                                                             false),
+                                            PointerType::get (FunctionType::get (PointerTy,
+                                                                                 argtypes,
+                                                                                 true),
+                                                              0));
+      LRETAIN (_head); // FIXME: release sometime?  On the other hand,
+                       // these symbols will probably never be
+                       // deallocated anyway.
+      args.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                               (uint64_t)_head,
+                                                               false),
+                                              PointerTy));
+    }
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
   MLKForm *form;
-
-  std::vector<Value *> args;
-  args.push_back (closureDataPtr);
 
   while ((form = [e nextObject]))
     {
       args.push_back ([form processForLLVM]);
     }
 
+  //GlobalVariable *endmarker = module->getGlobalVariable ("MLKEndOfArgumentsMarker", false);
+  //endmarker->setConstant (true);
+  //GlobalVariable *endmarker = new GlobalVariable (PointerTy, true, GlobalValue::ExternalWeakLinkage);
   Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
@@ -534,7 +610,7 @@ static Constant
 
   builder.CreateRet (value);
 
-  function->dump();
+  //function->dump();
   //NSLog (@"Verify...");
   verifyFunction (*function);
   //NSLog (@"Optimise...");
@@ -544,7 +620,7 @@ static Constant
   // the function.
   execution_engine->getPointerToFunction (function);
   //NSLog (@"Done.");
-  function->dump();
+  //function->dump();
   //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
@@ -567,5 +643,167 @@ static Constant
   //function->viewCFG();
 
   return closure;
+}
+@end
+
+
+@implementation MLKLetForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  NSEnumerator *e = [_variableBindingForms objectEnumerator];
+  Value *value = ConstantPointerNull::get (PointerTy);
+  MLKForm *form;
+  MLKVariableBindingForm *binding_form;
+
+  while ((binding_form = [e nextObject]))
+    {
+      // FIXME: Handle heap allocation.
+      Value *binding_value = [[binding_form valueForm] processForLLVM];
+      Value *binding_variable = builder.CreateAlloca (PointerTy,
+                                                      NULL,
+                                                      [(MLKPrintToString([binding_form name]))
+                                                        UTF8String]);
+      builder.CreateStore (binding_value, binding_variable);
+      [_bodyContext setValueValue:binding_variable
+                    forSymbol:[binding_form name]];
+    }
+
+  e = [_bodyForms objectEnumerator];
+  while ((form = [e nextObject]))
+    {
+      value = [form processForLLVM];
+    }
+
+  return value;
+}
+@end
+
+
+@implementation MLKQuoteForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  // FIXME: When to release _quotedData?  At the same time the code is
+  // released, probably...
+  LRETAIN (_quotedData);
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)_quotedData,
+                                                  false),
+                                 PointerTy);
+}
+@end
+
+
+@implementation MLKSelfEvaluatingForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  // FIXME: When to release _form?  At the same time the code is
+  // released, probably...
+  LRETAIN (_form);
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)_form,
+                                                  false),
+                                 PointerTy);
+}
+@end
+
+
+@implementation MLKIfForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  Function *function = builder.GetInsertBlock()->getParent();
+  BasicBlock *thenBlock = BasicBlock::Create ("if_then", function);
+  BasicBlock *elseBlock = BasicBlock::Create ("if_else");
+  BasicBlock *joinBlock = BasicBlock::Create ("if_join");
+
+  Value *test = builder.CreateICmpNE ([_conditionForm processForLLVM],
+                                      ConstantPointerNull::get (PointerTy));
+  Value *value = builder.CreateAlloca (PointerTy, NULL, "if_result");
+  builder.CreateCondBr (test, thenBlock, elseBlock);
+
+  builder.SetInsertPoint (thenBlock);
+  builder.CreateStore ([_consequentForm processForLLVM], value);
+  builder.CreateBr (joinBlock);
+
+  builder.SetInsertPoint (elseBlock);
+  function->getBasicBlockList().push_back (elseBlock);
+  builder.CreateStore ([_alternativeForm processForLLVM], value);
+  builder.CreateBr (joinBlock);
+
+  builder.SetInsertPoint (joinBlock);
+  function->getBasicBlockList().push_back (joinBlock);
+
+  return builder.CreateLoad (value);
+}
+@end
+
+
+@implementation MLKSetQForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  NSEnumerator *var_e, *value_e;
+  MLKForm *valueForm;
+  Value *value = ConstantPointerNull::get (PointerTy);
+  id variable;
+
+  var_e = [_variables objectEnumerator];
+  value_e = [_valueForms objectEnumerator];
+  while ((valueForm = [value_e nextObject]))
+    {
+      variable = [var_e nextObject];
+      value = [valueForm processForLLVM];
+      if (![_context variableIsLexical:variable])
+        {
+          Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+          Value *dynctx = [_compiler insertMethodCall:@"currentContext"
+                                     onObject:mlkdynamiccontext];
+
+          LRETAIN (variable);  // FIXME: release
+          Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                                    (uint64_t)variable,
+                                                                    false),
+                                                   PointerTy);
+
+          std::vector<Value *> args;
+          args.push_back (value);
+          args.push_back (symbolV);
+          [_compiler insertMethodCall:@"setValue:forSymbol:"
+                     onObject:dynctx
+                     withArgumentVector:&args];          
+        }
+      else if ([_context variableHeapAllocationForSymbol:variable])
+        {
+          Value *binding = builder.CreateLoad (builder.Insert ([_context
+                                                                 bindingCellValueForSymbol:variable]));
+          std::vector<Value *> args (1, value);
+
+          [_compiler insertVoidMethodCall:@"setValue:"
+                     onObject:binding
+                     withArgumentVector:&args];
+        }
+      else
+        {
+          builder.CreateStore (value, [_context valueValueForSymbol:variable]);
+        }
+    }
+
+  return value;
+}
+@end
+
+
+@implementation MLKInPackageForm (MLKLLVMCompilation)
+-(Value *) processForLLVM
+{
+  id package = [MLKPackage findPackage:stringify(_packageDesignator)];
+
+  [[MLKDynamicContext currentContext]
+    setValue:package
+    forSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
+                intern:@"*PACKAGE*"]];
+
+  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                  (uint64_t)package,
+                                                  false),
+                                 PointerTy);
 }
 @end

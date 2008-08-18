@@ -43,9 +43,10 @@
            inContext:(MLKLexicalContext *)context
          forCompiler:(id)compiler
 {
-  _form = object;
-  _context = context;
-  _compiler = compiler;
+  self = [super init];
+  LASSIGN (_form, object);
+  LASSIGN (_context, context);
+  LASSIGN (_compiler, compiler);
   return [self complete];
 }
 
@@ -56,7 +57,7 @@
 
 +(Class) dispatchClassForObject:(id)object
 {
-  if ([object isKindOfClass:[MLKCons class]])
+  if (MLKInstanceP (object) && [object isKindOfClass:[MLKCons class]])
     return [MLKCompoundForm class];
   else
     return [MLKAtomicForm class];
@@ -89,7 +90,7 @@
 @implementation MLKAtomicForm
 +(Class) dispatchClassForObject:(id)object
 {
-  if ([object isKindOfClass:[MLKSymbol class]])
+  if (MLKInstanceP (object) && [object isKindOfClass:[MLKSymbol class]])
     return [MLKSymbolForm class];
   else
     return [MLKSelfEvaluatingForm class];
@@ -128,9 +129,7 @@
 {
   id car = [object car];
 
-  if (car == APPLY) return [MLKFunctionCallForm class];
-  else if (car == CATCH) return [MLKCatchForm class];
-  else if (car == _DEFMACRO) return [MLKSimpleDefmacroForm class];
+  if (car == CATCH) return [MLKCatchForm class];
   else if (car == EVAL) return [MLKFunctionCallForm class];
   else if (car == EVAL_WHEN) return [MLKEvalWhenForm class];
   else if (car == _FOREIGN_LAMBDA) return [MLKForeignLambdaForm class];
@@ -148,8 +147,6 @@
   else if (car == QUOTE) return [MLKQuoteForm class];
   else if (car == SETQ) return [MLKSetQForm class];
   else if (car == _FSETQ) return [MLKFSetQForm class];
-  else if (car == SET) return [MLKSetForm class];
-  else if (car == _FSET) return [MLKFSetForm class];
   else if (car == THROW) return [MLKThrowForm class];
   else if (car == UNWIND_PROTECT) return [MLKUnwindProtectForm class];
   else return [MLKSimpleCompoundForm class];
@@ -173,24 +170,24 @@
   else if ([_head isKindOfClass:[MLKCons class]])
     {
       LRELEASE (self);
-      return [MLKForm formWithObject:[MLKCons cons:FUNCALL
-                                              with:object]
-                      inContext:context
-                      forCompiler:compiler];
+      return LRETAIN ([MLKForm formWithObject:[MLKCons cons:FUNCALL
+                                                       with:object]
+                               inContext:context
+                               forCompiler:compiler]);
     }
   else if ([context symbolNamesMacro:_head])
     {
       LRELEASE (self);
-      return [MLKMacroCallForm formWithObject:object
-                               inContext:context
-                               forCompiler:compiler];
+      return LRETAIN ([MLKMacroCallForm formWithObject:object
+                                        inContext:context
+                                        forCompiler:compiler]);
     }
   else
     {
       LRELEASE (self);
-      return [MLKFunctionCallForm formWithObject:object
-                                  inContext:context
-                                  forCompiler:compiler];
+      return LRETAIN ([MLKFunctionCallForm formWithObject:object
+                                           inContext:context
+                                           forCompiler:compiler]);
     }
 }
 
@@ -212,15 +209,16 @@
                 forCompiler:compiler];
 
   id <MLKFuncallable> macrofun = [context macroForSymbol:_head];
+  //NSLog (@"Expanding: %@", MLKPrintToString (_form));
   id expansion = denullify ([[macrofun
                                applyToArray:
                                  [NSArray arrayWithObjects:
                                             _form, context, nil]]
                               objectAtIndex:0]);
 
-  return [MLKForm formWithObject:expansion
-                  inContext:context
-                  forCompiler:compiler];
+  return LRETAIN ([MLKForm formWithObject:expansion
+                           inContext:context
+                           forCompiler:compiler]);
 }
 @end
 
@@ -228,7 +226,7 @@
 @implementation MLKBodyForm
 -(void) splitDeclarationsAndBody:(id)object
 {
-  _body = object;
+  LASSIGN (_body, object);
 }
 
 -(void) processBody:(id)object inContext:(MLKLexicalContext *)context
@@ -246,6 +244,7 @@
       rest = [rest cdr];
     }
 
+  LASSIGN (_bodyContext, context);
   LASSIGN (_bodyForms, bodyForms);
 }
 
@@ -329,31 +328,6 @@
 {
   return [[[super subforms] arrayByAddingObject:_tagForm]
           arrayByAddingObjectsFromArray:_bodyForms];
-}
-@end
-
-
-@implementation MLKSimpleDefmacroForm
--(id) complete
-{
-  MLKLexicalContext *newContext;
-
-  self = [super complete];
-
-  LASSIGN (_name, [_tail car]);
-  LASSIGN (_lambdaListName, [[_tail cdr] car]);
-  newContext = [MLKLexicalContext contextWithParent:_context
-                                          variables:[NSSet setWithObject:_lambdaListName]
-                                          functions:nil
-                                             goTags:nil
-                                             macros:nil
-                                     compilerMacros:nil
-                                       symbolMacros:nil
-                                       declarations:[self declarationsWithForms:[[_tail cdr] cdr]]];
-
-  [self processBody:[[_tail cdr] cdr]
-          inContext:newContext];
-  return self;
 }
 @end
 
@@ -550,7 +524,7 @@
                           inContext:newContext
                         forCompiler:_compiler];
   LRELEASE (self);  //?FIXME
-  return newForm;
+  return LRETAIN (newForm);
 }
 @end
 
@@ -733,16 +707,17 @@
 @implementation MLKSetQForm
 -(id) complete
 {
-  id rest = _tail;
+  id rest;
   NSMutableArray *variables, *valueForms;
 
   self = [super complete];
 
+  rest = _tail;
   variables = [NSMutableArray array];
   valueForms = [NSMutableArray array];
   while (rest)
     {
-      [variables addObject:[rest car]];
+      [variables addObject:nullify([rest car])];
       [valueForms addObject:MAKE_FORM([[rest cdr] car])];
       rest = [[rest cdr] cdr];
     }
@@ -762,16 +737,17 @@
 @implementation MLKFSetQForm
 -(id) complete
 {
-  id rest = _tail;
+  id rest;
   NSMutableArray *functionNames, *valueForms;
   
   self = [super complete];
   
+  rest = _tail;
   functionNames = [NSMutableArray array];
   valueForms = [NSMutableArray array];
   while (rest)
     {
-      [functionNames addObject:[rest car]];
+      [functionNames addObject:nullify([rest car])];
       [valueForms addObject:MAKE_FORM([[rest cdr] car])];
       rest = [[rest cdr] cdr];
     }
@@ -784,40 +760,6 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
-}
-@end
-
-
-@implementation MLKSetForm
--(id) complete
-{
-  self = [super complete];
-  LASSIGN (_variableForm, MAKE_FORM ([_tail car]));
-  LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
-  return self;
-}
-
--(NSArray *) subforms
-{
-  return [[[super subforms] arrayByAddingObject:_variableForm]
-          arrayByAddingObject:_valueForm];
-}
-@end
-
-
-@implementation MLKFSetForm
--(id) complete
-{
-  self = [super complete];
-  LASSIGN (_functionNameForm, MAKE_FORM ([_tail car]));
-  LASSIGN (_valueForm, MAKE_FORM ([[_tail cdr] car]));
-  return self;
-}
-
--(NSArray *) subforms
-{
-  return [[[super subforms] arrayByAddingObject:_functionNameForm]
-          arrayByAddingObject:_valueForm];
 }
 @end
 
@@ -883,6 +825,21 @@
           inContext:newContext];
   return self;
 }
+
+-(id) name
+{
+  return _name;
+}
+
+-(id) lambdaListName
+{
+  return _lambdaListName;
+}
+
+-(id) bodyForms
+{
+  return _bodyForms;
+}
 @end
 
 
@@ -913,6 +870,16 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObject:_valueForm];
+}
+
+-(id) name
+{
+  return _name;
+}
+
+-(id) valueForm
+{
+  return _valueForm;
 }
 @end
 

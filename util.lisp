@@ -22,6 +22,20 @@
           otherwise unless when eq boundp))
 
 
+(setq t 't)
+(setq nil ())
+
+(%macroset '%defmacro
+           (%lambda args
+             (let ((form (car args)))
+               (let ((name (car (cdr form)))
+                     (lambda-list-name (car (cdr (cdr form))))
+                     (body (cdr (cdr (cdr form)))))
+                 (list '%macroset
+                       (list 'quote name)
+                       (cons '%lambda
+                             (cons lambda-list-name body)))))))
+
 (%defmacro %defun args
   (list '%fset
         (list 'quote (car (cdr (car args))))

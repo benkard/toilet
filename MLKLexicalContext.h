@@ -86,9 +86,8 @@
 -(id) declarations;
 -(void) addDeclaration:(id)declaration;
 
-// FIXME?
-//-(MLKLexicalEnvironment *) instantiateWithVariables:(NSDictionary *)variables
-//                                          functions:(NSDictionary *)functions;
+-(id) contextForVariable:(MLKSymbol *)symbol;
+-(id) contextForFunction:(MLKSymbol *)symbol;
 
 -(void) addVariable:(MLKSymbol *)symbol;
 -(void) addFunction:(MLKSymbol *)symbol;
@@ -107,7 +106,7 @@
 
 -(void *) functionCellForSymbol:(id)name;
 -(void *) closureDataPointerForSymbol:(id)name;
--(id) bindingForSymbol:(id)name;
+-(id *) bindingCellForSymbol:(id)name;
 
 -(void) dealloc;
 @end

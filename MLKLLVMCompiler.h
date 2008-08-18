@@ -37,6 +37,8 @@ using namespace llvm;
 +(id) compile:(id)object
     inContext:(MLKLexicalContext *)context;
 
++(id) eval:(id)object;
+
 +(void) processTopLevelForm:(id)object;
 +(void) processTopLevelForm:(id)object
                      inMode:(enum MLKProcessingMode)mode;

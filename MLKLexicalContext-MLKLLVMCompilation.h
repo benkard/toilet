@@ -37,7 +37,7 @@ using namespace llvm;
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
 -(Instruction *) functionCellValueForSymbol:(id)name;
 -(Instruction *) closureDataPointerValueForSymbol:(id)name;
--(Value *) bindingValueForSymbol:(id)name;
+-(Instruction *) bindingCellValueForSymbol:(id)name;
 -(Value *) valueValueForSymbol:(id)name;
 //-(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name;
 //-(void) setClosureDataPointerValue:(Value *)pointer forSymbol:(id)name;

@@ -91,6 +91,7 @@
 {
   id _body;
   NSArray *_bodyForms;
+  id _bodyContext;
 }
 
 -(void) splitDeclarationsAndBody:(id)object;
@@ -129,14 +130,6 @@
 @interface MLKCatchForm : MLKBodyForm
 {
   MLKForm *_tagForm;
-}
-@end
-
-
-@interface MLKSimpleDefmacroForm : MLKDeclaringForm
-{
-  MLKSymbol *_lambdaListName;
-  MLKSymbol *_name;
 }
 @end
 
@@ -281,22 +274,6 @@
 @end
 
 
-@interface MLKSetForm : MLKCompoundForm
-{
-  MLKForm *_variableForm;
-  MLKForm *_valueForm;
-}
-@end
-
-
-@interface MLKFSetForm : MLKCompoundForm
-{
-  MLKForm *_functionNameForm;
-  MLKForm *_valueForm;
-}
-@end
-
-
 @interface MLKThrowForm : MLKCompoundForm
 {
   MLKForm *_tagForm;
@@ -319,6 +296,10 @@
 }
 
 +(Class) dispatchClassForObject:(id)object;
+
+-(id) name;
+-(id) lambdaListName;
+-(id) bodyForms;
 @end
 
 
@@ -329,6 +310,9 @@
 }
 
 +(Class) dispatchClassForObject:(id)object;
+
+-(id) name;
+-(id) valueForm;
 @end
 
 
