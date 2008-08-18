@@ -710,29 +710,24 @@ static Constant
   BasicBlock *elseBlock = BasicBlock::Create ("if_else");
   BasicBlock *joinBlock = BasicBlock::Create ("if_join");
 
-  Value *thenValue, *elseValue;
-
   Value *test = builder.CreateICmpNE ([_conditionForm processForLLVM],
                                       ConstantPointerNull::get (PointerTy));
+  Value *value = builder.CreateAlloca (PointerTy, NULL, "if_result");
   builder.CreateCondBr (test, thenBlock, elseBlock);
 
   builder.SetInsertPoint (thenBlock);
-  thenValue = [_consequentForm processForLLVM];
+  builder.CreateStore ([_consequentForm processForLLVM], value);
   builder.CreateBr (joinBlock);
 
   builder.SetInsertPoint (elseBlock);
   function->getBasicBlockList().push_back (elseBlock);
-  elseValue = [_alternativeForm processForLLVM];
+  builder.CreateStore ([_alternativeForm processForLLVM], value);
   builder.CreateBr (joinBlock);
 
   builder.SetInsertPoint (joinBlock);
   function->getBasicBlockList().push_back (joinBlock);
 
-  PHINode *value = builder.CreatePHI (PointerTy, "if_result");
-  value->addIncoming (thenValue, thenBlock);
-  value->addIncoming (elseValue, elseBlock);
-
-  return value;
+  return builder.CreateLoad (value);
 }
 @end
 
