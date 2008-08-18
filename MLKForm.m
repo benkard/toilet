@@ -209,6 +209,7 @@
                 forCompiler:compiler];
 
   id <MLKFuncallable> macrofun = [context macroForSymbol:_head];
+  //NSLog (@"Expanding: %@", MLKPrintToString (_form));
   id expansion = denullify ([[macrofun
                                applyToArray:
                                  [NSArray arrayWithObjects:

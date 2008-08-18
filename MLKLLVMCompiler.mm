@@ -379,8 +379,12 @@ static Constant
 {
   Value *value;
 
+  //NSLog (@"Symbol: %@", MLKPrintToString (_form));
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Symbol: %@", _form]];
+
   if (![_context variableIsLexical:_form])
     {
+      //[_compiler insertTrace:@"Dynamic."];
       Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
       Value *dynctx = [_compiler insertMethodCall:@"currentContext"
                                  onObject:mlkdynamiccontext];
@@ -398,6 +402,7 @@ static Constant
     }
   else if ([_context variableHeapAllocationForSymbol:_form])
     {
+      //[_compiler insertTrace:@"Global."];
       Value *binding = builder.CreateLoad (builder.Insert ([_context bindingCellValueForSymbol:_form]));
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
