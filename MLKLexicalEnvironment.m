@@ -107,17 +107,43 @@ static MLKLexicalEnvironment *global_environment;
 
 -(id) valueForSymbol:(MLKSymbol *)symbol
 {
-  return [_variables valueForSymbol:symbol];
+  if (![_variables environmentForSymbol:symbol]
+      || [_variables environmentForSymbol:symbol] == global_environment->_variables)
+    {
+      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
+      return [*cell value];
+    }
+  else
+    {
+      return [_variables valueForSymbol:symbol];
+    }
 }
 
 -(void) setValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_variables setValue:value forSymbol:symbol];
+  if (![_variables environmentForSymbol:symbol]
+      || [_variables environmentForSymbol:symbol] == global_environment->_variables)
+    {
+      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
+      [*cell setValue:value forSymbol:symbol];
+    }
+  else
+    {
+      [_variables setValue:value forSymbol:symbol];
+    }
 }
 
 -(void) addValue:(id)value forSymbol:(MLKSymbol *)symbol
 {
-  [_variables addValue:value forSymbol:symbol];
+  if (self == global_environment)
+    {
+      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
+      [*cell setValue:value forSymbol:symbol];
+    }
+  else
+    {
+      [_variables addValue:value forSymbol:symbol];
+    }
 }
 
 -(void) addBindingForSymbol:(MLKSymbol *)symbol

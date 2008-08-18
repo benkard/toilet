@@ -132,6 +132,8 @@ static Constant
   verifyFunction (*function);
   fpm->run (*function);
 
+  //function->dump();
+
   // JIT-compile.
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
   //module->dump();
@@ -377,9 +379,26 @@ static Constant
 {
   Value *value;
 
-  if ([_context variableHeapAllocationForSymbol:_form])
+  if (![_context variableIsLexical:_form])
     {
-      Value *binding = builder.CreateLoad ([_context bindingValueForSymbol:_form]);
+      Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+      Value *dynctx = [_compiler insertMethodCall:@"currentContext"
+                                 onObject:mlkdynamiccontext];
+
+      LRETAIN (_form);  // FIXME: release
+      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                                (uint64_t)_form,
+                                                                false),
+                                               PointerTy);
+
+      std::vector<Value *> args (1, symbolV);
+      value = [_compiler insertMethodCall:@"valueForSymbol:"
+                         onObject:dynctx
+                         withArgumentVector:&args];
+    }
+  else if ([_context variableHeapAllocationForSymbol:_form])
+    {
+      Value *binding = builder.CreateLoad (builder.Insert ([_context bindingCellValueForSymbol:_form]));
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
   else
@@ -732,10 +751,29 @@ static Constant
     {
       variable = [var_e nextObject];
       value = [valueForm processForLLVM];
+      if (![_context variableIsLexical:variable])
+        {
+          Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+          Value *dynctx = [_compiler insertMethodCall:@"currentContext"
+                                     onObject:mlkdynamiccontext];
+
+          LRETAIN (variable);  // FIXME: release
+          Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                                    (uint64_t)variable,
+                                                                    false),
+                                                   PointerTy);
+
+          std::vector<Value *> args;
+          args.push_back (value);
+          args.push_back (symbolV);
+          [_compiler insertMethodCall:@"setValue:forSymbol:"
+                     onObject:dynctx
+                     withArgumentVector:&args];          
+        }
       if ([_context variableHeapAllocationForSymbol:variable])
         {
-          Value *binding = builder.CreateLoad ([_context
-                                                 bindingValueForSymbol:variable]);
+          Value *binding = builder.CreateLoad (builder.Insert ([_context
+                                                                 bindingCellValueForSymbol:variable]));
           std::vector<Value *> args (1, value);
 
           [_compiler insertVoidMethodCall:@"setValue:"

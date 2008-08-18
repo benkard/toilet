@@ -45,7 +45,11 @@ using namespace std;
   id flag = [self deepPropertyForVariable:name
                   key:@"LLVM.heap-flag"];
 
-  return (flag && [flag boolValue]);
+  if (flag)
+    return [flag boolValue];
+  else
+    return (![self contextForVariable:name]
+            || [self contextForVariable:name] == [MLKLexicalContext globalContext]);
 }
 
 -(Instruction *) functionCellValueForSymbol:(id)name
@@ -70,12 +74,12 @@ using namespace std;
                             PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
 }
 
--(Value *) bindingValueForSymbol:(id)name
+-(Instruction *) bindingCellValueForSymbol:(id)name
 {
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
-                                             (uint64_t)[self bindingForSymbol:name],
+                                             (uint64_t)[self bindingCellForSymbol:name],
                                              false),
-                            PointerType::get(Type::Int8Ty, 0)));
+                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
 }
 
 -(Value *) valueValueForSymbol:(id)name

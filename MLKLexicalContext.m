@@ -198,9 +198,29 @@ static MLKSymbol *LEXICAL;
                    with:_declarations]);
 }
 
+-(id) contextForVariable:(MLKSymbol *)symbol
+{
+  if ([_variables containsObject:nullify(symbol)])
+    return self;
+  else if (_parent)
+    return [_parent contextForVariable:symbol];
+  else
+    return nil;
+}
+
+-(id) contextForFunction:(MLKSymbol *)symbol
+{
+  if ([_functions containsObject:nullify(symbol)])
+    return self;
+  else if (_parent)
+    return [_parent contextForFunction:symbol];
+  else
+    return nil;
+}
+
 -(BOOL) symbolNamesFunction:(MLKSymbol *)symbol
 {
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
   if ([_functions containsObject:symbol])
     return YES;
   else if ([_knownMacros containsObject:symbol])
@@ -211,7 +231,7 @@ static MLKSymbol *LEXICAL;
 
 -(BOOL) symbolNamesMacro:(MLKSymbol *)symbol
 {
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
   if ([_functions containsObject:symbol])
     return NO;
   else if ([_knownMacros containsObject:symbol])
@@ -222,7 +242,7 @@ static MLKSymbol *LEXICAL;
 
 -(BOOL) symbolNamesSymbolMacro:(MLKSymbol *)symbol
 {
-  symbol = symbol ? (id)symbol : (id)[NSNull null];
+  symbol = nullify (symbol);
   if ([_variables containsObject:symbol])
     return NO;
   else if ([_knownSymbolMacros containsObject:symbol])
@@ -401,20 +421,25 @@ static MLKSymbol *LEXICAL;
     }
 }
 
--(id) bindingForSymbol:(id)name
+-(id *) bindingCellForSymbol:(id)name
 {
   id prop = [self deepPropertyForVariable:name
                   key:@"LEXCTX.variable-binding"];
 
   if (!prop)
     {
-      prop = [MLKBinding binding];
+      id *cell = malloc (sizeof(id));
+      *cell = [[MLKBinding alloc] init];
+      prop = [NSValue valueWithPointer:cell];
       [self setDeepProperty:prop
             forVariable:name
             key:@"LEXCTX.variable-binding"];
+      return cell;
     }
-
-  return prop;
+  else
+    {
+      return [prop pointerValue];
+    }
 }
 
 -(void) dealloc
