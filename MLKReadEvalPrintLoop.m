@@ -35,7 +35,8 @@
 #import <Foundation/NSDebug.h>
 #endif
 
-#import <histedit.h>
+#include <histedit.h>
+#include <string.h>
 
 
 static int _argc;
