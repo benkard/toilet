@@ -22,6 +22,9 @@
           otherwise unless when eq boundp))
 
 
+(setq t 't)
+(setq nil ())
+
 (%macroset '%defmacro
            (%lambda args
              (let ((form (car args)))
