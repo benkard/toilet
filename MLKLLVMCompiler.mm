@@ -770,7 +770,7 @@ static Constant
                      onObject:dynctx
                      withArgumentVector:&args];          
         }
-      if ([_context variableHeapAllocationForSymbol:variable])
+      else if ([_context variableHeapAllocationForSymbol:variable])
         {
           Value *binding = builder.CreateLoad (builder.Insert ([_context
                                                                  bindingCellValueForSymbol:variable]));
