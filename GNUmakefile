@@ -72,11 +72,11 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 
 USE_LLVM := YES
 ifeq ($(USE_LLVM),YES)
-ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
+ADDITIONAL_OBJCCFLAGS += $(ADDITIONAL_OBJCFLAGS)
 ToiletKit_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
-ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
-ToiletKit_OBJCFLAGS = -DUSE_LLVM
-ToiletKit_OBJCCFLAGS = -DUSE_LLVM `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
+ToiletKit_OBJCC_FILES += MLKLLVMCompiler.mm
+ToiletKit_OBJCFLAGS += -DUSE_LLVM -DLLVM_MAJOR_VERSION=`llvm-config --version | cut -f 1 -d.` -DLLVM_MINOR_VERSION=`llvm-config --version | cut -f 2 -d. | sed s/svn//`
+ToiletKit_OBJCCFLAGS += `llvm-config --cxxflags` $(ToiletKit_OBJCFLAGS)
 ToiletKit_LDFLAGS += `llvm-config --ldflags` `llvm-config --libs backend engine linker codegen transformutils scalaropts analysis ipo`
 endif
 
