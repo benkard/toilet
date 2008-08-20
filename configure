@@ -47,6 +47,9 @@ if ($? == 0) {
 `echo '\#include <histedit.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
 $histedit_h = 1 if ($? == 0);
 
+`echo '\#include <gmp.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
+$gmp_h = 1 if ($? == 0);
+
 `$XCODEBUILD -version`;
 if ($? == 0) {
     $xcode = 1;
@@ -77,6 +80,17 @@ if ($no_ffi) {
         $installp = 1;
     } else {
         push @steps, (" * Download and install libffi from: http://sourceware.org/libffi/\n");
+    }
+}
+
+unless ($gmp_h) {
+    print " * GNU MP\n";
+    if ($darwin || $debian) {
+        $install = "$install gmp" if $darwin;
+        $install = "$install libgmp3-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install GNU MP from: http://gmplib.org/\n");
     }
 }
 
