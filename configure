@@ -18,12 +18,12 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-$CC = $ENV{'CC'} // "gcc";
-$CFLAGS = $ENV{'CFLAGS'} // "";
-$OBJCFLAGS = $ENV{'OBJCFLAGS'} // $CFLAGS;
-$MAKE = $ENV{'MAKE'} // "make";
-$XCODEBUILD = $ENV{'XCODEBUILD'} // "xcodebuild";
-$LLVM_CONFIG = $ENV{'LLVM_CONFIG'} // "llvm-config";
+$CC = defined($ENV{'CC'}) ? $ENV{'CC'} : "gcc";
+$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : "";
+$OBJCFLAGS = defined($ENV{'OBJCFLAGS'}) ? $ENV{'OBJCFLAGS'} : $CFLAGS;
+$MAKE = defined($ENV{'MAKE'}) ? $ENV{'MAKE'} : "make";
+$XCODEBUILD = defined($ENV{'XCODEBUILD'}) ? $ENV{'XCODEBUILD'} : "xcodebuild";
+$LLVM_CONFIG = defined($ENV{'LLVM_CONFIG'}) ? $ENV{'LLVM_CONFIG'} : "llvm-config";
 
 $llvm = `$LLVM_CONFIG --version`;
 if ($llvm =~ /(\d+)\.(\d+).*/) {
