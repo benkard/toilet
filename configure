@@ -18,9 +18,15 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+$darwin = (`uname -s` =~ "Darwin");
+$debian = !$darwin && (`apt-cache show llvm 2>/dev/null` =~ /.*llvm.*/);
+
 $CC = defined($ENV{'CC'}) ? $ENV{'CC'} : "gcc";
-$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : "";
+$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : ($darwin ? "-I/opt/local/include" : "");
 $OBJCFLAGS = defined($ENV{'OBJCFLAGS'}) ? $ENV{'OBJCFLAGS'} : $CFLAGS;
+$CXXFLAGS = defined($ENV{'CXXFLAGS'}) ? $ENV{'CXXFLAGS'} : $CFLAGS;
+$OBJCCFLAGS = defined($ENV{'OBJCCFLAGS'}) ? $ENV{'OBJCCFLAGS'} : "$CXXFLAGS $OBJCFLAGS";
+$LDFLAGS = defined($ENV{'LDFLAGS'}) ? $ENV{'LDFLAGS'} : ($darwin ? "-L/opt/local/lib" : "");
 $MAKE = defined($ENV{'MAKE'}) ? $ENV{'MAKE'} : "make";
 $XCODEBUILD = defined($ENV{'XCODEBUILD'}) ? $ENV{'XCODEBUILD'} : "xcodebuild";
 $LLVM_CONFIG = defined($ENV{'LLVM_CONFIG'}) ? $ENV{'LLVM_CONFIG'} : "llvm-config";
@@ -58,8 +64,6 @@ if ($? == 0) {
     $build_cmd = "$MAKE";
 }
 
-$darwin = (`uname -s` =~ "Darwin");
-$debian = !$darwin && (`apt-cache show llvm 2>/dev/null` =~ /.*llvm.*/);
 if ($darwin) {
     $install = "sudo port install";
 } elsif ($debian) {
@@ -162,12 +166,34 @@ if (!$installp && !@steps) {
     print "\n";
     print "Congratulations!  You can now build Toilet Lisp by following these steps:\n";
     if ($xcode) {
-        print " * In a shell, type: $XCODEBUILD";
-        print " -configuration \"Debug (no LLVM)\"" if ($optionalp);
+        print " * In a shell, type:\n   $XCODEBUILD";
+        if ($optionalp) {
+            print ' -configuration "Debug (no LLVM)"' if ($optionalp);
+        } else {
+            print ' -configuration Debug';
+        }
+        print " OTHER_CFLAGS=\"";
+        print "`llvm-config --cflags` -DUSE_LLVM " unless ($optionalp);
+        if ($ffi_h) {
+            print " $CFLAGS $OBJCFLAGS -DHAVE_FFI_H\"";
+        } else {
+            print " $CFLAGS $OBJCFLAGS -DHAVE_FFI_FFI_H\"";
+        }
+        unless ($optionalp) {
+            print " OTHER_CPLUSPLUSFLAGS=\"\\\$(OTHER_CFLAGS) `llvm-config --cxxflags` $CXXFLAGS $OBJCCFLAGS\"";
+            print " OTHER_LDFLAGS=\"`llvm-config --ldflags` `llvm-config --libs` $LDFLAGS\"";
+            print ' LIBRARY_SEARCH_PATHS= HEADER_SEARCH_PATHS='
+        }
         print "\n";
     } else {
-        print " * In a shell, type: $MAKE";
-        print " USE_LLVM=NO" if ($optionalp);
+        print " * In a shell, type:\n   $MAKE";
+        if ($optionalp) {
+            print " USE_LLVM=NO";
+        } else {
+            print " CUSTOM_OBJCFLAGS=\"$CXXFLAGS $OBJCCFLAGS\"";
+            print " CUSTOM_LDFLAGS=\"$LDFLAGS\"";
+            print " LLVM_CONFIG=\"$LLVM_CONFIG\"";
+        }
         print "\n";
     }
 }
