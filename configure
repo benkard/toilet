@@ -56,12 +56,14 @@ $histedit_h = 1 if ($? == 0);
 `echo '\#include <gmp.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
 $gmp_h = 1 if ($? == 0);
 
-`$XCODEBUILD -version`;
-if ($? == 0) {
-    $xcode = 1;
-    $build_cmd = "xcodebuild";
-} elsif ($ENV{'GNUSTEP_MAKEFILES'} && (`$MAKE --version` =~ /^GNU.*/)) {
+if ($ENV{'GNUSTEP_MAKEFILES'} && (`$MAKE --version` =~ /^GNU.*/)) {
     $build_cmd = "$MAKE";
+} else {
+    `$XCODEBUILD -version`;
+    if ($? == 0) {
+        $xcode = 1;
+        $build_cmd = "xcodebuild";
+    }
 }
 
 if ($darwin) {
