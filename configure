@@ -56,7 +56,7 @@ if ($? == 0) {
 }
 
 $darwin = (`uname -s` =~ "Darwin");
-$debian = !$darwin;
+$debian = !$darwin && (`apt-cache show llvm 2>/dev/null` =~ /.*llvm.*/);
 if ($darwin) {
     $install = "sudo port install";
 } elsif ($debian) {
@@ -71,26 +71,42 @@ print "Your system lacks the following REQUIRED components:\n";
 
 if ($no_ffi) {
     print " * libffi\n";
-    $install = "$install libffi" if $darwin;
-    $install = "$install libffi-dev" if $debian;
-    $installp = 1;
+    if ($darwin || $debian) {
+        $install = "$install libffi" if $darwin;
+        $install = "$install libffi-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install libffi from: http://sourceware.org/libffi/\n");
+    }
 }
 
 unless ($histedit_h) {
     print " * libedit\n";
-    $install = "$install libedit" if $darwin;
-    $install = "$install libedit-dev" if $debian;
-    $installp = 1;
+    if ($darwin || $debian) {
+        $install = "$install libedit" if $darwin;
+        $install = "$install libedit-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install libedit from: http://www.thrysoee.dk/editline/\n");
+    }
 }
 
 unless ($build_cmd) {
-    print " * Either xcodebuild or GNUstep-Make\n";
+    if ($darwin) {
+        print " * xcodebuild\n";
+        print "   OR: GNUstep-Make and GNUstep-Base\n";
+    } else {
+        print " * GNUstep-Make and GNUstep-Base\n";
+    }
+
     if ($debian) {
         $install = "$install gnustep-make libgnustep-base-dev" if $debian;
         $installp = 1;
     } elsif ($darwin) {
         push @steps, (" * Download and install Xcode from: http://developer.apple.com/tools/download/\n");
         push @steps, ("   OR: Install gnustep-make and gnustep-base through MacPorts.\n");
+    } else {
+        push @steps, (" * Download and install GNUstep-Startup from: http://gnustep.org/resources/sources.html\n");
     }
 }
 
@@ -99,16 +115,20 @@ print "Your system lacks the following OPTIONAL components:\n";
 
 unless ($llvm_maj && $llvm_min && $llvm_maj >= 2 && $llvm_min >= 4) {
     print " * LLVM >= 2.3\n";
-    $optional_install = "$optional_install llvm" if $darwin;
-    $optional_install = "$optional_install llvm" if $debian;
-    $optionalp = 1;
+    if ($darwin || $debian) {
+        $optional_install = "$optional_install llvm" if $darwin;
+        $optional_install = "$optional_install llvm" if $debian;
+        $optionalp = 1;
 
-    push @optional_steps, ("   NOTE: If your distribution's version of LLVM is too old, please download and\n");
-    push @optional_steps, ("   install it manually from: http://llvm.org/releases/\n");
+        push @optional_steps, ("   NOTE: If your distribution's version of LLVM is too old, please download and\n");
+        push @optional_steps, ("   install it manually from: http://llvm.org/releases/\n");
+    } else {
+        push @optional_steps, (" * Download and install LLVM from: http://llvm.org/releases/\n");
+    }
 }
 
 
-if ($installp) {
+if ($installp || @steps) {
     print "\n";
     print "In order to be able to compile Toilet Lisp, please follow these steps:\n";
     print " * In a shell, type: $install\n" if ($installp);
@@ -116,7 +136,7 @@ if ($installp) {
     print " * Rerun $0.\n";
 }
 
-if ($optionalp) {
+if ($optionalp || @optional_steps) {
     print "\n";
     print "If you want the compiler, please follow these steps:\n";
     print " * In a shell, type: $optional_install\n" if ($optionalp);
@@ -124,7 +144,7 @@ if ($optionalp) {
     print " * Rerun $0.\n";
 }
 
-if (!$installp) {
+if (!$installp && !@steps) {
     print "\n";
     print "Congratulations!  You can now build Toilet Lisp by following these steps:\n";
     if ($xcode) {
