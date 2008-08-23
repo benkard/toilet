@@ -31,6 +31,8 @@ using namespace llvm;
 using namespace std;
 
 
+id MLKDummyUseLLVMLexicalContext = nil;
+
 @implementation MLKLexicalContext (MLKLLVMCompilation)
 -(void) setVariableHeapAllocation:(BOOL)heapp
                         forSymbol:(id)name

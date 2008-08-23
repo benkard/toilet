@@ -83,6 +83,11 @@ static Constant
       MLKDefaultCompiler = self;
       MLKLoadCompilesP = YES;
     }
+
+  // GNU ld optimises the MLKLLVMCompilation category on
+  // MLKLexicalContext away unless we do this.  Man, the crappiness of
+  // this Unix stuff is amazing...
+  MLKDummyUseLLVMLexicalContext = nil;
 }
 
 +(void) initialize

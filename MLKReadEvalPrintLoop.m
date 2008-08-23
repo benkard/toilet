@@ -26,6 +26,11 @@
 #import "runtime-compatibility.h"
 #import "util.h"
 
+#if USE_LLVM
+#import "MLKLLVMCompiler.h"
+#import "MLKLexicalContext-MLKLLVMCompilation.h"
+#endif
+
 #import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
@@ -75,6 +80,12 @@ static const char *prompt (EditLine *e) {
   MLKStream *stream;
   BOOL success;
   NSAutoreleasePool *pool;
+
+#ifdef USE_LLVM
+  // We do this in order to prevent ld from “optimising” MLKLLVMCompiler
+  // away.  GNU ld apparently sucks at dynamic languages.
+  [MLKLLVMCompiler class];
+#endif
 
   editline = el_init (_argv[0], stdin, stdout, stderr);
   el_set (editline, EL_PROMPT, &prompt);

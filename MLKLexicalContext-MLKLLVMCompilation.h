@@ -31,6 +31,8 @@ using namespace llvm;
 #endif
 
 
+extern id MLKDummyUseLLVMLexicalContext;
+
 @interface MLKLexicalContext (MLKLLVMCompilation)
 #ifdef __cplusplus
 -(void) setVariableHeapAllocation:(BOOL)heapp forSymbol:(id)name;

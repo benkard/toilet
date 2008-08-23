@@ -1,3 +1,5 @@
+## -*- mode: makefile-gmake; coding: utf-8 -*-
+##
 ## Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
 ## Copyright (C) 2008  Matthias Andreas Benkard.
 ##
@@ -15,7 +17,16 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-default: ToiletKit toilet
+export USE_LLVM ADDITIONAL_OBJCFLAGS ADDITIONAL_LDFLAGS LLVM_CONFIG
+
+KIT_TARGETS = ToiletKit
+
+USE_LLVM := YES
+ifeq ($(USE_LLVM),YES)
+KIT_TARGETS += libtoilet-llvm
+endif
+
+default: $(KIT_TARGETS) toilet
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
@@ -24,6 +35,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 TOOL_NAME = etshell toilet
 FRAMEWORK_NAME = ToiletKit
 BUNDLE_NAME = Test
+LIBRARY_NAME =
 
 ADDITIONAL_OBJCFLAGS += $(CUSTOM_OBJCFLAGS)
 ADDITIONAL_LDFLAGS += $(CUSTOM_LDFLAGS)
@@ -70,16 +82,38 @@ ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 #LIBRARIES_DEPEND_UPON
 
-USE_LLVM := YES
+
 ifeq ($(USE_LLVM),YES)
+ADDITIONAL_OBJCFLAGS += -DUSE_LLVM
 LLVM_CONFIG = llvm-config
-ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
-ToiletKit_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
-ToiletKit_OBJCC_FILES = MLKLLVMCompiler.mm
-ToiletKit_OBJCFLAGS = -DUSE_LLVM
-ToiletKit_OBJCCFLAGS = -DUSE_LLVM `$(LLVM_CONFIG) --cxxflags` $(ToiletKit_OBJCFLAGS)
-ToiletKit_LDFLAGS += `$(LLVM_CONFIG) --ldflags` `$(LLVM_CONFIG) --libs backend engine linker codegen transformutils scalaropts analysis ipo`
+LLVM_LDFLAGS = `$(LLVM_CONFIG) --ldflags` `$(LLVM_CONFIG) --libs backend engine linker codegen transformutils scalaropts analysis ipo`
 endif
+
+ifeq ($(BUILD_TOILET_LLVM),YES)
+ifeq ($(USE_LLVM),YES)
+static = yes # This line is the reason for this whole “BUILD_TOILET_LLVM”
+             # recursive-make-gone-awry crap.  Hooray for not being able
+             # to build static libraries without bending over backwards!
+             # Thanks a bunch, GNUstep-Make!
+
+LIBRARY_NAME += libtoilet-llvm
+
+ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
+libtoilet-llvm_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
+libtoilet-llvm_OBJCC_FILES = MLKLLVMCompiler.mm
+libtoilet-llvm_OBJCFLAGS = -DUSE_LLVM
+libtoilet-llvm_OBJCCFLAGS = -DUSE_LLVM `$(LLVM_CONFIG) --cxxflags` $(ToiletKit_OBJCFLAGS)
+libtoilet-llvm_LDFLAGS += $(LLVM_LDFLAGS)
+endif
+else #!BUILD_TOILET_LLVM
+libtoilet-llvm:
+	$(MAKE) $@ shared=no BUILD_TOILET_LLVM=YES
+endif
+
+-include GNUmakefile.preamble
+include $(GNUSTEP_MAKEFILES)/library.make
+-include GNUmakefile.postamble
+
 
 #TOOL_NAME = etoilet
 #etoilet_OBJC_FILES = main.m
@@ -94,9 +128,14 @@ etshell_OBJC_LIBS += -lStepTalk -lreadline -lncurses -lToiletKit	\
 etshell_OBJCFLAGS = -w
 
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
-toilet_OBJC_LIBS += -ledit -lncurses -lToiletKit -LToiletKit.framework \
-                    -LToiletKit.framework/Versions/Current `llvm-config --ldflags` `llvm-config --libs scalaropts analysis ipo`
+toilet_OBJC_LIBS += -ledit -lncurses -LToiletKit.framework	\
+                    -LToiletKit.framework/Versions/Current -lToiletKit
+
 toilet_OBJCFLAGS = -Wall
+
+ifeq ($(USE_LLVM),YES)
+toilet_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS) -lstdc++
+endif
 
 Test_OBJC_FILES = MLKLowLevelTests.m
 Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
@@ -104,12 +143,13 @@ Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/bundle.make
 include $(GNUSTEP_MAKEFILES)/framework.make
+include $(GNUSTEP_MAKEFILES)/library.make
 include $(GNUSTEP_MAKEFILES)/tool.make
 -include GNUmakefile.postamble
 
 before-all:: before-etshell before-toilet
 
-before-toilet:: ToiletKit
+before-toilet:: $(KIT_TARGETS)
 	rm -f obj/toilet
 
 before-etshell:: ToiletKit
@@ -121,19 +161,24 @@ before-Test:: ToiletKit
 #after-clean::
 #	-rmdir $(GNUSTEP_OBJ_DIR)/StepTalkShell
 
+ifneq ($(BUILD_TOILET_LLVM),YES)
+after-clean::
+	$(MAKE) clean shared=no BUILD_TOILET_LLVM=YES
+endif
+
 test: ToiletKit Test
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ukrun Test.bundle
 
 run-et: before-etshell ToiletKit etshell
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/etshell
 
-run-toilet: before-toilet ToiletKit toilet
+run-toilet: before-toilet $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/toilet
 
 run: run-toilet
 
-debugging-run: before-toilet ToiletKit toilet
+debugging-run: before-toilet $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" gdb -ex run obj/toilet
 
-ddd-run: before-toilet ToiletKit toilet
+ddd-run: before-toilet $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ddd obj/toilet
