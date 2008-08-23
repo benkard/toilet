@@ -1,0 +1,201 @@
+#! /usr/bin/env perl
+# -*- mode: perl -*-
+
+## Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
+## Copyright (C) 2008  Matthias Andreas Benkard.
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or (at
+## your option) any later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+$darwin = (`uname -s` =~ "Darwin");
+$debian = !$darwin && (`apt-cache show llvm 2>/dev/null` =~ /.*llvm.*/);
+
+$CC = defined($ENV{'CC'}) ? $ENV{'CC'} : "gcc";
+$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : ($darwin ? "-I/opt/local/include" : "");
+$OBJCFLAGS = defined($ENV{'OBJCFLAGS'}) ? $ENV{'OBJCFLAGS'} : $CFLAGS;
+$CXXFLAGS = defined($ENV{'CXXFLAGS'}) ? $ENV{'CXXFLAGS'} : $CFLAGS;
+$OBJCCFLAGS = defined($ENV{'OBJCCFLAGS'}) ? $ENV{'OBJCCFLAGS'} : "$CXXFLAGS $OBJCFLAGS";
+$LDFLAGS = defined($ENV{'LDFLAGS'}) ? $ENV{'LDFLAGS'} : ($darwin ? "-L/opt/local/lib" : "");
+$MAKE = defined($ENV{'MAKE'}) ? $ENV{'MAKE'} : "make";
+$XCODEBUILD = defined($ENV{'XCODEBUILD'}) ? $ENV{'XCODEBUILD'} : "xcodebuild";
+$LLVM_CONFIG = defined($ENV{'LLVM_CONFIG'}) ? $ENV{'LLVM_CONFIG'} : "llvm-config";
+
+$llvm = `$LLVM_CONFIG --version`;
+if ($llvm =~ /(\d+)\.(\d+).*/) {
+    $llvm_maj = $1;
+    $llvm_min = $2;
+}
+
+`echo '\#include <ffi.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
+if ($? == 0) {
+    $ffi_h = 1;
+} else {
+    `echo '\#include <ffi/ffi.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
+    if ($? == 0) {
+        $ffi_ffi_h = 1;
+    }
+    else {
+        $no_ffi = 1;
+    }
+}
+
+`echo '\#include <histedit.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
+$histedit_h = 1 if ($? == 0);
+
+`echo '\#include <gmp.h>' | $CC $CFLAGS $OBJCFLAGS -c -o /dev/null -x c - 2>/dev/null`;
+$gmp_h = 1 if ($? == 0);
+
+if ($ENV{'GNUSTEP_MAKEFILES'} && (`$MAKE --version` =~ /^GNU.*/)) {
+    $build_cmd = "$MAKE";
+} else {
+    `$XCODEBUILD -version`;
+    if ($? == 0) {
+        $xcode = 1;
+        $build_cmd = "xcodebuild";
+    }
+}
+
+if ($darwin) {
+    $install = "sudo port install";
+} elsif ($debian) {
+    $install = "sudo apt-get install";
+}
+
+@steps = ();
+@optional_steps = ();
+$optional_install = $install;
+
+print "Your system lacks the following REQUIRED components:\n";
+
+if ($no_ffi) {
+    print " * libffi\n";
+    if ($darwin || $debian) {
+        $install = "$install libffi" if $darwin;
+        $install = "$install libffi-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install libffi from: http://sourceware.org/libffi/\n");
+    }
+}
+
+unless ($gmp_h) {
+    print " * GNU MP\n";
+    if ($darwin || $debian) {
+        $install = "$install gmp" if $darwin;
+        $install = "$install libgmp3-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install GNU MP from: http://gmplib.org/\n");
+    }
+}
+
+unless ($histedit_h) {
+    print " * libedit\n";
+    if ($darwin || $debian) {
+        $install = "$install libedit" if $darwin;
+        $install = "$install libedit-dev" if $debian;
+        $installp = 1;
+    } else {
+        push @steps, (" * Download and install libedit from: http://www.thrysoee.dk/editline/\n");
+    }
+}
+
+unless ($build_cmd) {
+    if ($darwin) {
+        print " * xcodebuild\n";
+        print "   OR: GNUstep-Make and GNUstep-Base\n";
+    } else {
+        print " * GNUstep-Make and GNUstep-Base\n";
+    }
+
+    if ($debian) {
+        $install = "$install gnustep-make libgnustep-base-dev" if $debian;
+        $installp = 1;
+    } elsif ($darwin) {
+        push @steps, (" * Download and install Xcode from: http://developer.apple.com/tools/download/\n");
+        push @steps, ("   OR: Install gnustep-make and gnustep-base through MacPorts.\n");
+    } else {
+        push @steps, (" * Download and install GNUstep-Startup from: http://gnustep.org/resources/sources.html\n");
+    }
+}
+
+print "\n";
+print "Your system lacks the following OPTIONAL components:\n";
+
+unless ($llvm_maj && $llvm_min && $llvm_maj >= 2 && $llvm_min >= 4) {
+    print " * LLVM >= 2.3\n";
+    if ($darwin || $debian) {
+        $optional_install = "$optional_install llvm" if $darwin;
+        $optional_install = "$optional_install llvm" if $debian;
+        $optionalp = 1;
+
+        push @optional_steps, ("   NOTE: If your distribution's version of LLVM is too old, please download and\n");
+        push @optional_steps, ("   install it manually from: http://llvm.org/releases/\n");
+    } else {
+        push @optional_steps, (" * Download and install LLVM from: http://llvm.org/releases/\n");
+    }
+}
+
+
+if ($installp || @steps) {
+    print "\n";
+    print "In order to be able to compile Toilet Lisp, please follow these steps:\n";
+    print " * In a shell, type: $install\n" if ($installp);
+    print join("", @steps);
+    print " * Rerun $0.\n";
+}
+
+if ($optionalp || @optional_steps) {
+    print "\n";
+    print "If you want the compiler, please follow these steps:\n";
+    print " * In a shell, type: $optional_install\n" if ($optionalp);
+    print join("", @optional_steps);
+    print " * Rerun $0.\n";
+}
+
+if (!$installp && !@steps) {
+    print "\n";
+    print "Congratulations!  You can now build Toilet Lisp by following these steps:\n";
+    if ($xcode) {
+        print " * In a shell, type:\n   $XCODEBUILD";
+        if ($optionalp) {
+            print ' -configuration "Debug (no LLVM)"' if ($optionalp);
+        } else {
+            print ' -configuration Debug';
+        }
+        print " OTHER_CFLAGS=\"";
+        print "`llvm-config --cflags` -DUSE_LLVM " unless ($optionalp);
+        if ($ffi_h) {
+            print " $CFLAGS $OBJCFLAGS -DHAVE_FFI_H\"";
+        } else {
+            print " $CFLAGS $OBJCFLAGS -DHAVE_FFI_FFI_H\"";
+        }
+        unless ($optionalp) {
+            print " OTHER_CPLUSPLUSFLAGS=\"\\\$(OTHER_CFLAGS) `llvm-config --cxxflags` $CXXFLAGS $OBJCCFLAGS\"";
+            print " OTHER_LDFLAGS=\"`llvm-config --ldflags` `llvm-config --libs` $LDFLAGS\"";
+            print ' LIBRARY_SEARCH_PATHS= HEADER_SEARCH_PATHS='
+        }
+        print "\n";
+    } else {
+        print " * In a shell, type:\n   $MAKE";
+        if ($optionalp) {
+            print " USE_LLVM=NO";
+        } else {
+            print " CUSTOM_OBJCFLAGS=\"$CXXFLAGS $OBJCCFLAGS\"";
+            print " CUSTOM_LDFLAGS=\"$LDFLAGS\"";
+            print " LLVM_CONFIG=\"$LLVM_CONFIG\"";
+        }
+        print "\n";
+    }
+}
