@@ -419,11 +419,15 @@ id MLKDispatchRootFunction (MLKSymbol *name, ...)
   id arg;
   va_list ap;
 
+  //NSLog (@"Calling intrinsic.");
+  //NSLog (@"Intrinsic function: %@", MLKPrintToString (name));
+
   arguments = [NSMutableArray array];
 
   va_start (ap, name);
   while ((arg = va_arg (ap, id)) != MLKEndOfArgumentsMarker)
     {
+      //NSLog (@"Argument: %p", arg);
       [arguments addObject:nullify(arg)];
     }
   va_end (ap);
@@ -431,7 +435,10 @@ id MLKDispatchRootFunction (MLKSymbol *name, ...)
   values = [MLKRoot dispatch:name withArguments:arguments];
 
   if ([values count] > 0)
-    return denullify ([values objectAtIndex:0]);
+    {
+      //NSLog (@"RETURN: %p", denullify ([values objectAtIndex:0]));
+      return denullify ([values objectAtIndex:0]);
+    }
   else
     return nil;
 }
