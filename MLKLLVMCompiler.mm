@@ -53,7 +53,11 @@ using namespace llvm;
 
 static ExecutionEngine *execution_engine;
 static llvm::Module *module;
+#if defined(LLVM_MAJOR_VERSION) && (LLVM_MAJOR_VERSION <= 2) && (LLVM_MINOR_VERSION <= 3)
+static IRBuilder builder;
+#else
 static IRBuilder<true, ConstantFolder> builder;
+#endif
 static FunctionPassManager *fpm;
 static PointerType *PointerTy;
 static ModuleProvider *module_provider;
