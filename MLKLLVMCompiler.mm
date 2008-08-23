@@ -76,6 +76,15 @@ static Constant
 
 
 @implementation MLKLLVMCompiler
++(void) load
+{
+  if (!MLKDefaultCompiler)
+    {
+      MLKDefaultCompiler = self;
+      MLKLoadCompilesP = YES;
+    }
+}
+
 +(void) initialize
 {
   module = new llvm::Module ("MLKLLVMModule");

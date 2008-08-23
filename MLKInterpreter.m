@@ -35,6 +35,7 @@
 #import "MLKRoot.h"
 #import "MLKSymbol.h"
 #import "NSObject-MLKPrinting.h"
+#import "globals.h"
 #import "runtime-compatibility.h"
 #import "special-symbols.h"
 #import "util.h"
@@ -1230,34 +1231,37 @@
         fprintf (stderr, "| ");
       fprintf (stderr, "LOAD: %s\n", [formdesc UTF8String]);
 
-#ifdef USE_LLVM
-      expansion = code;
-      result = [MLKLLVMCompiler eval:code];
-#else // !USE_LLVM
-      expansion = denullify([[MLKInterpreter
-                               eval:code
-                               inLexicalContext:[MLKLexicalContext
-                                                  globalContext]
-                               withEnvironment:[MLKLexicalEnvironment
-                                                 globalEnvironment]
-                               mode:not_compile_time_mode]
-                              objectAtIndex:0]);
-
-      if ([code isKindOfClass:[MLKCons class]] && [code cdr])
-        formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
-                               MLKPrintToString([expansion car]),
-                               MLKPrintToString([[expansion cdr] car])];
+      if (MLKLoadCompilesP)
+        {
+          expansion = code;
+          result = [MLKDefaultCompiler eval:code];
+        }
       else
-        formdesc = MLKPrintToString(expansion);
+        {
+          expansion = denullify([[MLKInterpreter
+                                   eval:code
+                                   inLexicalContext:[MLKLexicalContext
+                                                      globalContext]
+                                   withEnvironment:[MLKLexicalEnvironment
+                                                     globalEnvironment]
+                                   mode:not_compile_time_mode]
+                                  objectAtIndex:0]);
 
-      //fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
-      result = [MLKInterpreter
-                 eval:expansion
-                 inLexicalContext:[MLKLexicalContext globalContext]
-                 withEnvironment:[MLKLexicalEnvironment globalEnvironment]
-                 expandOnly:NO];
-      //NSLog (@"; LOAD: Top-level form evaluated.");
-#endif  //!USE_LLVM
+          if ([code isKindOfClass:[MLKCons class]] && [code cdr])
+            formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
+                                 MLKPrintToString([expansion car]),
+                                 MLKPrintToString([[expansion cdr] car])];
+          else
+            formdesc = MLKPrintToString(expansion);
+
+          //fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
+          result = [MLKInterpreter
+                     eval:expansion
+                     inLexicalContext:[MLKLexicalContext globalContext]
+                     withEnvironment:[MLKLexicalEnvironment globalEnvironment]
+                     expandOnly:NO];
+          //NSLog (@"; LOAD: Top-level form evaluated.");
+        }
 
       LRELEASE (pool);
 

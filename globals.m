@@ -23,6 +23,9 @@
 
 id MLKEndOfArgumentsMarker;
 
+id MLKDefaultCompiler = nil;
+BOOL MLKLoadCompilesP = NO;
+
 
 @interface MLKGlobalManager : NSObject
 +(void) load;

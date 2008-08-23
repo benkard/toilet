@@ -32,6 +32,7 @@
 #import "MLKSingleFloat.h"
 #import "MLKDoubleFloat.h"
 #import "NSObject-MLKPrinting.h"
+#import "globals.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -708,17 +709,19 @@ as provided by method %@ of object %@",
                          with:nil]]);
 }
 
-#ifdef USE_LLVM
 +(NSArray *) compile:(NSArray *)args
 {
+  if (!MLKDefaultCompiler)
+    [NSException raise:@"MLKNotImplementedException"
+                 format:@"It seems as though there is no compiler here."];
+
   //NSLog (@"Compiling lambda form.");
-  id thing = [MLKLLVMCompiler compile:denullify([args objectAtIndex:0])
-                              inContext:[MLKLexicalContext globalContext]];
+  id thing = [MLKDefaultCompiler compile:denullify([args objectAtIndex:0])
+                                 inContext:[MLKLexicalContext globalContext]];
   //NSLog (@"Compilation done.");
   //NSLog (@"Compiled: %@", thing);
   RETURN_VALUE (thing);
 }
-#endif
 
 +(NSArray *) fset:(NSArray *)args
 {

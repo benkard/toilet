@@ -16,4 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import <Foundation/NSObject.h>
+
+
 extern id MLKEndOfArgumentsMarker;
+
+extern id MLKDefaultCompiler;
+extern BOOL MLKLoadCompilesP;

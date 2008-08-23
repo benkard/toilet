@@ -32,6 +32,8 @@ using namespace llvm;
 #endif
 
 @interface MLKLLVMCompiler : NSObject
++(void) load;
+
 +(void) initialize;
 
 +(id) compile:(id)object
