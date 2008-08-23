@@ -133,7 +133,7 @@ unless ($build_cmd) {
 print "\n";
 print "Your system lacks the following OPTIONAL components:\n";
 
-unless ($llvm_maj && $llvm_min && $llvm_maj >= 2 && $llvm_min >= 4) {
+unless ($llvm_maj && $llvm_min && $llvm_maj >= 2 && $llvm_min >= 3) {
     print " * LLVM >= 2.3\n";
     if ($darwin || $debian) {
         $optional_install = "$optional_install llvm" if $darwin;
