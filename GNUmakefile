@@ -103,7 +103,6 @@ libtoilet-llvm_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
 libtoilet-llvm_OBJCC_FILES = MLKLLVMCompiler.mm
 libtoilet-llvm_OBJCFLAGS = -DUSE_LLVM
 libtoilet-llvm_OBJCCFLAGS = -DUSE_LLVM `$(LLVM_CONFIG) --cxxflags` $(ToiletKit_OBJCFLAGS)
-libtoilet-llvm_LDFLAGS += $(LLVM_LDFLAGS)
 endif
 else #!BUILD_TOILET_LLVM
 libtoilet-llvm:
