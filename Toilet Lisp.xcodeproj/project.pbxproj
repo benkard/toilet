@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
 		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
-		A72E9E6C0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */; };
 		A72E9E6E0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */; };
+		A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */; };
+		A745C35A0E607D6F00C43A04 /* MLKLLVMCompiler.mm in Sources */ = {isa = PBXBuildFile; fileRef = A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */; };
 		A78711320E4C459200A7191F /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112E0E4C459200A7191F /* globals.m */; };
 		A78711330E4C459200A7191F /* MLKArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112F0E4C459200A7191F /* MLKArray.m */; };
 		A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711310E4C459200A7191F /* MLKForeignProcedure.m */; };
@@ -55,7 +56,6 @@
 		A78712240E4C4ADE00A7191F /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
 		A78712250E4C4ADE00A7191F /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
 		A78713820E4EFF4000A7191F /* MLKForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A78713800E4EFF4000A7191F /* MLKForm.m */; };
-		A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */ = {isa = PBXBuildFile; fileRef = A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */; };
 		A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713840E4EFF5D00A7191F /* MLKForm.h */; };
 		A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */; };
 		A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713860E4EFF5D00A7191F /* special-symbols.h */; };
@@ -183,6 +183,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A745C34F0E607C6600C43A04 /* libtoilet-llvm */;
+			remoteInfo = "libtoilet-llvm";
+		};
 		A7E5C4890E2169C600A01D81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
@@ -313,6 +320,7 @@
 		A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledClosure.m; sourceTree = "<group>"; };
 		A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MLKLexicalContext-MLKLLVMCompilation.mm"; sourceTree = "<group>"; };
 		A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLKLexicalContext-MLKLLVMCompilation.h"; sourceTree = "<group>"; };
+		A745C3500E607C6600C43A04 /* libtoilet-llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libtoilet-llvm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
 		A787112F0E4C459200A7191F /* MLKArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKArray.m; sourceTree = "<group>"; };
@@ -456,6 +464,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A745C34E0E607C6600C43A04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7E5C3E90E21689F00A01D81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -559,6 +574,7 @@
 			children = (
 				A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */,
 				A7E5C3F30E21690200A01D81 /* toilet */,
+				A745C3500E607C6600C43A04 /* libtoilet-llvm.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -677,6 +693,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A745C34C0E607C6600C43A04 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7E5C3E60E21689F00A01D81 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -737,6 +760,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A745C34F0E607C6600C43A04 /* toilet-llvm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */;
+			buildPhases = (
+				A745C34C0E607C6600C43A04 /* Headers */,
+				A745C34D0E607C6600C43A04 /* Sources */,
+				A745C34E0E607C6600C43A04 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "toilet-llvm";
+			productName = "libtoilet-llvm";
+			productReference = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		A7E5C3EA0E21689F00A01D81 /* ToiletKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A7E5C3ED0E2168A000A01D81 /* Build configuration list for PBXNativeTarget "ToiletKit" */;
@@ -769,6 +809,7 @@
 			);
 			dependencies = (
 				A7E5C48A0E2169C600A01D81 /* PBXTargetDependency */,
+				A745C35C0E607DD600C43A04 /* PBXTargetDependency */,
 			);
 			name = toilet;
 			productName = toilet;
@@ -788,11 +829,21 @@
 			targets = (
 				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
 				A7E5C3F20E21690200A01D81 /* toilet */,
+				A745C34F0E607C6600C43A04 /* toilet-llvm */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A745C34D0E607C6600C43A04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A745C35A0E607D6F00C43A04 /* MLKLLVMCompiler.mm in Sources */,
+				A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7E5C3E80E21689F00A01D81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -838,9 +889,7 @@
 				A78711330E4C459200A7191F /* MLKArray.m in Sources */,
 				A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */,
 				A78713820E4EFF4000A7191F /* MLKForm.m in Sources */,
-				A78713830E4EFF4000A7191F /* MLKLLVMCompiler.mm in Sources */,
 				A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */,
-				A72E9E6C0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +904,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A745C35C0E607DD600C43A04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			targetProxy = A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */;
+		};
 		A7E5C48A0E2169C600A01D81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
@@ -863,6 +917,216 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A745C3530E607C8700C43A04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		A745C3540E607C8700C43A04 /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A745C3550E607C8700C43A04 /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A745C3560E607C8700C43A04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A745C3570E607C8700C43A04 /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = YES;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A745C3580E607C8700C43A04 /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+					"-DLLVM_MAJOR_VERSION=2",
+					"-DLLVM_MINOR_VERSION=3",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+					"-D_DEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-Woverloaded-virtual",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "toilet-llvm";
+				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
+				ZERO_LINK = YES;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
 		A78711410E4C46FA00A7191F /* Debug 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -884,19 +1148,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -904,25 +1159,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -946,7 +1182,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -954,6 +1193,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -990,19 +1251,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1010,25 +1262,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1053,7 +1286,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1061,6 +1297,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -1100,19 +1358,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1120,25 +1369,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1172,19 +1402,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1192,25 +1413,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1238,7 +1440,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1246,6 +1451,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -1274,7 +1501,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1282,6 +1512,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -1337,19 +1589,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1357,25 +1600,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1407,19 +1631,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
-					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
-				);
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
-					"-Woverloaded-virtual",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1427,25 +1642,6 @@
 					"-lgmp",
 					"-lffi",
 					"-L/opt/local/lib",
-					"-lpthread",
-					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
-					"-lLLVMSelectionDAG",
-					"-lLLVMCodeGen",
-					"-lLLVMScalarOpts",
-					"-lLLVMTransformUtils",
-					"-lLLVMipa",
-					"-lLLVMAnalysis",
-					"-lLLVMTarget",
-					"-lLLVMCore",
-					"-lLLVMSupport",
-					"-lLLVMSystem",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ToiletKit;
@@ -1468,7 +1664,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1476,6 +1675,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -1502,7 +1723,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1510,6 +1734,28 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = toilet;
@@ -1520,6 +1766,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A745C3530E607C8700C43A04 /* Debug */,
+				A745C3540E607C8700C43A04 /* Debug 10.4+ (fast) */,
+				A745C3550E607C8700C43A04 /* Debug 10.4+ (fast + GC) */,
+				A745C3560E607C8700C43A04 /* Release */,
+				A745C3570E607C8700C43A04 /* Release 10.4+ (fast) */,
+				A745C3580E607C8700C43A04 /* Release 10.4+ (fast + GC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
