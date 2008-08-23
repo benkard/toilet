@@ -335,8 +335,22 @@ static Constant
                                  Type::Int32Ty,
                                  PointerTy,
                                  NULL);
-  
+
   builder.CreateCall (function, createGlobalStringPtr ([message UTF8String]));
+}
+
++(void) insertPointerTrace:(Value *)pointerValue
+{
+  Constant *function =
+    module->getOrInsertFunction ("printf",
+                                 Type::Int32Ty,
+                                 PointerTy,
+                                 PointerTy,
+                                 NULL);
+
+  builder.CreateCall2 (function,
+                       createGlobalStringPtr ("%p\n"),
+                       builder.CreateBitCast (pointerValue, PointerTy));
 }
 @end
 
