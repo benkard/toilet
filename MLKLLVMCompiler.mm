@@ -33,6 +33,7 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/Instructions.h>
+//#include <llvm/Interpreter.h>
 #include <llvm/Module.h>
 #include <llvm/ModuleProvider.h>
 #include <llvm/PassManager.h>
@@ -149,16 +150,22 @@ static Constant
 
   //function->dump();
 
-  // JIT-compile.
-  fn = (id (*)()) execution_engine->getPointerToFunction (function);
   //module->dump();
   //NSLog (@"%p", fn);
 
   [pool release];
   //NSLog (@"Code compiled.");
 
+#if 1
+  // JIT-compile.
+  fn = (id (*)()) execution_engine->getPointerToFunction (function);
   // Execute.
   lambdaForm = fn();
+  execution_engine->freeMachineCodeForFunction (function);
+#else
+  Interpreter *i = Interpreter::create (module_provider);
+  lambdaForm = i->runFunction (function)->PointerVal;
+#endif
 
   //NSLog (@"Closure built.");
 
