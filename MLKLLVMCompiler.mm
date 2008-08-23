@@ -335,6 +335,20 @@ static Constant
 @implementation MLKForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
 {
+  //[_compiler insertTrace:
+  //             [NSString stringWithFormat:
+  //                         @"Executing: %@", MLKPrintToString(_form)]];
+
+  Value *result = [self reallyProcessForLLVM];
+
+  //[_compiler insertTrace:
+  //             [NSString stringWithFormat:
+  //                         @"Done: %@", MLKPrintToString(_form)]];
+  return result;
+}
+
+-(Value *) reallyProcessForLLVM
+{
   NSLog (@"WARNING: Unrecognised form type: %@", self);
   return NULL;
 }
@@ -342,7 +356,7 @@ static Constant
 
 
 @implementation MLKProgNForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
@@ -359,7 +373,7 @@ static Constant
 
 
 @implementation MLKSimpleLoopForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
@@ -389,7 +403,7 @@ static Constant
 
 
 @implementation MLKSymbolForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   Value *value;
 
@@ -432,7 +446,7 @@ static Constant
 
 
 @implementation MLKFunctionCallForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   static MLKPackage *sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
 
@@ -512,7 +526,7 @@ static Constant
 
 
 @implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   std::vector <const Type *> argtypes (1, PointerTy);
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
@@ -662,7 +676,7 @@ static Constant
 
 
 @implementation MLKLetForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   NSEnumerator *e = [_variableBindingForms objectEnumerator];
   Value *value = ConstantPointerNull::get (PointerTy);
@@ -694,7 +708,7 @@ static Constant
 
 
 @implementation MLKQuoteForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   // FIXME: When to release _quotedData?  At the same time the code is
   // released, probably...
@@ -708,7 +722,7 @@ static Constant
 
 
 @implementation MLKSelfEvaluatingForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   // FIXME: When to release _form?  At the same time the code is
   // released, probably...
@@ -722,7 +736,7 @@ static Constant
 
 
 @implementation MLKIfForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   Function *function = builder.GetInsertBlock()->getParent();
   BasicBlock *thenBlock = BasicBlock::Create ("if_then", function);
@@ -752,7 +766,7 @@ static Constant
 
 
 @implementation MLKSetQForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   NSEnumerator *var_e, *value_e;
   MLKForm *valueForm;
@@ -806,7 +820,7 @@ static Constant
 
 
 @implementation MLKInPackageForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) reallyProcessForLLVM
 {
   id package = [MLKPackage findPackage:stringify(_packageDesignator)];
 

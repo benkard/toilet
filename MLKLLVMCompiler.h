@@ -82,5 +82,6 @@ using namespace llvm;
 #ifdef __cplusplus
 @interface MLKForm (MLKLLVMCompilation)
 -(Value *) processForLLVM;
+-(Value *) reallyProcessForLLVM;
 @end
 #endif
