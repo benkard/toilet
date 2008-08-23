@@ -84,9 +84,9 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 
 
 ifeq ($(USE_LLVM),YES)
-ADDITIONAL_OBJCFLAGS += -DUSE_LLVM -DLLVM_MAJOR_VERSION=$(shell llvm-config --version | cut -f 1 -d.) -DLLVM_MINOR_VERSION=$(shell llvm-config --version | cut -f 2 -d. | sed s/svn//)
 LLVM_CONFIG = llvm-config
-LLVM_LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags) $(shell $(LLVM_CONFIG) --libs backend engine linker codegen transformutils scalaropts analysis ipo)
+ADDITIONAL_OBJCFLAGS += -DUSE_LLVM -DLLVM_MAJOR_VERSION=$(shell $(LLVM_CONFIG) --version | cut -f 1 -d.) -DLLVM_MINOR_VERSION=$(shell $(LLVM_CONFIG) --version | cut -f 2 -d. | sed s/svn//)
+LLVM_LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags) $(shell $(LLVM_CONFIG) --libs backend interpreter engine linker codegen transformutils scalaropts analysis ipo)
 endif
 
 ifeq ($(BUILD_TOILET_LLVM),YES)
