@@ -101,6 +101,7 @@ static Constant
   fpm = new FunctionPassManager (module_provider);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
   //fpm->add (new TargetData (module));
+  fpm->add (createScalarReplAggregatesPass());
   fpm->add (createInstructionCombiningPass());
   fpm->add (createReassociatePass());
   fpm->add (createGVNPass());
