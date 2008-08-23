@@ -176,13 +176,13 @@ test: ToiletKit Test
 run-et: before-etshell ToiletKit etshell
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/etshell
 
-run-toilet: before-toilet $(KIT_TARGETS) toilet
+run-toilet: $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/toilet
 
 run: run-toilet
 
-debugging-run: before-toilet $(KIT_TARGETS) toilet
+debugging-run: $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" gdb -ex run obj/toilet
 
-ddd-run: before-toilet $(KIT_TARGETS) toilet
+ddd-run: $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ddd obj/toilet
