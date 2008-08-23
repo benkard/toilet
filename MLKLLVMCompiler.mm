@@ -680,6 +680,7 @@ static Constant
   execution_engine->getPointerToFunction (function);
   //NSLog (@"Done.");
   //function->dump();
+  //function->viewCFG();
   //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
@@ -698,8 +699,6 @@ static Constant
     [_compiler insertMethodCall:@"closureWithCode:data:length:"
                onObject:mlkcompiledclosure
                withArgumentVector:&argv];
-
-  //function->viewCFG();
 
   return closure;
 }
