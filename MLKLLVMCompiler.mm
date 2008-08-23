@@ -40,6 +40,7 @@
 #include <llvm/Target/TargetData.h>
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Transforms/IPO.h>
+#include <llvm/Transforms/Utils/Cloning.h>  // InlineFunction
 #include <llvm/Transforms/Utils/UnifyFunctionExitNodes.h>
 #include <llvm/Value.h>
 
@@ -519,6 +520,14 @@ static Constant
                                        args.begin(),
                                        args.end(),
                                        [MLKPrintToString(_head) UTF8String]);
+
+  // XXX
+  if (NO && [_context functionInline:_head])
+    {
+      InlineFunction (call);
+    }
+
+  //[_compiler insertTrace:[NSString stringWithFormat:@"%@ done.", MLKPrintToString(_head)]];
 
   return call;
 }
