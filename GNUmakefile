@@ -86,7 +86,7 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 ifeq ($(USE_LLVM),YES)
 ADDITIONAL_OBJCFLAGS += -DUSE_LLVM
 LLVM_CONFIG = llvm-config
-LLVM_LDFLAGS = `$(LLVM_CONFIG) --ldflags` `$(LLVM_CONFIG) --libs backend engine linker codegen transformutils scalaropts analysis ipo`
+LLVM_LDFLAGS = $(shell $(LLVM_CONFIG) --ldflags) $(shell $(LLVM_CONFIG) --libs backend engine linker codegen transformutils scalaropts analysis ipo)
 endif
 
 ifeq ($(BUILD_TOILET_LLVM),YES)
@@ -128,13 +128,14 @@ etshell_OBJC_LIBS += -lStepTalk -lreadline -lncurses -lToiletKit	\
 etshell_OBJCFLAGS = -w
 
 toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
+toilet_OBJCC_FILES = _stamp.mm
 toilet_OBJC_LIBS += -ledit -lncurses -LToiletKit.framework	\
                     -LToiletKit.framework/Versions/Current -lToiletKit
 
 toilet_OBJCFLAGS = -Wall
 
 ifeq ($(USE_LLVM),YES)
-toilet_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS) -lstdc++
+toilet_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS)
 endif
 
 Test_OBJC_FILES = MLKLowLevelTests.m
@@ -149,8 +150,11 @@ include $(GNUSTEP_MAKEFILES)/tool.make
 
 before-all:: before-etshell before-toilet
 
-before-toilet:: $(KIT_TARGETS)
-	rm -f obj/toilet
+# _stamp.mm serves two distinct purposes.  First, it causes toilet to be
+# relinked whenever one of the $(KIT_TARGETS) has been updated, and
+# second, it causes toilet to be linked with g++.
+_stamp.mm: #$(KIT_TARGETS)
+	touch $@
 
 before-etshell:: ToiletKit
 	rm -f obj/etshell
