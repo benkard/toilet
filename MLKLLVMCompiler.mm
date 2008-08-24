@@ -99,9 +99,12 @@ static Constant
 +(void) initialize
 {
   module = new llvm::Module ("MLKLLVMModule");
-  execution_engine = ExecutionEngine::create (module);
-  PointerTy = PointerType::get(Type::Int8Ty, 0);
   module_provider = new ExistingModuleProvider (module);
+
+  //execution_engine = ExecutionEngine::create (module_provider, true);
+  execution_engine = ExecutionEngine::create (module_provider, false);
+
+  PointerTy = PointerType::get(Type::Int8Ty, 0);
   fpm = new FunctionPassManager (module_provider);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
   //fpm->add (new TargetData (module));
