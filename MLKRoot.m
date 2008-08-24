@@ -202,6 +202,7 @@ static id truify (BOOL value)
       [MLKDynamicContext popContext];
       LRELEASE (ctx);
       [input close];
+      [localException raise];
     }
   NS_ENDHANDLER;
 
