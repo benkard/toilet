@@ -169,10 +169,11 @@ if (!$installp && !@steps) {
     print "Congratulations!  You can now build Toilet Lisp by following these steps:\n";
     if ($xcode) {
         print " * In a shell, type:\n   $XCODEBUILD";
+        print ' -configuration Debug';
         if ($optionalp) {
-            print ' -configuration "Debug (no LLVM)"' if ($optionalp);
+            print ' -target toilet';
         } else {
-            print ' -configuration Debug';
+            print ' -target "toilet (no LLVM)"';
         }
         print " OTHER_CFLAGS=\"";
         print "`llvm-config --cflags` -DUSE_LLVM " unless ($optionalp);
