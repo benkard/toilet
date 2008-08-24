@@ -60,6 +60,19 @@
 #endif
 
 
+#define RETURN_VALUE(thing)                     \
+{ return [NSArray arrayWithObject:nullify(thing)]; }
+
+static id
+PRIMARY (id array)
+{
+  if ([array count] > 0)
+    return [array objectAtIndex:0];
+  else
+    return nil;
+}
+
+
 @implementation MLKInterpreter
 +(void) initialize
 {
@@ -68,10 +81,9 @@
 
 +(id) compile:(id)object inContext:(MLKLexicalContext *)context
 {
-  return [[self eval:object
-                inLexicalContext:context
-                withEnvironment:[MLKLexicalEnvironment globalEnvironment]]
-          objectAtIndex:0];
+  return PRIMARY ([self eval:object
+                        inLexicalContext:context
+                        withEnvironment:[MLKLexicalEnvironment globalEnvironment]]);
 }
 
 +(NSArray*) eval:(id)program
@@ -159,10 +171,6 @@
 @end
 
 
-#define RETURN_VALUE(thing)                     \
-{ return [NSArray arrayWithObject:nullify(thing)]; }
-
-
 @implementation MLKForm (MLKInterpretation)
 -(NSArray *) interpret
 {
@@ -243,7 +251,7 @@
   NSArray *values;
   MLKDynamicContext *newctx;
 
-  catchTag = [[_tagForm interpretWithEnvironment:env] objectAtIndex:0];
+  catchTag = PRIMARY ([_tagForm interpretWithEnvironment:env]);
 
   NS_DURING
     {
@@ -335,7 +343,7 @@
 @implementation MLKIfForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  id cndval = denullify([[_conditionForm interpretWithEnvironment:env] objectAtIndex:0]);
+  id cndval = denullify(PRIMARY([_conditionForm interpretWithEnvironment:env]));
   if (cndval)
     return [_consequentForm interpretWithEnvironment:env];
   else
@@ -420,9 +428,8 @@
   for (i = 0; i < [_variableBindingForms count]; i++)
     {
       id variable = [[_variableBindingForms objectAtIndex:i] name];
-      id value = [[[_variableBindingForms objectAtIndex:i] 
-                   interpretWithEnvironment:env]
-                  objectAtIndex:0];
+      id value = PRIMARY([[_variableBindingForms objectAtIndex:i] 
+                           interpretWithEnvironment:env]);
       if ([_bodyContext variableIsLexical:variable])
         {
           [newenv addValue:value forSymbol:variable];
@@ -481,7 +488,7 @@
 {
   NSMutableArray *results = [NSMutableArray array];
   int i;
-  id <MLKFuncallable> function = [[_functionForm interpretWithEnvironment:env] objectAtIndex:0];
+  id <MLKFuncallable> function = PRIMARY ([_functionForm interpretWithEnvironment:env]);
 
   for (i = 0; i < [_bodyForms count]; i++)
     {
@@ -521,10 +528,8 @@
 @implementation MLKProgVForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  id variables = [[_variableListForm interpretWithEnvironment:env]
-                  objectAtIndex:0];
-  id values = [[_valueListForm interpretWithEnvironment:env]
-               objectAtIndex:0];
+  id variables = PRIMARY([_variableListForm interpretWithEnvironment:env]);
+  id values = PRIMARY([_valueListForm interpretWithEnvironment:env]);
   MLKDynamicContext *dynctx;
   id result;
 
@@ -581,7 +586,7 @@
   NSArray *values;
   NSDictionary *userInfo;
 
-  catchTag = [[_tagForm interpretWithEnvironment:env] objectAtIndex:0];
+  catchTag = PRIMARY([_tagForm interpretWithEnvironment:env]);
   values = [_valueForm interpretWithEnvironment:env];
 
   userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -641,9 +646,8 @@
 
   for (i = 0; i < [_argumentForms count]; i++)
     {
-      id result = [[[_argumentForms objectAtIndex:i]
-                    interpretWithEnvironment:env]
-                   objectAtIndex:0];
+      id result = PRIMARY([[_argumentForms objectAtIndex:i]
+                            interpretWithEnvironment:env]);
       [args addObject:result];
     }
 
@@ -687,7 +691,7 @@
   for (i = 0; i < [_variables count]; i++)
     {
       id symbol = denullify([_variables objectAtIndex:i]);
-      value = [[[_valueForms objectAtIndex:i] interpretWithEnvironment:env] objectAtIndex:0];
+      value = PRIMARY([[_valueForms objectAtIndex:i] interpretWithEnvironment:env]);
 
       if ([_context variableIsLexical:symbol])
         [env setValue:value forSymbol:symbol];
@@ -713,7 +717,7 @@
   for (i = 0; i < [_functionNames count]; i++)
     {
       id symbol = denullify([_functionNames objectAtIndex:i]);
-      value = [[[_valueForms objectAtIndex:i] interpretWithEnvironment:env] objectAtIndex:0];
+      value = PRIMARY([[_valueForms objectAtIndex:i] interpretWithEnvironment:env]);
 
       if ([_context symbolNamesFunction:symbol])
         {
