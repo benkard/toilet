@@ -326,12 +326,12 @@ static MLKLexicalContext *global_context;
 
 -(id) deepPropertyForVariable:(id)name key:(id)key
 {
-  NSDictionary *props = [_variableInfo objectForKey:name];
+  NSDictionary *props = [_variableInfo objectForKey:nullify(name)];
   id property;
 
   if (props && (property = [props objectForKey:key]))
     return property;
-  else if (!_parent || [_variables containsObject:name])
+  else if (!_parent || [_variables containsObject:nullify(name)])
     return nil;
   else
     return [_parent deepPropertyForVariable:name key:key];
@@ -345,13 +345,13 @@ static MLKLexicalContext *global_context;
   // lexically apparent binding, the property is set in the global
   // context.  This does not make it pervasive, however.
 
-  if (!_parent || [_variables containsObject:name])
+  if (!_parent || [_variables containsObject:nullify(name)])
     {
-      NSMutableDictionary *props = [_variableInfo objectForKey:name];
+      NSMutableDictionary *props = [_variableInfo objectForKey:nullify(name)];
       if (!props)
         {
           props = [NSMutableDictionary dictionary];
-          [_variableInfo setObject:props forKey:name];
+          [_variableInfo setObject:props forKey:nullify(name)];
         }
       [props setObject:object forKey:key];
     }
@@ -363,12 +363,12 @@ static MLKLexicalContext *global_context;
 
 -(id) deepPropertyForFunction:(id)name key:(id)key
 {
-  NSDictionary *props = [_functionInfo objectForKey:name];
+  NSDictionary *props = [_functionInfo objectForKey:nullify(name)];
   id property;
 
   if (props && (property = [props objectForKey:key]))
     return property;
-  else if (!_parent || [_functions containsObject:name])
+  else if (!_parent || [_functions containsObject:nullify(name)])
     return nil;
   else
     return [_parent deepPropertyForFunction:name key:key];
@@ -378,13 +378,13 @@ static MLKLexicalContext *global_context;
             forFunction:(id)name
                     key:(id)key
 {
-  if (!_parent || [_functions containsObject:name])
+  if (!_parent || [_functions containsObject:nullify(name)])
     {
-      NSMutableDictionary *props = [_functionInfo objectForKey:name];
+      NSMutableDictionary *props = [_functionInfo objectForKey:nullify(name)];
       if (!props)
         {
           props = [NSMutableDictionary dictionary];
-          [_functionInfo setObject:props forKey:name];
+          [_functionInfo setObject:props forKey:nullify(name)];
         }
       [props setObject:object forKey:key];
     }
