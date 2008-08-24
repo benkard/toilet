@@ -184,7 +184,7 @@
   values = [self reallyInterpretWithEnvironment:env];
   //if (trace)
   NSLog (@"; EVAL: %@", MLKPrintToString(_form));
-#elif 1
+#elif 0
   NS_DURING
     {
       values = [self reallyInterpretWithEnvironment:env];
