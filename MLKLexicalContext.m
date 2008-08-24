@@ -35,6 +35,7 @@
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "runtime-compatibility.h"
+#import "special-symbols.h"
 #import "util.h"
 
 #include <stdlib.h>
@@ -51,18 +52,10 @@
 static MLKLexicalContext *global_context;
 
 
-static MLKPackage *cl;
-static MLKPackage *sys;
-static MLKSymbol *SPECIAL;
-static MLKSymbol *LEXICAL;
-
-
 @implementation MLKLexicalContext
 +(void) initialize
 {
   MLKLexicalEnvironment *globalenv = [MLKLexicalEnvironment globalEnvironment];
-  cl = [MLKPackage findPackage:@"COMMON-LISP"];
-  sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
 
   global_context = [[self alloc] initWithParent:nil
                                  variables:[globalenv variables]
@@ -72,9 +65,8 @@ static MLKSymbol *LEXICAL;
                                  compilerMacros:nil
                                  symbolMacros:nil
                                  declarations:nil];
-
-  SPECIAL = [cl intern:@"SPECIAL"];
-  LEXICAL = [sys intern:@"LEXICAL"];
+  
+  ensure_symbols ();
 }
 
 -(MLKLexicalContext *) initWithParent:(MLKLexicalContext *)aContext
@@ -297,6 +289,27 @@ static MLKSymbol *LEXICAL;
   // parent environment.  If there is no parent, nobody seems to know
   // anything about the variable, so we assume it's a special one.
   else return (_parent && [_parent variableIsLexical:symbol]);
+}
+
+-(BOOL) functionIsInline:(MLKSymbol *)symbol
+{
+  if ([_functions containsObject:symbol])
+    {
+      id rest = _declarations;
+      while (rest)
+        {
+          id item = [rest car];
+          if ([item isKindOfClass:[MLKCons class]] && [[item cdr] car] == symbol)
+            {
+              if ([item car] == INLINE)
+                return YES;
+              else if ([item car] == NOTINLINE)
+                return NO;
+            }
+          rest = [rest cdr];
+        }
+    }
+  else return (_parent && [_parent functionIsInline:symbol]);
 }
 
 -(void) addVariable:(MLKSymbol *)symbol

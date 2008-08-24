@@ -93,6 +93,7 @@
 -(void) addFunction:(MLKSymbol *)symbol;
 
 -(BOOL) variableIsLexical:(MLKSymbol *)symbol;
+-(BOOL) functionIsInline:(MLKSymbol *)symbol;
 
 -(id) deepPropertyForVariable:(id)name key:(id)key;
 -(void) setDeepProperty:(id)object
