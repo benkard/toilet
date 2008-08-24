@@ -53,7 +53,7 @@ static MLKSymbol *PROGN;
 
   MLKLexicalEnvironment *new_environment =
     [MLKLexicalEnvironment environmentWithParent:_environment
-                           variables:[NSDictionary dictionaryWithObject:arglist
+                           variables:[NSDictionary dictionaryWithObject:nullify(arglist)
                                                    forKey:nullify([_form lambdaListName])]
                            functions:nil];
 
