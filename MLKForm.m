@@ -678,7 +678,9 @@
 -(id) complete
 {
   self = [super complete];
-  LASSIGN (_functionForm, [_tail car]);
+  LASSIGN (_functionForm, [MLKForm formWithObject:[_tail car]
+                                   inContext:_context
+                                   forCompiler:_compiler]);
   [self processBody:[_tail cdr]];
   return self;
 }

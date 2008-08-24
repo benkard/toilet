@@ -236,7 +236,7 @@
 
 @interface MLKMultipleValueCallForm : MLKBodyForm
 {
-  id _functionForm;
+  MLKForm *_functionForm;
 }
 @end
 
