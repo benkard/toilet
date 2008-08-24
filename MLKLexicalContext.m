@@ -308,6 +308,8 @@ static MLKLexicalContext *global_context;
             }
           rest = [rest cdr];
         }
+
+      return NO;
     }
   else return (_parent && [_parent functionIsInline:symbol]);
 }
