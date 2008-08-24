@@ -173,24 +173,31 @@
 {
   NSArray *values;
 
-#define TRACE_EVAL 0
-#if TRACE_EVAL
+#if 0
   BOOL trace = NO;
-  
   //if ([dynamicContext valueForSymbol:V_INITP])
   //  trace = YES;
   
   //if (trace)
-  NSLog (@"; EVAL: %@", MLKPrintToString(_form));
-#endif  // TRACE_EVAL
-  
-  values = [self reallyInterpretWithEnvironment:env];
-
-#if TRACE_EVAL
-  //if (trace)
   NSLog (@"; EVAL END: %@", MLKPrintToString(_form));
-#endif  // TRACE_EVAL
-  
+  values = [self reallyInterpretWithEnvironment:env];
+  //if (trace)
+  NSLog (@"; EVAL: %@", MLKPrintToString(_form));
+#elif 1
+  NS_DURING
+    {
+      values = [self reallyInterpretWithEnvironment:env];
+    }
+  NS_HANDLER
+    {
+      NSLog (@"; BROKEN EVAL: %@", MLKPrintToString(_form));
+      [localException raise];
+    }
+  NS_ENDHANDLER;
+#else
+  values = [self reallyInterpretWithEnvironment:env];  
+#endif
+
   return values;
 }
 
