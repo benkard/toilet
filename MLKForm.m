@@ -207,13 +207,21 @@
                 inContext:context
                 forCompiler:compiler];
 
+  id expansion;
+
   id <MLKFuncallable> macrofun = [context macroForSymbol:_head];
   //NSLog (@"Expanding: %@", MLKPrintToString (_form));
-  id expansion = denullify ([[macrofun
-                               applyToArray:
-                                 [NSArray arrayWithObjects:
-                                            _form, context, nil]]
-                              objectAtIndex:0]);
+  NSArray *expansion_values = [macrofun applyToArray:
+                                          [NSArray arrayWithObjects:
+                                                     _form, context, nil]];
+  if ([expansion_values count] > 0)
+    {
+      expansion = denullify ([expansion_values objectAtIndex:0]);
+    }
+  else
+    {
+      expansion = nil;
+    }
   //NSLog (@"=> %@", MLKPrintToString (expansion));
 
   return LRETAIN ([MLKForm formWithObject:expansion
