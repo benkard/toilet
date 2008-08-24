@@ -136,27 +136,11 @@
         }
       else
         {
-          expansion = denullify([[MLKInterpreter
-                                   eval:code
-                                   inLexicalContext:[MLKLexicalContext
-                                                      globalContext]
-                                   withEnvironment:[MLKLexicalEnvironment
-                                                     globalEnvironment]]
-                                  objectAtIndex:0]);
-
-          if ([code isKindOfClass:[MLKCons class]] && [code cdr])
-            formdesc = [NSString stringWithFormat:@"(%@ %@ ...)",
-                                 MLKPrintToString([expansion car]),
-                                 MLKPrintToString([[expansion cdr] car])];
-          else
-            formdesc = MLKPrintToString(expansion);
-
-          //fprintf (stderr, "; LOAD: %s\n", [formdesc UTF8String]);
+          expansion = code;
           result = [MLKInterpreter
                      eval:expansion
                      inLexicalContext:[MLKLexicalContext globalContext]
                      withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
-          //NSLog (@"; LOAD: Top-level form evaluated.");
         }
 
       LRELEASE (pool);
@@ -187,18 +171,27 @@
 
 -(NSArray *) interpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
+  NSArray *values;
+
 #define TRACE_EVAL 0
 #if TRACE_EVAL
   BOOL trace = NO;
-
-  if ([dynamicContext valueForSymbol:V_INITP])
-    trace = YES;
-
-  if (trace)
-    NSLog (@"; EVAL: %@", MLKPrintToString(program));
+  
+  //if ([dynamicContext valueForSymbol:V_INITP])
+  //  trace = YES;
+  
+  //if (trace)
+  NSLog (@"; EVAL: %@", MLKPrintToString(_form));
 #endif  // TRACE_EVAL
   
-  return [self reallyInterpretWithEnvironment:env];
+  values = [self reallyInterpretWithEnvironment:env];
+
+#if TRACE_EVAL
+  //if (trace)
+  NSLog (@"; EVAL END: %@", MLKPrintToString(_form));
+#endif  // TRACE_EVAL
+  
+  return values;
 }
 
 
@@ -221,23 +214,14 @@
 @implementation MLKSymbolForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  if ([_context symbolNamesSymbolMacro:_form])
+  if ([_context variableIsLexical:_form])
     {
-      id macrofun, expansion;
-    
-      macrofun = [_context macroForSymbol:_form];
-      expansion = [macrofun applyToArray:
-                              [NSArray arrayWithObjects:
-                                         _form, _context, nil]];
-    
-      return [expansion interpretWithEnvironment:env];
-    }
-  else if ([_context variableIsLexical:_form])
-    {
+//      NSLog (@"Lexical?");
       RETURN_VALUE ([env valueForSymbol:_form]);
     }
   else
     {
+//      NSLog (@"Special?");
       RETURN_VALUE ([[MLKDynamicContext currentContext] valueForSymbol:_form]);
     }
 }
@@ -343,7 +327,7 @@
 @implementation MLKIfForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  id cndval = [[_conditionForm interpretWithEnvironment:env] objectAtIndex:0];
+  id cndval = denullify([[_conditionForm interpretWithEnvironment:env] objectAtIndex:0]);
   if (cndval)
     return [_consequentForm interpretWithEnvironment:env];
   else
@@ -367,7 +351,7 @@
 @end
 
 
-@implementation MLKLambdaForm (MLKInterpretation)
+@implementation MLKSimpleLambdaForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
   id lambdaList = [_tail car];
@@ -435,7 +419,7 @@
       id value = [[[_variableBindingForms objectAtIndex:i] 
                    interpretWithEnvironment:env]
                   objectAtIndex:0];
-      if ([_context variableIsLexical:variable])
+      if ([_bodyContext variableIsLexical:variable])
         {
           [newenv addValue:value forSymbol:variable];
         }
@@ -463,6 +447,14 @@
   LRELEASE (dynctx);
 
   return values;
+}
+@end
+
+
+@implementation MLKVariableBindingForm (MLKInterpretation)
+-(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
+{
+  return [_valueForm interpretWithEnvironment:env];
 }
 @end
 
@@ -510,7 +502,7 @@
 -(NSArray *) interpretBodyWithEnvironment:(MLKLexicalEnvironment *)env
 {
   int i;
-  NSArray *values = nil;
+  NSArray *values = [NSArray array];
  
   for (i = 0; i < [_bodyForms count]; i++)
     {
@@ -573,7 +565,7 @@
 @implementation MLKQuoteForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  return _quotedData;
+  RETURN_VALUE (_quotedData);
 }
 @end
 
@@ -641,7 +633,6 @@
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
   int i;
-  NSArray *results = nil;
   NSMutableArray *args = [NSMutableArray array];
 
   for (i = 0; i < [_argumentForms count]; i++)
@@ -654,6 +645,8 @@
 
   if (![_context symbolNamesFunction:_head])
     {
+      NSArray *results = nil;
+
       if (_head && [_head homePackage] == sys)
         {
           results = [MLKRoot dispatch:_head withArguments:args];
