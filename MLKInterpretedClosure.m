@@ -38,16 +38,12 @@ static MLKSymbol *PROGN;
   PROGN = [cl intern:@"PROGN"];
 }
 
--(id) initWithBodyForms:(id)forms
-         lambdaListName:(MLKSymbol *)symbol
-                context:(MLKLexicalContext *)lexctx
-            environment:(MLKLexicalEnvironment *)lexenv
+-(id) initWithForm:(MLKSimpleLambdaForm *)form
+       environment:(MLKLexicalEnvironment *)lexenv
 {
   self = [super init];
-  LASSIGN (bodyForm, [MLKCons cons:PROGN with:forms]);
-  LASSIGN (context, lexctx);
-  LASSIGN (environment, lexenv);
-  LASSIGN (lambdaListName, symbol);
+  LASSIGN (_environment, lexenv);
+  LASSIGN (_form, form);
   return self;
 }
 
@@ -56,24 +52,12 @@ static MLKSymbol *PROGN;
   id arglist = [MLKCons listWithArray:arguments];
 
   MLKLexicalEnvironment *new_environment =
-    [MLKLexicalEnvironment environmentWithParent:environment
-                           variables:[NSDictionary dictionaryWithObject:nullify(arglist)
-                                                   forKey:lambdaListName]
+    [MLKLexicalEnvironment environmentWithParent:_environment
+                           variables:[NSDictionary dictionaryWithObject:arglist
+                                                   forKey:nullify([_form lambdaListName])]
                            functions:nil];
 
-  MLKLexicalContext *new_context =
-    [MLKLexicalContext contextWithParent:context
-                       variables:[NSSet setWithObject:lambdaListName]
-                       functions:nil
-                       goTags:nil
-                       macros:nil
-                       compilerMacros:nil
-                       symbolMacros:nil
-                       declarations:nil];
-
-  return [MLKInterpreter eval:bodyForm
-                         inLexicalContext:new_context
-                         withEnvironment:new_environment];
+  return [_form interpretBodyWithEnvironment:new_environment];
 }
 
 -(NSString *) description
@@ -88,10 +72,8 @@ static MLKSymbol *PROGN;
 
 -(void) dealloc
 {
-  LDESTROY (bodyForm);
-  LDESTROY (lambdaListName);
-  LDESTROY (context);
-  LDESTROY (environment);
+  LDESTROY (_environment);
+  LDESTROY (_form);
   [super dealloc];
 }
 @end

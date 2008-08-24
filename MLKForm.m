@@ -215,6 +215,7 @@
                                  [NSArray arrayWithObjects:
                                             _form, context, nil]]
                               objectAtIndex:0]);
+  //NSLog (@"=> %@", MLKPrintToString (expansion));
 
   return LRETAIN ([MLKForm formWithObject:expansion
                            inContext:context
@@ -482,6 +483,11 @@
   [self processBody:[_tail cdr]
           inContext:newContext];
   return self;
+}
+
+-(MLKSymbol *) lambdaListName
+{
+  return _lambdaListName;
 }
 @end
 

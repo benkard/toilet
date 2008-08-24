@@ -354,13 +354,9 @@
 @implementation MLKSimpleLambdaForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  id lambdaList = [_tail car];
-  id body = [_tail cdr];
   id closure = LAUTORELEASE ([[MLKInterpretedClosure alloc]
-                              initWithBodyForms:_body
-                                 lambdaListName:lambdaList
-                                        context:_context
-                                    environment:env]);
+                              initWithForm:self
+                              environment:env]);
   RETURN_VALUE (closure);  
 }
 @end

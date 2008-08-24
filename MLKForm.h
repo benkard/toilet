@@ -200,6 +200,8 @@
 {
   MLKSymbol *_lambdaListName;
 }
+
+-(MLKSymbol *) lambdaListName;
 @end
 
 
