@@ -35,7 +35,7 @@
 
 -(id) initWithCode:(void *)code
      argumentTypes:(NSArray *)argTypes
-        returnType:(id)returnType;
+        returnType:(MLKForeignType)returnType;
 
 -(NSArray *) applyToArray:(NSArray *)arguments;
 

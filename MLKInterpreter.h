@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKStream.h"
+#import "MLKForm.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
+#import "MLKStream.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
@@ -43,15 +44,19 @@ enum MLKProcessingMode
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv;
 
-+(NSArray*) eval:(id)program
-            inLexicalContext:(MLKLexicalContext *)context
-            withEnvironment:(MLKLexicalEnvironment *)lexenv
-            expandOnly:(BOOL)expandOnly;
-
-+(NSArray*) eval:(id)program
-            inLexicalContext:(MLKLexicalContext *)context
-            withEnvironment:(MLKLexicalEnvironment *)lexenv
-            mode:(enum MLKProcessingMode)mode;
-
 +(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
+
++(id) compile:(id)object
+    inContext:(MLKLexicalContext *)context;
+@end
+
+
+@interface MLKForm (MLKInterpretation)
+-(NSArray *) interpret;
+-(NSArray *) interpretWithEnvironment:(MLKLexicalEnvironment *)env;
+-(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env;
+@end
+
+@interface MLKBodyForm (MLKInterpretation)
+-(NSArray *) interpretBodyWithEnvironment:(MLKLexicalEnvironment *)env;
 @end

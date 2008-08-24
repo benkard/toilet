@@ -18,7 +18,7 @@
 
 #import "MLKCons.h"
 #import "MLKForm.h"
-#import "MLKLLVMCompiler.h"
+#import "MLKInterpreter.h"
 #import "util.h"
 #import "special-symbols.h"
 
@@ -361,11 +361,11 @@
   int i;
 
   self = [super complete];
-  LASSIGN (_foreignName, [[_tail cdr] car]);
-  LASSIGN (_name, [_tail car]);
-  _returnType = MLKForeignTypeWithTypeDesignator ([[[_tail cdr] cdr] car]);
+  LASSIGN (_foreignName, [_tail car]);
+  LASSIGN (_foreignLibraryDesignator, [[_tail cdr] car]);
+  _returnType = MLKForeignTypeWithTypeDesignator ([[[[_tail cdr] cdr] cdr] car]);
 
-  argtypes = [[[_tail cdr] cdr] cdr];
+  argtypes = [[[_tail cdr] cdr] car];
 
   _argc = [argtypes length];
   _argumentTypes = malloc (_argc * sizeof (MLKForeignType));

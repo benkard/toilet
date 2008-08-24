@@ -36,7 +36,7 @@
 @implementation MLKForeignProcedure
 -(id) initWithCode:(void *)code
      argumentTypes:(NSArray *)argTypes
-        returnType:(id)returnType
+        returnType:(MLKForeignType)returnType
 {
   int i;
   NSEnumerator *e;
@@ -45,7 +45,7 @@
   self = [super init];
 
   _code = code;
-  _returnType = MLKForeignTypeWithTypeDesignator (returnType);
+  _returnType = returnType;
 
   _argumentTypes = malloc (sizeof (MLKForeignType) * [argTypes count]);
 
