@@ -152,7 +152,7 @@ before-all:: before-etshell before-toilet
 # _stamp.mm serves two distinct purposes.  First, it causes toilet to be
 # relinked whenever one of the $(KIT_TARGETS) has been updated, and
 # second, it causes toilet to be linked with g++.
-_stamp.mm: #$(KIT_TARGETS)
+_stamp.mm: obj/libtoilet-llvm.a
 	touch $@
 
 before-etshell:: ToiletKit
