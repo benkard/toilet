@@ -595,10 +595,21 @@
   
   while (bindings)
     {
+      id varname;
+
+      if ([[bindings car] isKindOfClass:[MLKCons class]])
+        {
+          varname = [[bindings car] car];
+        }
+      else
+        {
+          varname = [bindings car];
+        }
+
       [bindingForms addObject:[MLKVariableBindingForm formWithObject:[bindings car]
                                                            inContext:_context
                                                          forCompiler:_compiler]];
-      [variables addObject:[[bindings car] car]];
+      [variables addObject:varname];
       bindings = [bindings cdr];
     }
   
