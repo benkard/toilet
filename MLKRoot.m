@@ -776,4 +776,12 @@ as provided by method %@ of object %@",
                                  ? (id)[arglist array]
                                  : (id)[NSArray array])];
 }
+
++(NSArray *) eval:(NSArray *)args
+{
+  id evaluand = denullify ([args objectAtIndex:0]);
+  return [MLKInterpreter eval:evaluand
+             inLexicalContext:[MLKLexicalContext globalContext]
+              withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+}
 @end

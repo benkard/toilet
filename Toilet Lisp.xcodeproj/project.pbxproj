@@ -9,9 +9,48 @@
 /* Begin PBXBuildFile section */
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
 		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
-		A72E9E6E0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */; };
 		A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */; };
 		A745C35A0E607D6F00C43A04 /* MLKLLVMCompiler.mm in Sources */ = {isa = PBXBuildFile; fileRef = A78713810E4EFF4000A7191F /* MLKLLVMCompiler.mm */; };
+		A745C4080E6189EB00C43A04 /* MLKReadEvalPrintLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4850E21698100A01D81 /* MLKReadEvalPrintLoop.m */; };
+		A745C40A0E6189EB00C43A04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
+		A745C40C0E6189EB00C43A04 /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
+		A745C40D0E6189EB00C43A04 /* defun-0.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
+		A745C40E0E6189EB00C43A04 /* defun-1.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
+		A745C40F0E6189EB00C43A04 /* destructuring-bind.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
+		A745C4100E6189EB00C43A04 /* evaluation.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
+		A745C4110E6189EB00C43A04 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
+		A745C4120E6189EB00C43A04 /* list-functions-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
+		A745C4130E6189EB00C43A04 /* list-functions.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
+		A745C4140E6189EB00C43A04 /* numbers.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
+		A745C4150E6189EB00C43A04 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
+		A745C4160E6189EB00C43A04 /* sharpsign.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
+		A745C4170E6189EB00C43A04 /* types.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
+		A745C4180E6189EB00C43A04 /* util.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
+		A745C41A0E6189EB00C43A04 /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
+		A745C41B0E6189EB00C43A04 /* character.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
+		A745C41C0E6189EB00C43A04 /* clos.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
+		A745C41D0E6189EB00C43A04 /* condition.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
+		A745C41E0E6189EB00C43A04 /* cons.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
+		A745C41F0E6189EB00C43A04 /* core.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
+		A745C4200E6189EB00C43A04 /* data-and-control.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
+		A745C4210E6189EB00C43A04 /* do.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
+		A745C4220E6189EB00C43A04 /* eval.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
+		A745C4230E6189EB00C43A04 /* hash-table.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
+		A745C4240E6189EB00C43A04 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
+		A745C4250E6189EB00C43A04 /* loop.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
+		A745C4260E6189EB00C43A04 /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
+		A745C4270E6189EB00C43A04 /* printer.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
+		A745C4280E6189EB00C43A04 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
+		A745C4290E6189EB00C43A04 /* sequence.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
+		A745C42A0E6189EB00C43A04 /* share-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
+		A745C42B0E6189EB00C43A04 /* share.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
+		A745C42C0E6189EB00C43A04 /* stand-in.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
+		A745C42D0E6189EB00C43A04 /* stream.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
+		A745C42E0E6189EB00C43A04 /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
+		A745C42F0E6189EB00C43A04 /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
+		A745C4300E6189EB00C43A04 /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
+		A745C44E0E618B2C00C43A04 /* MLKLLVMCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */; };
+		A745C44F0E618B2C00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */; };
 		A78711320E4C459200A7191F /* globals.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112E0E4C459200A7191F /* globals.m */; };
 		A78711330E4C459200A7191F /* MLKArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A787112F0E4C459200A7191F /* MLKArray.m */; };
 		A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = A78711310E4C459200A7191F /* MLKForeignProcedure.m */; };
@@ -57,7 +96,6 @@
 		A78712250E4C4ADE00A7191F /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
 		A78713820E4EFF4000A7191F /* MLKForm.m in Sources */ = {isa = PBXBuildFile; fileRef = A78713800E4EFF4000A7191F /* MLKForm.m */; };
 		A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713840E4EFF5D00A7191F /* MLKForm.h */; };
-		A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713850E4EFF5D00A7191F /* MLKLLVMCompiler.h */; };
 		A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */ = {isa = PBXBuildFile; fileRef = A78713860E4EFF5D00A7191F /* special-symbols.h */; };
 		A787138E0E4EFF8A00A7191F /* ffi.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138B0E4EFF8A00A7191F /* ffi.lisp */; };
 		A787138F0E4EFF8A00A7191F /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138C0E4EFF8A00A7191F /* package.lisp */; };
@@ -190,6 +228,13 @@
 			remoteGlobalIDString = A745C34F0E607C6600C43A04 /* libtoilet-llvm */;
 			remoteInfo = "libtoilet-llvm";
 		};
+		A745C4040E6189EB00C43A04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7E5C3EA0E21689F00A01D81;
+			remoteInfo = ToiletKit;
+		};
 		A7E5C4890E2169C600A01D81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
@@ -200,6 +245,60 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		A745C40B0E6189EB00C43A04 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				A745C40C0E6189EB00C43A04 /* control-flow.lisp in CopyFiles */,
+				A745C40D0E6189EB00C43A04 /* defun-0.lisp in CopyFiles */,
+				A745C40E0E6189EB00C43A04 /* defun-1.lisp in CopyFiles */,
+				A745C40F0E6189EB00C43A04 /* destructuring-bind.lisp in CopyFiles */,
+				A745C4100E6189EB00C43A04 /* evaluation.lisp in CopyFiles */,
+				A745C4110E6189EB00C43A04 /* init.lisp in CopyFiles */,
+				A745C4120E6189EB00C43A04 /* list-functions-2.lisp in CopyFiles */,
+				A745C4130E6189EB00C43A04 /* list-functions.lisp in CopyFiles */,
+				A745C4140E6189EB00C43A04 /* numbers.lisp in CopyFiles */,
+				A745C4150E6189EB00C43A04 /* reader.lisp in CopyFiles */,
+				A745C4160E6189EB00C43A04 /* sharpsign.lisp in CopyFiles */,
+				A745C4170E6189EB00C43A04 /* types.lisp in CopyFiles */,
+				A745C4180E6189EB00C43A04 /* util.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A745C4190E6189EB00C43A04 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Sacla;
+			dstSubfolderSpec = 16;
+			files = (
+				A745C41A0E6189EB00C43A04 /* array.lisp in CopyFiles */,
+				A745C41B0E6189EB00C43A04 /* character.lisp in CopyFiles */,
+				A745C41C0E6189EB00C43A04 /* clos.lisp in CopyFiles */,
+				A745C41D0E6189EB00C43A04 /* condition.lisp in CopyFiles */,
+				A745C41E0E6189EB00C43A04 /* cons.lisp in CopyFiles */,
+				A745C41F0E6189EB00C43A04 /* core.lisp in CopyFiles */,
+				A745C4200E6189EB00C43A04 /* data-and-control.lisp in CopyFiles */,
+				A745C4210E6189EB00C43A04 /* do.lisp in CopyFiles */,
+				A745C4220E6189EB00C43A04 /* eval.lisp in CopyFiles */,
+				A745C4230E6189EB00C43A04 /* hash-table.lisp in CopyFiles */,
+				A745C4240E6189EB00C43A04 /* init.lisp in CopyFiles */,
+				A745C4250E6189EB00C43A04 /* loop.lisp in CopyFiles */,
+				A745C4260E6189EB00C43A04 /* package.lisp in CopyFiles */,
+				A745C4270E6189EB00C43A04 /* printer.lisp in CopyFiles */,
+				A745C4280E6189EB00C43A04 /* reader.lisp in CopyFiles */,
+				A745C4290E6189EB00C43A04 /* sequence.lisp in CopyFiles */,
+				A745C42A0E6189EB00C43A04 /* share-2.lisp in CopyFiles */,
+				A745C42B0E6189EB00C43A04 /* share.lisp in CopyFiles */,
+				A745C42C0E6189EB00C43A04 /* stand-in.lisp in CopyFiles */,
+				A745C42D0E6189EB00C43A04 /* stream.lisp in CopyFiles */,
+				A745C42E0E6189EB00C43A04 /* string.lisp in CopyFiles */,
+				A745C42F0E6189EB00C43A04 /* symbol.lisp in CopyFiles */,
+				A745C4300E6189EB00C43A04 /* testbed.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A787116F0E4C4A0200A7191F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,6 +420,8 @@
 		A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MLKLexicalContext-MLKLLVMCompilation.mm"; sourceTree = "<group>"; };
 		A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLKLexicalContext-MLKLLVMCompilation.h"; sourceTree = "<group>"; };
 		A745C3500E607C6600C43A04 /* libtoilet-llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libtoilet-llvm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A745C4390E6189EB00C43A04 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
+		A745C46D0E618D7300C43A04 /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = configure; sourceTree = "<group>"; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
 		A787112F0E4C459200A7191F /* MLKArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKArray.m; sourceTree = "<group>"; };
@@ -471,6 +572,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A745C4090E6189EB00C43A04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A745C40A0E6189EB00C43A04 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7E5C3E90E21689F00A01D81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -559,6 +668,7 @@
 		A7E5C3CC0E21682800A01D81 = {
 			isa = PBXGroup;
 			children = (
+				A745C46D0E618D7300C43A04 /* configure */,
 				A720D3670E5B1CB700734638 /* GNUmakefile */,
 				A7A834A40E477B86005D64E0 /* Lisp Files */,
 				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
@@ -575,6 +685,7 @@
 				A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */,
 				A7E5C3F30E21690200A01D81 /* toilet */,
 				A745C3500E607C6600C43A04 /* libtoilet-llvm.a */,
+				A745C4390E6189EB00C43A04 /* toilet */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -697,6 +808,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A745C44E0E618B2C00C43A04 /* MLKLLVMCompiler.h in Headers */,
+				A745C44F0E618B2C00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,10 +863,8 @@
 				A787113B0E4C45A300A7191F /* MLKArray.h in Headers */,
 				A787113D0E4C45A300A7191F /* MLKForeignProcedure.h in Headers */,
 				A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */,
-				A78713880E4EFF5D00A7191F /* MLKLLVMCompiler.h in Headers */,
 				A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */,
 				A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */,
-				A72E9E6E0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +887,25 @@
 			productName = "libtoilet-llvm";
 			productReference = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		A745C4020E6189EB00C43A04 /* toilet (no LLVM) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A745C4310E6189EB00C43A04 /* Build configuration list for PBXNativeTarget "toilet (no LLVM)" */;
+			buildPhases = (
+				A745C4070E6189EB00C43A04 /* Sources */,
+				A745C4090E6189EB00C43A04 /* Frameworks */,
+				A745C40B0E6189EB00C43A04 /* CopyFiles */,
+				A745C4190E6189EB00C43A04 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A745C4030E6189EB00C43A04 /* PBXTargetDependency */,
+			);
+			name = "toilet (no LLVM)";
+			productName = toilet;
+			productReference = A745C4390E6189EB00C43A04 /* toilet */;
+			productType = "com.apple.product-type.tool";
 		};
 		A7E5C3EA0E21689F00A01D81 /* ToiletKit */ = {
 			isa = PBXNativeTarget;
@@ -830,6 +960,7 @@
 				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
 				A7E5C3F20E21690200A01D81 /* toilet */,
 				A745C34F0E607C6600C43A04 /* toilet-llvm */,
+				A745C4020E6189EB00C43A04 /* toilet (no LLVM) */,
 			);
 		};
 /* End PBXProject section */
@@ -841,6 +972,14 @@
 			files = (
 				A745C35A0E607D6F00C43A04 /* MLKLLVMCompiler.mm in Sources */,
 				A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A745C4070E6189EB00C43A04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A745C4080E6189EB00C43A04 /* MLKReadEvalPrintLoop.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,6 +1047,11 @@
 			isa = PBXTargetDependency;
 			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
 			targetProxy = A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */;
+		};
+		A745C4030E6189EB00C43A04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			targetProxy = A745C4040E6189EB00C43A04 /* PBXContainerItemProxy */;
 		};
 		A7E5C48A0E2169C600A01D81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1124,6 +1268,216 @@
 				PRODUCT_NAME = "toilet-llvm";
 				USER_HEADER_SEARCH_PATHS = /opt/local/lib;
 				ZERO_LINK = YES;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
+		A745C4320E6189EB00C43A04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		A745C4340E6189EB00C43A04 /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A745C4350E6189EB00C43A04 /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A745C4360E6189EB00C43A04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A745C4370E6189EB00C43A04 /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A745C4380E6189EB00C43A04 /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					ppc64,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-L/opt/local/lib",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = toilet;
+				ZERO_LINK = NO;
 			};
 			name = "Release 10.4+ (fast + GC)";
 		};
@@ -1775,6 +2129,19 @@
 				A745C3560E607C8700C43A04 /* Release */,
 				A745C3570E607C8700C43A04 /* Release 10.4+ (fast) */,
 				A745C3580E607C8700C43A04 /* Release 10.4+ (fast + GC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A745C4310E6189EB00C43A04 /* Build configuration list for PBXNativeTarget "toilet (no LLVM)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A745C4320E6189EB00C43A04 /* Debug */,
+				A745C4340E6189EB00C43A04 /* Debug 10.4+ (fast) */,
+				A745C4350E6189EB00C43A04 /* Debug 10.4+ (fast + GC) */,
+				A745C4360E6189EB00C43A04 /* Release */,
+				A745C4370E6189EB00C43A04 /* Release 10.4+ (fast) */,
+				A745C4380E6189EB00C43A04 /* Release 10.4+ (fast + GC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

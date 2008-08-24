@@ -146,7 +146,7 @@
 @interface MLKForeignLambdaForm : MLKCompoundForm
 {
   NSString *_foreignName;
-  MLKSymbol *_name;
+  MLKSymbol *_foreignLibraryDesignator;
   MLKForeignType _returnType;
   MLKForeignType *_argumentTypes;
   int _argc;
@@ -200,6 +200,8 @@
 {
   MLKSymbol *_lambdaListName;
 }
+
+-(MLKSymbol *) lambdaListName;
 @end
 
 

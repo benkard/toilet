@@ -16,7 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKForm.h"
 #import "MLKFuncallable.h"
+#import "MLKInterpreter.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
 
@@ -26,16 +28,12 @@
 
 @interface MLKInterpretedClosure : NSObject <MLKFuncallable>
 {
-  id bodyForm;
-  MLKSymbol *lambdaListName;
-  MLKLexicalContext *context;
-  MLKLexicalEnvironment *environment;
+  MLKSimpleLambdaForm *_form;
+  MLKLexicalEnvironment *_environment;
 }
 
--(id) initWithBodyForms:(id)forms
-         lambdaListName:(MLKSymbol *)symbol
-                context:(MLKLexicalContext *)lexctx
-            environment:(MLKLexicalEnvironment *)lexenv;
+-(id) initWithForm:(MLKSimpleLambdaForm *)aForm
+       environment:(MLKLexicalEnvironment *)lexenv;
 
 -(NSArray *) applyToArray:(NSArray *)arguments;
 

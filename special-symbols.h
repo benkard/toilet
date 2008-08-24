@@ -38,7 +38,6 @@ static MLKSymbol *LET;
 static MLKSymbol *LOCALLY;
 static MLKSymbol *FUNCALL;
 static MLKSymbol *FUNCTION;
-static MLKSymbol *EVAL;
 static MLKSymbol *EVAL_WHEN;
 static MLKSymbol *QUOTE;
 static MLKSymbol *SETQ;
@@ -58,6 +57,10 @@ static MLKSymbol *LOAD_TOPLEVEL;
 static MLKSymbol *LOAD;
 static MLKSymbol *EXECUTE;
 static MLKSymbol *MULTIPLE_VALUE_CALL;
+static MLKSymbol *INLINE;
+static MLKSymbol *NOTINLINE;
+static MLKSymbol *SPECIAL;
+static MLKSymbol *LEXICAL;
 
 
 static void
@@ -83,7 +86,6 @@ ensure_symbols ()
   _FLET = [sys intern:@"%FLET"];
   _MACROLET = [sys intern:@"%MACROLET"];
   _LOOP = [sys intern:@"%LOOP"];
-  EVAL = [cl intern:@"EVAL"];
   EVAL_WHEN = [cl intern:@"EVAL-WHEN"];
   FUNCALL = [cl intern:@"FUNCALL"];
   FUNCTION = [cl intern:@"FUNCTION"];
@@ -99,6 +101,10 @@ ensure_symbols ()
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
   MULTIPLE_VALUE_CALL = [cl intern:@"MULTIPLE-VALUE-CALL"];
+  INLINE = [cl intern:@"INLINE"];
+  NOTINLINE = [cl intern:@"NOTINLINE"];
+  SPECIAL = [cl intern:@"INLINE"];
+  LEXICAL = [sys intern:@"NOTINLINE"];
 
   COMPILE_TOPLEVEL = [keyword intern:@"COMPILE-TOPLEVEL"];
   COMPILE = [cl intern:@"COMPILE"];

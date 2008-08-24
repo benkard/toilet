@@ -125,7 +125,7 @@ static MLKLexicalEnvironment *global_environment;
       || [_variables environmentForSymbol:symbol] == global_environment->_variables)
     {
       id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
-      [*cell setValue:value forSymbol:symbol];
+      [*cell setValue:value];
     }
   else
     {
@@ -138,7 +138,7 @@ static MLKLexicalEnvironment *global_environment;
   if (self == global_environment)
     {
       id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
-      [*cell setValue:value forSymbol:symbol];
+      [*cell setValue:value];
     }
   else
     {

@@ -98,8 +98,10 @@ static const char *prompt (EditLine *e) {
   pool = [[NSAutoreleasePool alloc] init];
 
   printf ("Loading init.lisp.\n");
+#if 1
   NS_DURING
     {
+#endif
       input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
       stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
 
@@ -107,6 +109,7 @@ static const char *prompt (EditLine *e) {
       [MLKInterpreter load:stream verbose:YES print:YES];
       success = [MLKInterpreter load:stream verbose:YES print:YES];
       [input close];
+#if 1
     }
   NS_HANDLER
     {
@@ -115,6 +118,7 @@ static const char *prompt (EditLine *e) {
               [[localException reason] UTF8String]);
     }
   NS_ENDHANDLER;
+#endif
 
   printf ("Done.\n\n");
 
@@ -151,9 +155,11 @@ static const char *prompt (EditLine *e) {
 #if 1
           NS_DURING
 #else
+#ifdef GNUSTEP
           GSDebugAllocationActive (YES);
           [NSObject enableDoubleReleaseCheck:YES];
           NSZombieEnabled = YES;
+#endif
 #endif
             {
               int i;

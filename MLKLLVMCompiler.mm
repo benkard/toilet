@@ -548,7 +548,7 @@ static Constant
                                        [MLKPrintToString(_head) UTF8String]);
 
   // XXX
-  if (NO && [_context functionInline:_head])
+  if ([_context functionIsInline:_head])
     {
       InlineFunction (call);
     }
