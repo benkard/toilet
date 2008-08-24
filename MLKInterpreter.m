@@ -45,6 +45,7 @@
 #import <Foundation/NSException.h>
 #import <Foundation/NSNull.h>
 #import <Foundation/NSString.h>
+#import <Foundation/NSValue.h>
 
 #include <stdio.h>
 
@@ -256,9 +257,6 @@
 
       values = [self interpretBodyWithEnvironment:env];
 
-      [MLKDynamicContext popContext];
-      LRELEASE (newctx);
-      
       NS_VALUERETURN (values, NSArray *);
     }
   NS_HANDLER
@@ -282,6 +280,9 @@
     }
   NS_ENDHANDLER;
 
+  [MLKDynamicContext popContext];
+  LRELEASE (newctx);
+
   return nil;      
 }
 @end
@@ -304,7 +305,7 @@
 
   NSMutableArray *argtypes = [NSMutableArray array];
   int i;
-  for (i = 0; i++; i < _argc)
+  for (i = 0; i < _argc; i++)
     [argtypes addObject:[NSNumber numberWithInt:_argumentTypes[i]]];
 
   RETURN_VALUE (LAUTORELEASE ([[MLKForeignProcedure alloc]
