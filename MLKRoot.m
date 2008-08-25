@@ -216,25 +216,25 @@ fixnump (id _data, id arg0, id _marker)
 static id
 add (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  return [x add:y];
+  return [nullify(x) add:nullify(y)];
 }
 
 static id
 subtract (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  return [x subtract:y];
+  return [nullify(x) subtract:nullify(y)];
 }
 
 static id
 multiply (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  return [x multiplyWith:y];
+  return [nullify(x) multiplyWith:nullify(y)];
 }
 
 static id
 divide (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  return [x divideBy:y];
+  return [nullify(x) divideBy:nullify(y)];
 }
 
 static id
@@ -403,7 +403,7 @@ unexport (id _data, id symbols, id arg, ...)
 static id
 find_package (id _data, id name, id _marker)
 {
-  MLKPackage *package = [MLKPackage findPackage:name];
+  MLKPackage *package = [MLKPackage findPackage:stringify(name)];
 
   if (package)
     {
@@ -606,6 +606,7 @@ send_by_name (id _data, id object, NSString *methodName, id arg, ...)
   [invocation setSelector:selector];
   [invocation setTarget:object];
 
+  i = 2;
   va_start (ap, arg);
   while (arg != MLKEndOfArgumentsMarker)
     {
@@ -623,6 +624,7 @@ send_by_name (id _data, id object, NSString *methodName, id arg, ...)
       [invocation setArgument:argbuf atIndex:i];
 
       arg = va_arg (ap, id);
+      i++;
     }
   va_end (ap);
 
