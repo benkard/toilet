@@ -120,8 +120,8 @@
 -(id) complete
 {
   self = [super complete];
-  _head = [_form car];
-  _tail = [_form cdr];
+  LASSIGN (_head, [_form car]);
+  LASSIGN (_tail, [_form cdr]);
   return self;
 }
 
@@ -149,6 +149,13 @@
   else if (car == THROW) return [MLKThrowForm class];
   else if (car == UNWIND_PROTECT) return [MLKUnwindProtectForm class];
   else return [MLKSimpleCompoundForm class];
+}
+
+-(void) dealloc
+{
+  LDESTROY (_head);
+  LDESTROY (_tail);
+  [super dealloc];
 }
 @end
 
@@ -265,6 +272,14 @@
 {
   return _bodyForms;
 }
+
+-(void) dealloc
+{
+  LDESTROY (_body);
+  LDESTROY (_bodyForms);
+  LDESTROY (_bodyContext);
+  [super dealloc];
+}
 @end
 
 
@@ -284,6 +299,13 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_declarationForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_declarations);
+  LDESTROY (_declarationForms);
+  [super dealloc];
+}
 @end
 
 
@@ -291,6 +313,12 @@
 -(void) splitDeclarationsAndBody:(id)object
 {
   MLKSplitDeclarationsDocAndForms(&_declarations, &_documentation, &_body, object, YES);
+}
+
+-(void) dealloc
+{
+  LDESTROY (_documentation);
+  [super dealloc];
 }
 @end
 
@@ -320,6 +348,12 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_argumentForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_argumentForms);
+  [super dealloc];
+}
 @end
 
 
@@ -336,6 +370,12 @@
 {
   return [[[super subforms] arrayByAddingObject:_tagForm]
           arrayByAddingObjectsFromArray:_bodyForms];
+}
+
+-(void) dealloc
+{
+  LDESTROY (_tagForm);
+  [super dealloc];
 }
 @end
 
@@ -385,6 +425,14 @@
 
   return self;
 }
+
+-(void) dealloc
+{
+  LDESTROY (_foreignName);
+  LDESTROY (_foreignLibraryDesignator);
+  free (_argumentTypes);
+  [super dealloc];
+}
 @end
 
 
@@ -399,6 +447,12 @@
               format:@"LAMBDA not yet implemented in the compiler"];
   
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_lambdaList);
+  [super dealloc];
 }
 @end
 
@@ -428,6 +482,12 @@
 {
   return [[super subforms] arrayByAddingObject:_lambdaForm];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_lambdaForm);
+  [super dealloc];
+}
 @end
 
 
@@ -437,6 +497,12 @@
   self = [super complete];
   LASSIGN (_functionName, [_tail car]);
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_functionName);
+  [super dealloc];
 }
 @end
 
@@ -457,6 +523,14 @@
            arrayByAddingObject:_consequentForm]
           arrayByAddingObject:_alternativeForm];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_conditionForm);
+  LDESTROY (_consequentForm);
+  LDESTROY (_alternativeForm);
+  [super dealloc];
+}
 @end
 
 
@@ -466,6 +540,12 @@
   self = [super complete];
   LASSIGN (_packageDesignator, [_tail car]);
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_packageDesignator);
+  [super dealloc];
 }
 @end
 
@@ -495,6 +575,12 @@
 -(MLKSymbol *) lambdaListName
 {
   return _lambdaListName;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_lambdaListName);
+  [super dealloc];
 }
 @end
 
@@ -584,6 +670,12 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_functionBindingForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_functionBindingForms);
+  [super dealloc];
+}
 @end
 
 
@@ -640,6 +732,12 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_variableBindingForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_variableBindingForms);
+  [super dealloc];
+}
 @end
 
 
@@ -689,6 +787,12 @@
 {
   return [[super subforms] arrayByAddingObject:_functionForm];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_functionForm);
+  [super dealloc];
+}
 @end
 
 
@@ -717,6 +821,13 @@
   return [[[super subforms] arrayByAddingObject:_variableListForm]
           arrayByAddingObject:_valueListForm];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_variableListForm);
+  LDESTROY (_valueListForm);
+  [super dealloc];
+}
 @end
 
 
@@ -726,6 +837,12 @@
   self = [super complete];
   LASSIGN (_quotedData, [_tail car]);
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_quotedData);
+  [super dealloc];
 }
 @end
 
@@ -757,6 +874,13 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_variables);
+  LDESTROY (_valueForms);
+  [super dealloc];
+}
 @end
 
 
@@ -787,6 +911,13 @@
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_valueForms];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_functionNames);
+  LDESTROY (_valueForms);
+  [super dealloc];
+}
 @end
 
 
@@ -804,6 +935,13 @@
   return [[[super subforms] arrayByAddingObject:_tagForm]
           arrayByAddingObject:_valueForm];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_tagForm);
+  LDESTROY (_valueForm);
+  [super dealloc];
+}
 @end
 
 
@@ -819,6 +957,12 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObject:_protectedForm];
+}
+
+-(void) dealloc
+{
+  LDESTROY (_protectedForm);
+  [super dealloc];
 }
 @end
 
@@ -866,6 +1010,13 @@
 {
   return _bodyForms;
 }
+
+-(void) dealloc
+{
+  LDESTROY (_name);
+  LDESTROY (_lambdaListName);
+  [super dealloc];
+}
 @end
 
 
@@ -907,6 +1058,13 @@
 {
   return _valueForm;
 }
+
+-(void) dealloc
+{
+  LDESTROY (_name);
+  LDESTROY (_valueForm);
+  [super dealloc];
+}
 @end
 
 
@@ -924,5 +1082,12 @@
   LASSIGN (_arguments, [_form cdr] ? (id)[[_form cdr] array] : (id)[NSArray array]);
 
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_type);
+  LDESTROY (_arguments);
+  [super dealloc];
 }
 @end
