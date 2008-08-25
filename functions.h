@@ -83,7 +83,6 @@ void MLKSetForeignValueWithLispValue (void *destination, id value, MLKForeignTyp
 id MLKLispValueWithForeignValue (void *source, MLKForeignType type);
 
 id MLKInterpretedFunctionTrampoline (void *target, ...);
-id MLKDispatchRootFunction (MLKSymbol *name, ...);  
 
 #ifdef __cplusplus
 }
