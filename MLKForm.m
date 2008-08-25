@@ -294,10 +294,23 @@
 @implementation MLKDeclaringForm
 -(void) splitDeclarationsAndBody:(id)object
 {
+  id rest;
+
+  LASSIGN (_body, nil);
+
   MLKSplitDeclarationsDocAndForms(&_declarations, NULL, &_body, object, NO);
   LRETAIN (_declarations);
   LRETAIN (_body);
-  _declarationForms = nil;
+
+  _declarationForms = [[NSMutableArray alloc] init];
+
+  for (rest = _declarations; rest; rest = [rest cdr])
+    {
+      [(NSMutableArray*)_declarationForms addObject:[MLKDeclarationForm
+                                                      formWithObject:[rest car]
+                                                      inContext:_context
+                                                      forCompiler:_compiler]];
+    }
 }
 
 -(id) declarationsWithForms:(id)object
@@ -323,10 +336,23 @@
 @implementation MLKDocstringForm
 -(void) splitDeclarationsAndBody:(id)object
 {
+  id rest;
+
+  LASSIGN (_body, nil);
+
   MLKSplitDeclarationsDocAndForms(&_declarations, &_documentation, &_body, object, YES);
   LRETAIN (_declarations);
   LRETAIN (_body);
-  _declarationForms = nil;
+
+  _declarationForms = [[NSMutableArray alloc] init];
+
+  for (rest = _declarations; rest; rest = [rest cdr])
+    {
+      [(NSMutableArray*)_declarationForms addObject:[MLKDeclarationForm
+                                                      formWithObject:[rest car]
+                                                      inContext:_context
+                                                      forCompiler:_compiler]];
+    }
 }
 
 -(void) dealloc
