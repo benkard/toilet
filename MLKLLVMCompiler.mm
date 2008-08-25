@@ -478,9 +478,6 @@ static Constant
 @implementation MLKFunctionCallForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
-  static MLKPackage *sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
-
-  BOOL special_dispatch = NO;
   Value *functionCell;
   Value *functionPtr;
   Value *closureDataCell;
@@ -489,44 +486,16 @@ static Constant
 
   if (![_context symbolNamesFunction:_head])
     {
-      if (_head && [_head homePackage] == sys)
-        {
-          special_dispatch = YES;
-        }
-      else
-        {
-          NSLog (@"Compiler: Don't know function %@", MLKPrintToString(_head));
-          // XXX Issue a style warning.
-        }
+      NSLog (@"Compiler: Don't know function %@", MLKPrintToString(_head));
+      // XXX Issue a style warning.
     }
 
-  if (!special_dispatch)
-    {
-      functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
-      functionPtr = builder.CreateLoad (functionCell);
-      closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
-      closureDataPtr = builder.CreateLoad (closureDataCell);
+  functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
+  functionPtr = builder.CreateLoad (functionCell);
+  closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
+  closureDataPtr = builder.CreateLoad (closureDataCell);
 
-      args.push_back (closureDataPtr);
-    }
-  else
-    {
-      std::vector<const Type *> argtypes (1, PointerTy);
-      functionPtr = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
-                                                             (uint64_t)MLKDispatchRootFunction,
-                                                             false),
-                                            PointerType::get (FunctionType::get (PointerTy,
-                                                                                 argtypes,
-                                                                                 true),
-                                                              0));
-      LRETAIN (_head); // FIXME: release sometime?  On the other hand,
-                       // these symbols will probably never be
-                       // deallocated anyway.
-      args.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
-                                                               (uint64_t)_head,
-                                                               false),
-                                              PointerTy));
-    }
+  args.push_back (closureDataPtr);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
   MLKForm *form;

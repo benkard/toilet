@@ -63,8 +63,11 @@
 #define RETURN_VALUE(thing)                     \
 { return [NSArray arrayWithObject:nullify(thing)]; }
 
+
+static id PRIMARY (NSArray *array) __attribute__ ((pure));
+
 static id
-PRIMARY (id array)
+PRIMARY (NSArray *array)
 {
   if ([array count] > 0)
     return [array objectAtIndex:0];
@@ -653,24 +656,10 @@ PRIMARY (id array)
 
   if (![_context symbolNamesFunction:_head])
     {
-      NSArray *results = nil;
-
-      if (_head && [_head homePackage] == sys)
-        {
-          results = [MLKRoot dispatch:_head withArguments:args];
-        }
-
-      if (results)
-        {
-          return results;
-        }
-      else
-        {
-          [NSException raise:@"MLKNoSuchOperatorException"
-                      format:@"%@ does not name a known operator.",
-            MLKPrintToString(_head)];
-          return nil;
-        }
+      [NSException raise:@"MLKNoSuchOperatorException"
+                   format:@"%@ does not name a known operator.",
+                          MLKPrintToString(_head)];
+      return nil;
     }
   else
     {

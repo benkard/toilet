@@ -26,5 +26,5 @@
 @interface MLKRoot : NSObject
 +(void) initialize;
 
-+(NSArray *) dispatch:(MLKSymbol *)name withArguments:(NSArray *)args;
++(void) registerBuiltins;
 @end

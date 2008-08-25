@@ -34,6 +34,7 @@
 #import "MLKParenReader.h"
 #import "MLKQuoteReader.h"
 #import "MLKReadtable.h"
+#import "MLKRoot.h"
 #import "MLKStringReader.h"
 #import "MLKSemicolonReader.h"
 #import "MLKSharpsignColonReader.h"
@@ -275,6 +276,8 @@ static MLKDynamicContext *global_context;
                                  restarts:nil
                                  catchTags:nil
                                  activeHandlerEnvironment:nil];
+
+  [MLKRoot registerBuiltins];
 }
 
 -(MLKDynamicContext *) initWithParent:(MLKDynamicContext *)aContext

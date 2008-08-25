@@ -18,6 +18,7 @@
 
 #import "MLKBinding.h"
 #import "MLKCharacter.h"
+#import "MLKCompiledClosure.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKInterpretedClosure.h"
@@ -57,107 +58,45 @@ static id truify (BOOL value)
   return (value ? (id) [cl intern:@"T"] : nil);
 }
 
-#define RETURN_VALUE(thing)                     \
-  { return [NSArray arrayWithObject:nullify(thing)]; }
 
-
-@implementation MLKRoot
-+(void) initialize
+static id
+car (id _data, id cons, id _marker)
 {
-  signature = LRETAIN ([self methodSignatureForSelector:@selector(car:)]);
-  sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
-  cl = [MLKPackage findPackage:@"COMMON-LISP"];
+  return [cons car];
 }
 
-+(NSArray *) dispatch:(MLKSymbol *)name withArguments:(NSArray *)args
+static id
+cdr (id _data, id cons, id _marker)
 {
-  NSInvocation *invocation;
-  NSMutableString *methodName;
-  NSArray *result;
-  SEL selector;
-  BOOL nothing_found;
-
-  nothing_found = NO;
-
-  NS_DURING
-    {
-      if ([sys findSymbol:[name name]] != name)
-        NS_VALUERETURN (nil, NSArray *);
-    }
-  NS_HANDLER
-    {
-      nothing_found = YES;
-    }
-  NS_ENDHANDLER;
-
-  if (nothing_found)
-    return nil;
-
-  invocation = [NSInvocation invocationWithMethodSignature:signature];
-
-  methodName = [NSMutableString stringWithString:[[name name] lowercaseString]];
-  [methodName replaceOccurrencesOfString:@"-"
-              withString:@"_"
-              options:NSLiteralSearch
-              range:NSMakeRange(0, [methodName length])];
-  [methodName replaceOccurrencesOfString:@"%"
-              withString:@""
-              options:NSLiteralSearch
-              range:NSMakeRange(0, [methodName length])];
-  [methodName appendString:@":"];
-
-  selector = NSSelectorFromString (methodName);
-  
-  if (!selector || ![self respondsToSelector:selector])
-    return nil;
-
-  [invocation setSelector:selector];
-  [invocation setTarget:self];
-  [invocation setArgument:&args atIndex:2];
-
-  [invocation invoke];
-  [invocation getReturnValue:&result];
-
-  return result;
+  return [cons cdr];
 }
 
-+(NSArray *) car:(NSArray *)args
+static id
+rplaca (id _data, id cons, id value, id _marker)
 {
-  return [NSArray arrayWithObject:nullify([denullify([args objectAtIndex:0]) car])];
+  [cons setCar:value];
+  return nil;
 }
 
-+(NSArray *) cdr:(NSArray *)args
+static id
+rplacd (id _data, id cons, id value, id _marker)
 {
-  return [NSArray arrayWithObject:nullify([denullify([args objectAtIndex:0]) cdr])];
+  [cons setCdr:value];
+  return nil;
 }
 
-+(NSArray *) rplaca:(NSArray *)args
+static id
+cons (id _data, id car, id cdr, id _marker)
 {
-  MLKCons *cons = [args objectAtIndex:0];
-  [cons setCar:denullify([args objectAtIndex:1])];
-  RETURN_VALUE (cons);
+  return [MLKCons cons:car with:cdr];
 }
 
-+(NSArray *) rplacd:(NSArray *)args
-{
-  MLKCons *cons = [args objectAtIndex:0];
-  [cons setCdr:denullify([args objectAtIndex:1])];
-  RETURN_VALUE (cons);  
-}
-
-+(NSArray *) cons:(NSArray *)args
-{
-  return [NSArray arrayWithObject:
-                    [MLKCons cons:denullify([args objectAtIndex:0])
-                             with:denullify([args objectAtIndex:1])]];
-}
-
-+(NSArray *) load:(NSArray *)args
+static id
+load (id _data, NSString *fileName, id _marker)
 {
   // FIXME
   BOOL success;
   int l, i;
-  NSString *fileName = denullify ([args objectAtIndex:0]);
   NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
   MLKStream *stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
   MLKDynamicContext *oldContext = [MLKDynamicContext currentContext];
@@ -215,117 +154,156 @@ static id truify (BOOL value)
     fprintf (stderr, "_");
   fprintf (stderr, "\n; \n");
 
-  RETURN_VALUE (truify (success));
+  return truify (success);
 }
 
-+(NSArray *) eq:(NSArray *)args
+static id
+eq (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (truify ([args objectAtIndex:0] == [args objectAtIndex:1]));
+  return truify (x == y);
 }
 
-+(NSArray *) fixnum_eq:(NSArray *)args
+static id
+fixnum_eq (id _data, id x, id y, id _marker)
 {
 #ifdef NO_FIXNUMS
-  RETURN_VALUE (truify ([[args objectAtIndex:0]
-                          isEqual:[args objectAtIndex:1]]));
+  return truify ([x isEqual:y]);
 #else
-  RETURN_VALUE (truify (denullify([args objectAtIndex:0])
-                        == denullify([args objectAtIndex:1])));
+  return truify (x == y);
 #endif
 }
 
-+(NSArray *) symbolp:(NSArray *)args
+static id
+symbolp (id _data, id arg0, id _marker)
 {
-  id arg0 = [args objectAtIndex:0];
-  RETURN_VALUE (truify (arg0 == [NSNull null]
-                        || [arg0 isKindOfClass:[MLKSymbol class]]));
+  return truify (MLKInstanceP(arg0)
+                 && (!arg0 || [arg0 isKindOfClass:[MLKSymbol class]]));
 }
 
-+(NSArray *) listp:(NSArray *)args
+static id
+listp (id _data, id arg0, id _marker)
 {
-  id arg0 = [args objectAtIndex:0];
-  RETURN_VALUE (truify (arg0 == [NSNull null]
-                        || [arg0 isKindOfClass:[MLKCons class]]));
+  return truify (MLKInstanceP(arg0)
+                 && (!arg0 || [arg0 isKindOfClass:[MLKCons class]]));
 }
 
-+(NSArray *) consp:(NSArray *)args
+static id
+consp (id _data, id arg0, id _marker)
 {
-  id arg0 = [args objectAtIndex:0];
-  RETURN_VALUE (truify ([arg0 isKindOfClass:[MLKCons class]]));
+  return truify (MLKInstanceP(arg0)
+                 && [arg0 isKindOfClass:[MLKCons class]]);
 }
 
-+(NSArray *) atom:(NSArray *)args
+static id
+atom (id _data, id arg0, id _marker)
 {
-  id arg0 = [args objectAtIndex:0];
-  RETURN_VALUE (truify (![arg0 isKindOfClass:[MLKCons class]]));
+  return truify (!MLKInstanceP(arg0)
+                 || ![arg0 isKindOfClass:[MLKCons class]]);
 }
 
-+(NSArray *) null:(NSArray *)args
+static id
+null (id _data, id arg0, id _marker)
 {
-  RETURN_VALUE (truify ([args objectAtIndex:0] == [NSNull null]));
+  return truify (!arg0);
 }
 
-+(NSArray *) fixnump:(NSArray *)args
+static id
+fixnump (id _data, id arg0, id _marker)
 {
-  id arg0 = denullify ([args objectAtIndex:0]);
-  RETURN_VALUE (truify (MLKFixnumP (arg0)));
+  return truify (MLKFixnumP(arg0));
 }
 
-+(NSArray *) add:(NSArray *)args
+static id
+add (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) add:[args objectAtIndex:1]]);
+  return [x add:y];
 }
 
-+(NSArray *) subtract:(NSArray *)args
+static id
+subtract (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) subtract:[args objectAtIndex:1]]);
+  return [x subtract:y];
 }
 
-+(NSArray *) multiply:(NSArray *)args
+static id
+multiply (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) multiplyWith:[args objectAtIndex:1]]);
+  return [x multiplyWith:y];
 }
 
-+(NSArray *) divide:(NSArray *)args
+static id
+divide (id _data, MLKNumber *x, MLKNumber *y, id _marker)
 {
-  RETURN_VALUE ([((MLKNumber*)[args objectAtIndex:0]) divideBy:[args objectAtIndex:1]]);
+  return [x divideBy:y];
 }
 
-+(NSArray *) add_fixnums:(NSArray *)args
+static id
+add_fixnums (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (MLKAddFixnums (denullify([args objectAtIndex:0]),
-                               denullify([args objectAtIndex:1])));
+  return MLKAddFixnums (x, y);
 }
 
-+(NSArray *) subtract_fixnums:(NSArray *)args
+static id
+subtract_fixnums (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (MLKSubtractFixnums (denullify([args objectAtIndex:0]),
-                                    denullify([args objectAtIndex:1])));
+  return MLKSubtractFixnums (x, y);
 }
 
-+(NSArray *) multiply_fixnums:(NSArray *)args
+static id
+idivide_fixnums (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (MLKMultiplyFixnums (denullify([args objectAtIndex:0]),
-                                    denullify([args objectAtIndex:1])));
+  return MLKIDivideFixnums (x, y);
 }
 
-+(NSArray *) idivide_fixnums:(NSArray *)args
+static id
+multiply_fixnums (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (MLKIDivideFixnums (denullify([args objectAtIndex:0]),
-                                   denullify([args objectAtIndex:1])));
+  return MLKMultiplyFixnums (x, y);
 }
 
-+(NSArray *) list:(NSArray *)args
+static id
+list (id _data, ...)
 {
-  RETURN_VALUE ([MLKCons listWithArray:args]);
+  id arg;
+  va_list ap;
+  id cons, tail;
+
+  cons = nil;
+  tail = nil;
+  va_start (ap, _data);
+
+  while ((arg = va_arg(ap, id)) != MLKEndOfArgumentsMarker)
+    {
+      if (!tail)
+        {
+          cons = tail = [MLKCons cons:arg with:nil];
+        }
+      else
+        {
+          [tail setCdr:[MLKCons cons:arg with:nil]];
+          tail = [tail cdr];
+        }
+    }
+
+  va_end (ap);
+
+  return cons;
 }
 
-+(NSArray *) macroexpand_1:(NSArray *)args
+#define VA_NEXT(AP, ARG, DEFAULT)                               \
+  ((ARG == MLKEndOfArgumentsMarker)                             \
+   ? (id)DEFAULT                                                \
+   : (id)({ id __tmp = ARG; ARG = va_arg(AP, id); __tmp; }))
+
+static id
+macroexpand_1 (id _data, id form, id arg, ...)
 {
-  id form = [args objectAtIndex:0];
-  id env = [args count] > 1 ? denullify([args objectAtIndex:1]) : nil;
-  MLKLexicalContext *context = env ? (id)env : (id)[MLKLexicalContext globalContext];
+  va_list ap;
+
+  va_start (ap, arg);
+  MLKLexicalContext *context = VA_NEXT (ap, arg, nil);
   id <MLKFuncallable> macrofun = nil;
+  va_end (ap);
 
   if ([form isKindOfClass:[MLKCons class]]
       && (![form car] || [[form car] isKindOfClass:[MLKSymbol class]])
@@ -347,18 +325,20 @@ static id truify (BOOL value)
                           objectAtIndex:0]);
     }
 
-  RETURN_VALUE (form);
+  return form;
 }
 
-+(NSArray *) shadow:(NSArray *)args
+static id
+shadow (id _data, id symbols, id arg, ...)
 {
-  id symbols = denullify ([args objectAtIndex:0]);
-  id package = denullify (([args count] > 1
-                           ? [args objectAtIndex:1]
-                           : [[MLKDynamicContext currentContext]
-                               valueForSymbol:
-                                 [[MLKPackage findPackage:@"COMMON-LISP"]
-                                   intern:@"*PACKAGE*"]]));
+  va_list ap;
+
+  va_start (ap, arg);
+  id package = VA_NEXT (ap, arg, [[MLKDynamicContext currentContext]
+                                   valueForSymbol:
+                                     [[MLKPackage findPackage:@"COMMON-LISP"]
+                                       intern:@"*PACKAGE*"]]);
+  va_end (ap);
 
   if (![symbols isKindOfClass:[MLKCons class]])
     symbols = [MLKCons cons:symbols with:nil];
@@ -369,18 +349,20 @@ static id truify (BOOL value)
     }
   while ((symbols = [symbols cdr]));
 
-  RETURN_VALUE ([cl intern:@"T"]);
+  return [cl intern:@"T"];
 }
 
-+(NSArray *) export:(NSArray *)args
+static id
+export (id _data, id symbols, id arg, ...)
 {
-  id symbols = denullify ([args objectAtIndex:0]);
-  id package = denullify (([args count] > 1
-                           ? [args objectAtIndex:1]
-                           : [[MLKDynamicContext currentContext]
-                               valueForSymbol:
-                                 [[MLKPackage findPackage:@"COMMON-LISP"]
-                                   intern:@"*PACKAGE*"]]));
+  va_list ap;
+
+  va_start (ap, arg);
+  id package = VA_NEXT (ap, arg, [[MLKDynamicContext currentContext]
+                                   valueForSymbol:
+                                     [[MLKPackage findPackage:@"COMMON-LISP"]
+                                       intern:@"*PACKAGE*"]]);
+  va_end (ap);
 
   if (![symbols isKindOfClass:[MLKCons class]])
     symbols = [MLKCons cons:symbols with:nil];
@@ -391,18 +373,20 @@ static id truify (BOOL value)
     }
   while ((symbols = [symbols cdr]));
 
-  RETURN_VALUE ([cl intern:@"T"]);
+  return [cl intern:@"T"];
 }
 
-+(NSArray *) unexport:(NSArray *)args
+static id
+unexport (id _data, id symbols, id arg, ...)
 {
-  id symbols = denullify ([args objectAtIndex:0]);
-  id package = denullify (([args count] > 1
-                           ? [args objectAtIndex:1]
-                           : [[MLKDynamicContext currentContext]
-                               valueForSymbol:
-                                 [[MLKPackage findPackage:@"COMMON-LISP"]
-                                   intern:@"*PACKAGE*"]]));
+  va_list ap;
+
+  va_start (ap, arg);
+  id package = VA_NEXT (ap, arg, [[MLKDynamicContext currentContext]
+                                   valueForSymbol:
+                                     [[MLKPackage findPackage:@"COMMON-LISP"]
+                                       intern:@"*PACKAGE*"]]);
+  va_end (ap);
 
   if (![symbols isKindOfClass:[MLKCons class]])
     symbols = [MLKCons cons:symbols with:nil];
@@ -413,17 +397,17 @@ static id truify (BOOL value)
     }
   while ((symbols = [symbols cdr]));
 
-  RETURN_VALUE ([cl intern:@"T"]);
+  return [cl intern:@"T"];
 }
 
-+(NSArray *) find_package:(NSArray *)args
+static id
+find_package (id _data, id name, id _marker)
 {
-  NSString *name = stringify (denullify ([args objectAtIndex:0]));
   MLKPackage *package = [MLKPackage findPackage:name];
 
   if (package)
     {
-      RETURN_VALUE (package);
+      return package;
     }
   else
     {
@@ -434,13 +418,21 @@ static id truify (BOOL value)
     }
 }
 
-+(NSArray *) string:(NSArray *)args
+static id
+string (id _data, id x, id _marker)
 {
-  RETURN_VALUE (stringify (denullify ([args objectAtIndex:0])));
+  return stringify (x);
 }
 
-+(NSArray *) gensym:(NSArray *)args
+static id
+gensym (id _data, id arg, ...)
 {
+  va_list ap;
+
+  va_start (ap, arg);
+  id x = VA_NEXT (ap, arg, @"G");
+  va_end (ap);
+
   NSString *prefix;
   NSString *suffix;
   MLKBinding *gensymCounter = [[MLKDynamicContext currentContext]
@@ -448,158 +440,149 @@ static id truify (BOOL value)
                                   [[MLKPackage findPackage:@"COMMON-LISP"]
                                     intern:@"*GENSYM-COUNTER*"]];
 
-  if ([args count] > 0)
+  if ([x isKindOfClass:[NSString class]])
     {
-      id x = [args objectAtIndex:0];
-      if ([x isKindOfClass:[NSString class]])
-        {
-          prefix = x;
-          suffix = MLKPrintToString([gensymCounter value]);
-          [gensymCounter
-            setValue:[(MLKInteger*)[gensymCounter value]
-                       add:[MLKInteger integerWithInt:1]]];
-        }
-      else if ([x isKindOfClass:[MLKInteger class]])
-        {
-          // x must be an integer.
-          prefix = @"G";
-          suffix = MLKPrintToString(x);
-        }
-      else
-        {
-          [NSException raise:@"MLKTypeError"
-                       format:@"%@ is not of type (OR INTEGER STRING).", x];
-          return nil;
-        }
-    }
-  else
-    {
-      prefix = @"G";
+      prefix = x;
       suffix = MLKPrintToString([gensymCounter value]);
       [gensymCounter
         setValue:[(MLKInteger*)[gensymCounter value]
-                   add:[MLKInteger integerWithInt:1]]];
+                  add:[MLKInteger integerWithInt:1]]];
+    }
+  else if ([x isKindOfClass:[MLKInteger class]])
+    {
+      // x must be an integer.
+      prefix = @"G";
+      suffix = MLKPrintToString(x);
+    }
+  else
+    {
+      [NSException raise:@"MLKTypeError"
+                   format:@"%@ is not of type (OR INTEGER STRING).", x];
+      return nil;
     }
 
-  RETURN_VALUE (([MLKSymbol symbolWithName:[NSString stringWithFormat:@"%@%@",
-                                                                      prefix,
-                                                                      suffix]
-                            package:nil]));
+  return [MLKSymbol symbolWithName:
+                      [NSString stringWithFormat:@"%@%@", prefix, suffix]
+                    package:nil];
 }
 
-+(NSArray *) make_symbol:(NSArray *)args
+static id
+make_symbol (id _data, id name, id _marker)
 {
-  NSString *name = [args objectAtIndex:0];
-
-  RETURN_VALUE ([MLKSymbol symbolWithName:name package:nil]);
+  return [MLKSymbol symbolWithName:name package:nil];
 }
 
-+(NSArray *) intern:(NSArray *)args
+static id
+intern (id _data, id name, id arg, ...)
 {
-  NSString *name = [args objectAtIndex:0];
-  id package = denullify (([args count] > 1
-                           ? [args objectAtIndex:1]
-                           : [[MLKDynamicContext currentContext]
-                               valueForSymbol:
-                                 [[MLKPackage findPackage:@"COMMON-LISP"]
-                                   intern:@"*PACKAGE*"]]));
-  MLKSymbol *symbol = [package intern:name];
+  va_list ap;
 
-  RETURN_VALUE (symbol);
+  va_start (ap, arg);
+  id package = VA_NEXT (ap, arg, [[MLKDynamicContext currentContext]
+                                   valueForSymbol:
+                                     [[MLKPackage findPackage:@"COMMON-LISP"]
+                                       intern:@"*PACKAGE*"]]);
+  va_end (ap);
+
+  return [package intern:name];
 }
 
-+(NSArray *) import:(NSArray *)args
+static id
+import (id _data, id symbol, id arg, ...)
 {
-  MLKSymbol *symbol = [args objectAtIndex:0];
-  id package = denullify (([args count] > 1
-                           ? [args objectAtIndex:1]
-                           : [[MLKDynamicContext currentContext]
-                               valueForSymbol:
-                                 [[MLKPackage findPackage:@"COMMON-LISP"]
-                                   intern:@"*PACKAGE*"]]));
+  va_list ap;
+
+  va_start (ap, arg);
+  id package = VA_NEXT (ap, arg, [[MLKDynamicContext currentContext]
+                                   valueForSymbol:
+                                     [[MLKPackage findPackage:@"COMMON-LISP"]
+                                       intern:@"*PACKAGE*"]]);
+  va_end (ap);
 
   [package import:symbol];
 
-  RETURN_VALUE ([cl intern:@"T"]);
+  return [cl intern:@"T"];
 }
 
-+(NSArray *) objc_class_of:(NSArray *)args
+static id
+objc_class_of (id _data, id x, id _marker)
 {
-  RETURN_VALUE ([[args objectAtIndex:0] class]);
+  return [x class];
 }
 
-+(NSArray *) objc_subclassp:(NSArray *)args
+static id
+objc_subclassp (id _data, id x, id y, id _marker)
 {
-  RETURN_VALUE (truify ([[args objectAtIndex:0] isSubclassOfClass:
-                                                  [args objectAtIndex:1]]));
+  return truify ([x isSubclassOfClass:y]);
 }
 
-+(NSArray *) find_objc_class:(NSArray *)args
+static id
+find_objc_class (id _data, id x, id _marker)
 {
-  RETURN_VALUE (NSClassFromString ([args objectAtIndex:0]));
+  return NSClassFromString (x);
 }
 
-+(NSArray *) ns_log:(NSArray *)args
+static id
+ns_log (id _data, id x, id _marker)
 {
-  NSString *description = MLKPrintToString([args objectAtIndex:0]);
+  NSString *description = MLKPrintToString(x);
   NSLog (@"%@", description);
-  RETURN_VALUE ([args objectAtIndex:0]);
+  return x;
 }
 
-+(NSArray *) symbol_name:(NSArray *)args
+static id
+symbol_name (id _data, id symbol, id _marker)
 {
-  MLKSymbol *symbol = denullify ([args objectAtIndex:0]);
-  RETURN_VALUE (symbol ? (id)[symbol name] : (id)@"NIL");
+  return (symbol ? (id)[symbol name] : (id)@"NIL");
 }
 
-+(NSArray *) primitive_type_of:(NSArray *)args
+static id
+primitive_type_of (id _data, id object, id _marker)
 {
-  id object = denullify ([args objectAtIndex:0]);
-
   if (!object)
-    { RETURN_VALUE ([cl intern:@"NULL"]); }
+    { return [cl intern:@"NULL"]; }
   else if (MLKFixnumP (object))
-    { RETURN_VALUE ([cl intern:@"FIXNUM"]); }
+    { return [cl intern:@"FIXNUM"]; }
   else if ([object isKindOfClass:[MLKSymbol class]])
-    { RETURN_VALUE ([cl intern:@"SYMBOL"]); }
+    { return [cl intern:@"SYMBOL"]; }
   else if ([object isKindOfClass:[MLKCons class]])
-    { RETURN_VALUE ([cl intern:@"CONS"]); }
+    { return [cl intern:@"CONS"]; }
   else if ([object isKindOfClass:[MLKDoubleFloat class]])
-    { RETURN_VALUE ([cl intern:@"DOUBLE-FLOAT"]); }
+    { return [cl intern:@"DOUBLE-FLOAT"]; }
   else if ([object isKindOfClass:[MLKSingleFloat class]])
-    { RETURN_VALUE ([cl intern:@"SINGLE-FLOAT"]); }
+    { return [cl intern:@"SINGLE-FLOAT"]; }
   else if ([object isKindOfClass:[MLKInteger class]])
-    { RETURN_VALUE ([cl intern:@"INTEGER"]); }
+    { return [cl intern:@"INTEGER"]; }
   else if ([object isKindOfClass:[MLKCharacter class]])
     //FIXME: STANDARD-CHAR
-    { RETURN_VALUE ([cl intern:@"BASE-CHAR"]); }
+    { return [cl intern:@"BASE-CHAR"]; }
   else if ([object isKindOfClass:[MLKInterpretedClosure class]])
-    { RETURN_VALUE ([cl intern:@"FUNCTION"]); }
+    { return [cl intern:@"FUNCTION"]; }
   else if ([object isKindOfClass:[MLKLexicalContext class]])
-    { RETURN_VALUE ([sys intern:@"LEXICAL-CONTEXT"]); }
+    { return [sys intern:@"LEXICAL-CONTEXT"]; }
   else if ([object isKindOfClass:[MLKBinding class]])
-    { RETURN_VALUE ([sys intern:@"BINDING"]); }
+    { return [sys intern:@"BINDING"]; }
   else if ([object isKindOfClass:[MLKPackage class]])
-    { RETURN_VALUE ([cl intern:@"PACKAGE"]); }
+    { return [cl intern:@"PACKAGE"]; }
   else if ([object isKindOfClass:[MLKStream class]])
-    { RETURN_VALUE ([cl intern:@"STREAM"]); }
+    { return [cl intern:@"STREAM"]; }
   else if ([object isKindOfClass:[NSException class]])
-    { RETURN_VALUE ([sys intern:@"EXCEPTION"]); }
+    { return [sys intern:@"EXCEPTION"]; }
   else if ([object isKindOfClass:[NSArray class]])
-    { RETURN_VALUE ([cl intern:@"ARRAY"]); }
+    { return [cl intern:@"ARRAY"]; }
   else
-    { RETURN_VALUE ([cl intern:@"T"]); }
+    { return [cl intern:@"T"]; }
 }
 
-+(NSArray *) send_by_name:(NSArray *)args
+static id
+send_by_name (id _data, id object, NSString *methodName, id arg, ...)
 {
-  NSString *methodName = denullify ([args objectAtIndex:1]);
-  id object = denullify ([args objectAtIndex:0]);
   NSInvocation *invocation;
   SEL selector;
   NSMethodSignature *signature;
   int i;
   MLKForeignType returnType;
+  va_list ap;
 
   if (MLKFixnumP (object))
     object = [MLKInteger integerWithFixnum:object];
@@ -623,9 +606,9 @@ static id truify (BOOL value)
   [invocation setSelector:selector];
   [invocation setTarget:object];
 
-  for (i = 2; i < [args count]; i++)
+  va_start (ap, arg);
+  while (arg != MLKEndOfArgumentsMarker)
     {
-      id argument = denullify ([args objectAtIndex:i]);
       const char *objctype = [signature getArgumentTypeAtIndex:i];
       MLKForeignType type = MLKForeignTypeWithObjectiveCType (objctype);
       ffi_type *ffi_argtype = MLKFFITypeWithForeignType (type);
@@ -634,11 +617,14 @@ static id truify (BOOL value)
       if (type == MLKT_INVALID)
         [NSException raise:@"MLKInvalidArgumentError"
                      format:@"Don't know how to coerce %@ into type \"%s\".",
-                     argument, objctype];
+                     arg, objctype];
 
-      MLKSetForeignValueWithLispValue (argbuf, argument, type);
+      MLKSetForeignValueWithLispValue (argbuf, arg, type);
       [invocation setArgument:argbuf atIndex:i];
+
+      arg = va_arg (ap, id);
     }
+  va_end (ap);
 
   [invocation invoke];
 
@@ -655,79 +641,70 @@ as provided by method %@ of object %@",
     }
   else if (returnType == MLKT_VOID)
     {
-      return [NSArray array];
+      return nil;
     }
   else
     {
       ffi_type *ffi_rettype = MLKFFITypeWithForeignType (returnType);
       void *returnValue = alloca (ffi_rettype->size);
       [invocation getReturnValue:returnValue];
-      RETURN_VALUE (MLKLispValueWithForeignValue (returnValue, returnType));
+      return MLKLispValueWithForeignValue (returnValue, returnType);
     }
 }
 
 
-+(NSArray *) declarations_and_doc_and_forms:(NSArray *)args
+static id
+declarations_and_doc_and_forms (id _data, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
-  id bodyAndDecls = denullify ([args objectAtIndex:0]);
 
   MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls, YES);
 
-  RETURN_VALUE ([MLKCons
-                  cons:decls
-                  with:[MLKCons
-                         cons:doc
-                         with:[MLKCons
-                                cons:forms
-                                with:nil]]]);
+  return [MLKCons cons:decls
+                  with:[MLKCons cons:doc
+                                with:[MLKCons cons:forms with:nil]]];
 }
 
 
-+(NSArray *) declarations_and_forms:(NSArray *)args
+static id
+declarations_and_forms (id _data, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
-  id bodyAndDecls = denullify ([args objectAtIndex:0]);
   
   MLKSplitDeclarationsDocAndForms (&decls, &doc, &forms, bodyAndDecls, NO);
   
-  RETURN_VALUE ([MLKCons
-                  cons:decls
-                  with:[MLKCons
-                         cons:forms
-                         with:nil]]);
+  return [MLKCons cons:decls
+                  with:[MLKCons cons:forms with:nil]];
 }
 
-+(NSArray *) compile:(NSArray *)args
+static id
+compile (id _data, id object, id _marker)
 {
   if (!MLKDefaultCompiler)
     [NSException raise:@"MLKNotImplementedException"
                  format:@"It seems as though there is no compiler here."];
 
   //NSLog (@"Compiling lambda form.");
-  id thing = [MLKDefaultCompiler compile:denullify([args objectAtIndex:0])
+  id thing = [MLKDefaultCompiler compile:object
                                  inContext:[MLKLexicalContext globalContext]];
   //NSLog (@"Compilation done.");
   //NSLog (@"Compiled: %@", thing);
-  RETURN_VALUE (thing);
+  return thing;
 }
 
-+(NSArray *) fset:(NSArray *)args
+static id
+fset (id _data, id symbol, id value, id _marker)
 {
-  id symbol = denullify ([args objectAtIndex:0]);
-  id value = denullify ([args objectAtIndex:1]);
-
   [[MLKLexicalContext globalContext] addFunction:symbol];
   [[MLKLexicalEnvironment globalEnvironment] addFunction:value
                                              forSymbol:symbol];
 
-  RETURN_VALUE (value);
+  return value;
 }
 
-+(NSArray *) set:(NSArray *)args
+static id
+set (id _data, id symbol, id value, id _marker)
 {
-  id symbol = denullify ([args objectAtIndex:0]);
-  id value = denullify ([args objectAtIndex:1]);
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
   if ([dynamicContext bindingForSymbol:symbol])
@@ -736,24 +713,22 @@ as provided by method %@ of object %@",
     [[MLKDynamicContext globalContext] addValue:value
                                        forSymbol:symbol];
 
-  RETURN_VALUE (value);
+  return value;
 }
 
-+(NSArray *) macroset:(NSArray *)args
+static id
+macroset (id _data, id symbol, id value, id _marker)
 {
-  id symbol = denullify ([args objectAtIndex:0]);
-  id value = denullify ([args objectAtIndex:1]);
-
   [[MLKLexicalContext globalContext] addMacro:value
                                      forSymbol:symbol];
 
-  RETURN_VALUE (value);
+  return value;
 }
 
-+(NSArray *) apply:(NSArray *)args
+static id
+apply (id _data, id function, id arglist, id _marker)
 {
-  id function = denullify ([args objectAtIndex:0]);
-  id arglist = denullify ([args objectAtIndex:1]);
+  // FIXME: Multiple values.
 
   if (!function || [function isKindOfClass:[MLKSymbol class]])
     {
@@ -761,16 +736,112 @@ as provided by method %@ of object %@",
                    functionForSymbol:function];
     }
 
-  return [function applyToArray:(arglist
-                                 ? (id)[arglist array]
-                                 : (id)[NSArray array])];
+  NSArray *values = [function applyToArray:(arglist
+                                            ? (id)[arglist array]
+                                            : (id)[NSArray array])];
+
+  return ([values count] > 0 ? [values objectAtIndex:0] : nil);
 }
 
-+(NSArray *) eval:(NSArray *)args
+static id
+eval (id _data, id evaluand, id _marker)
 {
-  id evaluand = denullify ([args objectAtIndex:0]);
-  return [MLKInterpreter eval:evaluand
-             inLexicalContext:[MLKLexicalContext globalContext]
-              withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+  // FIXME: Multiple values.
+
+  NSArray *values = [MLKInterpreter eval:evaluand
+                                    inLexicalContext:
+                                      [MLKLexicalContext globalContext]
+                                    withEnvironment:
+                                      [MLKLexicalEnvironment globalEnvironment]];
+
+  return ([values count] > 0 ? [values objectAtIndex:0] : nil);
+}
+
+static void
+register_cl (NSString *name, id (*function)())
+{
+  MLKCompiledClosure *closure = [MLKCompiledClosure closureWithCode:function
+                                                               data:NULL
+                                                             length:0];
+  [[MLKLexicalContext globalContext]
+    addFunction:[cl intern:name]];
+  [[MLKLexicalEnvironment globalEnvironment]
+    addFunction:closure
+      forSymbol:[cl intern:name]];
+}
+
+static void
+register_sys (NSString *name, id (*function)())
+{
+  MLKCompiledClosure *closure = [MLKCompiledClosure closureWithCode:function
+                                                               data:NULL
+                                                             length:0];
+  [[MLKLexicalContext globalContext]
+    addFunction:[sys intern:name]];
+  [[MLKLexicalEnvironment globalEnvironment]
+    addFunction:closure
+      forSymbol:[sys intern:name]]; 
+}
+
+@implementation MLKRoot
++(void) initialize
+{
+  signature = LRETAIN ([self methodSignatureForSelector:@selector(car:)]);
+  sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
+  cl = [MLKPackage findPackage:@"COMMON-LISP"];
+
+  register_sys (@"CAR", car);
+  register_sys (@"CDR", cdr);
+  register_sys (@"RPLACA", rplaca);
+  register_sys (@"RPLACD", rplacd);
+  register_sys (@"CONS", cons);
+  register_sys (@"LOAD", load);
+  register_sys (@"EQ", eq);
+  register_sys (@"FIXNUM-EQ", fixnum_eq);
+  register_sys (@"SYMBOLP", symbolp);
+  register_sys (@"LISTP", listp);
+  register_sys (@"CONSP", consp);
+  register_sys (@"ATOM", atom);
+  register_sys (@"NULL", null);
+  register_sys (@"FIXNUMP", fixnump);
+  register_sys (@"ADD", add);
+  register_sys (@"SUBTRACT", subtract);
+  register_sys (@"MULTIPLY", multiply);
+  register_sys (@"DIVIDE", divide);
+  register_sys (@"ADD-FIXNUMS", add_fixnums);
+  register_sys (@"SUBTRACT-FIXNUMS", subtract_fixnums);
+  register_sys (@"MULTIPLY-FIXNUMS", multiply_fixnums);
+  register_sys (@"IDIVIDE-FIXNUMS", idivide_fixnums);
+  register_sys (@"LIST", (id (*)())list);
+  register_sys (@"MACROEXPAND-1", (id (*)())macroexpand_1);
+  register_sys (@"SHADOW", (id (*)())shadow);
+  register_sys (@"EXPORT", (id (*)())export);
+  register_sys (@"UNEXPORT", (id (*)())unexport);
+  register_sys (@"FIND-PACKAGE", find_package);
+  register_sys (@"STRING", string);
+  register_sys (@"GENSYM", (id (*)())gensym);
+  register_sys (@"MAKE-SYMBOL", make_symbol);
+  register_sys (@"INTERN", (id (*)())intern);
+  register_sys (@"IMPORT", (id (*)())import);
+  register_sys (@"OBJC-CLASS-OF", objc_class_of);
+  register_sys (@"OBJC-SUBCLASSP", objc_subclassp);
+  register_sys (@"FIND-OBJC-CLASS", find_objc_class);
+  register_sys (@"NS-LOG", ns_log);
+  register_sys (@"SYMBOL-NAME", symbol_name);
+  register_sys (@"PRIMITIVE-TYPE-OF", primitive_type_of);
+  register_sys (@"SEND-BY-NAME", (id (*)())send_by_name);
+  register_sys (@"DECLARATIONS-AND-DOC-AND-FORMS", declarations_and_doc_and_forms);
+  register_sys (@"DECLARATIONS-AND-FORMS", declarations_and_forms);
+  register_sys (@"COMPILE", compile);
+  register_sys (@"%FSET", fset);
+  register_sys (@"SET", set);
+  register_sys (@"%MACROSET", macroset);
+  register_sys (@"APPLY", apply);
+  register_sys (@"EVAL", eval);
+}
+
++(void) registerBuiltins
+{
+  // Do the real work in +initialize.
 }
 @end
