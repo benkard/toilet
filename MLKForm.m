@@ -84,6 +84,14 @@
 {
   return [NSArray array];
 }
+
+-(void) dealloc
+{
+  LDESTROY (_form);
+  LDESTROY (_context);
+  LDESTROY (_compiler);
+  [super dealloc];
+}
 @end
 
 
@@ -287,6 +295,9 @@
 -(void) splitDeclarationsAndBody:(id)object
 {
   MLKSplitDeclarationsDocAndForms(&_declarations, NULL, &_body, object, NO);
+  LRETAIN (_declarations);
+  LRETAIN (_body);
+  _declarationForms = nil;
 }
 
 -(id) declarationsWithForms:(id)object
@@ -313,6 +324,9 @@
 -(void) splitDeclarationsAndBody:(id)object
 {
   MLKSplitDeclarationsDocAndForms(&_declarations, &_documentation, &_body, object, YES);
+  LRETAIN (_declarations);
+  LRETAIN (_body);
+  _declarationForms = nil;
 }
 
 -(void) dealloc
