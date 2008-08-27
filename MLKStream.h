@@ -31,17 +31,21 @@
   unichar _cachedChar;
 }
 
--(MLKStream *) init;
--(MLKStream *) initWithInputStream:(NSInputStream *)input;
--(MLKStream *) initWithOutputStream:(NSOutputStream *)output;
--(MLKStream *) initWithInputStream:(NSInputStream *)input
-                      outputStream:(NSOutputStream *)output;
--(MLKStream *) initWithInputStream:(NSInputStream *)input
-                      outputStream:(NSOutputStream *)output
-                          encoding:(NSStringEncoding)encoding;
+-(id) init;
+-(id) initWithInputStream:(NSInputStream *)input;
+-(id) initWithOutputStream:(NSOutputStream *)output;
+-(id) initWithInputStream:(NSInputStream *)input
+             outputStream:(NSOutputStream *)output;
+-(id) initWithInputStream:(NSInputStream *)input
+             outputStream:(NSOutputStream *)output
+                 encoding:(NSStringEncoding)encoding;
 
 -(unichar) readChar;
 -(void) unreadChar:(unichar)ch;
 -(unichar) peekChar;
 -(BOOL) isEOF;
+
+-(void) writeChar:(unichar)ch;
+//-(void) writeFormat:(NSString *)format, ...;
+-(void) writeString:(NSString *)string;
 @end

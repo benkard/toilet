@@ -24,26 +24,27 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 @implementation MLKStream
--(MLKStream *) init;
+-(id) init;
 {
   return [self initWithInputStream:nil outputStream:nil];
 }
 
--(MLKStream *) initWithInputStream:(NSInputStream *)input;
+-(id) initWithInputStream:(NSInputStream *)input;
 {
   return [self initWithInputStream:input outputStream:nil];
 }
 
--(MLKStream *) initWithOutputStream:(NSOutputStream *)output;
+-(id) initWithOutputStream:(NSOutputStream *)output;
 {
   return [self initWithInputStream:nil outputStream:output];
 }
 
--(MLKStream *) initWithInputStream:(NSInputStream *)input
-                      outputStream:(NSOutputStream *)output
+-(id) initWithInputStream:(NSInputStream *)input
+             outputStream:(NSOutputStream *)output
 {
   return [self initWithInputStream:input
                outputStream:output
@@ -51,9 +52,9 @@
 }
 
 
--(MLKStream *) initWithInputStream:(NSInputStream *)input
-                      outputStream:(NSOutputStream *)output
-                          encoding:(NSStringEncoding)encoding
+-(id) initWithInputStream:(NSInputStream *)input
+             outputStream:(NSOutputStream *)output
+                 encoding:(NSStringEncoding)encoding
 {
   self = [super init];
   LASSIGN (_input, input);
@@ -160,6 +161,27 @@
   NS_ENDHANDLER;
 
   return eofp;
+}
+
+-(void) writeChar:(unichar)ch
+{
+  const void *cstring = [[NSString stringWithFormat:@"%C", ch] cStringUsingEncoding:_encoding];
+  [_output write:cstring maxLength:strlen(cstring)];
+}
+
+//-(void) writeFormat:(NSString *)format, ...
+//{
+//  NSString *string = ;
+//  [self writeString:string];
+//}
+
+-(void) writeString:(NSString *)string
+{
+  unichar ch;
+  int i;
+  
+  for (i = 0; i < [string length]; i++)
+    [self writeChar:[string characterAtIndex:i]];
 }
 
 -(void) dealloc
