@@ -26,12 +26,13 @@ ifeq ($(USE_LLVM),YES)
 KIT_TARGETS += libtoilet-llvm
 endif
 
-default: $(KIT_TARGETS) toilet
+default: $(KIT_TARGETS) toilet ToiletLisp
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
 #all:: ToiletKit etshell Test
 
+APP_NAME = ToiletLisp
 TOOL_NAME = etshell toilet
 FRAMEWORK_NAME = ToiletKit
 BUNDLE_NAME = Test
@@ -130,17 +131,31 @@ toilet_OBJC_FILES = MLKReadEvalPrintLoop.m
 toilet_OBJCC_FILES = _stamp.mm
 toilet_OBJC_LIBS += -ledit -lncurses -LToiletKit.framework	\
                     -LToiletKit.framework/Versions/Current -lToiletKit
-
 toilet_OBJCFLAGS = -Wall
 
 ifeq ($(USE_LLVM),YES)
 toilet_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS)
 endif
 
+
+ToiletLisp_OBJC_FILES = MLKListenerController.m ToiletLisp_main.m
+#ToiletLisp_LOCALIZED_RESOURCE_FILES = Toilet.nib
+ToiletLisp_RESOURCE_FILES = Toilet.nib
+ToiletLisp_MAIN_MODEL_FILE = Toilet.gorm
+ToiletLisp_OBJCC_FILES = _stamp.mm
+ToiletLisp_OBJC_LIBS += -LToiletKit.framework		\
+                        -LToiletKit.framework/Versions/Current -lToiletKit
+ToiletLisp_OBJCFLAGS = -Wall
+
+ifeq ($(USE_LLVM),YES)
+ToiletLisp_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS)
+endif
+
 Test_OBJC_FILES = MLKLowLevelTests.m
 Test_OBJC_LIBS = -lUnitKit -LToiletKit.framework -lToiletKit
 
 -include GNUmakefile.preamble
+include $(GNUSTEP_MAKEFILES)/application.make
 include $(GNUSTEP_MAKEFILES)/bundle.make
 include $(GNUSTEP_MAKEFILES)/framework.make
 include $(GNUSTEP_MAKEFILES)/library.make
@@ -182,6 +197,11 @@ run-et: before-etshell ToiletKit etshell
 
 run-toilet: $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" obj/toilet
+
+run-app: $(KIT_TARGETS) ToiletLisp
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" openapp ./ToiletLisp.app
+
+runapp: run-app
 
 run: run-toilet
 
