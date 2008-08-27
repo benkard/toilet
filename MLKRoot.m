@@ -75,14 +75,14 @@ static id
 rplaca (id _data, id cons, id value, id _marker)
 {
   [cons setCar:value];
-  return nil;
+  return cons;
 }
 
 static id
 rplacd (id _data, id cons, id value, id _marker)
 {
   [cons setCdr:value];
-  return nil;
+  return cons;
 }
 
 static id
