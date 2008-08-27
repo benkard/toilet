@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {submit = id; }; 
+            CLASS = MLKListenerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {inputField = id; outputTextView = id; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

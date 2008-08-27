@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A72BC6FD0E65E06200486804 /* Toilet.nib in Resources */ = {isa = PBXBuildFile; fileRef = A72BC6FC0E65E06200486804 /* Toilet.nib */; };
+		A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72BC70A0E65EA1100486804 /* MLKListenerController.m */; };
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
 		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
 		A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */; };
@@ -221,11 +223,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A72BC71D0E65EC5600486804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			remoteInfo = ToiletKit;
+		};
+		A72BC75A0E65EF2D00486804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			remoteInfo = "toilet-llvm";
+		};
 		A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A745C34F0E607C6600C43A04 /* libtoilet-llvm */;
+			remoteGlobalIDString = A745C34F0E607C6600C43A04;
 			remoteInfo = "libtoilet-llvm";
 		};
 		A745C4040E6189EB00C43A04 /* PBXContainerItemProxy */ = {
@@ -415,12 +431,17 @@
 
 /* Begin PBXFileReference section */
 		A720D3670E5B1CB700734638 /* GNUmakefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; languageSpecificationIdentifier = make; path = GNUmakefile; sourceTree = "<group>"; };
+		A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet Lisp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
+		A72BC6FC0E65E06200486804 /* Toilet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Toilet.nib; sourceTree = "<group>"; };
+		A72BC70A0E65EA1100486804 /* MLKListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKListenerController.m; sourceTree = "<group>"; };
+		A72BC70B0E65EA1100486804 /* MLKListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKListenerController.h; sourceTree = "<group>"; };
 		A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledClosure.h; sourceTree = "<group>"; };
 		A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCompiledClosure.m; sourceTree = "<group>"; };
 		A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MLKLexicalContext-MLKLLVMCompilation.mm"; sourceTree = "<group>"; };
 		A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLKLexicalContext-MLKLLVMCompilation.h"; sourceTree = "<group>"; };
 		A745C3500E607C6600C43A04 /* libtoilet-llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libtoilet-llvm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A745C4390E6189EB00C43A04 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
+		A745C4390E6189EB00C43A04 /* toilet */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
 		A745C46D0E618D7300C43A04 /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = configure; sourceTree = "<group>"; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
@@ -565,6 +586,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A72BC6EC0E65DE4600486804 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A745C34E0E607C6600C43A04 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -676,6 +704,8 @@
 				A7E5C48C0E2169CE00A01D81 /* Headers */,
 				A7E5C3E00E21684000A01D81 /* Products */,
 				A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */,
+				A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */,
+				A72BC6FC0E65E06200486804 /* Toilet.nib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -686,6 +716,7 @@
 				A7E5C3F30E21690200A01D81 /* toilet */,
 				A745C3500E607C6600C43A04 /* libtoilet-llvm.a */,
 				A745C4390E6189EB00C43A04 /* toilet */,
+				A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -797,6 +828,8 @@
 				A7E5C4370E21695800A01D81 /* MLKThrowException.m */,
 				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
 				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
+				A72BC70A0E65EA1100486804 /* MLKListenerController.m */,
+				A72BC70B0E65EA1100486804 /* MLKListenerController.h */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -871,6 +904,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A72BC6ED0E65DE4600486804 /* Toilet Lisp REPL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp REPL" */;
+			buildPhases = (
+				A72BC6EA0E65DE4600486804 /* Resources */,
+				A72BC6EB0E65DE4600486804 /* Sources */,
+				A72BC6EC0E65DE4600486804 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A72BC71E0E65EC5600486804 /* PBXTargetDependency */,
+				A72BC75B0E65EF2D00486804 /* PBXTargetDependency */,
+			);
+			name = "Toilet Lisp REPL";
+			productName = "Toilet Lisp";
+			productReference = A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		A745C34F0E607C6600C43A04 /* toilet-llvm */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */;
@@ -961,11 +1013,31 @@
 				A7E5C3F20E21690200A01D81 /* toilet */,
 				A745C34F0E607C6600C43A04 /* toilet-llvm */,
 				A745C4020E6189EB00C43A04 /* toilet (no LLVM) */,
+				A72BC6ED0E65DE4600486804 /* Toilet Lisp REPL */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		A72BC6EA0E65DE4600486804 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72BC6FD0E65E06200486804 /* Toilet.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		A72BC6EB0E65DE4600486804 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A745C34D0E607C6600C43A04 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1043,6 +1115,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A72BC71E0E65EC5600486804 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			targetProxy = A72BC71D0E65EC5600486804 /* PBXContainerItemProxy */;
+		};
+		A72BC75B0E65EF2D00486804 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			targetProxy = A72BC75A0E65EF2D00486804 /* PBXContainerItemProxy */;
+		};
 		A745C35C0E607DD600C43A04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
@@ -1061,6 +1143,312 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A72BC6F20E65DE4900486804 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		A72BC6F30E65DE4900486804 /* Debug 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast)";
+		};
+		A72BC6F40E65DE4900486804 /* Debug 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = "Debug 10.4+ (fast + GC)";
+		};
+		A72BC6F50E65DE4900486804 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A72BC6F60E65DE4900486804 /* Release 10.4+ (fast) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = "Release 10.4+ (fast)";
+		};
+		A72BC6F70E65DE4900486804 /* Release 10.4+ (fast + GC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-lgmp",
+					"-ledit",
+					"-framework",
+					ToiletKit,
+					"-ltoilet-llvm",
+					"-L/opt/local/lib",
+					"-lpthread",
+					"-lm",
+					"-lLLVMipo",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					/opt/local/lib/LLVMExecutionEngine.o,
+					/opt/local/lib/LLVMJIT.o,
+					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMSelectionDAG",
+					"-lLLVMCodeGen",
+					"-lLLVMScalarOpts",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMAnalysis",
+					"-lLLVMTarget",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lLLVMSystem",
+					"-lstdc++",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Toilet Lisp";
+				USER_HEADER_SEARCH_PATHS = /opt/local/include;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = "Release 10.4+ (fast + GC)";
+		};
 		A745C3530E607C8700C43A04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2120,6 +2508,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp REPL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72BC6F20E65DE4900486804 /* Debug */,
+				A72BC6F30E65DE4900486804 /* Debug 10.4+ (fast) */,
+				A72BC6F40E65DE4900486804 /* Debug 10.4+ (fast + GC) */,
+				A72BC6F50E65DE4900486804 /* Release */,
+				A72BC6F60E65DE4900486804 /* Release 10.4+ (fast) */,
+				A72BC6F70E65DE4900486804 /* Release 10.4+ (fast + GC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
