@@ -25,11 +25,14 @@
 #import <Foundation/NSThread.h>
 
 #import "MLKBackquoteReader.h"
+#import "MLKBinaryStreamCharacterStream.h"
+#import "MLKCharacterStream.h"
 #import "MLKCommaReader.h"
 #import "MLKCons.h"
 #import "MLKDispatchingMacroCharacterReader.h"
 #import "MLKDynamicContext.h"
 #import "MLKEnvironment.h"
+#import "MLKFileHandleStream.h"
 #import "MLKPackage.h"
 #import "MLKParenReader.h"
 #import "MLKQuoteReader.h"
@@ -213,6 +216,21 @@ static MLKDynamicContext *global_context;
   // FIXME: Initialise stuff.
 #define INIT(VARNAME, VALUE) [vars setObject:VALUE forKey:[cl intern:VARNAME]]
 
+  MLKFileHandleStream *ferrstream, *foutstream;
+  MLKCharacterStream *errstream, *outstream;
+  ferrstream = [[MLKFileHandleStream alloc]
+                 initWithFileHandle:[NSFileHandle fileHandleWithStandardError]];
+  foutstream = [[MLKFileHandleStream alloc]
+                 initWithFileHandle:[NSFileHandle fileHandleWithStandardOutput]];
+  errstream = [[MLKBinaryStreamCharacterStream alloc]
+                initWithBinaryStream:ferrstream];
+  outstream = [[MLKBinaryStreamCharacterStream alloc]
+                initWithBinaryStream:foutstream];
+  LAUTORELEASE (ferrstream);
+  LAUTORELEASE (foutstream);
+  LAUTORELEASE (errstream);
+  LAUTORELEASE (outstream);
+
   INIT(@"*BREAK-ON-SIGNALS*", NIL);
   INIT(@"*COMPILE-FILE-PATHNAME*", NIL);
   INIT(@"*COMPILE-FILE-TRUENAME*", NIL);
@@ -221,7 +239,7 @@ static MLKDynamicContext *global_context;
   //  INIT(@"*DEBUG-IO*", );
   INIT(@"*DEBUGGER-HOOK*", NIL);
   //  INIT(@"*DEFAULT-PATHNAME-DEFAULTS*", );
-  //  INIT(@"*ERROR-OUTPUT*", );
+  INIT(@"*ERROR-OUTPUT*", errstream);
   INIT(@"*FEATURES*", [MLKCons
                         cons:[keyword intern:@"ETOILET"]
                         with:[MLKCons
@@ -260,9 +278,9 @@ static MLKDynamicContext *global_context;
   INIT(@"*READ-SUPPRESS*", NIL);  //FIXME: Support in reader
   INIT(@"*READTABLE*", readtable);
   //  INIT(@"*STANDARD-INPUT*", );
-  //  INIT(@"*STANDARD-OUTPUT*", );
+  INIT(@"*STANDARD-OUTPUT*", outstream);
   //  INIT(@"*TERMINAL-IO*", );
-  //  INIT(@"*TRACE-OUTPUT* ", );
+  INIT(@"*TRACE-OUTPUT* ", outstream);
 
   [vars setObject:NIL forKey:[[MLKPackage findPackage:@"TOILET-SYSTEM"]
                                intern:@"*SYSTEM-INITIALISED-P*"]];

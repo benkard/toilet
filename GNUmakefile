@@ -67,7 +67,8 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        MLKCommaReader.m MLKCompiledClosure.m MLKCons.m		\
                        MLKDoubleFloat.m						\
                        MLKDispatchingMacroCharacterReader.m			\
-                       MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
+                       MLKDynamicContext.m MLKEnvironment.m			\
+                       MLKFileHandleStream.m MLKFloat.m				\
                        MLKForeignProcedure.m MLKForm.m MLKInteger.m		\
                        MLKInterpretedClosure.m MLKInterpreter.m			\
                        MLKLexicalContext.m MLKLexicalEnvironment.m		\

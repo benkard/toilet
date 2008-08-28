@@ -18,21 +18,17 @@
 
 #import "MLKBinaryStream.h"
 
-#import <Foundation/NSStream.h>
+#import <Foundation/NSFileHandle.h>
 
-@interface MLKStreamStream : MLKBinaryStream
+@interface MLKFileHandleStream : MLKBinaryStream
 {
-  NSInputStream *_input;
-  NSOutputStream *_output;
-  BOOL _closeInputWhenDone;
-  BOOL _closeOutputWhenDone;
+  NSFileHandle *_fileHandle;
+  BOOL _closeWhenDone;
 }
 
--(id) init;
--(id) initWithInputStream:(NSInputStream *)input;
--(id) initWithOutputStream:(NSOutputStream *)output;
--(id) initWithInputStream:(NSInputStream *)input
-             outputStream:(NSOutputStream *)output;
+-(id) initWithFileHandle:(NSFileHandle *)fileHandle;
+-(id) initWithFileHandle:(NSFileHandle *)fileHandle
+           closeWhenDone:(BOOL)closeWhenDone;
 
 -(uint8_t) readOctet;
 -(void) writeOctet:(uint8_t)octet;
