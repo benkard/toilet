@@ -923,9 +923,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A72BC6ED0E65DE4600486804 /* Toilet Lisp REPL */ = {
+		A72BC6ED0E65DE4600486804 /* Toilet Lisp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp REPL" */;
+			buildConfigurationList = A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp" */;
 			buildPhases = (
 				A72BC6EA0E65DE4600486804 /* Resources */,
 				A72BC6EB0E65DE4600486804 /* Sources */,
@@ -937,14 +937,14 @@
 				A72BC71E0E65EC5600486804 /* PBXTargetDependency */,
 				A72BC75B0E65EF2D00486804 /* PBXTargetDependency */,
 			);
-			name = "Toilet Lisp REPL";
+			name = "Toilet Lisp";
 			productName = "Toilet Lisp";
 			productReference = A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A745C34F0E607C6600C43A04 /* toilet-llvm */ = {
+		A745C34F0E607C6600C43A04 /* libtoilet-llvm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */;
+			buildConfigurationList = A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "libtoilet-llvm" */;
 			buildPhases = (
 				A745C34C0E607C6600C43A04 /* Headers */,
 				A745C34D0E607C6600C43A04 /* Sources */,
@@ -954,7 +954,7 @@
 			);
 			dependencies = (
 			);
-			name = "toilet-llvm";
+			name = "libtoilet-llvm";
 			productName = "libtoilet-llvm";
 			productReference = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */;
 			productType = "com.apple.product-type.library.static";
@@ -1030,9 +1030,9 @@
 			targets = (
 				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
 				A7E5C3F20E21690200A01D81 /* toilet */,
-				A745C34F0E607C6600C43A04 /* toilet-llvm */,
+				A745C34F0E607C6600C43A04 /* libtoilet-llvm */,
 				A745C4020E6189EB00C43A04 /* toilet (no LLVM) */,
-				A72BC6ED0E65DE4600486804 /* Toilet Lisp REPL */,
+				A72BC6ED0E65DE4600486804 /* Toilet Lisp */,
 			);
 		};
 /* End PBXProject section */
@@ -1142,12 +1142,12 @@
 		};
 		A72BC75B0E65EF2D00486804 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			target = A745C34F0E607C6600C43A04 /* libtoilet-llvm */;
 			targetProxy = A72BC75A0E65EF2D00486804 /* PBXContainerItemProxy */;
 		};
 		A745C35C0E607DD600C43A04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			target = A745C34F0E607C6600C43A04 /* libtoilet-llvm */;
 			targetProxy = A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */;
 		};
 		A745C4030E6189EB00C43A04 /* PBXTargetDependency */ = {
@@ -1216,7 +1216,7 @@
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = /opt/local/include;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -2540,7 +2540,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp REPL" */ = {
+		A72BC6F10E65DE4900486804 /* Build configuration list for PBXNativeTarget "Toilet Lisp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A72BC6F20E65DE4900486804 /* Debug */,
@@ -2553,7 +2553,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "toilet-llvm" */ = {
+		A745C3520E607C8700C43A04 /* Build configuration list for PBXNativeTarget "libtoilet-llvm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A745C3530E607C8700C43A04 /* Debug */,
