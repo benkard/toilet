@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKBinaryStreamCharacterStream.h"
 #import "MLKBinding.h"
 #import "MLKCharacter.h"
 #import "MLKCompiledClosure.h"
@@ -27,7 +28,7 @@
 #import "MLKNumber.h"
 #import "MLKPackage.h"
 #import "MLKRoot.h"
-#import "MLKStream.h"
+#import "MLKStreamStream.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
 #import "MLKSingleFloat.h"
@@ -98,7 +99,10 @@ load (id _data, NSString *fileName, id _marker)
   BOOL success;
   int l, i;
   NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
-  MLKStream *stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+  MLKBinaryStream *filestream = LAUTORELEASE ([[MLKStreamStream alloc]
+                                                initWithInputStream:input]);
+  MLKCharacterStream *stream = LAUTORELEASE ([[MLKBinaryStreamCharacterStream alloc]
+                                               initWithBinaryStream:filestream]);
   MLKDynamicContext *oldContext = [MLKDynamicContext currentContext];
   int level = MLKIntWithInteger ([oldContext
                                    valueForSymbol:[sys intern:@"*LOAD-LEVEL*"]]);
@@ -564,8 +568,10 @@ primitive_type_of (id _data, id object, id _marker)
     { return [sys intern:@"BINDING"]; }
   else if ([object isKindOfClass:[MLKPackage class]])
     { return [cl intern:@"PACKAGE"]; }
-  else if ([object isKindOfClass:[MLKStream class]])
-    { return [cl intern:@"STREAM"]; }
+  else if ([object isKindOfClass:[MLKBinaryStream class]])
+    { return [cl intern:@"BINARY-STREAM"]; }
+  else if ([object isKindOfClass:[MLKCharacterStream class]])
+    { return [cl intern:@"CHARACTER-STREAM"]; }
   else if ([object isKindOfClass:[NSException class]])
     { return [sys intern:@"EXCEPTION"]; }
   else if ([object isKindOfClass:[NSArray class]])

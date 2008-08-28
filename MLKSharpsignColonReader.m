@@ -19,7 +19,7 @@
 #import "MLKSharpsignColonReader.h"
 
 #import "MLKReader.h"
-#import "MLKStream.h"
+#import "MLKCharacterStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -27,7 +27,7 @@
 @implementation MLKSharpsignColonReader
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  MLKStream *stream;
+  MLKCharacterStream *stream;
 
   stream = [arguments objectAtIndex:0];
 

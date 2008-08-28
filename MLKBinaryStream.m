@@ -16,30 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSemicolonReader.h"
+#import "MLKBinaryStream.h"
 
-#import "MLKCons.h"
-#import "MLKCharacterStream.h"
-#import "runtime-compatibility.h"
+#import <Foundation/NSException.h>
 
-
-@implementation MLKSemicolonReader
--(NSArray *) applyToArray:(NSArray *)arguments
+@implementation MLKBinaryStream
+-(uint8_t) readOctet
 {
-  MLKCharacterStream *stream;
-  unichar nextChar;
-  
-  stream = [arguments objectAtIndex:0];
+  [NSException raise:@"MLKNotImplementedError" format:@""];
+  return 0;
+}
 
-  while (![stream isEOF])
-    {
-      if ((nextChar = [stream readChar]) == '\n')
-        {
-          [stream unreadChar:nextChar];
-          break;
-        }
-    }
-  
-  return [NSArray array];
+-(void) writeOctet:(uint8_t)octet
+{
+  [NSException raise:@"MLKNotImplementedError" format:@""];
+  octet = 0;
 }
 @end

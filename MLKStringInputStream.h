@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKStream.h"
+#import "MLKBinaryStreamCharacterStream.h"
 
 @class NSString;
 
 
-@interface MLKStringInputStream : MLKStream
+@interface MLKStringInputStream : MLKBinaryStreamCharacterStream
 -(MLKStringInputStream *) init;
 -(MLKStringInputStream *) initWithString:(NSString *)string;
 +(MLKStringInputStream *) streamWithString:(NSString *)string;

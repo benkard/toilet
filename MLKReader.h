@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "MLKCharacterStream.h"
 #include "MLKReadtable.h"
-#include "MLKStream.h"
 
 #include <Foundation/NSObject.h>
 #include <Foundation/NSString.h>
 
 
 @interface MLKReader : NSObject
-+(id)    readFromStream:(MLKStream *)stream
++(id)    readFromStream:(MLKCharacterStream *)stream
                eofError:(BOOL)eofError
                eofValue:(id)eofValue
               recursive:(BOOL)recursive
@@ -32,7 +32,7 @@
         singleDotMarker:(id)dotMarker
 readingUninternedSymbol:(BOOL)readingUninternedSymbol;
 
-+(id) readFromStream:(MLKStream *)stream
++(id) readFromStream:(MLKCharacterStream *)stream
             eofError:(BOOL)eofError
             eofValue:(id)eofValue
            recursive:(BOOL)recursive

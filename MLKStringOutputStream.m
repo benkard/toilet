@@ -17,6 +17,7 @@
  */
 
 #import "MLKStringOutputStream.h"
+#import "MLKStreamStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -28,16 +29,26 @@
 @implementation MLKStringOutputStream
 -(id) init
 {
-  self = (id)[super initWithInputStream:nil
-                    outputStream:LAUTORELEASE ([[NSOutputStream alloc] initToMemory])
-                    encoding:NSUnicodeStringEncoding];
+  _outputStream = [[NSOutputStream alloc] initToMemory];
+
+  MLKStreamStream *binstream =
+    LAUTORELEASE ([[MLKStreamStream alloc] initWithOutputStream:_outputStream]);
+
+  self = (id) [super initWithBinaryStream:binstream
+                     encoding:NSUnicodeStringEncoding];
   return self;
+}
+
+-(void) dealloc
+{
+  LDESTROY (_outputStream);
+  [super dealloc];
 }
 
 -(NSString *) string
 {
-  NSData *data = [_output propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+  NSData *data = [_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
   return LAUTORELEASE ([[NSString alloc] initWithData:data
-                                        encoding:NSUnicodeStringEncoding]);
+                                         encoding:NSUnicodeStringEncoding]);
 }
 @end

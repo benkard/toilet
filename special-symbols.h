@@ -61,6 +61,12 @@ static MLKSymbol *INLINE;
 static MLKSymbol *NOTINLINE;
 static MLKSymbol *SPECIAL;
 static MLKSymbol *LEXICAL;
+static MLKSymbol *QUERY_IO;
+static MLKSymbol *ERROR_OUTPUT;
+static MLKSymbol *STANDARD_OUTPUT;
+static MLKSymbol *TERMINAL_IO;
+static MLKSymbol *TRACE_OUTPUT;
+static MLKSymbol *DEBUG_IO;
 
 
 static void
@@ -105,6 +111,13 @@ ensure_symbols ()
   NOTINLINE = [cl intern:@"NOTINLINE"];
   SPECIAL = [cl intern:@"INLINE"];
   LEXICAL = [sys intern:@"NOTINLINE"];
+
+  QUERY_IO = [cl intern:@"*QUERY-IO*"];
+  ERROR_OUTPUT = [cl intern:@"*ERROR-OUTPUT*"];
+  STANDARD_OUTPUT = [cl intern:@"*STANDARD-OUTPUT*"];
+  TERMINAL_IO = [cl intern:@"*TERMINAL-IO*"];
+  TRACE_OUTPUT = [cl intern:@"*TRACE-OUTPUT*"];
+  DEBUG_IO = [cl intern:@"*DEBUG-IO*"];
 
   COMPILE_TOPLEVEL = [keyword intern:@"COMPILE-TOPLEVEL"];
   COMPILE = [cl intern:@"COMPILE"];

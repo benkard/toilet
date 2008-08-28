@@ -19,12 +19,12 @@
 #import "MLKStringReader.h"
 
 #import "MLKCharacter.h"
+#import "MLKCharacterStream.h"
 #import "MLKCons.h"
 #import "MLKDynamicContext.h"
 #import "MLKReader.h"
 #import "MLKReadtable.h"
 #import "MLKPackage.h"
-#import "MLKStream.h"
 #import "runtime-compatibility.h"
 
 #import <Foundation/NSString.h>
@@ -33,7 +33,7 @@
 @implementation MLKStringReader
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  MLKStream *stream;
+  MLKCharacterStream *stream;
   unichar ch;
   MLKReadtable *readtable;
   unichar nextChar;

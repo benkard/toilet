@@ -16,10 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKStream.h"
+#import "MLKBinaryStreamCharacterStream.h"
 
 
-@interface MLKStringOutputStream : MLKStream
+@interface MLKStringOutputStream : MLKBinaryStreamCharacterStream
+{
+  NSOutputStream *_outputStream;
+}
+
 -(id) init;
+-(void) dealloc;
 -(NSString *) string;
 @end

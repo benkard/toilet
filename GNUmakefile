@@ -60,24 +60,25 @@ else
   endif
 endif
 
-ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m			\
-                       MLKBackquoteReader.m MLKBinding.m MLKCharacter.m	\
-                       MLKCommaReader.m MLKCompiledClosure.m MLKCons.m	\
-                       MLKDoubleFloat.m					\
-                       MLKDispatchingMacroCharacterReader.m		\
-                       MLKDynamicContext.m MLKEnvironment.m MLKFloat.m	\
-                       MLKForeignProcedure.m MLKForm.m MLKInteger.m	\
-                       MLKInterpretedClosure.m MLKInterpreter.m		\
-                       MLKLexicalContext.m				\
-                       MLKLexicalEnvironment.m MLKNumber.m MLKPackage.m	\
-                       MLKParenReader.m MLKQuoteReader.m MLKRatio.m	\
-                       MLKReader.m MLKReadtable.m MLKReaderError.m	\
-                       MLKRoot.m MLKSemicolonReader.m			\
-                       MLKSharpsignColonReader.m MLKSingleFloat.m	\
-                       MLKStream.m MLKStringInputStream.m		\
-                       MLKStringOutputStream.m MLKStringReader.m	\
-                       MLKSymbol.m MLKThrowException.m			\
-                       MLKValuesFunction.m NSObject-MLKPrinting.m	\
+ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
+                       MLKBackquoteReader.m MLKBinaryStream.m			\
+                       MLKBinaryStreamCharacterStream.m MLKBinding.m		\
+                       MLKCharacter.m MLKCharacterStream.m			\
+                       MLKCommaReader.m MLKCompiledClosure.m MLKCons.m		\
+                       MLKDoubleFloat.m						\
+                       MLKDispatchingMacroCharacterReader.m			\
+                       MLKDynamicContext.m MLKEnvironment.m MLKFloat.m		\
+                       MLKForeignProcedure.m MLKForm.m MLKInteger.m		\
+                       MLKInterpretedClosure.m MLKInterpreter.m			\
+                       MLKLexicalContext.m MLKLexicalEnvironment.m		\
+                       MLKNumber.m MLKPackage.m MLKParenReader.m		\
+                       MLKQuoteReader.m MLKRatio.m MLKReader.m			\
+                       MLKReadtable.m MLKReaderError.m MLKRoot.m		\
+                       MLKSemicolonReader.m MLKSharpsignColonReader.m		\
+                       MLKSingleFloat.m MLKStreamStream.m			\
+                       MLKStringInputStream.m MLKStringOutputStream.m		\
+                       MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
+                       MLKValuesFunction.m NSObject-MLKPrinting.m		\
                        NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl

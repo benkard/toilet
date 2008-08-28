@@ -22,7 +22,7 @@
 
 
 @implementation MLKReaderError
--(MLKReaderError *) initWithStream:(MLKStream *)aStream
+-(MLKReaderError *) initWithStream:(MLKCharacterStream *)aStream
 {
   self = [super init];
   stream = aStream;

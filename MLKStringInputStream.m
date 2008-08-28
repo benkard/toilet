@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKStreamStream.h"
 #import "MLKStringInputStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
@@ -32,11 +33,13 @@
 
 -(MLKStringInputStream *) initWithString:(NSString *)string
 {
-  self = (id) [super initWithInputStream:
-                       [NSInputStream inputStreamWithData:
-                                        [string dataUsingEncoding:
-                                                  NSUnicodeStringEncoding]]
-                     outputStream:nil
+  MLKStreamStream *binstream =
+    LAUTORELEASE ([[MLKStreamStream alloc]
+                    initWithInputStream:
+                      [NSInputStream inputStreamWithData:
+                                       [string dataUsingEncoding:
+                                                 NSUnicodeStringEncoding]]]);
+  self = (id) [super initWithBinaryStream:binstream
                      encoding:NSUnicodeStringEncoding];
   return self;
 }

@@ -16,19 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKBinaryStream.h"
+
 #import <Foundation/NSStream.h>
 #import <Foundation/NSString.h>
 
-
-@interface MLKStream : NSObject
+@interface MLKStreamStream : MLKBinaryStream
 {
   NSInputStream *_input;
   NSOutputStream *_output;
   NSStringEncoding _encoding;
-  BOOL _charCached;
   BOOL _closeInputWhenDone;
   BOOL _closeOutputWhenDone;
-  unichar _cachedChar;
 }
 
 -(id) init;
@@ -36,16 +35,7 @@
 -(id) initWithOutputStream:(NSOutputStream *)output;
 -(id) initWithInputStream:(NSInputStream *)input
              outputStream:(NSOutputStream *)output;
--(id) initWithInputStream:(NSInputStream *)input
-             outputStream:(NSOutputStream *)output
-                 encoding:(NSStringEncoding)encoding;
 
--(unichar) readChar;
--(void) unreadChar:(unichar)ch;
--(unichar) peekChar;
--(BOOL) isEOF;
-
--(void) writeChar:(unichar)ch;
-//-(void) writeFormat:(NSString *)format, ...;
--(void) writeString:(NSString *)string;
+-(uint8_t) readOctet;
+-(void) writeOctet:(uint8_t)octet;
 @end

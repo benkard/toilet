@@ -22,27 +22,12 @@
 #import "MLKPackage.h"
 #import "MLKReader.h"
 #import "util.h"
+#import "special-symbols.h"
 
 @implementation MLKListenerController
-- (id)init
++ (void)initialize
 {
-  self = [super init];
-
-  ostream = [[NSOutputStream alloc] initToMemory];
-  lispStream = [[MLKStream alloc] initWithOutputStream:ostream];
-  [ostream setDelegate:self];
-  [ostream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-  [ostream open];
-
-  return self;
-}
-
-- (void)dealloc
-{
-  [ostream close];
-  LDESTROY (ostream);
-  LDESTROY (lispStream);
-  [super dealloc];
+  ensure_symbols();
 }
 
 - (IBAction)submit:(id)sender
@@ -51,7 +36,8 @@
   NSDictionary *attrs;
   NSString *input = [inputField stringValue];
   MLKPackage *package;
-  
+  MLKDynamicContext *newctx;
+
   [submitButton setEnabled:NO];
 
   NS_DURING
@@ -99,13 +85,33 @@
   [statusText setStringValue:@"Compiling and executing."];
   NS_DURING
     {
+      NSDictionary *vars = [NSDictionary dictionaryWithObjectsAndKeys:
+                                           self, QUERY_IO,
+                                           self, ERROR_OUTPUT,
+                                           self, STANDARD_OUTPUT,
+                                           self, TERMINAL_IO,
+                                           self, TRACE_OUTPUT,
+                                           self, DEBUG_IO,
+                                           nil];
+      MLKDynamicContext *ctx = [MLKDynamicContext currentContext];
+      newctx = [[MLKDynamicContext alloc] initWithParent:ctx
+                                          variables:vars
+                                          handlers:nil
+                                          restarts:nil
+                                          catchTags:nil
+                                          activeHandlerEnvironment:nil];
+      [newctx pushContext];
+
       // ...
     }
   NS_HANDLER
     {
       // ...
     }
-  NS_ENDHANDLER
+  NS_ENDHANDLER;
+
+  [MLKDynamicContext popContext];
+  LDESTROY (newctx);
   [statusText setStringValue:@"Ready."];
 
   [text beginEditing];
@@ -123,8 +129,20 @@
   [submitButton setEnabled:YES];
 }
 
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)event
+- (void)writeChar:(unichar)ch
 {
-  NSLog (@"Heya!");
+  [self writeString:[NSString stringWithFormat:@"%C", ch]];
+}
+
+- (void)writeString:(NSString *)string
+{
+  NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSColor brownColor],
+                                        NSForegroundColorAttributeName,
+                                        nil];
+  NSAttributedString *output =
+    LAUTORELEASE ([[NSAttributedString alloc] initWithString:string
+                                                  attributes:attrs]);
+  [[outputTextView textStorage] appendAttributedString:output];
 }
 @end

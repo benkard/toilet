@@ -18,15 +18,15 @@
 
 #import <Foundation/NSException.h>
 
-@class MLKStream;
+@class MLKCharacterStream;
 
 
 @interface MLKReaderError : NSException
 {
-  MLKStream *stream;
+  MLKCharacterStream *stream;
 }
 
--(MLKReaderError *) initWithStream:(MLKStream *)aStream;
+-(MLKReaderError *) initWithStream:(MLKCharacterStream *)aStream;
 
 -(void) dealloc;
 @end

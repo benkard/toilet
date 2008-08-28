@@ -99,7 +99,7 @@ PRIMARY (NSArray *array)
   return [form interpretWithEnvironment:lexenv];
 }
 
-+(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print
++(BOOL) load:(MLKCharacterStream *)stream verbose:(BOOL)verbose print:(BOOL)print
 {
   id eofValue = [[NSObject alloc] init];
   int level = MLKIntWithInteger ([[MLKDynamicContext currentContext]

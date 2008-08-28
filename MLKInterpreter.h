@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKCharacterStream.h"
 #import "MLKForm.h"
 #import "MLKLexicalContext.h"
 #import "MLKLexicalEnvironment.h"
-#import "MLKStream.h"
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
@@ -44,7 +44,7 @@ enum MLKProcessingMode
             inLexicalContext:(MLKLexicalContext *)context
             withEnvironment:(MLKLexicalEnvironment *)lexenv;
 
-+(BOOL) load:(MLKStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
++(BOOL) load:(MLKCharacterStream *)stream verbose:(BOOL)verbose print:(BOOL)print;
 
 +(id) compile:(id)object
     inContext:(MLKLexicalContext *)context;

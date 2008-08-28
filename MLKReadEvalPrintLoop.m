@@ -16,12 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKBinaryStreamCharacterStream.h"
 #import "MLKDynamicContext.h"
 #import "MLKInterpreter.h"
 #import "MLKLexicalEnvironment.h"
 #import "MLKPackage.h"
 #import "MLKReadEvalPrintLoop.h"
 #import "MLKReader.h"
+#import "MLKStreamStream.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 #import "util.h"
@@ -77,7 +79,8 @@ static const char *prompt (EditLine *e) {
   HistEvent event;
 
   NSInputStream *input;
-  MLKStream *stream;
+  MLKBinaryStream *filestream;
+  MLKCharacterStream *stream;
   BOOL success;
   NSAutoreleasePool *pool;
 
@@ -103,7 +106,10 @@ static const char *prompt (EditLine *e) {
     {
 #endif
       input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
-      stream = LAUTORELEASE ([[MLKStream alloc] initWithInputStream:input]);
+      filestream = LAUTORELEASE ([[MLKStreamStream alloc]
+                                   initWithInputStream:input]);
+      stream = LAUTORELEASE ([[MLKBinaryStreamCharacterStream alloc]
+                               initWithBinaryStream:filestream]);
 
       [input open];
       [MLKInterpreter load:stream verbose:YES print:YES];

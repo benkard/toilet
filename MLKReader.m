@@ -24,7 +24,7 @@
 #import "MLKEnvironment.h"
 #import "MLKPackage.h"
 #import "MLKFuncallable.h"
-#import "MLKStream.h"
+#import "MLKCharacterStream.h"
 #import "MLKFloat.h"
 #import "MLKInteger.h"
 #import "MLKRatio.h"
@@ -40,7 +40,7 @@
 
 
 @implementation MLKReader
-+(id) readFromStream:(MLKStream *)stream
++(id) readFromStream:(MLKCharacterStream *)stream
             eofError:(BOOL)eofError
             eofValue:(id)eofValue
            recursive:(BOOL)recursive
@@ -55,7 +55,7 @@
                readingUninternedSymbol:NO];
 }
 
-+(id)    readFromStream:(MLKStream *)stream
++(id)    readFromStream:(MLKCharacterStream *)stream
                eofError:(BOOL)eofError
                eofValue:(id)eofValue
               recursive:(BOOL)recursive

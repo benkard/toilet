@@ -23,7 +23,7 @@
 #import "MLKReader.h"
 #import "MLKReadtable.h"
 #import "MLKPackage.h"
-#import "MLKStream.h"
+#import "MLKCharacterStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -31,7 +31,7 @@
 @implementation MLKCommaReader
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  MLKStream *stream;
+  MLKCharacterStream *stream;
   MLKReadtable *readtable;
   MLKPackage *cl, *sys;
   MLKSymbol *marker;

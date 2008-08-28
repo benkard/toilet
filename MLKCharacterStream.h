@@ -16,30 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSemicolonReader.h"
-
-#import "MLKCons.h"
-#import "MLKCharacterStream.h"
-#import "runtime-compatibility.h"
+#import <Foundation/NSStream.h>
+#import <Foundation/NSString.h>
 
 
-@implementation MLKSemicolonReader
--(NSArray *) applyToArray:(NSArray *)arguments
+@interface MLKCharacterStream : NSObject
 {
-  MLKCharacterStream *stream;
-  unichar nextChar;
-  
-  stream = [arguments objectAtIndex:0];
-
-  while (![stream isEOF])
-    {
-      if ((nextChar = [stream readChar]) == '\n')
-        {
-          [stream unreadChar:nextChar];
-          break;
-        }
-    }
-  
-  return [NSArray array];
+  BOOL _charCached;
+  unichar _cachedChar;
 }
+
+-(id) init;
+
+// To implement by subclasses:
+-(unichar) readCharNoCache;
+-(void) writeChar:(unichar)ch;
+
+-(unichar) readChar;
+-(void) unreadChar:(unichar)ch;
+-(unichar) peekChar;
+-(BOOL) isEOF;
+
+//-(void) writeFormat:(NSString *)format, ...;
+-(void) writeString:(NSString *)string;
 @end

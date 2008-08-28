@@ -24,14 +24,14 @@
 #import "MLKReader.h"
 #import "MLKReadtable.h"
 #import "MLKPackage.h"
-#import "MLKStream.h"
+#import "MLKCharacterStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
 #import <Foundation/NSArray.h>
 
 
-static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtable)
+static unichar slurpWhitespaceAndPeek (MLKCharacterStream *stream, MLKReadtable *readtable)
 {
   unichar ch;
   while ([readtable isWhitespaceCharacter:(ch = [stream readChar])]);
@@ -43,7 +43,7 @@ static unichar slurpWhitespaceAndPeek (MLKStream *stream, MLKReadtable *readtabl
 @implementation MLKParenReader
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  MLKStream *stream;
+  MLKCharacterStream *stream;
   unichar ch;
   MLKReadtable *readtable;
   MLKCons *cons, *tail;
