@@ -153,6 +153,11 @@
 		A7A85D5B0E668CA700021916 /* ToiletLisp_main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */; };
 		A7A85DDE0E668DEF00021916 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
 		A7A85DE00E668E1500021916 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A85DDF0E668E1500021916 /* AppKit.framework */; };
+		A7A85EBE0E669A9700021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
+		A7A85EC10E669AD000021916 /* libtoilet-llvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */; };
+		A7A85EC20E669AD700021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
+		A7A85EC40E669ADA00021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
+		A7A85ED10E669B5800021916 /* libtoilet-llvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -595,6 +600,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A85ED10E669B5800021916 /* libtoilet-llvm.a in Frameworks */,
+				A7A85EBE0E669A9700021916 /* ToiletKit.framework in Frameworks */,
 				A7A85DDE0E668DEF00021916 /* Foundation.framework in Frameworks */,
 				A7A85DE00E668E1500021916 /* AppKit.framework in Frameworks */,
 			);
@@ -611,6 +618,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A85EC40E669ADA00021916 /* ToiletKit.framework in Frameworks */,
 				A745C40A0E6189EB00C43A04 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -627,6 +635,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A85EC20E669AD700021916 /* ToiletKit.framework in Frameworks */,
+				A7A85EC10E669AD000021916 /* libtoilet-llvm.a in Frameworks */,
 				A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1180,7 +1190,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1234,7 +1243,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1288,7 +1296,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1344,7 +1351,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1398,7 +1404,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1452,7 +1457,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -1969,7 +1973,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -2073,7 +2076,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -2227,7 +2229,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -2288,7 +2289,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -2451,7 +2451,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
@@ -2510,7 +2509,6 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
-					"-ltoilet-llvm",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
