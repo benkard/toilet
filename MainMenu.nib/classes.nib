@@ -5,7 +5,13 @@
             ACTIONS = {submit = id; }; 
             CLASS = MLKListenerController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {indicatorText = id; inputField = id; outputTextView = id; statusText = id; }; 
+            OUTLETS = {
+                indicatorText = id; 
+                inputField = id; 
+                outputTextView = id; 
+                statusText = id; 
+                submitButton = id; 
+            }; 
             SUPERCLASS = NSObject; 
         }
     ); 

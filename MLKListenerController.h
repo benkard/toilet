@@ -24,6 +24,7 @@
     IBOutlet id inputField;
     IBOutlet id outputTextView;
     IBOutlet id statusText;
+    IBOutlet id submitButton;
 }
 - (IBAction)submit:(id)sender;
 @end

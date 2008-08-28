@@ -30,6 +30,8 @@
   NSDictionary *attrs;
   NSString *input = [inputField stringValue];
   MLKPackage *package;
+  
+  [submitButton setEnabled:NO];
 
   NS_DURING
     {
@@ -40,6 +42,7 @@
       // A parsing error.  Beep and let the user try again.
       // XXX Maybe the status line could be made to provide more information on the error.
       NSBeep();
+      [submitButton setEnabled:YES];
       [inputField selectText:self];
       return;
     }
@@ -71,9 +74,17 @@
   [[text mutableString] appendString:@"\n"];
   [text endEditing];
 
-  [indicatorText setStringValue:@"Compiling and executing."];
-  // ...
-  [indicatorText setStringValue:@"Ready."];
+  [statusText setStringValue:@"Compiling and executing."];
+  NS_DURING
+    {
+      // ...
+    }
+  NS_HANDLER
+    {
+      // ...
+    }
+  NS_ENDHANDLER
+  [statusText setStringValue:@"Ready."];
 
   [text beginEditing];
   attrs = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -86,5 +97,7 @@
   [[text mutableString] appendString:@"\n"];
 
   [text endEditing];
+  
+  [submitButton setEnabled:YES];
 }
 @end
