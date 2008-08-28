@@ -20,8 +20,10 @@
 
 @interface MLKListenerController : NSObject
 {
+    IBOutlet id indicatorText;
     IBOutlet id inputField;
     IBOutlet id outputTextView;
+    IBOutlet id statusText;
 }
 - (IBAction)submit:(id)sender;
 @end

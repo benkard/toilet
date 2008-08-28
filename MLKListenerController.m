@@ -71,7 +71,9 @@
   [[text mutableString] appendString:@"\n"];
   [text endEditing];
 
+  [indicatorText setStringValue:@"Compiling and executing."];
   // ...
+  [indicatorText setStringValue:@"Ready."];
 
   [text beginEditing];
   attrs = [NSDictionary dictionaryWithObjectsAndKeys:
