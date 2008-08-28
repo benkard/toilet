@@ -90,6 +90,8 @@
   [[text mutableString] appendString:@"\n"];
   [text endEditing];  
 
+  [statusText setStringValue:@"Compiling and executing."];
+
   [NSThread detachNewThreadSelector:@selector(evalObject:)
                            toTarget:self
                          withObject:nullify(object)];
@@ -101,10 +103,10 @@
   NSDictionary *attrs;
   NSMutableAttributedString *text = [outputTextView textStorage];
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
+  BOOL waitp = NO;
+
   object = denullify(object);
 
-  [statusText setStringValue:@"Compiling and executing."];
   NS_DURING
     {
       int i;
@@ -130,18 +132,27 @@
                     inLexicalContext:[MLKLexicalContext globalContext]
                      withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
 
+      [text performSelectorOnMainThread:@selector(beginEditing)
+            withObject:nil
+            waitUntilDone:waitp];
+
       for (i = 0; i < [results count]; i++)
         {
           id result = denullify ([results objectAtIndex:i]);
 
-          [text beginEditing];
+          //[text beginEditing];
           attrs = [NSDictionary dictionaryWithObjectsAndKeys:
             [NSColor purpleColor], NSForegroundColorAttributeName, nil];
           NSAttributedString *response =
             LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(result)
                                                           attributes:attrs]);
-          [text appendAttributedString:response];
-          [[text mutableString] appendString:@"\n"];
+          [text performSelectorOnMainThread:@selector(appendAttributedString:)
+                withObject:response
+                waitUntilDone:waitp];
+          [[text mutableString]
+            performSelectorOnMainThread:@selector(appendString:)
+            withObject:@"\n"
+            waitUntilDone:waitp];
         }      
     }
   NS_HANDLER
@@ -151,27 +162,46 @@
         [[localException name] UTF8String],
         [[localException reason] UTF8String]];
 
-      [text beginEditing];
+      [text performSelectorOnMainThread:@selector(beginEditing)
+            withObject:nil
+            waitUntilDone:waitp];
+
       attrs = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor redColor], NSForegroundColorAttributeName, nil];
       NSAttributedString *response =
         LAUTORELEASE ([[NSAttributedString alloc] initWithString:bare_msg
                                                       attributes:attrs]);
-      [text appendAttributedString:response];
+      [text performSelectorOnMainThread:@selector(appendAttributedString:)
+            withObject:response
+            waitUntilDone:waitp];
     }
   NS_ENDHANDLER;
 
   [MLKDynamicContext popContext];
   LDESTROY (newctx);
-  [statusText setStringValue:@"Ready."];
+  [statusText performSelectorOnMainThread:@selector(setStringValue:)
+              withObject:@"Ready."
+              waitUntilDone:waitp];
 
-  [[text mutableString] appendString:@"\n"];
+  [[text mutableString]
+    performSelectorOnMainThread:@selector(appendString:)
+    withObject:@"\n"
+    waitUntilDone:waitp];
 
-  [text endEditing];
+  [text performSelectorOnMainThread:@selector(endEditing)
+        withObject:nil
+        waitUntilDone:waitp];
 
-  [submitButton setEnabled:YES];
-  
+  [self performSelectorOnMainThread:@selector(enableSubmitButton:)
+        withObject:self
+        waitUntilDone:NO];
+
   [pool release];
+}
+
+- (void)enableSubmitButton:(id)sender
+{
+  [submitButton setEnabled:YES];
 }
 
 - (void)writeChar:(unichar)ch
@@ -188,6 +218,9 @@
   NSAttributedString *output =
     LAUTORELEASE ([[NSAttributedString alloc] initWithString:string
                                                   attributes:attrs]);
-  [[outputTextView textStorage] appendAttributedString:output];
+  [[outputTextView textStorage]
+    performSelectorOnMainThread:@selector(appendAttributedString:)
+    withObject:output
+    waitUntilDone:YES];
 }
 @end

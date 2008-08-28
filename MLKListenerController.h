@@ -37,6 +37,7 @@
 - (void)writeString:(NSString *)string;
 
 - (void)evalObject:(id)object;
+- (void)enableSubmitButton:(id)sender;
 
 - (IBAction)submit:(id)sender;
 @end
