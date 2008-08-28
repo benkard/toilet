@@ -16,10 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if USE_LLVM
+#import "MLKLLVMCompiler.h"
+#import "MLKLexicalContext-MLKLLVMCompilation.h"
+#endif
+
 #import <AppKit/NSApplication.h>
 
 int
 main (int argc, const char *argv[])
 {
+#ifdef USE_LLVM
+  // We do this in order to prevent ld from “optimising” MLKLLVMCompiler
+  // away.  GNU ld apparently sucks at dynamic languages.
+  [MLKLLVMCompiler class];
+#endif
+  
   return NSApplicationMain(argc, argv);
 }
