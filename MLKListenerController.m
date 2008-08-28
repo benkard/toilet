@@ -24,6 +24,27 @@
 #import "util.h"
 
 @implementation MLKListenerController
+- (id)init
+{
+  self = [super init];
+
+  ostream = [[NSOutputStream alloc] initToMemory];
+  lispStream = [[MLKStream alloc] initWithOutputStream:ostream];
+  [ostream setDelegate:self];
+  [ostream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+  [ostream open];
+
+  return self;
+}
+
+- (void)dealloc
+{
+  [ostream close];
+  LDESTROY (ostream);
+  LDESTROY (lispStream);
+  [super dealloc];
+}
+
 - (IBAction)submit:(id)sender
 {
   id object;
@@ -100,5 +121,10 @@
   [text endEditing];
 
   [submitButton setEnabled:YES];
+}
+
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)event
+{
+  NSLog (@"Heya!");
 }
 @end

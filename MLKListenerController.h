@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKStream.h"
+
 #import <Cocoa/Cocoa.h>
 
 @interface MLKListenerController : NSObject
@@ -25,6 +27,15 @@
     IBOutlet id outputTextView;
     IBOutlet id statusText;
     IBOutlet id submitButton;
+
+    MLKStream *lispStream;
+    NSOutputStream *ostream;
 }
+
+- (id)init;
+- (void)dealloc;
+
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)event;
+
 - (IBAction)submit:(id)sender;
 @end
