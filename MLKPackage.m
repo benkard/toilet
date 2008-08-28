@@ -155,6 +155,7 @@ static NSMutableDictionary *packages = nil;
   [sys export:[sys intern:@"SET"]];
   [sys export:[sys intern:@"APPLY"]];
   [sys export:[sys intern:@"EVAL"]];
+  [sys export:[sys intern:@"REQUIRE"]];
 
   [sys export:[sys intern:@"OBJC-CLASS-OF"]];
   [sys export:[sys intern:@"OBJC-SUBCLASSP"]];

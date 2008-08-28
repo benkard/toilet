@@ -18,34 +18,34 @@
 
 (in-package #:common-lisp)
 
-(load "util.lisp")
-(load "defun-0.lisp")
-(load "list-functions.lisp")
-(load "destructuring-bind.lisp")
-(load "defun-1.lisp")
-(load "list-functions.lisp")
-(load "reader.lisp")
-(load "sharpsign.lisp")
-(load "control-flow.lisp")
-(load "types.lisp")
-(load "numbers.lisp")
-(load "list-functions-2.lisp")
-(load "ffi.lisp")
+(require "util.lisp")
+(require "defun-0.lisp")
+(require "list-functions.lisp")
+(require "destructuring-bind.lisp")
+(require "defun-1.lisp")
+(require "list-functions.lisp")
+(require "reader.lisp")
+(require "sharpsign.lisp")
+(require "control-flow.lisp")
+(require "types.lisp")
+(require "numbers.lisp")
+(require "list-functions-2.lisp")
+(require "ffi.lisp")
 
-(load "Sacla/share.lisp")
-(load "Sacla/do.lisp")
+(require "Sacla/share.lisp")
+(require "Sacla/do.lisp")
 
-(load "evaluation.lisp")
+(require "evaluation.lisp")
 
-(load "Sacla/share-2.lisp")
+(require "Sacla/share-2.lisp")
 
-(load "Sacla/data-and-control.lisp")
+(require "Sacla/data-and-control.lisp")
 
-(load "array.lisp")
-(load "Sacla/array.lisp")
+(require "array.lisp")
+(require "Sacla/array.lisp")
 
-(load "string.lisp")
-(load "package.lisp")
+(require "string.lisp")
+(require "package.lisp")
 
 (setq *system-initialised-p* t)
 

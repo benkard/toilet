@@ -35,7 +35,7 @@
 
 - (void) initialiseInterpreter
 {
-  [inputField setStringValue:@"(load \"init.lisp\")"];
+  [inputField setStringValue:@"(require \"init.lisp\")"];
   [self submit:self];
 }
 
