@@ -49,6 +49,7 @@
   NS_ENDHANDLER;
 
   [inputField setStringValue:@""];
+  [inputField selectText:self];
 
   package = [[MLKDynamicContext currentContext]
              valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
@@ -97,7 +98,7 @@
   [[text mutableString] appendString:@"\n"];
 
   [text endEditing];
-  
+
   [submitButton setEnabled:YES];
 }
 @end
