@@ -45,6 +45,9 @@
   id object;
   NSDictionary *attrs;
   NSString *input = [inputField stringValue];
+  float originalScrollPosition = [[[outputTextView enclosingScrollView]
+                                    verticalScroller]
+                                   floatValue];
 
   [submitButton setEnabled:NO];
 
@@ -92,6 +95,12 @@
 
   [statusText setStringValue:@"Compiling and executing."];
 
+  if (originalScrollPosition == 1.0)
+    {
+      NSRange range = NSMakeRange ([text length], 0);
+      [outputTextView scrollRangeToVisible:range];
+    }
+
   [NSThread detachNewThreadSelector:@selector(evalObject:)
                            toTarget:self
                          withObject:nullify(object)];
@@ -104,6 +113,9 @@
   NSMutableAttributedString *text = [outputTextView textStorage];
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   BOOL waitp = NO;
+   float originalScrollPosition = [[[outputTextView enclosingScrollView]
+                                     verticalScroller]
+                                    floatValue];
 
   object = denullify(object);
 
@@ -196,6 +208,13 @@
         withObject:self
         waitUntilDone:NO];
 
+  if (originalScrollPosition == 1.0)
+    {
+      [self performSelectorOnMainThread:@selector(scrollDown:)
+            withObject:self
+            waitUntilDone:NO];
+    }
+
   [pool release];
 }
 
@@ -211,6 +230,10 @@
 
 - (void)writeString:(NSString *)string
 {
+  float originalScrollPosition = [[[outputTextView enclosingScrollView]
+                                    verticalScroller]
+                                   floatValue];
+
   NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSColor brownColor],
                                         NSForegroundColorAttributeName,
@@ -222,5 +245,20 @@
     performSelectorOnMainThread:@selector(appendAttributedString:)
     withObject:output
     waitUntilDone:YES];
+
+  if (originalScrollPosition == 1.0)
+    {
+      [self performSelectorOnMainThread:@selector(scrollDown:)
+            withObject:self
+            waitUntilDone:NO];
+    }
+}
+
+- (void)scrollDown:(id)sender
+{
+  // FIXME: This is slow.  Investigate NSClipView#-scrollToPoint as a
+  // possible alternative.
+  NSRange range = NSMakeRange ([[outputTextView textStorage] length], 0);
+  [outputTextView scrollRangeToVisible:range];
 }
 @end
