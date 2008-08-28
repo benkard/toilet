@@ -36,5 +36,7 @@
 - (void)writeChar:(unichar)ch;
 - (void)writeString:(NSString *)string;
 
+- (void)evalObject:(id)object;
+
 - (IBAction)submit:(id)sender;
 @end

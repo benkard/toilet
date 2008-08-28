@@ -41,11 +41,10 @@
 
 - (IBAction)submit:(id)sender
 {
+  MLKPackage *package;
   id object;
   NSDictionary *attrs;
   NSString *input = [inputField stringValue];
-  MLKPackage *package;
-  MLKDynamicContext *newctx;
 
   [submitButton setEnabled:NO];
 
@@ -70,10 +69,10 @@
   package = [[MLKDynamicContext currentContext]
              valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                              intern:@"*PACKAGE*"]];
-
+  
   NSMutableAttributedString *text = [outputTextView textStorage];
   [text beginEditing];
-
+  
   attrs = [NSDictionary dictionaryWithObjectsAndKeys:
     [NSColor blueColor], NSForegroundColorAttributeName, nil];
   NSString *barePrompt = [NSString stringWithFormat:@"%@> ", [package name]];
@@ -81,15 +80,27 @@
     LAUTORELEASE ([[NSAttributedString alloc] initWithString:barePrompt
                                                   attributes:attrs]);
   [text appendAttributedString:prompt];
-
+  
   attrs = [NSDictionary dictionaryWithObjectsAndKeys:
     [NSColor blackColor], NSForegroundColorAttributeName, nil];
   NSAttributedString *inputFeedback =
     LAUTORELEASE ([[NSAttributedString alloc] initWithString:input attributes:attrs]);
   [text appendAttributedString:inputFeedback];
-
+  
   [[text mutableString] appendString:@"\n"];
-  [text endEditing];
+  [text endEditing];  
+
+  [NSThread detachNewThreadSelector:@selector(evalObject:)
+                           toTarget:self
+                         withObject:object];
+}
+
+- (void)evalObject:(id)object
+{
+  MLKDynamicContext *newctx;
+  NSDictionary *attrs;
+  NSMutableAttributedString *text = [outputTextView textStorage];
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
   [statusText setStringValue:@"Compiling and executing."];
   NS_DURING
@@ -142,7 +153,7 @@
       attrs = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor redColor], NSForegroundColorAttributeName, nil];
       NSAttributedString *response =
-        LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(object)
+        LAUTORELEASE ([[NSAttributedString alloc] initWithString:bare_msg
                                                       attributes:attrs]);
       [text appendAttributedString:response];
     }
@@ -157,6 +168,8 @@
   [text endEditing];
 
   [submitButton setEnabled:YES];
+  
+  [pool release];
 }
 
 - (void)writeChar:(unichar)ch
