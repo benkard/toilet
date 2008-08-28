@@ -109,17 +109,21 @@ load (id _data, NSString *fileName, id _marker)
   MLKDynamicContext *ctx;
 
   l = [fileName length];
-  fprintf (stderr, ";\n;  ");
-  for (i = 0; i < 68 - 2*level; i++)
-    fprintf (stderr, "_");
 
-  fprintf (stderr, "\n; /");
+  MLKCharacterStream *ostream = [[MLKDynamicContext currentContext]
+                                  valueForSymbol:[cl intern:@"*STANDARD-OUTPUT*"]];
+
+  [ostream writeString:@";\n;  "];
+  for (i = 0; i < 68 - 2*level; i++)
+    [ostream writeChar:'_'];
+
+  [ostream writeString:@"\n; /"];
   for (i = 0; i < 30 - l/2 - level; i++)
-    fprintf (stderr, "-");
-  fprintf (stderr, " LOAD: %s ", [fileName UTF8String]);
+    [ostream writeChar:'-'];
+  [ostream writeString:[NSString stringWithFormat:@" LOAD: %s ", [fileName UTF8String]]];
   for (i = 0; i < 30 - (l+1)/2 - level; i++)
-    fprintf (stderr, "-");
-  fprintf (stderr, "\n; |\n");
+    [ostream writeChar:'-'];
+  [ostream writeString:@"\n; |\n"];
 
   //NSLog (@"%d", [input hasBytesAvailable]);
   [input open];
@@ -153,10 +157,10 @@ load (id _data, NSString *fileName, id _marker)
   LRELEASE (ctx);
   [input close];
 
-  fprintf (stderr, "; \\");
+  [ostream writeString:@"; \\"];
   for (i = 0; i < 68 - 2*level; i++)
-    fprintf (stderr, "_");
-  fprintf (stderr, "\n; \n");
+    [ostream writeChar:'_'];
+  [ostream writeString:@"\n; \n"];
 
   return truify (success);
 }

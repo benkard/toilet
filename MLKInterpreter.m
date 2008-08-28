@@ -140,10 +140,12 @@ PRIMARY (NSArray *array)
         formdesc = MLKPrintToString(code);
 
       //fprintf (stderr, "; COMPILE-MINIMALLY: %s\n", [formdesc UTF8String]);
-      fprintf (stderr, "; ");
+      MLKCharacterStream *ostream = [[MLKDynamicContext currentContext]
+                                      valueForSymbol:[cl intern:@"*STANDARD-OUTPUT*"]];
+      [ostream writeString:@"; "];
       for (i = 0; i < level; i++)
-        fprintf (stderr, "| ");
-      fprintf (stderr, "LOAD: %s\n", [formdesc UTF8String]);
+        [ostream writeString:@"| "];
+      [ostream writeString:[NSString stringWithFormat:@"LOAD: %@\n", formdesc]];
 
       if (MLKLoadCompilesP)
         {
