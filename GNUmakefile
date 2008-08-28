@@ -140,8 +140,9 @@ endif
 
 ToiletLisp_OBJC_FILES = MLKListenerController.m ToiletLisp_main.m
 #ToiletLisp_LOCALIZED_RESOURCE_FILES = Toilet.nib
-ToiletLisp_RESOURCE_FILES = Toilet.nib
-ToiletLisp_MAIN_MODEL_FILE = Toilet.gorm
+ToiletLisp_RESOURCE_FILES = MainMenu.nib
+#ToiletLisp_MAIN_MODEL_FILE = MainMenu.gorm
+ToiletLisp_MAIN_MODEL_FILE = MainMenu.nib
 ToiletLisp_OBJCC_FILES = _stamp.mm
 ToiletLisp_OBJC_LIBS += -LToiletKit.framework		\
                         -LToiletKit.framework/Versions/Current -lToiletKit

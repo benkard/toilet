@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A72BC6FD0E65E06200486804 /* Toilet.nib in Resources */ = {isa = PBXBuildFile; fileRef = A72BC6FC0E65E06200486804 /* Toilet.nib */; };
+		A72BC6FD0E65E06200486804 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = A72BC6FC0E65E06200486804 /* MainMenu.nib */; };
 		A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72BC70A0E65EA1100486804 /* MLKListenerController.m */; };
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
 		A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */ = {isa = PBXBuildFile; fileRef = A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */; };
@@ -150,6 +150,9 @@
 		A7A835F40E477C7F005D64E0 /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
 		A7A835F50E477C7F005D64E0 /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
 		A7A835F60E477C7F005D64E0 /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
+		A7A85D5B0E668CA700021916 /* ToiletLisp_main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */; };
+		A7A85DDE0E668DEF00021916 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
+		A7A85DE00E668E1500021916 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A85DDF0E668E1500021916 /* AppKit.framework */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -227,14 +230,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A7E5C3EA0E21689F00A01D81 /* ToiletKit */;
+			remoteGlobalIDString = A7E5C3EA0E21689F00A01D81;
 			remoteInfo = ToiletKit;
 		};
 		A72BC75A0E65EF2D00486804 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A7E5C3CE0E21682800A01D81 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A745C34F0E607C6600C43A04 /* toilet-llvm */;
+			remoteGlobalIDString = A745C34F0E607C6600C43A04;
 			remoteInfo = "toilet-llvm";
 		};
 		A745C35B0E607DD600C43A04 /* PBXContainerItemProxy */ = {
@@ -433,7 +436,7 @@
 		A720D3670E5B1CB700734638 /* GNUmakefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; languageSpecificationIdentifier = make; path = GNUmakefile; sourceTree = "<group>"; };
 		A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet Lisp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
-		A72BC6FC0E65E06200486804 /* Toilet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Toilet.nib; sourceTree = "<group>"; };
+		A72BC6FC0E65E06200486804 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		A72BC70A0E65EA1100486804 /* MLKListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKListenerController.m; sourceTree = "<group>"; };
 		A72BC70B0E65EA1100486804 /* MLKListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKListenerController.h; sourceTree = "<group>"; };
 		A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCompiledClosure.h; sourceTree = "<group>"; };
@@ -441,7 +444,7 @@
 		A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MLKLexicalContext-MLKLLVMCompilation.mm"; sourceTree = "<group>"; };
 		A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLKLexicalContext-MLKLLVMCompilation.h"; sourceTree = "<group>"; };
 		A745C3500E607C6600C43A04 /* libtoilet-llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libtoilet-llvm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A745C4390E6189EB00C43A04 /* toilet */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
+		A745C4390E6189EB00C43A04 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
 		A745C46D0E618D7300C43A04 /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = configure; sourceTree = "<group>"; };
 		A787112C0E4C456C00A7191F /* array.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = array.lisp; sourceTree = "<group>"; };
 		A787112E0E4C459200A7191F /* globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = globals.m; sourceTree = "<group>"; };
@@ -509,6 +512,8 @@
 		A7A8357F0E477C26005D64E0 /* ansi-tests.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ansi-tests.lisp"; sourceTree = "<group>"; };
 		A7A835800E477C26005D64E0 /* desirable-printer.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "desirable-printer.lisp"; sourceTree = "<group>"; };
 		A7A835A20E477C27005D64E0 /* x-sequence.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "x-sequence.lisp"; sourceTree = "<group>"; };
+		A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToiletLisp_main.m; sourceTree = "<group>"; };
+		A7A85DDF0E668E1500021916 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -590,6 +595,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A85DDE0E668DEF00021916 /* Foundation.framework in Frameworks */,
+				A7A85DE00E668E1500021916 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,16 +703,17 @@
 		A7E5C3CC0E21682800A01D81 = {
 			isa = PBXGroup;
 			children = (
+				A7A85DDF0E668E1500021916 /* AppKit.framework */,
+				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
 				A745C46D0E618D7300C43A04 /* configure */,
 				A720D3670E5B1CB700734638 /* GNUmakefile */,
 				A7A834A40E477B86005D64E0 /* Lisp Files */,
-				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
 				A7E5C48D0E216A0E00A01D81 /* Source Files */,
 				A7E5C48C0E2169CE00A01D81 /* Headers */,
 				A7E5C3E00E21684000A01D81 /* Products */,
 				A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */,
 				A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */,
-				A72BC6FC0E65E06200486804 /* Toilet.nib */,
+				A72BC6FC0E65E06200486804 /* MainMenu.nib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -782,6 +790,7 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */,
 				A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */,
 				A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */,
 				A78713800E4EFF4000A7191F /* MLKForm.m */,
@@ -1023,7 +1032,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A72BC6FD0E65E06200486804 /* Toilet.nib in Resources */,
+				A72BC6FD0E65E06200486804 /* MainMenu.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,6 +1044,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */,
+				A7A85D5B0E668CA700021916 /* ToiletLisp_main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,6 +1167,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1207,6 +1221,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1257,6 +1275,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1309,6 +1331,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1359,6 +1385,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1409,6 +1439,10 @@
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_H",
+					"-DUSE_LLVM",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
