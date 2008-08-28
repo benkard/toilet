@@ -16,25 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKCharacterStream.h"
+#import "MLKToiletApplicationController.h"
+#import "MLKListenerController.h"
 
-#import <Cocoa/Cocoa.h>
-
-@interface MLKListenerController : MLKCharacterStream
+@implementation MLKToiletApplicationController
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    IBOutlet id indicatorText;
-    IBOutlet id inputField;
-    IBOutlet id outputTextView;
-    IBOutlet id statusText;
-    IBOutlet id submitButton;
+  [initialListener initialiseInterpreter];
 }
-
-+ (void)initialize;
-
-- (void)initialiseInterpreter;
-
-- (void)writeChar:(unichar)ch;
-- (void)writeString:(NSString *)string;
-
-- (IBAction)submit:(id)sender;
 @end

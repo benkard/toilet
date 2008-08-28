@@ -13,6 +13,12 @@
                 submitButton = id; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MLKToiletApplicationController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {initialListener = id; }; 
+            SUPERCLASS = NSObject; 
         }
     ); 
     IBVersion = 1; 

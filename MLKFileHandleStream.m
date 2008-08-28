@@ -70,7 +70,7 @@
 {
   if (_closeWhenDone)
     {
-      [_fileHandle close];
+      [_fileHandle closeFile];
     }
   LDESTROY (_fileHandle);
   [super dealloc];

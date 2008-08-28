@@ -159,6 +159,57 @@
 		A7A85EC40E669ADA00021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
 		A7A85ED10E669B5800021916 /* libtoilet-llvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */; };
 		A7A85F370E66AA8400021916 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A7A85F360E66AA8400021916 /* Credits.rtf */; };
+		A7A860250E66FEFB00021916 /* MLKBinaryStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8601B0E66FEFB00021916 /* MLKBinaryStream.h */; };
+		A7A860260E66FEFB00021916 /* MLKBinaryStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8601C0E66FEFB00021916 /* MLKBinaryStream.m */; };
+		A7A860270E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8601D0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h */; };
+		A7A860280E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8601E0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m */; };
+		A7A860290E66FEFB00021916 /* MLKCharacterStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8601F0E66FEFB00021916 /* MLKCharacterStream.h */; };
+		A7A8602A0E66FEFB00021916 /* MLKCharacterStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A860200E66FEFB00021916 /* MLKCharacterStream.m */; };
+		A7A8602B0E66FEFB00021916 /* MLKFileHandleStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A860210E66FEFB00021916 /* MLKFileHandleStream.h */; };
+		A7A8602C0E66FEFB00021916 /* MLKFileHandleStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A860220E66FEFB00021916 /* MLKFileHandleStream.m */; };
+		A7A8602D0E66FEFB00021916 /* MLKStreamStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A860230E66FEFB00021916 /* MLKStreamStream.h */; };
+		A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A860240E66FEFB00021916 /* MLKStreamStream.m */; };
+		A7A8603E0E6700D000021916 /* MLKToiletApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */; };
+		A7A860800E67058900021916 /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787112C0E4C456C00A7191F /* array.lisp */; };
+		A7A860810E67058900021916 /* control-flow.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834010E477B76005D64E0 /* control-flow.lisp */; };
+		A7A860820E67058900021916 /* defun-0.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834020E477B76005D64E0 /* defun-0.lisp */; };
+		A7A860830E67058900021916 /* defun-1.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834030E477B76005D64E0 /* defun-1.lisp */; };
+		A7A860840E67058900021916 /* destructuring-bind.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834040E477B76005D64E0 /* destructuring-bind.lisp */; };
+		A7A860850E67058900021916 /* evaluation.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834050E477B76005D64E0 /* evaluation.lisp */; };
+		A7A860860E67058900021916 /* ffi.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138B0E4EFF8A00A7191F /* ffi.lisp */; };
+		A7A860870E67058900021916 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834060E477B76005D64E0 /* init.lisp */; };
+		A7A860880E67058900021916 /* list-functions-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834070E477B76005D64E0 /* list-functions-2.lisp */; };
+		A7A860890E67058900021916 /* list-functions.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834080E477B76005D64E0 /* list-functions.lisp */; };
+		A7A8608A0E67058900021916 /* numbers.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A834090E477B76005D64E0 /* numbers.lisp */; };
+		A7A8608B0E67058900021916 /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138C0E4EFF8A00A7191F /* package.lisp */; };
+		A7A8608C0E67058900021916 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340A0E477B76005D64E0 /* reader.lisp */; };
+		A7A8608D0E67058900021916 /* sharpsign.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340B0E477B76005D64E0 /* sharpsign.lisp */; };
+		A7A8608E0E67058900021916 /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138D0E4EFF8A00A7191F /* string.lisp */; };
+		A7A8608F0E67058900021916 /* types.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340C0E477B76005D64E0 /* types.lisp */; };
+		A7A860900E67058900021916 /* util.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8340D0E477B76005D64E0 /* util.lisp */; };
+		A7A860940E6705B300021916 /* array.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835670E477C26005D64E0 /* array.lisp */; };
+		A7A860950E6705B300021916 /* character.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835680E477C26005D64E0 /* character.lisp */; };
+		A7A860960E6705B300021916 /* clos.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835690E477C26005D64E0 /* clos.lisp */; };
+		A7A860970E6705B300021916 /* condition.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356A0E477C26005D64E0 /* condition.lisp */; };
+		A7A860980E6705B300021916 /* cons.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356B0E477C26005D64E0 /* cons.lisp */; };
+		A7A860990E6705B300021916 /* core.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356C0E477C26005D64E0 /* core.lisp */; };
+		A7A8609A0E6705B300021916 /* data-and-control.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356D0E477C26005D64E0 /* data-and-control.lisp */; };
+		A7A8609B0E6705B300021916 /* do.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356E0E477C26005D64E0 /* do.lisp */; };
+		A7A8609C0E6705B300021916 /* eval.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8356F0E477C26005D64E0 /* eval.lisp */; };
+		A7A8609D0E6705B300021916 /* hash-table.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835700E477C26005D64E0 /* hash-table.lisp */; };
+		A7A8609E0E6705B300021916 /* init.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835710E477C26005D64E0 /* init.lisp */; };
+		A7A8609F0E6705B300021916 /* loop.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835720E477C26005D64E0 /* loop.lisp */; };
+		A7A860A00E6705B300021916 /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835730E477C26005D64E0 /* package.lisp */; };
+		A7A860A10E6705B300021916 /* printer.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835740E477C26005D64E0 /* printer.lisp */; };
+		A7A860A20E6705B300021916 /* reader.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835750E477C26005D64E0 /* reader.lisp */; };
+		A7A860A30E6705B300021916 /* sequence.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835760E477C26005D64E0 /* sequence.lisp */; };
+		A7A860A40E6705B300021916 /* share-2.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835770E477C26005D64E0 /* share-2.lisp */; };
+		A7A860A50E6705B300021916 /* share.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835780E477C26005D64E0 /* share.lisp */; };
+		A7A860A60E6705B300021916 /* stand-in.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A835790E477C26005D64E0 /* stand-in.lisp */; };
+		A7A860A70E6705B300021916 /* stream.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357A0E477C26005D64E0 /* stream.lisp */; };
+		A7A860A80E6705B300021916 /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357B0E477C26005D64E0 /* string.lisp */; };
+		A7A860A90E6705B300021916 /* symbol.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357C0E477C26005D64E0 /* symbol.lisp */; };
+		A7A860AA0E6705B300021916 /* testbed.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7A8357D0E477C26005D64E0 /* testbed.lisp */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -208,8 +259,6 @@
 		A7E5C4710E21695800A01D81 /* MLKSemicolonReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */; };
 		A7E5C4720E21695800A01D81 /* MLKSingleFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */; };
 		A7E5C4730E21695800A01D81 /* MLKSingleFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */; };
-		A7E5C4740E21695800A01D81 /* MLKStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C42E0E21695700A01D81 /* MLKStream.h */; };
-		A7E5C4750E21695800A01D81 /* MLKStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C42F0E21695700A01D81 /* MLKStream.m */; };
 		A7E5C4760E21695800A01D81 /* MLKStringInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */; };
 		A7E5C4770E21695800A01D81 /* MLKStringInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */; };
 		A7E5C4780E21695800A01D81 /* MLKStringReader.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C4320E21695700A01D81 /* MLKStringReader.h */; };
@@ -436,6 +485,64 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A7A8607E0E67051B00021916 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				A7A860800E67058900021916 /* array.lisp in CopyFiles */,
+				A7A860810E67058900021916 /* control-flow.lisp in CopyFiles */,
+				A7A860820E67058900021916 /* defun-0.lisp in CopyFiles */,
+				A7A860830E67058900021916 /* defun-1.lisp in CopyFiles */,
+				A7A860840E67058900021916 /* destructuring-bind.lisp in CopyFiles */,
+				A7A860850E67058900021916 /* evaluation.lisp in CopyFiles */,
+				A7A860860E67058900021916 /* ffi.lisp in CopyFiles */,
+				A7A860870E67058900021916 /* init.lisp in CopyFiles */,
+				A7A860880E67058900021916 /* list-functions-2.lisp in CopyFiles */,
+				A7A860890E67058900021916 /* list-functions.lisp in CopyFiles */,
+				A7A8608A0E67058900021916 /* numbers.lisp in CopyFiles */,
+				A7A8608B0E67058900021916 /* package.lisp in CopyFiles */,
+				A7A8608C0E67058900021916 /* reader.lisp in CopyFiles */,
+				A7A8608D0E67058900021916 /* sharpsign.lisp in CopyFiles */,
+				A7A8608E0E67058900021916 /* string.lisp in CopyFiles */,
+				A7A8608F0E67058900021916 /* types.lisp in CopyFiles */,
+				A7A860900E67058900021916 /* util.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7A860920E67059900021916 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Sacla;
+			dstSubfolderSpec = 6;
+			files = (
+				A7A860940E6705B300021916 /* array.lisp in CopyFiles */,
+				A7A860950E6705B300021916 /* character.lisp in CopyFiles */,
+				A7A860960E6705B300021916 /* clos.lisp in CopyFiles */,
+				A7A860970E6705B300021916 /* condition.lisp in CopyFiles */,
+				A7A860980E6705B300021916 /* cons.lisp in CopyFiles */,
+				A7A860990E6705B300021916 /* core.lisp in CopyFiles */,
+				A7A8609A0E6705B300021916 /* data-and-control.lisp in CopyFiles */,
+				A7A8609B0E6705B300021916 /* do.lisp in CopyFiles */,
+				A7A8609C0E6705B300021916 /* eval.lisp in CopyFiles */,
+				A7A8609D0E6705B300021916 /* hash-table.lisp in CopyFiles */,
+				A7A8609E0E6705B300021916 /* init.lisp in CopyFiles */,
+				A7A8609F0E6705B300021916 /* loop.lisp in CopyFiles */,
+				A7A860A00E6705B300021916 /* package.lisp in CopyFiles */,
+				A7A860A10E6705B300021916 /* printer.lisp in CopyFiles */,
+				A7A860A20E6705B300021916 /* reader.lisp in CopyFiles */,
+				A7A860A30E6705B300021916 /* sequence.lisp in CopyFiles */,
+				A7A860A40E6705B300021916 /* share-2.lisp in CopyFiles */,
+				A7A860A50E6705B300021916 /* share.lisp in CopyFiles */,
+				A7A860A60E6705B300021916 /* stand-in.lisp in CopyFiles */,
+				A7A860A70E6705B300021916 /* stream.lisp in CopyFiles */,
+				A7A860A80E6705B300021916 /* string.lisp in CopyFiles */,
+				A7A860A90E6705B300021916 /* symbol.lisp in CopyFiles */,
+				A7A860AA0E6705B300021916 /* testbed.lisp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -521,6 +628,18 @@
 		A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToiletLisp_main.m; sourceTree = "<group>"; };
 		A7A85DDF0E668E1500021916 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		A7A85F360E66AA8400021916 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		A7A8601B0E66FEFB00021916 /* MLKBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBinaryStream.h; sourceTree = "<group>"; };
+		A7A8601C0E66FEFB00021916 /* MLKBinaryStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBinaryStream.m; sourceTree = "<group>"; };
+		A7A8601D0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBinaryStreamCharacterStream.h; sourceTree = "<group>"; };
+		A7A8601E0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBinaryStreamCharacterStream.m; sourceTree = "<group>"; };
+		A7A8601F0E66FEFB00021916 /* MLKCharacterStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKCharacterStream.h; sourceTree = "<group>"; };
+		A7A860200E66FEFB00021916 /* MLKCharacterStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCharacterStream.m; sourceTree = "<group>"; };
+		A7A860210E66FEFB00021916 /* MLKFileHandleStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKFileHandleStream.h; sourceTree = "<group>"; };
+		A7A860220E66FEFB00021916 /* MLKFileHandleStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKFileHandleStream.m; sourceTree = "<group>"; };
+		A7A860230E66FEFB00021916 /* MLKStreamStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStreamStream.h; sourceTree = "<group>"; };
+		A7A860240E66FEFB00021916 /* MLKStreamStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamStream.m; sourceTree = "<group>"; };
+		A7A8603C0E6700D000021916 /* MLKToiletApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKToiletApplicationController.h; sourceTree = "<group>"; };
+		A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKToiletApplicationController.m; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -574,8 +693,6 @@
 		A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSemicolonReader.m; sourceTree = "<group>"; };
 		A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKSingleFloat.h; sourceTree = "<group>"; };
 		A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKSingleFloat.m; sourceTree = "<group>"; };
-		A7E5C42E0E21695700A01D81 /* MLKStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStream.h; sourceTree = "<group>"; };
-		A7E5C42F0E21695700A01D81 /* MLKStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStream.m; sourceTree = "<group>"; };
 		A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringInputStream.h; sourceTree = "<group>"; };
 		A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringInputStream.m; sourceTree = "<group>"; };
 		A7E5C4320E21695700A01D81 /* MLKStringReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringReader.h; sourceTree = "<group>"; };
@@ -745,6 +862,12 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8601B0E66FEFB00021916 /* MLKBinaryStream.h */,
+				A7A8601D0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h */,
+				A7A8601F0E66FEFB00021916 /* MLKCharacterStream.h */,
+				A7A860210E66FEFB00021916 /* MLKFileHandleStream.h */,
+				A7A860230E66FEFB00021916 /* MLKStreamStream.h */,
+				A72BC70B0E65EA1100486804 /* MLKListenerController.h */,
 				A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */,
 				A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */,
 				A78713840E4EFF5D00A7191F /* MLKForm.h */,
@@ -787,7 +910,6 @@
 				A7E5C4280E21695700A01D81 /* MLKRoot.h */,
 				A7E5C42A0E21695700A01D81 /* MLKSemicolonReader.h */,
 				A7E5C42C0E21695700A01D81 /* MLKSingleFloat.h */,
-				A7E5C42E0E21695700A01D81 /* MLKStream.h */,
 				A7E5C4300E21695700A01D81 /* MLKStringInputStream.h */,
 				A7E5C4320E21695700A01D81 /* MLKStringReader.h */,
 				A7E5C4340E21695700A01D81 /* MLKSymbol.h */,
@@ -796,6 +918,8 @@
 				A7E5C43A0E21695800A01D81 /* NSString-MLKPrinting.h */,
 				A7E5C43C0E21695800A01D81 /* runtime-compatibility.h */,
 				A7E5C43D0E21695800A01D81 /* util.h */,
+				A7A8603C0E6700D000021916 /* MLKToiletApplicationController.h */,
+				A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -803,6 +927,11 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8601C0E66FEFB00021916 /* MLKBinaryStream.m */,
+				A7A8601E0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m */,
+				A7A860200E66FEFB00021916 /* MLKCharacterStream.m */,
+				A7A860220E66FEFB00021916 /* MLKFileHandleStream.m */,
+				A7A860240E66FEFB00021916 /* MLKStreamStream.m */,
 				A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */,
 				A72E9E6B0E5220A200BDE40F /* MLKLexicalContext-MLKLLVMCompilation.mm */,
 				A72E9E390E51CB1300BDE40F /* MLKCompiledClosure.m */,
@@ -843,7 +972,6 @@
 				A7E5C4290E21695700A01D81 /* MLKRoot.m */,
 				A7E5C42B0E21695700A01D81 /* MLKSemicolonReader.m */,
 				A7E5C42D0E21695700A01D81 /* MLKSingleFloat.m */,
-				A7E5C42F0E21695700A01D81 /* MLKStream.m */,
 				A7E5C4310E21695700A01D81 /* MLKStringInputStream.m */,
 				A7E5C4330E21695700A01D81 /* MLKStringReader.m */,
 				A7E5C4350E21695700A01D81 /* MLKSymbol.m */,
@@ -851,7 +979,6 @@
 				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
 				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
 				A72BC70A0E65EA1100486804 /* MLKListenerController.m */,
-				A72BC70B0E65EA1100486804 /* MLKListenerController.h */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -897,7 +1024,6 @@
 				A7E5C46E0E21695800A01D81 /* MLKRoot.h in Headers */,
 				A7E5C4700E21695800A01D81 /* MLKSemicolonReader.h in Headers */,
 				A7E5C4720E21695800A01D81 /* MLKSingleFloat.h in Headers */,
-				A7E5C4740E21695800A01D81 /* MLKStream.h in Headers */,
 				A7E5C4760E21695800A01D81 /* MLKStringInputStream.h in Headers */,
 				A7E5C4780E21695800A01D81 /* MLKStringReader.h in Headers */,
 				A7E5C47A0E21695800A01D81 /* MLKSymbol.h in Headers */,
@@ -920,6 +1046,11 @@
 				A78713870E4EFF5D00A7191F /* MLKForm.h in Headers */,
 				A78713890E4EFF5D00A7191F /* special-symbols.h in Headers */,
 				A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */,
+				A7A860250E66FEFB00021916 /* MLKBinaryStream.h in Headers */,
+				A7A860270E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h in Headers */,
+				A7A860290E66FEFB00021916 /* MLKCharacterStream.h in Headers */,
+				A7A8602B0E66FEFB00021916 /* MLKFileHandleStream.h in Headers */,
+				A7A8602D0E66FEFB00021916 /* MLKStreamStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,6 +1064,8 @@
 				A72BC6EA0E65DE4600486804 /* Resources */,
 				A72BC6EB0E65DE4600486804 /* Sources */,
 				A72BC6EC0E65DE4600486804 /* Frameworks */,
+				A7A8607E0E67051B00021916 /* CopyFiles */,
+				A7A860920E67059900021916 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1059,6 +1192,7 @@
 			files = (
 				A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */,
 				A7A85D5B0E668CA700021916 /* ToiletLisp_main.m in Sources */,
+				A7A8603E0E6700D000021916 /* MLKToiletApplicationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,7 +1239,6 @@
 				A7E5C46F0E21695800A01D81 /* MLKRoot.m in Sources */,
 				A7E5C4710E21695800A01D81 /* MLKSemicolonReader.m in Sources */,
 				A7E5C4730E21695800A01D81 /* MLKSingleFloat.m in Sources */,
-				A7E5C4750E21695800A01D81 /* MLKStream.m in Sources */,
 				A7E5C4770E21695800A01D81 /* MLKStringInputStream.m in Sources */,
 				A7E5C4790E21695800A01D81 /* MLKStringReader.m in Sources */,
 				A7E5C47B0E21695800A01D81 /* MLKSymbol.m in Sources */,
@@ -1125,6 +1258,11 @@
 				A78711350E4C459200A7191F /* MLKForeignProcedure.m in Sources */,
 				A78713820E4EFF4000A7191F /* MLKForm.m in Sources */,
 				A72E9E3A0E51CB1300BDE40F /* MLKCompiledClosure.m in Sources */,
+				A7A860260E66FEFB00021916 /* MLKBinaryStream.m in Sources */,
+				A7A860280E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m in Sources */,
+				A7A8602A0E66FEFB00021916 /* MLKCharacterStream.m in Sources */,
+				A7A8602C0E66FEFB00021916 /* MLKFileHandleStream.m in Sources */,
+				A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

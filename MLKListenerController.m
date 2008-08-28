@@ -19,6 +19,9 @@
 #import "MLKListenerController.h"
 
 #import "MLKDynamicContext.h"
+#import "MLKLexicalContext.h"
+#import "MLKLexicalEnvironment.h"
+#import "MLKInterpreter.h"
 #import "MLKPackage.h"
 #import "MLKReader.h"
 #import "util.h"
@@ -28,6 +31,12 @@
 + (void)initialize
 {
   ensure_symbols();
+}
+
+- (void) initialiseInterpreter
+{
+  [inputField setStringValue:@"(load \"init.lisp\")"];
+  [self submit:self];
 }
 
 - (IBAction)submit:(id)sender
@@ -85,6 +94,8 @@
   [statusText setStringValue:@"Compiling and executing."];
   NS_DURING
     {
+      int i;
+      NSArray *results;
       NSDictionary *vars = [NSDictionary dictionaryWithObjectsAndKeys:
                                            self, QUERY_IO,
                                            self, ERROR_OUTPUT,
@@ -102,25 +113,44 @@
                                           activeHandlerEnvironment:nil];
       [newctx pushContext];
 
-      // ...
+      results = [MLKInterpreter eval:object
+                    inLexicalContext:[MLKLexicalContext globalContext]
+                     withEnvironment:[MLKLexicalEnvironment globalEnvironment]];
+
+      for (i = 0; i < [results count]; i++)
+        {
+          id result = denullify ([results objectAtIndex:i]);
+
+          [text beginEditing];
+          attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSColor purpleColor], NSForegroundColorAttributeName, nil];
+          NSAttributedString *response =
+            LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(result)
+                                                          attributes:attrs]);
+          [text appendAttributedString:response];
+          [[text mutableString] appendString:@"\n"];
+        }      
     }
   NS_HANDLER
     {
-      // ...
+      NSString *bare_msg = [NSString stringWithFormat:
+               @"Caught an unhandled exception.\nName: %s\nReason: %s\n",
+        [[localException name] UTF8String],
+        [[localException reason] UTF8String]];
+
+      [text beginEditing];
+      attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSColor redColor], NSForegroundColorAttributeName, nil];
+      NSAttributedString *response =
+        LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(object)
+                                                      attributes:attrs]);
+      [text appendAttributedString:response];
     }
   NS_ENDHANDLER;
 
   [MLKDynamicContext popContext];
   LDESTROY (newctx);
   [statusText setStringValue:@"Ready."];
-
-  [text beginEditing];
-  attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSColor purpleColor], NSForegroundColorAttributeName, nil];
-  NSAttributedString *response =
-    LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(object)
-                                                  attributes:attrs]);
-  [text appendAttributedString:response];
 
   [[text mutableString] appendString:@"\n"];
 

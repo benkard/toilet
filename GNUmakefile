@@ -140,7 +140,8 @@ toilet_OBJC_LIBS += -Lobj -ltoilet-llvm $(LLVM_LDFLAGS)
 endif
 
 
-ToiletLisp_OBJC_FILES = MLKListenerController.m ToiletLisp_main.m
+ToiletLisp_OBJC_FILES = MLKListenerController.m MLKToiletApplicationController.m \
+                        ToiletLisp_main.m
 #ToiletLisp_LOCALIZED_RESOURCE_FILES = MainMenu.nib Credits.rtf
 ToiletLisp_RESOURCE_FILES = MainMenu.nib Credits.rtf
 #ToiletLisp_MAIN_MODEL_FILE = MainMenu.gorm

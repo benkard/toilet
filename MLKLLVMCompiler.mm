@@ -518,6 +518,8 @@ static Constant
                                        args.begin(),
                                        args.end(),
                                        [MLKPrintToString(_head) UTF8String]);
+  call->setCallingConv(CallingConv::C);
+  call->setTailCall(true);
 
   // XXX
   if ([_context functionIsInline:_head])
@@ -539,7 +541,7 @@ static Constant
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
   Function *function = Function::Create (ftype,
                                          Function::InternalLinkage,
-                                         "",
+                                         "a_lisp_closure_body",
                                          module);
 
   Function::arg_iterator args = function->arg_begin();
