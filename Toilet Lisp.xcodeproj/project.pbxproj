@@ -158,6 +158,7 @@
 		A7A85EC20E669AD700021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
 		A7A85EC40E669ADA00021916 /* ToiletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
 		A7A85ED10E669B5800021916 /* libtoilet-llvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A745C3500E607C6600C43A04 /* libtoilet-llvm.a */; };
+		A7A85F370E66AA8400021916 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A7A85F360E66AA8400021916 /* Credits.rtf */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -519,6 +520,7 @@
 		A7A835A20E477C27005D64E0 /* x-sequence.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "x-sequence.lisp"; sourceTree = "<group>"; };
 		A7A85D5A0E668CA700021916 /* ToiletLisp_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToiletLisp_main.m; sourceTree = "<group>"; };
 		A7A85DDF0E668E1500021916 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		A7A85F360E66AA8400021916 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -713,6 +715,7 @@
 		A7E5C3CC0E21682800A01D81 = {
 			isa = PBXGroup;
 			children = (
+				A7A85F360E66AA8400021916 /* Credits.rtf */,
 				A7A85DDF0E668E1500021916 /* AppKit.framework */,
 				A7E5C55B0E21740C00A01D81 /* Foundation.framework */,
 				A745C46D0E618D7300C43A04 /* configure */,
@@ -1043,6 +1046,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A72BC6FD0E65E06200486804 /* MainMenu.nib in Resources */,
+				A7A85F370E66AA8400021916 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

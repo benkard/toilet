@@ -212,7 +212,7 @@
 				<integer>13</integer>
 			</dict>
 		</dict>
-		<string>{{305, 738}, {533, 242}}</string>
+		<string>{{303, 583}, {533, 242}}</string>
 		<string>Listener</string>
 		<string>NSWindow</string>
 		<dict>
@@ -2216,7 +2216,7 @@
 				<integer>305</integer>
 			</dict>
 		</dict>
-		<string>Quit NewApplication</string>
+		<string>Quit Toilet Lisp</string>
 		<string>q</string>
 		<dict>
 			<key>$class</key>
@@ -4273,8 +4273,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -4313,8 +4311,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -4714,8 +4710,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -4792,8 +4786,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -4921,8 +4913,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -4961,8 +4951,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
@@ -5085,8 +5073,6 @@
 				<key>CF$UID</key>
 				<integer>137</integer>
 			</dict>
-			<key>NSIsDisabled</key>
-			<true/>
 			<key>NSIsSeparator</key>
 			<true/>
 			<key>NSKeyEquiv</key>
