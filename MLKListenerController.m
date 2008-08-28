@@ -17,13 +17,19 @@
  */
 
 #import "MLKListenerController.h"
+
+#import "MLKDynamicContext.h"
+#import "MLKPackage.h"
 #import "MLKReader.h"
+#import "util.h"
 
 @implementation MLKListenerController
 - (IBAction)submit:(id)sender
 {
   id object;
+  NSDictionary *attrs;
   NSString *input = [inputField stringValue];
+  MLKPackage *package;
 
   NS_DURING
     {
@@ -40,5 +46,43 @@
   NS_ENDHANDLER;
 
   [inputField setStringValue:@""];
+
+  package = [[MLKDynamicContext currentContext]
+             valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
+                             intern:@"*PACKAGE*"]];
+
+  NSMutableAttributedString *text = [outputTextView textStorage];
+  [text beginEditing];
+
+  attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+    [NSColor blueColor], NSForegroundColorAttributeName, nil];
+  NSString *barePrompt = [NSString stringWithFormat:@"%@> ", [package name]];
+  NSAttributedString *prompt =
+    LAUTORELEASE ([[NSAttributedString alloc] initWithString:barePrompt
+                                                  attributes:attrs]);
+  [text appendAttributedString:prompt];
+
+  attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+    [NSColor blackColor], NSForegroundColorAttributeName, nil];
+  NSAttributedString *inputFeedback =
+    LAUTORELEASE ([[NSAttributedString alloc] initWithString:input attributes:attrs]);
+  [text appendAttributedString:inputFeedback];
+
+  [[text mutableString] appendString:@"\n"];
+  [text endEditing];
+
+  // ...
+
+  [text beginEditing];
+  attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+    [NSColor purpleColor], NSForegroundColorAttributeName, nil];
+  NSAttributedString *response =
+    LAUTORELEASE ([[NSAttributedString alloc] initWithString:MLKPrintToString(object)
+                                                  attributes:attrs]);
+  [text appendAttributedString:response];
+
+  [[text mutableString] appendString:@"\n"];
+
+  [text endEditing];
 }
 @end
