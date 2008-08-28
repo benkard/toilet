@@ -92,7 +92,7 @@
 
   [NSThread detachNewThreadSelector:@selector(evalObject:)
                            toTarget:self
-                         withObject:object];
+                         withObject:nullify(object)];
 }
 
 - (void)evalObject:(id)object
@@ -101,6 +101,8 @@
   NSDictionary *attrs;
   NSMutableAttributedString *text = [outputTextView textStorage];
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  
+  object = denullify(object);
 
   [statusText setStringValue:@"Compiling and executing."];
   NS_DURING
