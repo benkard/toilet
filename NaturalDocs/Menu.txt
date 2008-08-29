@@ -46,13 +46,14 @@ Format: Development Release 12-07-2007 (1.35 base)
 # --------------------------------------------------------------------------
 
 
+File: functions.h  (functions.h)
 File: MLKCons  (MLKCons.h)
-File: Need to take *PRINT-GENSYM* into account.  (MLKSymbol.m)
 
 Group: Index  {
 
    Index: Everything
    Class Index: Classes
    Function Index: Functions
+   File Index: Files
    }  # Group: Index
 

@@ -6,8 +6,7 @@ Format: Development Release 12-07-2007 (1.35 base)
 # Config directory instead.
 
 
-# You can prevent certain file extensions from being scanned like this:
-# Ignore Extensions: [extension] [extension] ...
+Ignore Extensions: m mm c
 
 
 #-------------------------------------------------------------------------------
@@ -115,7 +114,7 @@ Format: Development Release 12-07-2007 (1.35 base)
 
 Language: Objective-C
 
-   Extensions: m mm h
+   Extension: h
    Shebang String: objc
    Ignore Prefix in Index: MLK
    Line Comment: //
