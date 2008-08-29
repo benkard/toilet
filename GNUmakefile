@@ -83,7 +83,16 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl
-#FIXME:
+
+# We copy the whole Sacla directory, because copying individual files causes them to
+# lose their relative path.  Does anyone else think this is retarded?
+#
+# At least copying whole directories is documented to work.  (“Documented” as in “the comments
+# in GNUstep-Make's source code say so,” as those seem to be the only reliable source of
+# information about GNUstep-Make out there.  BTW, does anyone else think this is retarded?)
+#
+# Anyway, look at ${GNUSTEP_MAKEFILES}/Instance/Shared/bundle.make for details.
+#
 ToiletKit_RESOURCE_FILES = array.lisp control-flow.lisp defun-0.lisp \
                            defun-1.lisp destructuring-bind.lisp evaluation.lisp \
 						   ffi.lisp init.lisp list-functions-2.lisp \
@@ -91,15 +100,7 @@ ToiletKit_RESOURCE_FILES = array.lisp control-flow.lisp defun-0.lisp \
 						   package.lisp reader.lisp sharpsign.lisp string.lisp \
 						   types.lisp util.lisp \
 						   \
-						   Sacla/array.lisp Sacla/character.lisp Sacla/clos.lisp \
-						   Sacla/condition.lisp Sacla/cons.lisp Sacla/core.lisp \
-						   Sacla/data-and-control.lisp Sacla/do.lisp \
-						   Sacla/eval.lisp Sacla/hash-table.lisp Sacla/init.lisp \
-						   Sacla/loop.lisp Sacla/package.lisp Sacla/printer.lisp \
-						   Sacla/reader.lisp Sacla/sequence.lisp \
-						   Sacla/share-2.lisp Sacla/share.lisp Sacla/stand-in.lisp \
-						   Sacla/stream.lisp Sacla/string.lisp Sacla/symbol.lisp \
-						   Sacla/testbed.lisp
+						   Sacla
 
 ifeq ($(USE_LLVM),YES)
 LLVM_CONFIG = llvm-config
