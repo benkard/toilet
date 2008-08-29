@@ -69,10 +69,13 @@ sub ParsePrototype
   $_ = $prototype;
   if ($topic_type == ::TOPIC_FUNCTION and /([-+]\s*\((.*?)\)\s*)(.*)/)
   {
+    # An Objective-C method.
     my $return_type = $2;
     my $p = NaturalDocs::Languages::Prototype->New ($1, "");
     my $args_p = 0;
 
+    # FIXME: This doesn't work for argument types that contain commas.
+    # We should use a recursive-descent parser or something...
     $_ = $3;
     while (/(\S+)\((.*?)\)\s*(\S+)(?:(\s+(.*))?|$)/)
     {
@@ -95,8 +98,33 @@ sub ParsePrototype
       return NaturalDocs::Languages::Prototype->New ($prototype, "");
     }
   }
+  elsif ($topic_type == ::TOPIC_FUNCTION and /((?:\S+\s+)?\S+\s*)\((.*)\)/)
+  {
+    # An ordinary C function.
+    my $p = NaturalDocs::Languages::Prototype->New ("$1 (", ")");
+
+    # FIXME: Same as the FIXME above.  (It's even hairier here because
+    # something like “char *str” is read as a variable called “*str”
+    # whose type is “char”.  (Actually, this isn't quite that wrong
+    # either, as “*str” _is_, in fact, of type char in this case -- by
+    # design!  Still, it's hard to parse...))
+    $_ = $2;
+    while (/(.+?)\s*(\S+)\s*(?:,(.*)|$)/)
+    {
+      $p->AddParameter (NaturalDocs::Languages::Prototype::Parameter->New ($1,
+                                                                           undef,
+                                                                           $2,
+                                                                           undef,
+                                                                           undef,
+                                                                           undef));
+      $_ = $3;
+    }
+
+    return $p;
+  }
   else
   {
+    print "Nope.\n$prototype\n";
     return $self->SUPER::ParsePrototype ($topic_type, $prototype);
   }
 };
