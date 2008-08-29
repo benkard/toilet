@@ -82,9 +82,9 @@ sub ParsePrototype
       $p->AddParameter (NaturalDocs::Languages::Prototype::Parameter->New ("($2)",
                                                                            $1,
                                                                            $3,
-                                                                           "",
-                                                                           "",
-                                                                           ""));
+                                                                           undef,
+                                                                           undef,
+                                                                           undef));
       $args_p = 1;
       $_ = $4;
     }
