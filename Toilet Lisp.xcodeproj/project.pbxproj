@@ -373,7 +373,6 @@
 		A7A860240E66FEFB00021916 /* MLKStreamStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamStream.m; sourceTree = "<group>"; };
 		A7A8603C0E6700D000021916 /* MLKToiletApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKToiletApplicationController.h; sourceTree = "<group>"; };
 		A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKToiletApplicationController.m; sourceTree = "<group>"; };
-		A7A8616F0E67DD3300021916 /* headerDoc2HTML.config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = headerDoc2HTML.config; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -578,7 +577,6 @@
 				A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */,
 				A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */,
 				A72BC6FC0E65E06200486804 /* MainMenu.nib */,
-				A7A8616F0E67DD3300021916 /* headerDoc2HTML.config */,
 			);
 			sourceTree = "<group>";
 		};
