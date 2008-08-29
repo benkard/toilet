@@ -81,7 +81,7 @@
 */
 -(void) setCar:(id)value;
 
-/* Method: setCdr:
+/* Method: -setCdr:
 
    Change the cdr of the cons cell.
 */
