@@ -124,7 +124,6 @@ sub ParsePrototype
   }
   else
   {
-    print "Nope.\n$prototype\n";
     return $self->SUPER::ParsePrototype ($topic_type, $prototype);
   }
 };

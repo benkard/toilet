@@ -116,7 +116,7 @@ Language: Objective-C
 
    Extension: h
    Shebang String: objc
-   Ignore Prefix in Index: MLK
+   Ignore Prefixes in Index: MLK + -
    Line Comment: //
    Block Comment: /* */
    Package Separator: ::
