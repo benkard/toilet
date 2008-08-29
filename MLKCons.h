@@ -19,17 +19,18 @@
 #import <Foundation/NSArray.h>
 
 
-/*! @class MLKCons
+/* Class: MLKCons
 
-@abstract A cons cell.
+   A cons cell.
 
-@discussion A cons cell (or simply: a cons) is an ordered pair whose first
-element is called the car and whose second element is called the cdr of the cons.
-Cons cells are mutable by default.
+   A cons cell (or simply: a cons) is an ordered pair whose first
+   element is called the car and whose second element is called the cdr
+   of the cons.  Cons cells are mutable by default.
 
-Note that nil is explicitely allowed as both the car and cdr of a cons cell.  In fact,
-when representing linked lists using cons cells, nil in the cdr of the last cons cell
-is what conventionally marks the end of a list.
+   Note that nil is explicitely allowed as both the car and cdr of a
+   cons cell.  In fact, when representing linked lists using cons cells,
+   nil in the cdr of the last cons cell is what conventionally marks the
+   end of a list.
 */
 @interface MLKCons : NSObject <NSCopying>
 {
@@ -37,48 +38,59 @@ is what conventionally marks the end of a list.
   id _cdr;
 }
 
-/*! @method cons:with:
+/* Method: +cons:with:
 
-@abstract Cons two objects together.
+   Cons two objects together.
 
-@param car The car of the new cons cell.
-@param cdr The cdr of the new cons cell.
-@return A newly allocated cons.
+   Arguments:
+
+     car - The car of the new cons cell.
+     cdr - The cdr of the new cons cell.
+
+     Returns: A newly allocated cons.
 */
 +(MLKCons*) cons:(id)car with:(id)cdr;
 
 
-/*! @method listWithArray:
-@abstract Make a linked list of cons cells out of an array. */
+/* Method: +listWithArray:
+
+   Make a linked list of cons cells out of an array. */
 +(MLKCons*) listWithArray:(NSArray *)array;
 
-/*! @method initWithCar:cdr:
-@abstract Initialise a new cons cell with car and cdr.
+/* Method: -initWithCar:cdr:
+
+   Initialise a new cons cell with car and cdr.
 */
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr;
 
-/*! @method car
-@abstract The car of the cons cell.
+/* Method: -car
+
+   The car of the cons cell.
 */
 -(id) car;
 
-/*! @method cdr
-@abstract The cdr of the cons cell.
+/* Method: -cdr
+  
+   The cdr of the cons cell.
 */
 -(id) cdr;
 
-/*! @method setCar:
-@abstract Change the car of the cons cell.
+/* Method: -setCar:
+
+   Change the car of the cons cell.
 */
 -(void) setCar:(id)value;
 
-/*! @method setCdr:
-@abstract Change the cdr of the cons cell.
+/* Method: setCdr:
+
+   Change the cdr of the cons cell.
 */
 -(void) setCdr:(id)value;
 
-/*! @method array
-@abstract Return the content of the linked list represented by this cons cell as an array. */
+/* Method: -array
+
+   Return the content of the linked list represented by this cons cell as an array.
+*/
 -(NSArray *) array;
 
 -(void) appendObject:(id)object;
