@@ -1,0 +1,35 @@
+In order to use the ObjC.pm module, follow these steps:
+
+ 1. Find the Natural Docs directory.  On my system, it's
+    /usr/share/perl5/naturaldocs.  I will call this directory
+    ${NATURAL_DOCS} from now on.
+
+ 2. Copy ObjC.pm to ${NATURAL_DOCS}/Modules/NaturalDocs/Languages/.
+
+ 3. Open ${NATURAL_DOCS}/Modules/NaturalDocs/Languages.pm and look for a
+    bunch of lines starting with “use NaturalDocs::Languages::”.  On my
+    system, these lines are very much at the beginning of the file.
+
+ 4. When you've found the spot, insert the following line somewhere
+    around there:
+
+      use NaturalDocs::Languages::ObjC;
+
+ 5. You may want to add the following lines to your Languages.txt:
+
+      Language: Objective-C
+
+         Extension: h m mm
+         Shebang String: objc
+         Ignore Prefix in Index: MLK + -
+         Line Comment: //
+         Block Comment: /* */
+         Package Separator: ::
+         Class Prototype Enders: + - @end
+         Function Prototype Enders: ; {
+         Variable Prototype Enders: ; =
+         Perl Package: NaturalDocs::Languages::ObjC
+
+That's it.  Have fun!
+
+Matthias
