@@ -39,6 +39,7 @@
 #import "util.h"
 
 #import <Foundation/NSArray.h>
+#import <Foundation/NSBundle.h>
 #import <Foundation/NSException.h>
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSMethodSignature.h>
@@ -95,7 +96,6 @@ cons (id _data, id car, id cdr, id _marker)
 static id
 load (id _data, NSString *fileName, id _marker)
 {
-  // FIXME
   BOOL success;
   int l, i;
   NSInputStream *input = [NSInputStream inputStreamWithFileAtPath:fileName];
@@ -163,6 +163,15 @@ load (id _data, NSString *fileName, id _marker)
   [ostream writeString:@"\n; \n"];
 
   return truify (success);
+}
+
+static id
+require (id _data, id moduleName, id _marker)
+{
+  NSBundle *toiletKit = [NSBundle bundleForClass:[MLKRoot class]];
+  NSString *path = [[toiletKit resourcePath]
+                    stringByAppendingPathComponent:stringify(moduleName)];
+  return load (nil, path, MLKEndOfArgumentsMarker);
 }
 
 static id
@@ -808,6 +817,7 @@ register_sys (NSString *name, id (*function)())
   register_sys (@"RPLACD", rplacd);
   register_sys (@"CONS", cons);
   register_sys (@"LOAD", load);
+  register_sys (@"REQUIRE", require);
   register_sys (@"EQ", eq);
   register_sys (@"FIXNUM-EQ", fixnum_eq);
   register_sys (@"SYMBOLP", symbolp);
