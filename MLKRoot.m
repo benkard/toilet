@@ -44,6 +44,7 @@
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSMethodSignature.h>
 #import <Foundation/NSNull.h>
+#import <Foundation/NSPathUtilities.h>
 #import <Foundation/NSStream.h>
 #import <Foundation/NSString.h>
 
