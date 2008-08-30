@@ -24,20 +24,75 @@
   unichar unichar;
 }
 
+/* Function: -initWithUnichar:
+
+  Initialise character with a given numeric value.
+*/
 -(MLKCharacter *) initWithUnichar:(unichar)anUnichar;
 
+/* Function: +characterWithUnichar:
+
+  Construct a character with a given numeric value.
+*/
 +(MLKCharacter *) characterWithUnichar:(unichar)anUnichar;
 
+/* Function: -unicharValue
+
+  Access the character's numeric value.
+*/
 -(unichar) unicharValue;
 
+/* Function: -uppercaseCharacter
+
+  Return the uppercase form of the character.
+
+  If the character does not have case, -uppercaseCharacter returns self.
+*/
 -(MLKCharacter *) uppercaseCharacter;
+
+/* Function: -lowercaseCharacter
+
+  Return the lowercase form of the character.
+
+  If the character does not have case, -lowercaseCharacter returns self.
+*/
 -(MLKCharacter *) lowercaseCharacter;
 
--(unichar) uppercaseChar;
--(unichar) lowercaseChar;
+/* Function: -uppercaseCharacter
 
+  Return the uppercase form of the character as a numeric value.
+
+  If the character does not have case, -uppercaseChar returns [self unicharValue].
+*/
+-(unichar) uppercaseChar;
+
+/* Function: -uppercaseChar
+
+  Return the lowercase form of the character as a numeric value.
+
+  If the character does not have case, -lowercaseChar returns [self unicharValue].
+*/
+-(unichar) uppercaseCharForChar;
+
+/* Function: +uppercaseCharForChar:
+
+  Convert a unichar to its corresponding uppercase version.
+
+  If the character does not have case, the argument is returned unchanged.
+*/
 +(unichar) uppercaseCharForChar:(unichar)ch;
+
+/* Function: +lowercaseCharForChar:
+
+  Convert a unichar to its corresponding lowercase version.
+
+  If the character does not have case, the argument is returned unchanged.
+*/
 +(unichar) lowercaseCharForChar:(unichar)ch;
 
+/* Function: -isEqual:
+
+  Test whether two <MLKCharacter>s represent the same character.
+*/
 -(BOOL) isEqual:(id)thing;
 @end

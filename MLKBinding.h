@@ -26,16 +26,52 @@
 
 +(void) initialize;
 
+/* Function: -init
+
+  Initalise unbound binding cell.
+*/
 -(MLKBinding *) init;
+
+/* Function: -initWithValue:
+
+  Initialise binding cell with a value to bind.
+*/
 -(MLKBinding *) initWithValue:(id)something;
 
+/* Function: +binding
+
+  Construct an unbound binding cell.
+*/
 +(MLKBinding *) binding;
+
+/* Function: +bindingWithValue:
+
+  Construct a bound binding cell with a value to bind.
+*/
 +(MLKBinding *) bindingWithValue:(id)something;
 
+/* Function: -setValue:
+
+  Change the binding's bound value.
+*/
 -(void) setValue:(id)something;
+
+/* Function: -value
+
+  Access the binding's bound value.
+*/
 -(id) value;
 
+/* Function: -boundp
+
+  Determine whether the binding cell is non-empty.
+*/
 -(BOOL) boundp;
+
+/* Function: -makunbound
+
+  Empty the binding.
+*/
 -(void) makunbound;
 
 -(void) dealloc;
