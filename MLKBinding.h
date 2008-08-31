@@ -19,12 +19,17 @@
 #import <Foundation/NSObject.h>
 
 
+/* Class: MLKBinding
+
+A binding in some environment. */
 @interface MLKBinding : NSObject
 {
   id value;
 }
 
 +(void) initialize;
+
+/*** Section: Initialisation and Allocation ***/
 
 /* Function: -init
 
@@ -38,6 +43,9 @@
 */
 -(MLKBinding *) initWithValue:(id)something;
 
+
+/*** Section: Accessing Content ***/
+                  
 /* Function: +binding
 
   Construct an unbound binding cell.

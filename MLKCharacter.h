@@ -19,10 +19,15 @@
 #import <Foundation/NSString.h>
 
 
+/* Class: MLKCharacter
+
+A character. */
 @interface MLKCharacter : NSObject
 {
   unichar unichar;
 }
+
+/*** Section: Creating and Initialising Characters ***/
 
 /* Function: -initWithUnichar:
 
@@ -36,11 +41,17 @@
 */
 +(MLKCharacter *) characterWithUnichar:(unichar)anUnichar;
 
+
+/*** Section: Getting the Numeric Value ***/
+
 /* Function: -unicharValue
 
   Access the character's numeric value.
 */
 -(unichar) unicharValue;
+
+
+/*** Section: Changing the Case ***/
 
 /* Function: -uppercaseCharacter
 
@@ -58,7 +69,7 @@
 */
 -(MLKCharacter *) lowercaseCharacter;
 
-/* Function: -uppercaseCharacter
+/* Function: -uppercaseChar
 
   Return the uppercase form of the character as a numeric value.
 
@@ -66,13 +77,13 @@
 */
 -(unichar) uppercaseChar;
 
-/* Function: -uppercaseChar
+/* Function: -lowercaseChar
 
   Return the lowercase form of the character as a numeric value.
 
   If the character does not have case, -lowercaseChar returns [self unicharValue].
 */
--(unichar) uppercaseCharForChar;
+-(unichar) lowercaseChar;
 
 /* Function: +uppercaseCharForChar:
 

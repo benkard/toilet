@@ -38,6 +38,8 @@
   id _cdr;
 }
 
+/*** Section: Creating and Initialising Conses ***/
+
 /* Method: +cons:with:
 
    Cons two objects together.
@@ -50,7 +52,6 @@
    Returns: A newly allocated cons.
 */
 +(MLKCons*) cons:(id)car with:(id)cdr;
-
 
 /* Method: +listWithArray:
 
@@ -69,6 +70,9 @@
    Returns: The initialised cons cell.
 */
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr;
+
+
+/*** Section: Accessing Components ***/
 
 /* Method: -car
 
@@ -105,6 +109,9 @@
      value - The new value.
 */
 -(void) setCdr:(id)value;
+
+
+/*** Section: Converting to Other Container Types ***/
 
 /* Method: -array
 
