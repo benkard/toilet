@@ -1,4 +1,4 @@
-Format: Development Release 12-07-2007 (1.35 base)
+Format: 1.4
 
 
 # You can add a title and sub-title to your menu like this:
@@ -47,6 +47,8 @@ Format: Development Release 12-07-2007 (1.35 base)
 
 
 File: functions.h  (functions.h)
+File: MLKBinding  (MLKBinding.h)
+File: MLKCharacter  (MLKCharacter.h)
 File: MLKCons  (MLKCons.h)
 
 Group: Index  {

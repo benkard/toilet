@@ -101,9 +101,12 @@ A character. */
 */
 +(unichar) lowercaseCharForChar:(unichar)ch;
 
+
+/*** Section: Comparing Characters ***/
+
 /* Function: -isEqual:
 
-  Test whether two <MLKCharacter>s represent the same character.
+  Test whether two <MLKCharacters> represent the same character.
 */
 -(BOOL) isEqual:(id)thing;
 @end
