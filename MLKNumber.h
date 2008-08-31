@@ -25,5 +25,8 @@
 -(MLKNumber *) multiplyWith:(MLKNumber *)arg;
 -(MLKNumber *) divideBy:(MLKNumber *)arg;
 
+-(MLKNumber *) numerator;
+-(MLKNumber *) denominator;
+
 -(double) doubleValue;
 @end

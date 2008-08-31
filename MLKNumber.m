@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKInteger.h"
 #import "MLKNumber.h"
 
 #import <Foundation/NSException.h>
@@ -36,5 +37,16 @@ DECLARE_ABSTRACT (-(MLKNumber *) subtract:(MLKNumber *)arg, nil)
 DECLARE_ABSTRACT (-(MLKNumber *) multiplyWith:(MLKNumber *)arg, nil)
 DECLARE_ABSTRACT (-(MLKNumber *) divideBy:(MLKNumber *)arg, nil)
 
+-(MLKNumber *) numerator
+{
+  return self;
+}
+
+-(MLKNumber *) denominator
+{
+  return [MLKInteger integerWithInt:1]; 
+}
+
 DECLARE_ABSTRACT (-(double) doubleValue, 0.0)
 @end
+

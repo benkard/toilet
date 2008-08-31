@@ -89,7 +89,7 @@ DEFINE_MPQ_TWOARG_OPERATION (divideBy:, mpq_div)
   return mpq_get_d (value);
 }
 
--(MLKInteger *) numerator
+-(MLKNumber *) numerator
 {
   mpz_t numer;
   MLKInteger *obj;
@@ -101,7 +101,7 @@ DEFINE_MPQ_TWOARG_OPERATION (divideBy:, mpq_div)
   return obj;
 }
 
--(MLKInteger *) denominator
+-(MLKNumber *) denominator
 {
   mpz_t denom;
   MLKInteger *obj;

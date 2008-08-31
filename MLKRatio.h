@@ -53,8 +53,8 @@
 -(NSComparisonResult) compare:(MLKRatio *)arg;
 -(BOOL) isEqual:(id)arg;
 
--(MLKInteger *) numerator;
--(MLKInteger *) denominator;
+-(MLKNumber *) numerator;
+-(MLKNumber *) denominator;
 
 -(NSString *) description;
 -(NSString *) descriptionWithBase:(int)base;
