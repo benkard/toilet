@@ -43,6 +43,7 @@
          forCompiler:(id)compiler;
 
 -(NSArray *) subforms;
+-(NSSet *) freeVariables;
 @end
 
 

@@ -85,6 +85,21 @@
   return [NSArray array];
 }
 
+-(NSSet *) freeVariables
+{
+  NSMutableSet *freeVariables = [NSMutableSet set];
+  NSArray *subforms = [self subforms];
+  int i;
+
+  for (i = 0; i < [subforms count]; i++)
+    {
+      MLKForm *subform = [subforms objectAtIndex:i];
+      [freeVariables unionSet:[subform freeVariables]];
+    }
+
+  return freeVariables;
+}
+
 -(void) dealloc
 {
   LDESTROY (_form);
@@ -120,6 +135,14 @@
 +(Class) dispatchClassForObject:(id)object
 {
   return self;
+}
+
+-(NSSet *) freeVariables
+{
+  if ([_context variableIsLexical:_form])
+    return [NSSet setWithObject:_form];
+  else
+    return [NSSet set];
 }
 @end
 
@@ -617,6 +640,21 @@
   return _lambdaListName;
 }
 
+-(NSSet *) freeVariables
+{
+  id superfree = [super freeVariables];
+  if ([superfree containsObject:_lambdaListName])
+    {
+      NSMutableSet *freeVariables = [superfree mutableCopy];
+      [freeVariables removeObject:_lambdaListName];
+      return freeVariables;
+    }
+  else
+    {
+      return superfree;
+    }
+}
+
 -(void) dealloc
 {
   LDESTROY (_lambdaListName);
@@ -771,6 +809,24 @@
 -(NSArray *) subforms
 {
   return [[super subforms] arrayByAddingObjectsFromArray:_variableBindingForms];
+}
+
+-(NSSet *) freeVariables
+{
+  NSMutableSet *freeVariables = [[super freeVariables] mutableCopy];
+  int i;
+
+  for (i = 0; i < [_variableBindingForms count]; i++)
+    {
+      id symbol = [[_variableBindingForms objectAtIndex:i] name];
+      if ([freeVariables containsObject:symbol]
+          && [_bodyContext variableIsLexical:symbol])
+        {
+          [freeVariables removeObject:symbol];
+        }
+    }
+
+  return freeVariables;
 }
 
 -(void) dealloc
