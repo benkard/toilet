@@ -458,7 +458,7 @@ static Constant
                          onObject:dynctx
                          withArgumentVector:&args];
     }
-  else if ([_context contextForVariable:_form] == [MLKLexicalContext globalContext])
+  else if ([_context variableIsGlobal:_form])
     {
       //[_compiler insertTrace:@"Global."];
       Value *binding = builder.Insert ([_context globalBindingValueForSymbol:_form]);
@@ -825,7 +825,7 @@ static Constant
                      onObject:dynctx
                      withArgumentVector:&args];          
         }
-      else if ([_context contextForVariable:variable] == [MLKLexicalContext globalContext])
+      else if ([_context variableIsGlobal:variable])
         {
           Value *binding = builder.Insert ([_context globalBindingValueForSymbol:variable]);
           std::vector<Value *> args (1, value);

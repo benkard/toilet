@@ -291,6 +291,11 @@ static MLKLexicalContext *global_context;
   else return (_parent && [_parent variableIsLexical:symbol]);
 }
 
+-(BOOL) variableIsGlobal:(id)name
+{
+  return [self contextForVariable:name] == [MLKLexicalContext globalContext];
+}
+
 -(BOOL) functionIsInline:(MLKSymbol *)symbol
 {
   if ([_functions containsObject:symbol])

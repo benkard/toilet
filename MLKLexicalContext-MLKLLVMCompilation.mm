@@ -50,8 +50,7 @@ id MLKDummyUseLLVMLexicalContext = nil;
   if (flag)
     return [flag boolValue];
   else
-    return (![self contextForVariable:name]
-            || [self contextForVariable:name] == [MLKLexicalContext globalContext]);
+    return (![self contextForVariable:name] || [self variableIsGlobal:name]);
 }
 
 -(Instruction *) functionCellValueForSymbol:(id)name
