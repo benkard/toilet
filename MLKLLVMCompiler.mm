@@ -668,12 +668,33 @@ static Constant
 
   builder.SetInsertPoint (outerBlock);
 
-  Value *closure_data = ConstantPointerNull::get (PointerTy);
+  NSArray *freeVariables = [[self freeVariables] allObjects];
+  Value *closure_data = builder.CreateMalloc (PointerTy,
+                                              ConstantInt::get(Type::Int32Ty,
+                                                               (uint32_t)[freeVariables count],
+                                                               false));
+  int closure_data_size = 0;
+  unsigned int i;
+  for (i = 0; i < [freeVariables count]; i++)
+    {
+      // FIXME: We assume heap allocation for all closure variables.
+      MLKSymbol *symbol = [freeVariables objectAtIndex:i];
+      if (![_context variableIsGlobal:symbol])
+        {
+          Value *binding = [_context bindingValueForSymbol:symbol];
+          Value *closure_value_ptr = builder.CreateGEP (closure_data,
+                                                        ConstantInt::get(Type::Int32Ty,
+                                                                         closure_data_size,
+                                                                         false));
+          builder.CreateStore (binding, closure_value_ptr);
+          closure_data_size++;
+        }
+    }
 
   argv[0] = function;
   argv[1] = closure_data;
-  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
-                                                           0,
+  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
+                                                           closure_data_size,
                                                            false),
                                           PointerTy));
   Value *mlkcompiledclosure = [_compiler
