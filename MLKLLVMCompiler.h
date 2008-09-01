@@ -45,6 +45,8 @@ using namespace llvm;
 +(void) processTopLevelForm:(id)object
                      inMode:(enum MLKProcessingMode)mode;
 
++(void) markVariablesForHeapAllocationInForm:(MLKForm *)form;
+
 #ifdef __cplusplus
 +(Value *) processForm:(MLKForm *)form;
 

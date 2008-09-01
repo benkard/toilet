@@ -146,6 +146,7 @@ static Constant
   MLKForm *form = [MLKForm formWithObject:object
                            inContext:context
                            forCompiler:self];
+  [self markVariablesForHeapAllocationInForm:form];
 
   block = BasicBlock::Create ("entry", function);
   builder.SetInsertPoint (block);
@@ -204,6 +205,33 @@ static Constant
 +(Value *) processForm:(MLKForm *)form
 {
   return [form processForLLVM];
+}
+
++(void) markVariablesForHeapAllocationInForm:(MLKForm *)form
+{
+  NSArray *subforms = [form subforms];
+  unsigned int i;
+
+  for (i = 0; i < [subforms count]; i++)
+    {
+      MLKForm *subform = [subforms objectAtIndex:i];
+
+      [self markVariablesForHeapAllocationInForm:subform];
+
+      if ([subform isKindOfClass:[MLKSimpleLambdaForm class]]
+          || [subform isKindOfClass:[MLKLambdaForm class]])
+        {
+          NSArray *freeVariables = [[subform freeVariables] allObjects];
+          unsigned int j;
+
+          for (j = 0; j < [freeVariables count]; j++)
+            {
+              id variable = [freeVariables objectAtIndex:j];
+              [variable setVariableHeapAllocation:YES
+                        forSymbol:variable];
+            }
+        }
+    }
 }
 
 +(Value *) insertSelectorLookup:(NSString *)name
