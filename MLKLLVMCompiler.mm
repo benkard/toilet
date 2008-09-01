@@ -458,10 +458,15 @@ static Constant
                          onObject:dynctx
                          withArgumentVector:&args];
     }
-  else if ([_context variableHeapAllocationForSymbol:_form])
+  else if ([_context contextForVariable:_form] == [MLKLexicalContext globalContext])
     {
       //[_compiler insertTrace:@"Global."];
-      Value *binding = builder.CreateLoad (builder.Insert ([_context bindingCellValueForSymbol:_form]));
+      Value *binding = builder.Insert ([_context globalBindingValueForSymbol:_form]);
+      value = [_compiler insertMethodCall:@"value" onObject:binding];      
+    }
+  else if ([_context variableHeapAllocationForSymbol:_form])
+    {
+      Value *binding = [_context bindingValueForSymbol:_form];
       value = [_compiler insertMethodCall:@"value" onObject:binding];
     }
   else
@@ -693,15 +698,29 @@ static Constant
 
   while ((binding_form = [e nextObject]))
     {
-      // FIXME: Handle heap allocation.
       Value *binding_value = [[binding_form valueForm] processForLLVM];
-      Value *binding_variable = builder.CreateAlloca (PointerTy,
-                                                      NULL,
-                                                      [(MLKPrintToString([binding_form name]))
-                                                        UTF8String]);
-      builder.CreateStore (binding_value, binding_variable);
-      [_bodyContext setValueValue:binding_variable
-                    forSymbol:[binding_form name]];
+
+      if ([_bodyContext variableHeapAllocationForSymbol:[binding_form name]])
+        {
+          Value *mlkbinding = [_compiler insertClassLookup:@"MLKBinding"];
+          std::vector<Value *> args (1, binding_value);
+          Value *binding = [_compiler insertMethodCall:@"bindingWithValue:"
+                                      onObject:mlkbinding
+                                      withArgumentVector:&args];
+          [_bodyContext setBindingValue:binding
+                        forSymbol:[binding_form name]];
+        }
+      else
+        {
+          Value *binding_variable = builder.CreateAlloca (PointerTy,
+                                                          NULL,
+                                                          [(MLKPrintToString([binding_form name]))
+                                                            UTF8String]);
+          builder.CreateStore (binding_value, binding_variable);
+
+          [_bodyContext setValueValue:binding_variable
+                        forSymbol:[binding_form name]];
+        }
     }
 
   e = [_bodyForms objectEnumerator];
@@ -806,10 +825,18 @@ static Constant
                      onObject:dynctx
                      withArgumentVector:&args];          
         }
+      else if ([_context contextForVariable:variable] == [MLKLexicalContext globalContext])
+        {
+          Value *binding = builder.Insert ([_context globalBindingValueForSymbol:variable]);
+          std::vector<Value *> args (1, value);
+
+          [_compiler insertVoidMethodCall:@"setValue:"
+                     onObject:binding
+                     withArgumentVector:&args];
+        }
       else if ([_context variableHeapAllocationForSymbol:variable])
         {
-          Value *binding = builder.CreateLoad (builder.Insert ([_context
-                                                                 bindingCellValueForSymbol:variable]));
+          Value *binding = [_context bindingValueForSymbol:variable];
           std::vector<Value *> args (1, value);
 
           [_compiler insertVoidMethodCall:@"setValue:"

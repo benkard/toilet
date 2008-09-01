@@ -107,7 +107,7 @@
 
 -(void *) functionCellForSymbol:(id)name;
 -(void *) closureDataPointerForSymbol:(id)name;
--(id *) bindingCellForSymbol:(id)name;
+-(id) bindingForSymbol:(id)name;
 
 -(void) dealloc;
 @end

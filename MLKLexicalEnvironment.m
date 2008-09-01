@@ -110,8 +110,8 @@ static MLKLexicalEnvironment *global_environment;
   if (![_variables environmentForSymbol:symbol]
       || [_variables environmentForSymbol:symbol] == global_environment->_variables)
     {
-      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
-      return [*cell value];
+      id cell = [[MLKLexicalContext globalContext] bindingForSymbol:symbol];
+      return [cell value];
     }
   else
     {
@@ -124,8 +124,8 @@ static MLKLexicalEnvironment *global_environment;
   if (![_variables environmentForSymbol:symbol]
       || [_variables environmentForSymbol:symbol] == global_environment->_variables)
     {
-      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
-      [*cell setValue:value];
+      id cell = [[MLKLexicalContext globalContext] bindingForSymbol:symbol];
+      [cell setValue:value];
     }
   else
     {
@@ -137,8 +137,8 @@ static MLKLexicalEnvironment *global_environment;
 {
   if (self == global_environment)
     {
-      id *cell = [[MLKLexicalContext globalContext] bindingCellForSymbol:symbol];
-      [*cell setValue:value];
+      id cell = [[MLKLexicalContext globalContext] bindingForSymbol:symbol];
+      [cell setValue:value];
     }
   else
     {

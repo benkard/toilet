@@ -436,24 +436,22 @@ static MLKLexicalContext *global_context;
     }
 }
 
--(id *) bindingCellForSymbol:(id)name
+-(id) bindingForSymbol:(id)name
 {
   id prop = [self deepPropertyForVariable:name
                   key:@"LEXCTX.variable-binding"];
 
   if (!prop)
     {
-      id *cell = malloc (sizeof(id));
-      *cell = [[MLKBinding alloc] init];
-      prop = [NSValue valueWithPointer:cell];
-      [self setDeepProperty:prop
+      id binding = [[MLKBinding alloc] init];
+      [self setDeepProperty:binding
             forVariable:name
             key:@"LEXCTX.variable-binding"];
-      return cell;
+      return binding;
     }
   else
     {
-      return [prop pointerValue];
+      return prop;
     }
 }
 

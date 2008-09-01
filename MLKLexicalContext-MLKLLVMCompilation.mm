@@ -76,12 +76,26 @@ id MLKDummyUseLLVMLexicalContext = nil;
                             PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
 }
 
--(Instruction *) bindingCellValueForSymbol:(id)name
+-(Instruction *) globalBindingValueForSymbol:(id)name
 {
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
-                                             (uint64_t)[self bindingCellForSymbol:name],
+                                             (uint64_t)[self bindingForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
+                            PointerType::get(Type::Int8Ty, 0)));
+}
+
+-(Value *) bindingValueForSymbol:(id)name
+{
+  return (Value *) [[self deepPropertyForVariable:name
+                          key:@"LLVM.variable-binding"]
+                     pointerValue];
+}
+
+-(void) setBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:value]
+        forVariable:name
+        key:@"LLVM.variable-binding"];
 }
 
 -(Value *) valueValueForSymbol:(id)name
