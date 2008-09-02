@@ -16,22 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKStreamError.h"
+#import "runtime-compatibility.h"
+#import "util.h"
 
-#include <Foundation/NSException.h>
 
-
-@interface MLKThrowException : NSException
+@implementation MLKStreamError
+-(id) initWithStream:(id)stream;
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  self = [super initWithName:@"MLKStreamError"
+                reason:[NSString stringWithFormat:
+                                   @"Tried to read beyond the end of file."]
+                userInfo:nil];
+  LASSIGN (_stream, stream);
+  return self;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
-
--(void) dealloc;
+-(void) dealloc
+{
+  LDESTROY (_stream);
+  [super dealloc];
+}
 @end

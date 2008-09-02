@@ -16,22 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKPackage.h"
 
-#include <Foundation/NSException.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSString.h>
 
 
-@interface MLKThrowException : NSException
+@interface MLKNoSuchSymbolError : NSException
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  MLKPackage *_package;
+  NSString *_symbolName;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
+-(id) initWithPackage:(MLKPackage *)package
+           symbolName:(NSString *)name;
 
 -(void) dealloc;
 @end

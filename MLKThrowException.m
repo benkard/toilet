@@ -22,12 +22,17 @@
 
 
 @implementation MLKThrowException
--(MLKThrowException *) initWithCatchTag:(MLKSymbol *)catchTag
-                                  value:(id)value
+-(id) initWithCatchTag:(MLKSymbol *)catchTag
+                values:(NSArray *)values
 {
-  self = [super init];
+  self = [super initWithName:@"MLKThrowException"
+                reason:[NSString stringWithFormat:
+                                   @"THROW: tag %@, values %@.",
+                                   MLKPrintToString(catchTag),
+                                   MLKPrintToString(values)]
+                userInfo:nil];
   LASSIGN (_catchTag, catchTag);
-  LASSIGN (_value, value);
+  LASSIGN (_values, values);
   return self;
 }
 
@@ -36,15 +41,15 @@
   return _catchTag;
 }
 
--(id) value
+-(NSArray *) thrownValues
 {
-  return _value;
+  return _values;
 }
 
 -(void) dealloc
 {
-  LRELEASE (_catchTag);
-  LRELEASE (_value);
+  LDESTROY (_catchTag);
+  LDESTROY (_values);
   [super dealloc];
 }
 @end

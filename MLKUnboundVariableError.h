@@ -16,22 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKEnvironment.h"
 #import "MLKSymbol.h"
 
-#include <Foundation/NSException.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSString.h>
 
 
-@interface MLKThrowException : NSException
+@interface MLKUnboundVariableError : NSException
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  MLKSymbol *_symbol;
+  MLKEnvironment *_env;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
+-(id) initWithSymbol:(MLKSymbol *)symbol
+       inEnvironment:(MLKEnvironment *)env;
 
 -(void) dealloc;
 @end

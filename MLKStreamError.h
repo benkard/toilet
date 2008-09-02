@@ -16,22 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
-
-#include <Foundation/NSException.h>
+#import <Foundation/NSException.h>
 
 
-@interface MLKThrowException : NSException
+@interface MLKStreamError : NSException
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  id _stream;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
+-(id) initWithStream:(id)stream;
 
 -(void) dealloc;
 @end

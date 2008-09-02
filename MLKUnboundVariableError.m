@@ -16,22 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKUnboundVariableError.h"
+#import "runtime-compatibility.h"
+#import "util.h"
 
-#include <Foundation/NSException.h>
 
-
-@interface MLKThrowException : NSException
+@implementation MLKUnboundVariableError
+-(id) initWithSymbol:(MLKSymbol *)symbol
+       inEnvironment:(MLKEnvironment *)env
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  self = [super initWithName:@"MLKUnboundVariableError"
+                reason:[NSString stringWithFormat:
+                                   @"The variable %@ is unbound.",
+                                   MLKPrintToString(symbol)]
+                userInfo:nil];
+  LASSIGN (_symbol, symbol);
+  LASSIGN (_env, env);
+  return self;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
-
--(void) dealloc;
+-(void) dealloc
+{
+  LDESTROY (_env);
+  LDESTROY (_symbol);
+  [super dealloc];
+}
 @end

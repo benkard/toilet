@@ -72,15 +72,16 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        MLKForeignProcedure.m MLKForm.m MLKInteger.m		\
                        MLKInterpretedClosure.m MLKInterpreter.m			\
                        MLKLexicalContext.m MLKLexicalEnvironment.m		\
-                       MLKNumber.m MLKPackage.m MLKParenReader.m		\
-                       MLKQuoteReader.m MLKRatio.m MLKReader.m			\
-                       MLKReadtable.m MLKReaderError.m MLKRoot.m		\
-                       MLKSemicolonReader.m MLKSharpsignColonReader.m		\
-                       MLKSingleFloat.m MLKStreamStream.m			\
+                       MLKNoSuchSymbolError.m MLKNumber.m MLKPackage.m		\
+                       MLKParenReader.m MLKQuoteReader.m MLKRatio.m		\
+                       MLKReader.m MLKReadtable.m MLKReaderError.m		\
+                       MLKRoot.m MLKSemicolonReader.m				\
+                       MLKSharpsignColonReader.m MLKSingleFloat.m		\
+                       MLKStreamError.m MLKStreamStream.m			\
                        MLKStringInputStream.m MLKStringOutputStream.m		\
                        MLKStringReader.m MLKSymbol.m MLKThrowException.m	\
-                       MLKValuesFunction.m NSObject-MLKPrinting.m		\
-                       NSString-MLKPrinting.m
+                       MLKUnboundVariableError.m MLKValuesFunction.m		\
+                       NSObject-MLKPrinting.m NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
 ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 

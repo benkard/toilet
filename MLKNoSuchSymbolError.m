@@ -16,22 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKNoSuchSymbolError.h"
+#import "runtime-compatibility.h"
+#import "util.h"
 
-#include <Foundation/NSException.h>
 
-
-@interface MLKThrowException : NSException
+@implementation MLKNoSuchSymbolError
+-(id) initWithPackage:(MLKPackage *)package
+           symbolName:(NSString *)name
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  self = [super initWithName:@"MLKNoSuchSymbolError"
+                reason:[NSString stringWithFormat:
+                                   @"The package %@ does not contain a symbol named %@.",
+                                   self,
+                                   name]
+                userInfo:nil];
+  LASSIGN (_symbolName, name);
+  LASSIGN (_package, package);
+  return self;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
-
--(void) dealloc;
+-(void) dealloc
+{
+  LDESTROY (_symbolName);
+  LDESTROY (_package);
+  [super dealloc];
+}
 @end
