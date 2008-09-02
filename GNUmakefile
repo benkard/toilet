@@ -232,3 +232,9 @@ debugging-run: $(KIT_TARGETS) toilet
 
 ddd-run: $(KIT_TARGETS) toilet
 	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" ddd obj/toilet
+
+dmalloc-run: $(KIT_TARGETS) toilet
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" LD_PRELOAD=/usr/lib/libdmalloc.so obj/toilet
+
+valgrind-run: $(KIT_TARGETS) toilet
+	env LD_LIBRARY_PATH="`pwd`/ToiletKit.framework/Versions/Current:/usr/local/lib" valgrind --freelist-vol=300000000 obj/toilet
