@@ -93,14 +93,15 @@ ToiletKit_LDFLAGS = -lgmp -lffi -ldl
 #
 # Anyway, look at ${GNUSTEP_MAKEFILES}/Instance/Shared/bundle.make for details.
 #
-ToiletKit_RESOURCE_FILES = array.lisp control-flow.lisp defun-0.lisp \
-                           defun-1.lisp destructuring-bind.lisp evaluation.lisp \
-						   ffi.lisp init.lisp list-functions-2.lisp \
-						   list-functions.lisp llvm-ffi.lisp numbers.lisp \
-						   package.lisp reader.lisp sharpsign.lisp string.lisp \
-						   types.lisp util.lisp \
-						   \
-						   Sacla
+ToiletKit_RESOURCE_FILES = array.lisp control-flow.lisp defun-0.lisp	\
+                           defun-1.lisp destructuring-bind.lisp		\
+                           evaluation.lisp ffi.lisp init.lisp		\
+                           list-functions-2.lisp list-functions.lisp	\
+                           numbers.lisp package.lisp reader.lisp	\
+                           sharpsign.lisp string.lisp types.lisp	\
+                           util.lisp					\
+									\
+                           Sacla
 
 ifeq ($(USE_LLVM),YES)
 LLVM_CONFIG = llvm-config
