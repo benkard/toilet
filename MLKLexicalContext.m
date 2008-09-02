@@ -331,7 +331,7 @@ static MLKLexicalContext *global_context;
   [_functions addObject:symbol];
 }
 
--(id) deepPropertyForVariable:(id)name key:(id)key
+-(id) propertyForVariable:(id)name key:(id)key
 {
   NSDictionary *props = [_variableInfo objectForKey:nullify(name)];
   id property;
@@ -341,7 +341,7 @@ static MLKLexicalContext *global_context;
   else if (!_parent || [_variables containsObject:nullify(name)])
     return nil;
   else
-    return [_parent deepPropertyForVariable:name key:key];
+    return [_parent propertyForVariable:name key:key];
 }
 
 -(void) setDeepProperty:(id)object
@@ -368,7 +368,20 @@ static MLKLexicalContext *global_context;
     }
 }
 
--(id) deepPropertyForFunction:(id)name key:(id)key
+-(void) addShallowProperty:(id)object
+               forVariable:(id)name
+                       key:(id)key
+{
+  NSMutableDictionary *props = [_variableInfo objectForKey:nullify(name)];
+  if (!props)
+    {
+      props = [NSMutableDictionary dictionary];
+      [_variableInfo setObject:props forKey:nullify(name)];
+    }
+  [props setObject:object forKey:key];
+}
+
+-(id) propertyForFunction:(id)name key:(id)key
 {
   NSDictionary *props = [_functionInfo objectForKey:nullify(name)];
   id property;
@@ -378,7 +391,7 @@ static MLKLexicalContext *global_context;
   else if (!_parent || [_functions containsObject:nullify(name)])
     return nil;
   else
-    return [_parent deepPropertyForFunction:name key:key];
+    return [_parent propertyForFunction:name key:key];
 }
 
 -(void) setDeepProperty:(id)object
@@ -403,7 +416,7 @@ static MLKLexicalContext *global_context;
 
 -(void *) functionCellForSymbol:(id)name
 {
-  id prop = [self deepPropertyForFunction:name
+  id prop = [self propertyForFunction:name
                   key:@"LEXCTX.function-cell"];
 
   if (!prop)
@@ -423,7 +436,7 @@ static MLKLexicalContext *global_context;
 
 -(void *) closureDataPointerForSymbol:(id)name
 {
-  id prop = [self deepPropertyForFunction:name
+  id prop = [self propertyForFunction:name
                   key:@"LEXCTX.closure-data"];
 
   if (!prop)
@@ -443,7 +456,7 @@ static MLKLexicalContext *global_context;
 
 -(id) bindingForSymbol:(id)name
 {
-  id prop = [self deepPropertyForVariable:name
+  id prop = [self propertyForVariable:name
                   key:@"LEXCTX.variable-binding"];
 
   if (!prop)

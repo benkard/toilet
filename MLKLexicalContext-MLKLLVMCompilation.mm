@@ -44,7 +44,7 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
 {
-  id flag = [self deepPropertyForVariable:name
+  id flag = [self propertyForVariable:name
                   key:@"LLVM.heap-flag"];
 
   if (flag)
@@ -85,9 +85,16 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Value *) bindingValueForSymbol:(id)name
 {
-  return (Value *) [[self deepPropertyForVariable:name
+  return (Value *) [[self propertyForVariable:name
                           key:@"LLVM.variable-binding"]
                      pointerValue];
+}
+
+-(void) locallySetBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self addShallowProperty:[NSValue valueWithPointer:value]
+        forVariable:name
+        key:@"LLVM.variable-binding"];
 }
 
 -(void) setBindingValue:(Value *)value forSymbol:(id)name
@@ -99,7 +106,7 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Value *) valueValueForSymbol:(id)name
 {
-  return (Value *) [[self deepPropertyForVariable:name
+  return (Value *) [[self propertyForVariable:name
                           key:@"LLVM.variable-value"]
                      pointerValue];
 }

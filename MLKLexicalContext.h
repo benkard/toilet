@@ -96,12 +96,15 @@
 -(BOOL) variableIsGlobal:(id)name;
 -(BOOL) functionIsInline:(MLKSymbol *)symbol;
 
--(id) deepPropertyForVariable:(id)name key:(id)key;
+-(id) propertyForVariable:(id)name key:(id)key;
 -(void) setDeepProperty:(id)object
             forVariable:(id)name
                     key:(id)key;
+-(void) addShallowProperty:(id)object
+               forVariable:(id)name
+                       key:(id)key;
 
--(id) deepPropertyForFunction:(id)name key:(id)key;
+-(id) propertyForFunction:(id)name key:(id)key;
 -(void) setDeepProperty:(id)object
             forFunction:(id)name
                     key:(id)key;

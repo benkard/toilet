@@ -589,8 +589,46 @@ static Constant
   BasicBlock *lambdaListNewBlock = BasicBlock::Create ("lambda_list_new");
   BasicBlock *lambdaListUpdateBlock = BasicBlock::Create ("lambda_list_update");
 
-  builder.SetInsertPoint (initBlock);
+  // ***** HANDLE CLOSURE VARIABLES *****
+  builder.SetInsertPoint (outerBlock);
 
+  NSArray *freeVariables = [[self freeVariables] allObjects];
+  Value *closure_data = builder.CreateMalloc (PointerTy,
+                                              ConstantInt::get(Type::Int32Ty,
+                                                               (uint32_t)[freeVariables count],
+                                                               false));
+  int closure_data_size = 0;
+  unsigned int i;
+  for (i = 0; i < [freeVariables count]; i++)
+    {
+      // FIXME: We assume heap allocation for all closure variables.
+      MLKSymbol *symbol = [freeVariables objectAtIndex:i];
+      if (![_context variableIsGlobal:symbol])
+        {
+          Constant *position = ConstantInt::get(Type::Int32Ty, closure_data_size, false);
+
+          // Fill in the closure data array.
+          builder.SetInsertPoint (outerBlock);
+          Value *binding = [_context bindingValueForSymbol:symbol];
+          Value *closure_value_ptr = builder.CreateGEP (closure_data, position);
+          builder.CreateStore (binding, closure_value_ptr);
+
+          // Access the closure data array from within the closure.
+          builder.SetInsertPoint (initBlock);
+          Value *local_closure_var = builder.CreateAlloca (PointerTy, NULL, "closure_variable");
+          Value *local_closure_value_ptr = builder.CreateGEP (closure_data_arg,
+                                                              position);
+          builder.CreateStore (local_closure_value_ptr, local_closure_var);
+          [_bodyContext locallySetBindingValue:local_closure_var
+                        forSymbol:symbol];
+
+          closure_data_size++;
+        }
+    }
+
+
+  // ***** HANDLE ARGUMENTS *****
+  builder.SetInsertPoint (initBlock);
   Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
@@ -695,29 +733,6 @@ static Constant
   //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
-
-  NSArray *freeVariables = [[self freeVariables] allObjects];
-  Value *closure_data = builder.CreateMalloc (PointerTy,
-                                              ConstantInt::get(Type::Int32Ty,
-                                                               (uint32_t)[freeVariables count],
-                                                               false));
-  int closure_data_size = 0;
-  unsigned int i;
-  for (i = 0; i < [freeVariables count]; i++)
-    {
-      // FIXME: We assume heap allocation for all closure variables.
-      MLKSymbol *symbol = [freeVariables objectAtIndex:i];
-      if (![_context variableIsGlobal:symbol])
-        {
-          Value *binding = [_context bindingValueForSymbol:symbol];
-          Value *closure_value_ptr = builder.CreateGEP (closure_data,
-                                                        ConstantInt::get(Type::Int32Ty,
-                                                                         closure_data_size,
-                                                                         false));
-          builder.CreateStore (binding, closure_value_ptr);
-          closure_data_size++;
-        }
-    }
 
   argv[0] = function;
   argv[1] = closure_data;
