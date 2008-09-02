@@ -623,11 +623,9 @@ static Constant
 
           // Access the closure data array from within the closure.
           builder.SetInsertPoint (initBlock);
-          Value *local_closure_var = builder.CreateAlloca (PointerTy, NULL, "closure_variable");
           Value *local_closure_value_ptr = builder.CreateGEP (closure_data_arg,
                                                               position);
-          builder.CreateStore (local_closure_value_ptr, local_closure_var);
-          [_bodyContext locallySetBindingValue:local_closure_var
+          [_bodyContext locallySetBindingValue:local_closure_value_ptr
                         forSymbol:symbol];
 
           closure_data_size++;
@@ -707,6 +705,20 @@ static Constant
                                                    NULL),
                       ap);
 
+  if ([_bodyContext variableHeapAllocationForSymbol:_lambdaListName])
+    {
+      Value *mlkbinding = [_compiler insertClassLookup:@"MLKBinding"];
+      Value *currentLambdaList = builder.CreateLoad (lambdaList);
+      std::vector<Value *> args (1, currentLambdaList);
+      Value *lambdaBinding = [_compiler insertMethodCall:@"bindingWithValue:"
+                                        onObject:mlkbinding
+                                        withArgumentVector:&args];
+      [_bodyContext setBindingValue:lambdaBinding
+                    forSymbol:_lambdaListName];
+    }
+  else
+    [_bodyContext setValueValue:lambdaList forSymbol:_lambdaListName];
+
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
   Value *value = NULL;
@@ -720,7 +732,6 @@ static Constant
   while ((form = [e nextObject]))
     {
       //NSLog (@"%LAMBDA: Processing subform.");
-      [form->_context setValueValue:lambdaList forSymbol:_lambdaListName];
       value = [form processForLLVM];
     }
 
