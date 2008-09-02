@@ -212,6 +212,7 @@ static Constant
   NSArray *subforms = [form subforms];
   unsigned int i;
 
+  //NSLog (@"Marking %@.", form);
   for (i = 0; i < [subforms count]; i++)
     {
       MLKForm *subform = [subforms objectAtIndex:i];
@@ -232,6 +233,7 @@ static Constant
             }
         }
     }
+  //NSLog (@"%@ marked.", form);
 }
 
 +(Value *) insertSelectorLookup:(NSString *)name
@@ -393,15 +395,20 @@ static Constant
 @implementation MLKForm (MLKLLVMCompilation)
 -(Value *) processForLLVM
 {
-  //[_compiler insertTrace:
-  //             [NSString stringWithFormat:
-  //                         @"Executing: %@", MLKPrintToString(_form)]];
+#if 0
+  [_compiler insertTrace:
+               [NSString stringWithFormat:
+                           @"Executing: %@", MLKPrintToString(_form)]];
+#endif
 
   Value *result = [self reallyProcessForLLVM];
 
-  //[_compiler insertTrace:
-  //             [NSString stringWithFormat:
-  //                         @"Done: %@", MLKPrintToString(_form)]];
+#if 0
+  [_compiler insertTrace:
+               [NSString stringWithFormat:
+                           @"Done: %@", MLKPrintToString(_form)]];
+#endif
+
   return result;
 }
 
@@ -547,6 +554,7 @@ static Constant
                                              PointerTy);
   args.push_back (endmarker);
 
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Function call: %@.", MLKPrintToString(_head)]];
   CallInst *call = builder.CreateCall (functionPtr,
                                        args.begin(),
                                        args.end(),

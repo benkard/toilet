@@ -47,7 +47,12 @@
   LASSIGN (_form, object);
   LASSIGN (_context, context);
   LASSIGN (_compiler, compiler);
-  return [self complete];
+
+  //NSLog (@"Processing: %@", MLKPrintToString(_form));
+  id processed_form = [self complete];
+  //NSLog (@"Processing finished: %@", MLKPrintToString(_form));
+
+  return processed_form;
 }
 
 -(id) complete
