@@ -228,8 +228,8 @@ static Constant
           for (j = 0; j < [freeVariables count]; j++)
             {
               id variable = [freeVariables objectAtIndex:j];
-              [[form context] setVariableHeapAllocation:YES
-                              forSymbol:variable];
+              [[subform context] setVariableHeapAllocation:YES
+                                 forSymbol:variable];
             }
         }
     }
