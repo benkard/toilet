@@ -63,39 +63,39 @@ static id truify (BOOL value)
 
 
 static id
-car (id _data, id cons, id _marker)
+car (id *_data, id cons, id _marker)
 {
   return [cons car];
 }
 
 static id
-cdr (id _data, id cons, id _marker)
+cdr (id *_data, id cons, id _marker)
 {
   return [cons cdr];
 }
 
 static id
-rplaca (id _data, id cons, id value, id _marker)
+rplaca (id *_data, id cons, id value, id _marker)
 {
   [cons setCar:value];
   return cons;
 }
 
 static id
-rplacd (id _data, id cons, id value, id _marker)
+rplacd (id *_data, id cons, id value, id _marker)
 {
   [cons setCdr:value];
   return cons;
 }
 
 static id
-cons (id _data, id car, id cdr, id _marker)
+cons (id *_data, id car, id cdr, id _marker)
 {
   return [MLKCons cons:car with:cdr];
 }
 
 static id
-load (id _data, NSString *fileName, id _marker)
+load (id *_data, NSString *fileName, id _marker)
 {
   BOOL success;
   int l, i;
@@ -161,22 +161,22 @@ load (id _data, NSString *fileName, id _marker)
 }
 
 static id
-require (id _data, id moduleName, id _marker)
+require (id *_data, id moduleName, id _marker)
 {
   NSBundle *toiletKit = [NSBundle bundleForClass:[MLKRoot class]];
   NSString *path = [[toiletKit resourcePath]
                     stringByAppendingPathComponent:stringify(moduleName)];
-  return load (nil, path, MLKEndOfArgumentsMarker);
+  return load (NULL, path, MLKEndOfArgumentsMarker);
 }
 
 static id
-eq (id _data, id x, id y, id _marker)
+eq (id *_data, id x, id y, id _marker)
 {
   return truify (x == y);
 }
 
 static id
-fixnum_eq (id _data, id x, id y, id _marker)
+fixnum_eq (id *_data, id x, id y, id _marker)
 {
 #ifdef NO_FIXNUMS
   return truify ([x isEqual:y]);
@@ -186,95 +186,95 @@ fixnum_eq (id _data, id x, id y, id _marker)
 }
 
 static id
-symbolp (id _data, id arg0, id _marker)
+symbolp (id *_data, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && (!arg0 || [arg0 isKindOfClass:[MLKSymbol class]]));
 }
 
 static id
-listp (id _data, id arg0, id _marker)
+listp (id *_data, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && (!arg0 || [arg0 isKindOfClass:[MLKCons class]]));
 }
 
 static id
-consp (id _data, id arg0, id _marker)
+consp (id *_data, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && [arg0 isKindOfClass:[MLKCons class]]);
 }
 
 static id
-atom (id _data, id arg0, id _marker)
+atom (id *_data, id arg0, id _marker)
 {
   return truify (!MLKInstanceP(arg0)
                  || ![arg0 isKindOfClass:[MLKCons class]]);
 }
 
 static id
-null (id _data, id arg0, id _marker)
+null (id *_data, id arg0, id _marker)
 {
   return truify (!arg0);
 }
 
 static id
-fixnump (id _data, id arg0, id _marker)
+fixnump (id *_data, id arg0, id _marker)
 {
   return truify (MLKFixnumP(arg0));
 }
 
 static id
-add (id _data, MLKNumber *x, MLKNumber *y, id _marker)
+add (id *_data, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) add:nullify(y)];
 }
 
 static id
-subtract (id _data, MLKNumber *x, MLKNumber *y, id _marker)
+subtract (id *_data, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) subtract:nullify(y)];
 }
 
 static id
-multiply (id _data, MLKNumber *x, MLKNumber *y, id _marker)
+multiply (id *_data, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) multiplyWith:nullify(y)];
 }
 
 static id
-divide (id _data, MLKNumber *x, MLKNumber *y, id _marker)
+divide (id *_data, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) divideBy:nullify(y)];
 }
 
 static id
-add_fixnums (id _data, id x, id y, id _marker)
+add_fixnums (id *_data, id x, id y, id _marker)
 {
   return MLKAddFixnums (x, y);
 }
 
 static id
-subtract_fixnums (id _data, id x, id y, id _marker)
+subtract_fixnums (id *_data, id x, id y, id _marker)
 {
   return MLKSubtractFixnums (x, y);
 }
 
 static id
-idivide_fixnums (id _data, id x, id y, id _marker)
+idivide_fixnums (id *_data, id x, id y, id _marker)
 {
   return MLKIDivideFixnums (x, y);
 }
 
 static id
-multiply_fixnums (id _data, id x, id y, id _marker)
+multiply_fixnums (id *_data, id x, id y, id _marker)
 {
   return MLKMultiplyFixnums (x, y);
 }
 
 static id
-list (id _data, ...)
+list (id *_data, ...)
 {
   id arg;
   va_list ap;
@@ -308,7 +308,7 @@ list (id _data, ...)
    : (id)({ id __tmp = ARG; ARG = va_arg(AP, id); __tmp; }))
 
 static id
-macroexpand_1 (id _data, id form, id arg, ...)
+macroexpand_1 (id *_data, id form, id arg, ...)
 {
   va_list ap;
 
@@ -341,7 +341,7 @@ macroexpand_1 (id _data, id form, id arg, ...)
 }
 
 static id
-shadow (id _data, id symbols, id arg, ...)
+shadow (id *_data, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -365,7 +365,7 @@ shadow (id _data, id symbols, id arg, ...)
 }
 
 static id
-export (id _data, id symbols, id arg, ...)
+export (id *_data, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -389,7 +389,7 @@ export (id _data, id symbols, id arg, ...)
 }
 
 static id
-unexport (id _data, id symbols, id arg, ...)
+unexport (id *_data, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -413,7 +413,7 @@ unexport (id _data, id symbols, id arg, ...)
 }
 
 static id
-find_package (id _data, id name, id _marker)
+find_package (id *_data, id name, id _marker)
 {
   MLKPackage *package = [MLKPackage findPackage:stringify(name)];
 
@@ -431,13 +431,13 @@ find_package (id _data, id name, id _marker)
 }
 
 static id
-string (id _data, id x, id _marker)
+string (id *_data, id x, id _marker)
 {
   return stringify (x);
 }
 
 static id
-gensym (id _data, id arg, ...)
+gensym (id *_data, id arg, ...)
 {
   va_list ap;
 
@@ -479,13 +479,13 @@ gensym (id _data, id arg, ...)
 }
 
 static id
-make_symbol (id _data, id name, id _marker)
+make_symbol (id *_data, id name, id _marker)
 {
   return [MLKSymbol symbolWithName:name package:nil];
 }
 
 static id
-intern (id _data, id name, id arg, ...)
+intern (id *_data, id name, id arg, ...)
 {
   va_list ap;
 
@@ -500,7 +500,7 @@ intern (id _data, id name, id arg, ...)
 }
 
 static id
-import (id _data, id symbol, id arg, ...)
+import (id *_data, id symbol, id arg, ...)
 {
   va_list ap;
 
@@ -517,25 +517,25 @@ import (id _data, id symbol, id arg, ...)
 }
 
 static id
-objc_class_of (id _data, id x, id _marker)
+objc_class_of (id *_data, id x, id _marker)
 {
   return [x class];
 }
 
 static id
-objc_subclassp (id _data, id x, id y, id _marker)
+objc_subclassp (id *_data, id x, id y, id _marker)
 {
   return truify ([x isSubclassOfClass:y]);
 }
 
 static id
-find_objc_class (id _data, id x, id _marker)
+find_objc_class (id *_data, id x, id _marker)
 {
   return NSClassFromString (x);
 }
 
 static id
-ns_log (id _data, id x, id _marker)
+ns_log (id *_data, id x, id _marker)
 {
   NSString *description = MLKPrintToString(x);
   NSLog (@"%@", description);
@@ -543,13 +543,13 @@ ns_log (id _data, id x, id _marker)
 }
 
 static id
-symbol_name (id _data, id symbol, id _marker)
+symbol_name (id *_data, id symbol, id _marker)
 {
   return (symbol ? (id)[symbol name] : (id)@"NIL");
 }
 
 static id
-primitive_type_of (id _data, id object, id _marker)
+primitive_type_of (id *_data, id object, id _marker)
 {
   if (!object)
     { return [cl intern:@"NULL"]; }
@@ -589,7 +589,7 @@ primitive_type_of (id _data, id object, id _marker)
 }
 
 static id
-send_by_name (id _data, id object, NSString *methodName, id arg, ...)
+send_by_name (id *_data, id object, NSString *methodName, id arg, ...)
 {
   NSInvocation *invocation;
   SEL selector;
@@ -670,7 +670,7 @@ as provided by method %@ of object %@",
 
 
 static id
-declarations_and_doc_and_forms (id _data, id bodyAndDecls, id _marker)
+declarations_and_doc_and_forms (id *_data, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
 
@@ -683,7 +683,7 @@ declarations_and_doc_and_forms (id _data, id bodyAndDecls, id _marker)
 
 
 static id
-declarations_and_forms (id _data, id bodyAndDecls, id _marker)
+declarations_and_forms (id *_data, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
   
@@ -694,7 +694,7 @@ declarations_and_forms (id _data, id bodyAndDecls, id _marker)
 }
 
 static id
-compile (id _data, id object, id _marker)
+compile (id *_data, id object, id _marker)
 {
   if (!MLKDefaultCompiler)
     [NSException raise:@"MLKNotImplementedException"
@@ -709,7 +709,7 @@ compile (id _data, id object, id _marker)
 }
 
 static id
-fset (id _data, id symbol, id value, id _marker)
+fset (id *_data, id symbol, id value, id _marker)
 {
   [[MLKLexicalContext globalContext] addFunction:symbol];
   [[MLKLexicalEnvironment globalEnvironment] addFunction:value
@@ -719,7 +719,7 @@ fset (id _data, id symbol, id value, id _marker)
 }
 
 static id
-set (id _data, id symbol, id value, id _marker)
+set (id *_data, id symbol, id value, id _marker)
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
@@ -733,7 +733,7 @@ set (id _data, id symbol, id value, id _marker)
 }
 
 static id
-macroset (id _data, id symbol, id value, id _marker)
+macroset (id *_data, id symbol, id value, id _marker)
 {
   [[MLKLexicalContext globalContext] addMacro:value
                                      forSymbol:symbol];
@@ -742,7 +742,7 @@ macroset (id _data, id symbol, id value, id _marker)
 }
 
 static id
-apply (id _data, id function, id arglist, id _marker)
+apply (id *_data, id function, id arglist, id _marker)
 {
   // FIXME: Multiple values.
 
@@ -760,7 +760,7 @@ apply (id _data, id function, id arglist, id _marker)
 }
 
 static id
-eval (id _data, id evaluand, id _marker)
+eval (id *_data, id evaluand, id _marker)
 {
   // FIXME: Multiple values.
 

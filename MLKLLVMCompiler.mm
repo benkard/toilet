@@ -59,7 +59,7 @@ static IRBuilder builder;
 static IRBuilder<true, ConstantFolder> builder;
 #endif
 static FunctionPassManager *fpm;
-static PointerType *PointerTy;
+static PointerType *PointerTy, *PointerPointerTy;
 static ModuleProvider *module_provider;
 
 
@@ -105,6 +105,8 @@ static Constant
   execution_engine = ExecutionEngine::create (module_provider, false);
 
   PointerTy = PointerType::get(Type::Int8Ty, 0);
+  PointerPointerTy = PointerType::get(PointerTy, 0);
+
   fpm = new FunctionPassManager (module_provider);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
   //fpm->add (new TargetData (module));
@@ -578,7 +580,7 @@ static Constant
 @implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
-  std::vector <const Type *> argtypes (1, PointerTy);
+  std::vector <const Type *> argtypes (1, PointerPointerTy);
   FunctionType *ftype = FunctionType::get (PointerTy, argtypes, true);
   Function *function = Function::Create (ftype,
                                          Function::InternalLinkage,
@@ -625,7 +627,9 @@ static Constant
           builder.SetInsertPoint (initBlock);
           Value *local_closure_value_ptr = builder.CreateGEP (closure_data_arg,
                                                               position);
-          [_bodyContext locallySetBindingValue:local_closure_value_ptr
+          Value *local_closure_value = builder.CreateLoad (local_closure_value_ptr,
+                                                           [MLKPrintToString(symbol) UTF8String]);
+          [_bodyContext locallySetBindingValue:local_closure_value
                         forSymbol:symbol];
 
           closure_data_size++;
@@ -754,7 +758,7 @@ static Constant
   builder.SetInsertPoint (outerBlock);
 
   argv[0] = function;
-  argv[1] = closure_data;
+  argv[1] = builder.CreateBitCast (closure_data, PointerTy);
   argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
                                                            closure_data_size,
                                                            false),

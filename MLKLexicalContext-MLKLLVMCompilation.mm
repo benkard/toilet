@@ -55,7 +55,7 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Instruction *) functionCellValueForSymbol:(id)name
 {
-  std::vector<const Type *> types (1, PointerType::get(Type::Int8Ty, 0));
+  std::vector<const Type *> types (1, PointerType::get(PointerType::get(Type::Int8Ty, 0), 0));
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self functionCellForSymbol:name],
                                              false),
@@ -72,7 +72,7 @@ id MLKDummyUseLLVMLexicalContext = nil;
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
                                              (uint64_t)[self closureDataPointerForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
+                            PointerType::get(PointerType::get(PointerType::get(Type::Int8Ty, 0), 0), 0)));
 }
 
 -(Instruction *) globalBindingValueForSymbol:(id)name
