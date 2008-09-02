@@ -17,6 +17,7 @@
  */
 
 #import "MLKFileHandleStream.h"
+#import "MLKStreamError.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -52,8 +53,7 @@
 
   if ([data length] == 0)
     {
-      [NSException raise:@"MLKStreamError"
-                   format:@"Tried to read beyond end of file."];
+      @throw LAUTORELEASE ([[MLKStreamError alloc] initWithStream:self]);
     }
 
   return *(uint8_t*)[data bytes];

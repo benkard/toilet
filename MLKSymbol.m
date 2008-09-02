@@ -17,6 +17,7 @@
  */
 
 #import "MLKDynamicContext.h"
+#import "MLKNoSuchSymbolError.h"
 #import "MLKPackage.h"
 #import "MLKReader.h"
 #import "MLKReadtable.h"
@@ -120,21 +121,17 @@
   else
     printName = name;
 
-  NS_DURING
+  @try
     {
       if ([currentPackage findSymbol:name] == self)
         accessible = YES;
       else
         accessible = NO;
     }
-  NS_HANDLER
+  @catch (MLKNoSuchSymbolError *e)
     {
-      if ([[localException name] isEqualToString:@"MLKNoSuchSymbolError"])
-        accessible = NO;
-      else
-        [localException raise];
+      accessible = NO;
     }
-  NS_ENDHANDLER;
 
   if (homePackage == [MLKPackage findPackage:@"KEYWORD"])
     packagePrefix = @":";

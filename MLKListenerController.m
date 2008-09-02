@@ -51,11 +51,11 @@
 
   [submitButton setEnabled:NO];
 
-  NS_DURING
+  @try
     {
       object = [MLKReader readFromString:input];
     }
-  NS_HANDLER
+  @catch (NSException *e)
     {
       // A parsing error.  Beep and let the user try again.
       // XXX Maybe the status line could be made to provide more information on the error.
@@ -64,7 +64,6 @@
       [inputField selectText:self];
       return;
     }
-  NS_ENDHANDLER;
 
   [inputField setStringValue:@""];
   [inputField selectText:self];
@@ -119,7 +118,7 @@
 
   object = denullify(object);
 
-  NS_DURING
+  @try
     {
       int i;
       NSArray *results;
@@ -167,7 +166,7 @@
             waitUntilDone:waitp];
         }      
     }
-  NS_HANDLER
+  @catch (NSException *localException)
     {
       NSString *bare_msg = [NSString stringWithFormat:
                @"Caught an unhandled exception.\nName: %s\nReason: %s\n",
@@ -187,7 +186,6 @@
             withObject:response
             waitUntilDone:waitp];
     }
-  NS_ENDHANDLER;
 
   [MLKDynamicContext popContext];
   LDESTROY (newctx);

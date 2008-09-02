@@ -23,6 +23,7 @@
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSEnumerator.h>
+#import <Foundation/NSException.h>
 
 #include <stdio.h>
 #include <search.h>
@@ -241,19 +242,17 @@ static int equalp (const void *x, const void *y)
 
 -(id) objectAtIndex:(NSUInteger)index
 {
-  NS_DURING
+  @try
     {
-      NS_VALUERETURN (nullify([self idAtIndex:index]), id);
+      return nullify ([self idAtIndex:index]);
     }
-  NS_HANDLER
+  @catch (NSException *e)
     {
-      if ([[localException name] isEqualToString:@"NSRangeException"])
+      if ([[e name] isEqualToString:NSRangeException])
         return nil;
       else
-        [localException raise];
-      return nil;
+        @throw;
     }
-  NS_ENDHANDLER;
 }
 
 -(void) insertObject:(id)anObject atIndex:(NSUInteger)index

@@ -23,6 +23,7 @@
 #import <Foundation/NSSet.h>
 
 #import "MLKEnvironment.h"
+#import "MLKUnboundVariableError.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
 #import "util.h"
@@ -79,9 +80,9 @@
   MLKBinding *binding;
 
   if (!(binding = [self bindingForSymbol:symbol]))
-    [NSException raise:@"MLKUnboundVariableError"
-                 format:@"The variable %@ is unbound.",
-                       MLKPrintToString(symbol)];
+    @throw LAUTORELEASE ([[MLKUnboundVariableError alloc]
+                           initWithSymbol:symbol
+                           inEnvironment:self]);
 
   [binding setValue:value];
 }
@@ -91,9 +92,9 @@
   MLKBinding *binding;
 
   if (!(binding = [self bindingForSymbol:symbol]))
-    [NSException raise:@"MLKUnboundVariableError"
-                 format:@"The variable %@ is unbound.",
-                       MLKPrintToString(symbol)];
+    @throw LAUTORELEASE ([[MLKUnboundVariableError alloc]
+                           initWithSymbol:symbol
+                           inEnvironment:self]);
       
   return [binding value];
 }
@@ -157,9 +158,9 @@
 -(void) setBinding:(MLKBinding *)binding forSymbol:(MLKSymbol *)symbol
 {
   if (![self bindingForSymbol:symbol])
-    [NSException raise:@"MLKUnboundVariableError"
-                 format:@"The variable %@ is unbound.",
-                        MLKPrintToString(symbol)];
+    @throw LAUTORELEASE ([[MLKUnboundVariableError alloc]
+                           initWithSymbol:symbol
+                           inEnvironment:self]);
   [self addBinding:binding forSymbol:symbol];
 }
 

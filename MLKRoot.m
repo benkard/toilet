@@ -141,22 +141,16 @@ load (id _data, NSString *fileName, id _marker)
        forSymbol:[sys intern:@"*LOAD-LEVEL*"]];
   [ctx pushContext];
 
-  NS_DURING
+  @try
     {
       success = [MLKInterpreter load:stream verbose:YES print:YES];
     }
-  NS_HANDLER
+  @finally
     {
       [MLKDynamicContext popContext];
       LRELEASE (ctx);
       [input close];
-      [localException raise];
     }
-  NS_ENDHANDLER;
-
-  [MLKDynamicContext popContext];
-  LRELEASE (ctx);
-  [input close];
 
   [ostream writeString:@"; \\"];
   for (i = 0; i < 68 - 2*level; i++)

@@ -43,6 +43,7 @@
 #import "MLKSharpsignColonReader.h"
 #import "MLKSymbol.h"
 #import "MLKInteger.h"
+#import "MLKUnboundVariableError.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -359,35 +360,25 @@ static MLKDynamicContext *global_context;
 
 -(id) findRestart:(MLKSymbol *)symbol
 {
-  NS_DURING
+  @try
     {
-      NS_VALUERETURN ([_restarts valueForSymbol:symbol], id);
+      return [_restarts valueForSymbol:symbol];
     }
-  NS_HANDLER
-    {
-      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        [localException raise];
-    }
-  NS_ENDHANDLER;
+  @catch (MLKUnboundVariableError *e) { }
 
   return nil;
 }
 
 -(id) findHandler:(MLKSymbol *)symbol
 {
-  NS_DURING
+  @try
     {
       if (_activeHandlerEnvironment)
-        NS_VALUERETURN ([[_activeHandlerEnvironment parent] valueForSymbol:symbol], id);
+        return [[_activeHandlerEnvironment parent] valueForSymbol:symbol];
       else
-        NS_VALUERETURN ([_conditionHandlers valueForSymbol:symbol], id);
+        return [_conditionHandlers valueForSymbol:symbol];
     }
-  NS_HANDLER
-    {
-      if (![[localException name] isEqualToString: @"MLKUnboundVariableError"])
-        [localException raise];
-    }
-  NS_ENDHANDLER;
+  @catch (MLKUnboundVariableError *e) { }
 
   return nil;
 }

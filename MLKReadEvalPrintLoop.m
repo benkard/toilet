@@ -51,7 +51,7 @@ static char **_argv;
 
 
 static const char *prompt (EditLine *e) {
-  NS_DURING
+  @try
     {
       MLKPackage *package = [[MLKDynamicContext currentContext]
                               valueForSymbol:[[MLKPackage
@@ -60,14 +60,13 @@ static const char *prompt (EditLine *e) {
 
       return [[NSString stringWithFormat:@"%@> ", [package name]] UTF8String];
     }
-  NS_HANDLER
+  @catch (NSException *localException)
     {
       printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
               [[localException name] UTF8String],
               [[localException reason] UTF8String]);
       return "> ";
     }
-  NS_ENDHANDLER
 }
 
 
@@ -102,7 +101,7 @@ static const char *prompt (EditLine *e) {
 
   printf ("Loading init.lisp.\n");
 #if 1
-  NS_DURING
+  @try
     {
 #endif
       input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
@@ -117,13 +116,12 @@ static const char *prompt (EditLine *e) {
       [input close];
 #if 1
     }
-  NS_HANDLER
+  @catch (NSException *localException)
     {
       printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
               [[localException name] UTF8String],
               [[localException reason] UTF8String]);
     }
-  NS_ENDHANDLER;
 #endif
 
   printf ("Done.\n\n");
@@ -159,7 +157,7 @@ static const char *prompt (EditLine *e) {
             break;
 
 #if 1
-          NS_DURING
+          @try
 #else
 #ifdef GNUSTEP
           GSDebugAllocationActive (YES);
@@ -185,13 +183,12 @@ static const char *prompt (EditLine *e) {
                 }
             }
 #if 1
-          NS_HANDLER
+          @catch (NSException *localException)
             {
               printf ("Caught an unhandled exception.\nName: %s\nReason: %s\n",
                       [[localException name] UTF8String],
                       [[localException reason] UTF8String]);
             }
-          NS_ENDHANDLER;
 #endif
 
           LRELEASE (pool);

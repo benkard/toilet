@@ -17,6 +17,7 @@
  */
 
 #import "MLKCharacterStream.h"
+#import "MLKStreamError.h"
 #import "runtime-compatibility.h"
 #import "util.h"
 
@@ -73,18 +74,14 @@
 {
   BOOL eofp = NO;
 
-  NS_DURING
+  @try
     {
       [self peekChar];
     }
-  NS_HANDLER
+  @catch (MLKStreamError *e)
     {
-      if ([[localException name] isEqual:@"MLKStreamError"])
-        eofp = YES;
-      else
-        [localException raise];
+      eofp = YES;
     }
-  NS_ENDHANDLER;
 
   return eofp;
 }

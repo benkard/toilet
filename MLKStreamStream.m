@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKStreamError.h"
 #import "MLKStreamStream.h"
 #import "runtime-compatibility.h"
 #import "util.h"
@@ -69,8 +70,7 @@
 
   if (bytes_read < 1)
     {
-      [NSException raise:@"MLKStreamError"
-                   format:@"Tried to read beyond end of file."];
+      @throw LAUTORELEASE ([[MLKStreamError alloc] initWithStream:self]);
     }
 
   return octet;

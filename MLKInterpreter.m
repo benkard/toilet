@@ -34,6 +34,7 @@
 #import "MLKReader.h"
 #import "MLKRoot.h"
 #import "MLKSymbol.h"
+#import "MLKThrowException.h"
 #import "NSObject-MLKPrinting.h"
 #import "globals.h"
 #import "runtime-compatibility.h"
@@ -198,16 +199,15 @@ PRIMARY (NSArray *array)
   //if (trace)
   NSLog (@"; EVAL: %@", MLKPrintToString(_form));
 #elif 0
-  NS_DURING
+  @catch
     {
       values = [self reallyInterpretWithEnvironment:env];
     }
-  NS_HANDLER
+  @catch (...)
     {
       NSLog (@"; BROKEN EVAL: %@", MLKPrintToString(_form));
-      [localException raise];
+      @throw;
     }
-  NS_ENDHANDLER;
 #else
   values = [self reallyInterpretWithEnvironment:env];  
 #endif
@@ -258,7 +258,7 @@ PRIMARY (NSArray *array)
 
   catchTag = PRIMARY ([_tagForm interpretWithEnvironment:env]);
 
-  NS_DURING
+  @try
     {
       newctx = [[MLKDynamicContext alloc] initWithParent:[MLKDynamicContext currentContext]
                                                 variables:nil
@@ -270,28 +270,18 @@ PRIMARY (NSArray *array)
 
       values = [self interpretBodyWithEnvironment:env];
 
-      NS_VALUERETURN (values, NSArray *);
+      return values;
     }
-  NS_HANDLER
+  @catch (MLKThrowException *throw)
     {
       [MLKDynamicContext popContext];
       LRELEASE (newctx);
-        
-      if ([[localException name] isEqualToString:@"MLKThrow"])
-        {
-          id thrownTag = [[localException userInfo]
-                                       objectForKey:@"THROWN TAG"];
-          
-          if (thrownTag == catchTag)
-            return [[localException userInfo]
-                                 objectForKey:@"THROWN OBJECTS"];
-          else
-            [localException raise];
-        }
+
+      if ([throw catchTag] == catchTag)
+        return [throw thrownValues];
       else
-        [localException raise];
+        @throw;
     }
-  NS_ENDHANDLER;
 
   [MLKDynamicContext popContext];
   LRELEASE (newctx);
@@ -447,20 +437,15 @@ PRIMARY (NSArray *array)
 
   [dynctx pushContext];
 
-  NS_DURING
+  @try
     {
       values = [self interpretBodyWithEnvironment:newenv];
     }
-  NS_HANDLER
+  @finally
     {
       [MLKDynamicContext popContext];
       LRELEASE (dynctx);
-      [localException raise];
     }
-  NS_ENDHANDLER;
-
-  [MLKDynamicContext popContext];
-  LRELEASE (dynctx);
 
   return values;
 }
@@ -556,20 +541,15 @@ PRIMARY (NSArray *array)
 
   [dynctx pushContext];
 
-  NS_DURING
+  @try
     {
       result = [self interpretBodyWithEnvironment:env];
     }
-  NS_HANDLER
+  @finally
     {
       [MLKDynamicContext popContext];
       LRELEASE (dynctx);
-      [localException raise];
     }
-  NS_ENDHANDLER;
-
-  [MLKDynamicContext popContext];
-  LRELEASE (dynctx);
 
   return result;     
 }
@@ -594,17 +574,9 @@ PRIMARY (NSArray *array)
   catchTag = PRIMARY([_tagForm interpretWithEnvironment:env]);
   values = [_valueForm interpretWithEnvironment:env];
 
-  userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-    catchTag, @"THROWN TAG",
-    values, @"THROWN OBJECTS", nil];
-
   if ([[MLKDynamicContext currentContext] catchTagIsEstablished:denullify (catchTag)])
-    [[NSException exceptionWithName:@"MLKThrow"
-                             reason:[NSString stringWithFormat:
-                                                       @"THROW: tag %@, values %@.",
-                                                       MLKPrintToString(catchTag),
-                                                       MLKPrintToString(values)]
-                           userInfo:userInfo] raise];
+    @throw LAUTORELEASE ([[MLKThrowException alloc] initWithCatchTag:catchTag
+                                                    values:values]);
   else
     // FIXME: This should really be a condition rather than
     // an exception.  See CLHS THROW.
@@ -625,18 +597,14 @@ PRIMARY (NSArray *array)
 {
   NSArray *results;
 
-  NS_DURING
+  @try
     {
       results = [_protectedForm interpretWithEnvironment:env];
     }
-  NS_HANDLER
+  @finally
     {
       [self interpretBodyWithEnvironment:env];
-      [localException raise];
     }
-  NS_ENDHANDLER;
-
-  [self interpretBodyWithEnvironment:env];
 
   return results;      
 }

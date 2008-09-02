@@ -17,6 +17,7 @@
  */
 
 #import "MLKDynamicContext.h"
+#import "MLKNoSuchSymbolError.h"
 #import "MLKPackage.h"
 #import "MLKSymbol.h"
 #import "NSObject-MLKPrinting.h"
@@ -457,12 +458,8 @@ static NSMutableDictionary *packages = nil;
   if ((symbol = [_accessible_symbols objectForKey:symbolName]))
     return (symbol == (id)[NSNull null] ? nil : (id)symbol);
   else
-    [NSException raise:@"MLKNoSuchSymbolError"
-                 format:@"The package %@ does not contain a symbol named %@.",
-                        self,
-                        symbolName];
-
-  return nil;
+    @throw LAUTORELEASE ([[MLKNoSuchSymbolError alloc] initWithPackage:self
+                                                       symbolName:symbolName]);
 }
 
 -(NSString *) name
