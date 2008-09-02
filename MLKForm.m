@@ -150,7 +150,7 @@
 -(NSSet *) freeVariables
 {
   if ([_context variableIsLexical:_form])
-    return [NSSet setWithObject:_form];
+    return [NSSet setWithObject:nullify(_form)];
   else
     return [NSSet set];
 }
@@ -632,7 +632,7 @@
   
   LASSIGN (_lambdaListName, [_tail car]);
   newContext = [MLKLexicalContext contextWithParent:_context
-                                          variables:[NSSet setWithObject:_lambdaListName]
+                                          variables:[NSSet setWithObject:nullify(_lambdaListName)]
                                           functions:nil
                                              goTags:nil
                                              macros:nil
@@ -1089,7 +1089,7 @@
   LASSIGN (_lambdaListName, [_tail car]);
 
   newContext = [MLKLexicalContext contextWithParent:_context
-                                          variables:[NSSet setWithObject:_lambdaListName]
+                                          variables:[NSSet setWithObject:nullify(_lambdaListName)]
                                           functions:nil
                                              goTags:nil
                                              macros:nil
