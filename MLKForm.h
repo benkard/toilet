@@ -44,6 +44,7 @@
 
 -(NSArray *) subforms;
 -(NSSet *) freeVariables;
+-(MLKLexicalContext *) context;
 @end
 
 

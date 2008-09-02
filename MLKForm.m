@@ -100,6 +100,11 @@
   return freeVariables;
 }
 
+-(MLKLexicalContext *) context
+{
+  return _context;
+}
+
 -(void) dealloc
 {
   LDESTROY (_form);
