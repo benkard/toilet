@@ -293,7 +293,8 @@ static MLKLexicalContext *global_context;
 
 -(BOOL) variableIsGlobal:(id)name
 {
-  return [self contextForVariable:name] == [MLKLexicalContext globalContext];
+  return (![self contextForVariable:name]
+          || [self contextForVariable:name] == [MLKLexicalContext globalContext]);
 }
 
 -(BOOL) functionIsInline:(MLKSymbol *)symbol
