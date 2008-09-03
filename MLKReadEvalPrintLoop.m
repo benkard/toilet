@@ -23,6 +23,7 @@
 #import "MLKPackage.h"
 #import "MLKReadEvalPrintLoop.h"
 #import "MLKReader.h"
+#import "MLKRoot.h"
 #import "MLKStreamStream.h"
 #import "NSObject-MLKPrinting.h"
 #import "runtime-compatibility.h"
@@ -99,21 +100,15 @@ static const char *prompt (EditLine *e) {
 
   pool = [[NSAutoreleasePool alloc] init];
 
+  [MLKRoot registerBuiltins];
   printf ("Loading init.lisp.\n");
 #if 1
   @try
     {
 #endif
-      input = [NSInputStream inputStreamWithFileAtPath:@"init.lisp"];
-      filestream = LAUTORELEASE ([[MLKStreamStream alloc]
-                                   initWithInputStream:input]);
-      stream = LAUTORELEASE ([[MLKBinaryStreamCharacterStream alloc]
-                               initWithBinaryStream:filestream]);
-
-      [input open];
-      [MLKInterpreter load:stream verbose:YES print:YES];
-      success = [MLKInterpreter load:stream verbose:YES print:YES];
-      [input close];
+      [[[MLKLexicalEnvironment globalEnvironment]
+        functionForSymbol:[[MLKPackage findPackage:@"TOILET-SYSTEM"] intern:@"REQUIRE"]]
+       applyToArray:[NSArray arrayWithObject:@"init.lisp"]];
 #if 1
     }
   @catch (NSException *localException)
