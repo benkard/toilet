@@ -18,7 +18,8 @@
 
 #import "MLKSymbol.h"
 
-#include <Foundation/NSException.h>
+#import <Foundation/NSArray.h>
+#import <Foundation/NSException.h>
 
 
 @interface MLKThrowException : NSException

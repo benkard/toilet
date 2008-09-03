@@ -99,6 +99,12 @@
 		A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A860240E66FEFB00021916 /* MLKStreamStream.m */; };
 		A7A8603E0E6700D000021916 /* MLKToiletApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */; };
 		A7A861490E67500500021916 /* ToiletKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
+		A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */; };
+		A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */; };
+		A7A862940E6E776000021916 /* MLKStreamError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8628E0E6E776000021916 /* MLKStreamError.h */; };
+		A7A862950E6E776000021916 /* MLKStreamError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8628F0E6E776000021916 /* MLKStreamError.m */; };
+		A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A862900E6E776000021916 /* MLKUnboundVariableError.h */; };
+		A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A862910E6E776000021916 /* MLKUnboundVariableError.m */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -373,6 +379,12 @@
 		A7A860240E66FEFB00021916 /* MLKStreamStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamStream.m; sourceTree = "<group>"; };
 		A7A8603C0E6700D000021916 /* MLKToiletApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKToiletApplicationController.h; sourceTree = "<group>"; };
 		A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKToiletApplicationController.m; sourceTree = "<group>"; };
+		A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKNoSuchSymbolError.h; sourceTree = "<group>"; };
+		A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKNoSuchSymbolError.m; sourceTree = "<group>"; };
+		A7A8628E0E6E776000021916 /* MLKStreamError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStreamError.h; sourceTree = "<group>"; };
+		A7A8628F0E6E776000021916 /* MLKStreamError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamError.m; sourceTree = "<group>"; };
+		A7A862900E6E776000021916 /* MLKUnboundVariableError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKUnboundVariableError.h; sourceTree = "<group>"; };
+		A7A862910E6E776000021916 /* MLKUnboundVariableError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKUnboundVariableError.m; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -595,12 +607,16 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */,
+				A7A8628E0E6E776000021916 /* MLKStreamError.h */,
+				A7A862900E6E776000021916 /* MLKUnboundVariableError.h */,
 				A7A8601B0E66FEFB00021916 /* MLKBinaryStream.h */,
 				A7A8601D0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h */,
 				A7A8601F0E66FEFB00021916 /* MLKCharacterStream.h */,
 				A7A860210E66FEFB00021916 /* MLKFileHandleStream.h */,
 				A7A860230E66FEFB00021916 /* MLKStreamStream.h */,
 				A72BC70B0E65EA1100486804 /* MLKListenerController.h */,
+				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
 				A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */,
 				A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */,
 				A78713840E4EFF5D00A7191F /* MLKForm.h */,
@@ -617,7 +633,6 @@
 				A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */,
 				A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */,
 				A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */,
-				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
 				A7E5C3F80E21695700A01D81 /* MLKBinding.h */,
 				A7E5C3FA0E21695700A01D81 /* MLKCharacter.h */,
 				A7E5C3FC0E21695700A01D81 /* MLKClosure.h */,
@@ -660,6 +675,9 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */,
+				A7A8628F0E6E776000021916 /* MLKStreamError.m */,
+				A7A862910E6E776000021916 /* MLKUnboundVariableError.m */,
 				A7A8601C0E66FEFB00021916 /* MLKBinaryStream.m */,
 				A7A8601E0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m */,
 				A7A860200E66FEFB00021916 /* MLKCharacterStream.m */,
@@ -784,6 +802,9 @@
 				A7A860290E66FEFB00021916 /* MLKCharacterStream.h in Headers */,
 				A7A8602B0E66FEFB00021916 /* MLKFileHandleStream.h in Headers */,
 				A7A8602D0E66FEFB00021916 /* MLKStreamStream.h in Headers */,
+				A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */,
+				A7A862940E6E776000021916 /* MLKStreamError.h in Headers */,
+				A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,6 +1012,9 @@
 				A7A8602A0E66FEFB00021916 /* MLKCharacterStream.m in Sources */,
 				A7A8602C0E66FEFB00021916 /* MLKFileHandleStream.m in Sources */,
 				A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */,
+				A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */,
+				A7A862950E6E776000021916 /* MLKStreamError.m in Sources */,
+				A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,6 +1063,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1094,6 +1119,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1147,6 +1173,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1201,6 +1228,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1255,6 +1283,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1308,6 +1337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1363,6 +1393,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1399,6 +1430,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1433,6 +1465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1468,6 +1501,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1503,6 +1537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1537,6 +1572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1573,6 +1609,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1605,6 +1642,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1638,6 +1676,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1677,6 +1716,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1713,6 +1753,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -1750,6 +1791,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1786,6 +1828,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1822,6 +1865,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1887,6 +1931,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1924,6 +1969,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1995,6 +2041,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -2038,6 +2085,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2079,6 +2127,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -2138,6 +2187,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2224,6 +2274,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2267,6 +2318,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2301,6 +2353,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2360,6 +2413,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
