@@ -286,6 +286,8 @@ list (id *_data, ...)
 
   while ((arg = va_arg(ap, id)) != MLKEndOfArgumentsMarker)
     {
+      //NSLog (@"list: Adding stuff (%%p = %p).", arg);
+      //NSLog (@"list: Stuff: %p = %@", arg, nullify(arg));
       if (!tail)
         {
           cons = tail = [MLKCons cons:arg with:nil];
@@ -299,6 +301,8 @@ list (id *_data, ...)
 
   va_end (ap);
 
+  //NSLog (@"list: Done.  Result: %p", cons);
+  //NSLog (@"list: %p = %@", cons, cons);
   return cons;
 }
 

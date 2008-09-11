@@ -359,6 +359,7 @@ static MLKLexicalContext *global_context;
       if (!props)
         {
           props = [NSMutableDictionary dictionary];
+          //NSLog (@"%p", nullify(name)->class_pointer);
           [_variableInfo setObject:props forKey:nullify(name)];
         }
       [props setObject:object forKey:key];

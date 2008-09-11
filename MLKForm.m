@@ -140,8 +140,6 @@
 
 
 @implementation MLKSymbolForm
-// FIXME
-
 +(Class) dispatchClassForObject:(id)object
 {
   return self;

@@ -44,6 +44,8 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
 {
+  //return YES;
+
   id flag = [self propertyForVariable:name
                   key:@"LLVM.heap-flag"];
 

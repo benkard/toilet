@@ -34,6 +34,7 @@
 -(MLKCons*) initWithCar:(id)car cdr:(id)cdr
 {
   self = [super init];
+  //  NSLog (@"CONS: %@", MLKPrintToString(car));
   LASSIGN (_car, car);
   LASSIGN (_cdr, cdr);
   return self;

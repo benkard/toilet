@@ -178,7 +178,9 @@ static Constant
   lambdaForm = i->runFunction (function)->PointerVal;
 #endif
 
-  //NSLog (@"Closure built.");
+  //NSLog (@"Function: %p / %p", function, execution_engine->getPointerToFunction (function));
+  //NSLog (@"Executed: %p", fn);
+  //NSLog (@"Closure built: %p", lambdaForm);
 
   return lambdaForm;
 }
@@ -214,7 +216,6 @@ static Constant
   NSArray *subforms = [form subforms];
   unsigned int i;
 
-  //NSLog (@"Marking %@.", form);
   for (i = 0; i < [subforms count]; i++)
     {
       MLKForm *subform = [subforms objectAtIndex:i];
@@ -235,7 +236,6 @@ static Constant
             }
         }
     }
-  //NSLog (@"%@ marked.", form);
 }
 
 +(Value *) insertSelectorLookup:(NSString *)name
