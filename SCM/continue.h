@@ -18,6 +18,9 @@
 /* "continue.h" Scheme Continuations for C.
    Author: Aubrey Jaffer. */
 
+#define STDC_HEADERS
+#include <stdlib.h>
+
 /* If stack is not longword aligned then */
 
 /* #define SHORT_ALIGN */
