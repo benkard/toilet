@@ -16,12 +16,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/NSObject.h>
-#import "SCM/continue.h"
+#import "MLKContinuation.h"
+#import "globals.h"
+#import "util.h"
 
 
-extern id MLKEndOfArgumentsMarker;
-extern CONTINUATION *MLKRootContinuation;
+@implementation MLKContinuation
+- (id)init
+{
+  self = [super init];
+  _continuation = make_continuation (MLKRootContinuation);
+  setjump (_continuation->jmpbuf);
+}
 
-extern id MLKDefaultCompiler;
-extern BOOL MLKLoadCompilesP;
++ (id)continuation
+{
+  return LAUTORELEASE ([[self alloc] init]);
+}
+
++ (NSArray *)callWithCurrentContinuation:(id <MLKFuncallable>)function
+{
+  id cont = [self continuation];
+  return [function applyToArray:[NSArray arrayWithObject:cont]];
+}
+
+- (NSArray *)applyToArray:(NSArray *)arguments
+{
+  throw_to_continuation (_continuation, (long)arguments, MLKRootContinuation);
+  return nil;
+}
+
+- (void)dealloc
+{
+  // ... _continuation->other ... (only if CONTINUATION_OTHER is defined in scmflags.h)
+  free_continuation (_continuation);
+  [super dealloc];
+}
+@end

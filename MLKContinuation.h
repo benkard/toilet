@@ -16,12 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/NSObject.h>
+#import "MLKFuncallable.h"
 #import "SCM/continue.h"
 
+#import <Foundation/Foundation.h>
 
-extern id MLKEndOfArgumentsMarker;
-extern CONTINUATION *MLKRootContinuation;
 
-extern id MLKDefaultCompiler;
-extern BOOL MLKLoadCompilesP;
+@interface MLKContinuation : NSObject <MLKFuncallable>
+{
+  CONTINUATION *_continuation;
+}
+
+- (id)init;
++ (id)continuation;
++ (NSArray *)callWithCurrentContinuation:(id <MLKFuncallable>)function;
+
+- (NSArray *)applyToArray:(NSArray *)arguments;
+
+- (void)dealloc;
+@end
