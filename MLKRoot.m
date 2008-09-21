@@ -341,7 +341,7 @@ macroexpand_1 (id *_data, id form, id arg, ...)
 }
 
 static id
-shadow (id *_data, id symbols, id arg, ...)
+shadow_ (id *_data, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -831,7 +831,7 @@ register_sys (NSString *name, id (*function)())
   register_sys (@"IDIVIDE-FIXNUMS", idivide_fixnums);
   register_sys (@"LIST", (id (*)())list);
   register_sys (@"MACROEXPAND-1", (id (*)())macroexpand_1);
-  register_sys (@"SHADOW", (id (*)())shadow);
+  register_sys (@"SHADOW", (id (*)())shadow_);
   register_sys (@"EXPORT", (id (*)())export);
   register_sys (@"UNEXPORT", (id (*)())unexport);
   register_sys (@"FIND-PACKAGE", find_package);

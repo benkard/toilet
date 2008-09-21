@@ -941,10 +941,12 @@
 		A7E5C3CE0E21682800A01D81 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = A7E5C3CC0E21682800A01D81;
 			productRefGroup = A7E5C3E00E21684000A01D81 /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
 				A7E5C3F20E21690200A01D81 /* toilet */,
@@ -1109,8 +1111,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1163,8 +1166,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1217,8 +1221,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1273,8 +1278,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1327,8 +1333,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1381,8 +1388,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1438,10 +1446,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1473,10 +1482,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1508,10 +1518,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1545,10 +1556,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1580,10 +1592,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1615,10 +1628,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1655,7 +1669,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1689,7 +1706,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1724,7 +1744,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1761,7 +1784,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1799,7 +1825,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1838,7 +1867,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1877,7 +1909,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -1913,8 +1948,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1981,7 +2017,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2018,8 +2057,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2089,7 +2129,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2134,7 +2177,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2174,8 +2220,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2235,8 +2282,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2322,7 +2370,10 @@
 				INSTALL_PATH = /Library/Frameworks;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2365,7 +2416,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2400,8 +2454,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2459,8 +2514,9 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

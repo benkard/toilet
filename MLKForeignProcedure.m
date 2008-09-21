@@ -117,5 +117,6 @@
 -(void) finalize
 {
   free (_argumentTypes);
+  [super finalize];
 }
 @end
