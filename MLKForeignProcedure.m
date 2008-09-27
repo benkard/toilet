@@ -67,7 +67,7 @@
   ffi_type *return_type;
   ffi_status status;
   void *argv[argc];
-  id return_value;
+  ffi_arg return_value;
   int i;
 
   for (i = 0; i < argc; i++)
@@ -95,7 +95,7 @@
   if (return_type == &ffi_type_void)
     return [NSArray array];
   else
-    return [NSArray arrayWithObject:nullify (MLKLispValueWithForeignValue (&return_value, _returnType))];
+    return [NSArray arrayWithObject:nullify (MLKLispValueWithForeignValue ((id*)&return_value, _returnType))];
 }
 
 -(NSString *) description

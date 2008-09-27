@@ -63,7 +63,7 @@
   ffi_status status;
   void *argv[argc];
   id argpointers[argc - 1];
-  id return_value;
+  ffi_arg return_value;
   int i;
 
   arg_types[0] = &ffi_type_pointer;
@@ -95,7 +95,7 @@
   ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
 
   // FIXME: multiple values
-  return [NSArray arrayWithObject:nullify(return_value)];
+  return [NSArray arrayWithObject:nullify((id)return_value)];
 }
 
 -(NSString *) description
