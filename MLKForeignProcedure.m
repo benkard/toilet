@@ -23,6 +23,10 @@
 #import <Foundation/NSArray.h>
 #import <Foundation/NSEnumerator.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSZone.h>
+#endif
+
 #ifdef HAVE_FFI_H
 #include <ffi.h>
 #elif HAVE_FFI_FFI_H
@@ -47,7 +51,11 @@
   _code = code;
   _returnType = returnType;
 
+#ifdef __OBJC_GC__
+  _argumentTypes = NSAllocateCollectable (sizeof (MLKForeignType) * [argTypes count], NSScannedOption);
+#else
   _argumentTypes = malloc (sizeof (MLKForeignType) * [argTypes count]);
+#endif
 
   e = [argTypes objectEnumerator];
   i = 0;
@@ -112,11 +120,5 @@
 {
   free (_argumentTypes);
   [super dealloc];
-}
-
--(void) finalize
-{
-  free (_argumentTypes);
-  [super finalize];
 }
 @end

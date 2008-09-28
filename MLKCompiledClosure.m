@@ -26,6 +26,10 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSZone.h>
+#endif
+
 #import <stdlib.h>
 
 
@@ -36,14 +40,23 @@
 {
   int i;
 
-  _data = data;
   _dataLength = dataLength;
   _code = code;
 
+#ifdef __OBJC_GC__
+  _data = NSAllocateCollectable (dataLength * sizeof(id), NSScannedOption);
+  for (i = 0; i < _dataLength; i++)
+    {
+      _data[i] = data[i];
+    }
+  free (data);
+#else
+  _data = data;
   for (i = 0; i < _dataLength; i++)
     {
       LRETAIN (_data[i]);
     }
+#endif
 
   return self;
 }

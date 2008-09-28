@@ -66,7 +66,7 @@
         {
           retval = [tmpstr characterAtIndex:0];
           [tmpstr release];
-          //free (buffer);
+          //FIXME: ? free (buffer);
           return retval;
         }
       else
