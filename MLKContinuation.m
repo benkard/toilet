@@ -16,23 +16,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKContinuation.h"
+#import "globals.h"
+#import "util.h"
 
-#import <Foundation/NSArray.h>
-#import <Foundation/NSException.h>
 
-
-@interface MLKThrowException : NSException
+@implementation MLKContinuation
+- (id)init
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  self = [super init];
+  _continuation = make_continuation (MLKRootContinuation);
+  setjump (_continuation->jmpbuf);
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
++ (id)continuation
+{
+  return LAUTORELEASE ([[self alloc] init]);
+}
 
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
++ (NSArray *)callWithCurrentContinuation:(id <MLKFuncallable>)function
+{
+  id cont = [self continuation];
+  return [function applyToArray:[NSArray arrayWithObject:cont]];
+}
 
--(void) dealloc;
+- (NSArray *)applyToArray:(NSArray *)arguments
+{
+  throw_to_continuation (_continuation, (long)arguments, MLKRootContinuation);
+  return nil;
+}
+
+- (void)dealloc
+{
+  // ... _continuation->other ... (only if CONTINUATION_OTHER is defined in scmflags.h)
+  free_continuation (_continuation);
+  [super dealloc];
+}
 @end

@@ -16,23 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#include <stdlib.h>
+#include <stdint.h>
 
-#import <Foundation/NSArray.h>
-#import <Foundation/NSException.h>
+char s_call_cc[] = "call-with-current-continuation";
 
-
-@interface MLKThrowException : NSException
+char *must_malloc (size_t len, const char *what)
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  return (char *)malloc(len);
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
-
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
-
--(void) dealloc;
-@end
+void must_free (char *obj, size_t len)
+{
+  if (obj)
+    free(obj);
+}

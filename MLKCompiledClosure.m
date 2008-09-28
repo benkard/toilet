@@ -26,6 +26,10 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSZone.h>
+#endif
+
 #import <stdlib.h>
 
 
@@ -36,13 +40,18 @@
 {
   int i;
 
-  _data = data;
   _dataLength = dataLength;
   _code = code;
 
+#ifdef __OBJC_GC__
+  _data = NSAllocateCollectable (dataLength * sizeof(id), NSScannedOption);
+#else
+  _data = malloc (dataLength * sizeof(id));
+#endif
+
   for (i = 0; i < _dataLength; i++)
     {
-      LRETAIN (_data[i]);
+      _data[i] = LRETAIN (data[i]);
     }
 
   return self;
@@ -63,7 +72,7 @@
   ffi_status status;
   void *argv[argc];
   id argpointers[argc - 1];
-  id return_value;
+  ffi_arg return_value;
   int i;
 
   arg_types[0] = &ffi_type_pointer;
@@ -93,9 +102,10 @@
 //     }
 
   ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
+//  return_value = ((id (*)(void *, ...))_code) (_data, argpointers[0], argpointers[1], MLKEndOfArgumentsMarker);
 
   // FIXME: multiple values
-  return [NSArray arrayWithObject:nullify(return_value)];
+  return [NSArray arrayWithObject:nullify((id)return_value)];
 }
 
 -(NSString *) description

@@ -27,6 +27,11 @@
 #import <Foundation/NSEnumerator.h>
 #import <Foundation/NSString.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSGarbageCollector.h>
+#endif
+
+
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/BasicBlock.h>
 #include <llvm/CallingConv.h>
@@ -164,7 +169,7 @@ static Constant
   //module->dump();
   //NSLog (@"%p", fn);
 
-  [pool release];
+  LRELEASE (pool);
   //NSLog (@"Code compiled.");
 
 #if 1
@@ -537,6 +542,9 @@ static Constant
   closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
   closureDataPtr = builder.CreateLoad (closureDataCell);
 
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Call: %@", MLKPrintToString(_head)]];
+  //[_compiler insertPointerTrace:functionPtr];
+
   args.push_back (closureDataPtr);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
@@ -556,7 +564,11 @@ static Constant
                                              PointerTy);
   args.push_back (endmarker);
 
-  //[_compiler insertTrace:[NSString stringWithFormat:@"Function call: %@.", MLKPrintToString(_head)]];
+  // If the pointer output here is different from the one above,
+  // there's some stack smashing going on.
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Now calling: %@.", MLKPrintToString(_head)]];
+  //[_compiler insertPointerTrace:functionPtr];
+
   CallInst *call = builder.CreateCall (functionPtr,
                                        args.begin(),
                                        args.end(),
@@ -603,7 +615,7 @@ static Constant
   builder.SetInsertPoint (outerBlock);
 
   NSArray *freeVariables = [[self freeVariables] allObjects];
-  Value *closure_data = builder.CreateMalloc (PointerTy,
+  Value *closure_data = builder.CreateAlloca (PointerTy,
                                               ConstantInt::get(Type::Int32Ty,
                                                                (uint32_t)[freeVariables count],
                                                                false));
@@ -644,13 +656,14 @@ static Constant
                                                               false),
                                              PointerType::get(Type::Int8Ty, 0));
 
-  Value *ap = builder.CreateAlloca (Type::Int8Ty, NULL, "ap");
+  Value *ap = builder.CreateAlloca (PointerTy, NULL, "ap");
+  Value *ap2 = builder.CreateBitCast (ap, PointerTy);
 
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_start",
                                                    Type::VoidTy,
                                                    PointerTy,
                                                    NULL),
-                      ap);
+                      ap2);
 
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
 
@@ -707,7 +720,7 @@ static Constant
                                                    Type::VoidTy,
                                                    PointerTy,
                                                    NULL),
-                      ap);
+                      ap2);
 
   if ([_bodyContext variableHeapAllocationForSymbol:_lambdaListName])
     {
@@ -826,7 +839,14 @@ static Constant
 {
   // FIXME: When to release _quotedData?  At the same time the code is
   // released, probably...
+  // FIXME: In garbage-collected code, _quotedData will be deleted even
+  // though it is referenced by compiled code!
   LRETAIN (_quotedData);
+#ifdef __OBJC_GC__
+  if (_quotedData && MLKInstanceP (_quotedData))
+    [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_quotedData];
+#endif
+
   return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                   (uint64_t)_quotedData,
                                                   false),
@@ -840,7 +860,14 @@ static Constant
 {
   // FIXME: When to release _form?  At the same time the code is
   // released, probably...
+  // FIXME: In garbage-collected code, _form will be deleted even
+  // though it is referenced by compiled code!
   LRETAIN (_form);
+#ifdef __OBJC_GC__
+  if (_form && MLKInstanceP (_form))
+    [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_form];
+#endif
+
   return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                   (uint64_t)_form,
                                                   false),

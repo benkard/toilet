@@ -26,6 +26,10 @@
 #import <Foundation/NSSet.h>
 #import <Foundation/NSString.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSZone.h>
+#endif
+
 #include <stdlib.h>
 
 #define MAKE_FORM(OBJECT)            \
@@ -487,7 +491,13 @@
   argtypes = [[[_tail cdr] cdr] car];
 
   _argc = [argtypes length];
+
+#ifdef __OBJC_GC__
+  _argumentTypes = NSAllocateCollectable (_argc * sizeof (MLKForeignType), NSScannedOption);
+#else
   _argumentTypes = malloc (_argc * sizeof (MLKForeignType));
+#endif
+
   while (argtypes)
     {
       _argumentTypes[i] = MLKForeignTypeWithTypeDesignator ([argtypes car]);

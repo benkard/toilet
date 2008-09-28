@@ -1,0 +1,381 @@
+This directory contains the distribution of scm5e5.  SCM conforms to
+Revised^5 Report on the Algorithmic Language Scheme and the IEEE P1178
+specification.  SCM runs under Amiga, Atari-ST, MacOS, MS-DOS, OS/2,
+NOS/VE, Unicos, VMS, Unix and similar systems.  SCM supports the SLIB
+Scheme library; both SCM and SLIB are GNU packages.
+
+               `http://swiss.csail.mit.edu/~jaffer/SCM'
+
+0.1 Manifest
+============
+
+`.gdbinit'       provides commands for debugging SCM with GDB
+`COPYING'        GNU GENERAL PUBLIC LICENSE
+`COPYING.LESSER' GNU LESSER GENERAL PUBLIC LICENSE
+`ChangeLog'      changes to SCM.
+`Idiffer.scm'    Linear-space O(PN) sequence comparison.
+`Iedline.scm'    Gnu readline input editing.
+`Init.scm'       Scheme initialization.
+`Link.scm'       Dynamic link/loading.
+`Macro.scm'      Supports Syntax-Rules Macros.
+`Makefile'       builds SCMLIT using the `make' program.
+`QUICKREF'       Quick Reference card for R4RS and IEEE Scheme.
+`README'         contains a MANIFEST, INSTALLATION INSTRUCTIONS, hints
+                 for EDITING SCHEME CODE, and a TROUBLE SHOOTING GUIDE.
+`Transcen.scm'   inexact builtin procedures.
+`bench.scm'      computes and records performance statistics of pi.scm.
+`build.bat'      invokes build.scm for MS-DOS
+`build.scm'      database for compiling and linking new SCM programs.
+`byte.c'         strings as bytes.
+`bytenumb.c'     Byte-number conversions.
+`compile.scm'    Hobbit compilation to C.
+`continue-ia64.S'replaces make_root_continuation(), make_continuation(),
+                 and dynthrow() in continue.c
+`continue.c'     continuations.
+`continue.h'     continuations.
+`crs.c'          interactive terminal control.
+`debug.c'        debugging, printing code.
+`differ.c'       Linear-space O(PN) sequence comparison.
+`dynl.c'         dynamically load object files.
+`ecrt0.c'        discover the start of initialized data space
+                 dynamically at runtime.
+`edline.c'       Gnu readline input editing (get
+                 ftp.sys.toronto.edu:/pub/rc/editline.shar).
+`eval.c'         evaluator, apply, map, and foreach.
+`example.scm'    example from R4RS which uses inexact numbers.
+`fdl.texi'       GNU Free Documentation License.
+`findexec.c'     find the executable file function.
+`get-contoffset-ia64.c'makes contoffset-ia64.S for inclusion by continue-ia64.S
+`gmalloc.c'      Gnu malloc(); used for unexec.
+`gsubr.c'        make_gsubr for arbitrary (< 11) arguments to C
+                 functions.
+`ioext.c'        system calls in common between PC compilers and unix.
+`lastfile.c'     find the point in data space between data and libraries.
+`macos-config.h' Included by unexmacosx.c and lastfile.c.
+`mkimpcat.scm'   build SCM-specific catalog for SLIB.
+`patchlvl.h'     patchlevel of this release.
+`pi.c'           computes digits of pi [cc -o pi pi.c;time pi 100 5].
+`pi.scm'         computes digits of pi [type (pi 100 5)].  Test
+                 performance against pi.c.
+`posix.c'        posix library interface.
+`pre-crt0.c'     loaded before crt0.o on machines which do not remap
+                 part of the data space into text space in unexec.
+`r4rstest.scm'   tests conformance with Scheme specifications.
+`ramap.c'        array mapping
+`record.c'       proposed `Record' user definable datatypes.
+`repl.c'         error, read-eval-print loop, read, write and load.
+`rgx.c'          string regular expression match.
+`rope.c'         C interface functions.
+`sc2.c'          procedures from R2RS and R3RS not in R4RS.
+`scl.c'          inexact arithmetic
+`scm.1'          unix style man page.
+`scm.c'          initialization, interrupts, and non-IEEE utility
+                 functions.
+`scm.doc'        man page generated from scm.1.
+`scm.h'          data type and external definitions of SCM.
+`scm.texi'       SCM installation and use.
+`scmfig.h'       contains system dependent definitions.
+`scmmain.c'      initialization, interrupts, and non-IEEE utility
+                 functions.
+`script.c'       utilities for running as `#!' script.
+`setjump.h'      continuations, stacks, and memory allocation.
+`setjump.mar'    provides setjump and longjump which do not use $unwind
+                 utility on VMS.
+`setjump.s'      provides setjump and longjump for the Cray YMP.
+`socket.c'       BSD socket interface.
+`split.scm'      example use of crs.c.  Input, output, and diagnostic
+                 output directed to separate windows.
+`subr.c'         the rest of IEEE functions.
+`sys.c'          call-with-current-continuation, opening and closing
+                 files, storage allocation and garbage collection.
+`time.c'         functions dealing with time.
+`ugsetjump.s'    provides setjump and longjump which work on Ultrix VAX.
+`unexalpha.c'    Convert a running program into an Alpha executable file.
+`unexec.c'       Convert a running program into an executable file.
+`unexelf.c'      Convert a running ELF program into an executable file.
+`unexhp9k800.c'  Convert a running HP-UX program into an executable file.
+`unexmacosx.c'   Convert a running program into an executable file under
+                 MacOS X.
+`unexsgi.c'      Convert a running program into an IRIX executable file.
+`unexsunos4.c'   Convert a running program into an executable file.
+`unif.c'         uniform vectors.
+`unix.c'         non-posix system calls on unix systems.
+
+
+
+File: scm.info,  Node: SLIB,  Next: Building SCM,  Prev: Making SCM,  Up: Installing SCM
+
+2.2 SLIB
+========
+
+[SLIB] is a portable Scheme library meant to provide compatibility and
+utility functions for all standard Scheme implementations.  Although
+SLIB is not _neccessary_ to run SCM, I strongly suggest you obtain and
+install it.  Bug reports about running SCM without SLIB have very low
+priority.  SLIB is available from the same sites as SCM:
+
+   * swiss.csail.mit.edu:/pub/scm/slib-3b1.tar.gz
+
+   * ftp.gnu.org:/pub/gnu/jacal/slib-3b1.tar.gz
+
+Unpack SLIB (`tar xzf slib-3b1.tar.gz' or `unzip -ao slib-3b1.zip') in
+an appropriate directory for your system; both `tar' and `unzip' will
+create the directory `slib'.
+
+Then create a file `require.scm' in the SCM "implementation-vicinity"
+(this is the same directory as where the file `Init5e5.scm' is
+installed).  `require.scm' should have the contents:
+
+     (define (library-vicinity) "/usr/local/lib/slib/")
+
+where the pathname string `/usr/local/lib/slib/' is to be replaced by
+the pathname into which you installed SLIB.  Absolute pathnames are
+recommended here; if you use a relative pathname, SLIB can get confused
+when the working directory is changed (*note chmod: I/O-Extensions.).
+The way to specify a relative pathname is to append it to the
+implementation-vicinity, which is absolute:
+
+     (define library-vicinity
+       (let ((lv (string-append (implementation-vicinity) "../slib/")))
+         (lambda () lv)))
+
+Alternatively, you can set the (shell) environment variable
+`SCHEME_LIBRARY_PATH' to the pathname of the SLIB directory (*note
+SCHEME_LIBRARY_PATH: SCM Variables.).  If set, the environment variable
+overrides `require.scm'.  Again, absolute pathnames are recommended.
+
+
+
+File: scm.info,  Node: Making SCM,  Next: SLIB,  Prev: Installing SCM,  Up: Installing SCM
+
+2.1 Making SCM
+==============
+
+The SCM distribution has "Makefile" which contains rules for making
+"scmlit", a "bare-bones" version of SCM sufficient for running `build'.
+`build' is used to compile (or create scripts to compile) full
+featured versions (*note Building SCM::).
+
+Makefiles are not portable to the majority of platforms.  If `Makefile'
+works for you, good; If not, I don't want to hear about it.  If you
+need to compile SCM without build, there are several ways to proceed:
+
+   * Use the build (http://swiss.csail.mit.edu/~jaffer/buildscm.html)
+     web page to create custom batch scripts for compiling SCM.
+
+   * Use SCM on a different platform to run `build' to create a script
+     to build SCM;
+
+   * Use another implementation of Scheme to run `build' to create a
+     script to build SCM;
+
+   * Create your own script or `Makefile'.
+
+
+
+File: scm.info,  Node: Editing Scheme Code,  Next: Debugging Scheme Code,  Prev: SCM Session,  Up: Operational Features
+
+3.7 Editing Scheme Code
+=======================
+
+ -- Function: ed arg1 ...
+     The value of the environment variable `EDITOR' (or just `ed' if it
+     isn't defined) is invoked as a command with arguments ARG1 ....
+
+ -- Function: ed filename
+     If SCM is compiled under VMS `ed' will invoke the editor with a
+     single the single argument FILENAME.
+
+Gnu Emacs:
+     Editing of Scheme code is supported by emacs.  Buffers holding
+     files ending in .scm are automatically put into scheme-mode.
+
+     If your Emacs can run a process in a buffer you can use the Emacs
+     command `M-x run-scheme' with SCM.  Otherwise, use the emacs
+     command `M-x suspend-emacs'; or see "other systems" below.
+
+Epsilon (MS-DOS):
+     There is lisp (and scheme) mode available by use of the package
+     `LISP.E'.  It offers several different indentation formats.  With
+     this package, buffers holding files ending in `.L', `.LSP', `.S',
+     and `.SCM' (my modification) are automatically put into lisp-mode.
+
+     It is possible to run a process in a buffer under Epsilon.  With
+     Epsilon 5.0 the command line options `-e512 -m0' are neccessary to
+     manage RAM properly.  It has been reported that when compiling SCM
+     with Turbo C, you need to `#define NOSETBUF' for proper operation
+     in a process buffer with Epsilon 5.0.
+
+     One can also call out to an editor from SCM if RAM is at a
+     premium; See "under other systems" below.
+
+other systems:
+     Define the environment variable `EDITOR' to be the name of the
+     editing program you use.  The SCM procedure `(ed arg1 ...)' will
+     invoke your editor and return to SCM when you exit the editor.  The
+     following definition is convenient:
+
+          (define (e) (ed "work.scm") (load "work.scm"))
+
+     Typing `(e)' will invoke the editor with the file of interest.
+     After editing, the modified file will be loaded.
+
+
+
+File: scm.info,  Node: Problems Compiling,  Next: Problems Linking,  Prev: Automatic C Preprocessor Definitions,  Up: Installing SCM
+
+2.8 Problems Compiling
+======================
+
+FILE    PROBLEM / MESSAGE                HOW TO FIX
+*.c     include file not found.          Correct the status of
+                                         STDC_HEADERS in scmfig.h.
+                                         fix #include statement or add
+                                         #define for system type to
+                                         scmfig.h.
+*.c     Function should return a value.  Ignore.
+        Parameter is never used.         
+        Condition is always false.       
+        Unreachable code in function.    
+scm.c   assignment between incompatible  Change SIGRETTYPE in scm.c.
+        types.                           
+time.c  CLK_TCK redefined.               incompatablility between
+                                         <stdlib.h> and <sys/types.h>.
+                                         Remove STDC_HEADERS in scmfig.h.
+                                         Edit <sys/types.h> to remove
+                                         incompatability.
+subr.c  Possibly incorrect assignment    Ignore.
+        in function lgcd.                
+sys.c   statement not reached.           Ignore.
+        constant in conditional          
+        expression.                      
+sys.c   undeclared, outside of           #undef STDC_HEADERS in scmfig.h.
+        functions.                       
+scl.c   syntax error.                    #define SYSTNAME to your system
+                                         type in scl.c (softtype).
+
+
+
+File: scm.info,  Node: Problems Linking,  Next: Problems Running,  Prev: Problems Compiling,  Up: Installing SCM
+
+2.9 Problems Linking
+====================
+
+PROBLEM                              HOW TO FIX
+_sin etc. missing.                   Uncomment LIBS in makefile.
+
+
+
+File: scm.info,  Node: Problems Running,  Next: Testing,  Prev: Problems Linking,  Up: Installing SCM
+
+2.10 Problems Running
+=====================
+
+PROBLEM                              HOW TO FIX
+Opening message and then machine     Change memory model option to C
+crashes.                             compiler (or makefile).
+                                     Make sure sizet definition is
+                                     correct in scmfig.h.
+                                     Reduce the size of HEAP_SEG_SIZE in
+                                     setjump.h.
+Input hangs.                         #define NOSETBUF
+ERROR: heap: need larger initial.    Increase initial heap allocation
+                                     using -a<kb> or INIT_HEAP_SIZE.
+ERROR: Could not allocate.           Check sizet definition.
+                                     Use 32 bit compiler mode.
+                                     Don't try to run as subproccess.
+remove <FLAG> in scmfig.h and        Do so and recompile files.
+recompile scm.                       
+add <FLAG> in scmfig.h and           
+recompile scm.                       
+ERROR: Init5e5.scm not found.        Assign correct IMPLINIT in makefile
+                                     or scmfig.h.
+                                     Define environment variable
+                                     SCM_INIT_PATH to be the full
+                                     pathname of Init5e5.scm.
+WARNING: require.scm not found.      Define environment variable
+                                     SCHEME_LIBRARY_PATH to be the full
+                                     pathname of the scheme library
+                                     [SLIB].
+                                     Change library-vicinity in
+                                     Init5e5.scm to point to library or
+                                     remove.
+                                     Make sure the value of
+                                     (library-vicinity) has a trailing
+                                     file separator (like / or \).
+
+
+
+File: scm.info,  Node: Testing,  Next: Reporting Problems,  Prev: Problems Running,  Up: Installing SCM
+
+2.11 Testing
+============
+
+Loading `r4rstest.scm' in the distribution will run an [R4RS]
+conformance test on `scm'.
+
+     > (load "r4rstest.scm")
+     -|
+     ;loading "r4rstest.scm"
+     SECTION(2 1)
+     SECTION(3 4)
+      #<primitive-procedure boolean?>
+         #<primitive-procedure char?>
+            #<primitive-procedure null?>
+               #<primitive-procedure number?>
+     ...
+
+Loading `pi.scm' in the distribution will enable you to compute digits
+of pi.
+
+     > (load "pi")
+     ;loading "pi"
+     ;done loading "pi.scm"
+     ;Evaluation took 20 ms (0 in gc) 767 cells work, 233.B other
+     #<unspecified>
+     > (pi 100 5)
+     00003 14159 26535 89793 23846 26433 83279 50288 41971 69399
+     37510 58209 74944 59230 78164 06286 20899 86280 34825 34211
+     70679
+     ;Evaluation took 550 ms (60 in gc) 36976 cells work, 1548.B other
+     #<unspecified>
+
+Loading `bench.scm' will compute and display performance statistics of
+SCM running `pi.scm'.  `make bench' or `make benchlit' appends the
+performance report to the file `BenchLog', facilitating tracking
+effects of changes to SCM on performance.
+
+PROBLEM                              HOW TO FIX
+Runs some and then machine crashes.  See above under machine crashes.
+Runs some and then ERROR: ...        Remove optimization option to C
+(after a GC has happened).           compiler and recompile.
+                                     #define SHORT_ALIGN in `scmfig.h'.
+Some symbol names print incorrectly. Change memory model option to C
+                                     compiler (or makefile).
+                                     Check that HEAP_SEG_SIZE fits
+                                     within sizet.
+                                     Increase size of HEAP_SEG_SIZE (or
+                                     INIT_HEAP_SIZE if it is smaller
+                                     than HEAP_SEG_SIZE).
+ERROR: Rogue pointer in Heap.        See above under machine crashes.
+Newlines don't appear correctly in   Check file mode (define OPEN_... in
+output files.                        `Init5e5.scm').
+Spaces or control characters appear  Check character defines in
+in symbol names.                     `scmfig.h'.
+Negative numbers turn positive.      Check SRS in `scmfig.h'.
+;ERROR: bignum: numerical overflow   Increase NUMDIGS_MAX in `scmfig.h'
+                                     and recompile.
+VMS: Couldn't unwind stack.          #define CHEAP_CONTINUATIONS in
+                                     `scmfig.h'.
+VAX: botched longjmp.                
+
+Sparc(SUN-4) heap is growing out of control
+     You are experiencing a GC problem peculiar to the Sparc.  The
+     problem is that SCM doesn't know how to clear register windows.
+     Every location which is not reused still gets marked at GC time.
+     This causes lots of stuff which should be collected to not be.
+     This will be a problem with any _conservative_ GC until we find
+     what instruction will clear the register windows.  This problem is
+     exacerbated by using lots of call-with-current-continuations.  A
+     possible fix for dynthrow() is commented out in `continue.c'.
+

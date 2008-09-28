@@ -19,7 +19,7 @@
 
 export USE_LLVM ADDITIONAL_OBJCFLAGS ADDITIONAL_LDFLAGS LLVM_CONFIG
 
-KIT_TARGETS = ToiletKit
+KIT_TARGETS = SCM/continue.o SCM/toilet-scm.o ToiletKit
 
 USE_LLVM := YES
 ifeq ($(USE_LLVM),YES)
@@ -65,6 +65,7 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        MLKBinaryStreamCharacterStream.m MLKBinding.m		\
                        MLKCharacter.m MLKCharacterStream.m			\
                        MLKCommaReader.m MLKCompiledClosure.m MLKCons.m		\
+					   MLKContinuation.m \
                        MLKDoubleFloat.m						\
                        MLKDispatchingMacroCharacterReader.m			\
                        MLKDynamicContext.m MLKEnvironment.m			\
@@ -83,7 +84,10 @@ ToiletKit_OBJC_FILES = functions.m globals.m MLKArray.m				\
                        MLKUnboundVariableError.m MLKValuesFunction.m		\
                        NSObject-MLKPrinting.m NSString-MLKPrinting.m
 ToiletKit_OBJCFLAGS = -Wall
-ToiletKit_LDFLAGS = -lgmp -lffi -ldl
+ToiletKit_LDFLAGS = -lgmp -lffi -ldl SCM/continue.o SCM/toilet-scm.o
+
+SCM/%.o: SCM/%.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(ToiletKit_OBJCFLAGS) $(ADDITIONAL_OBJCFLAGS) -fPIC
 
 # We copy the whole Sacla directory, because copying individual files causes them to
 # lose their relative path.  Does anyone else think this is retarded?
@@ -205,6 +209,9 @@ before-Test:: ToiletKit
 
 #after-clean::
 #	-rmdir $(GNUSTEP_OBJ_DIR)/StepTalkShell
+
+after-clean::
+	rm -f SCM/continue.o SCM/toilet-scm.o
 
 ifneq ($(BUILD_TOILET_LLVM),YES)
 after-clean::

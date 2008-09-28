@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -99,6 +99,12 @@
 		A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A860240E66FEFB00021916 /* MLKStreamStream.m */; };
 		A7A8603E0E6700D000021916 /* MLKToiletApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */; };
 		A7A861490E67500500021916 /* ToiletKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */; };
+		A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */; };
+		A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */; };
+		A7A862940E6E776000021916 /* MLKStreamError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A8628E0E6E776000021916 /* MLKStreamError.h */; };
+		A7A862950E6E776000021916 /* MLKStreamError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A8628F0E6E776000021916 /* MLKStreamError.m */; };
+		A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A862900E6E776000021916 /* MLKUnboundVariableError.h */; };
+		A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A862910E6E776000021916 /* MLKUnboundVariableError.m */; };
 		A7B6D0C20E22094F006F6A21 /* MLKStringOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */; };
 		A7B6D0C30E22094F006F6A21 /* MLKStringOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */; };
 		A7E5C43E0E21695800A01D81 /* MLKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E5C3F80E21695700A01D81 /* MLKBinding.h */; };
@@ -167,6 +173,15 @@
 		A7E5C4A10E216C0F00A01D81 /* MLKNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */; };
 		A7E5C55C0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
 		A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
+		A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EE013D0E850E010024E903 /* MLKContinuation.h */; };
+		A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EE013E0E850E010024E903 /* MLKContinuation.m */; };
+		A7EEFFD30E84FF650024E903 /* continue.c in Sources */ = {isa = PBXBuildFile; fileRef = A7EEFFD20E84FF650024E903 /* continue.c */; };
+		A7EEFFD90E84FF7C0024E903 /* continue.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD40E84FF7C0024E903 /* continue.h */; };
+		A7EEFFDA0E84FF7C0024E903 /* scm.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD50E84FF7C0024E903 /* scm.h */; };
+		A7EEFFDB0E84FF7C0024E903 /* scmfig.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD60E84FF7C0024E903 /* scmfig.h */; };
+		A7EEFFDC0E84FF7C0024E903 /* scmflags.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD70E84FF7C0024E903 /* scmflags.h */; };
+		A7EEFFDD0E84FF7C0024E903 /* setjump.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD80E84FF7C0024E903 /* setjump.h */; };
+		A7EEFFED0E85025A0024E903 /* toilet-scm.c in Sources */ = {isa = PBXBuildFile; fileRef = A7EEFFEC0E85025A0024E903 /* toilet-scm.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -281,7 +296,7 @@
 /* Begin PBXFileReference section */
 		A720D3670E5B1CB700734638 /* GNUmakefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; languageSpecificationIdentifier = make; path = GNUmakefile; sourceTree = "<group>"; };
 		A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet Lisp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
+		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
 		A72BC6FC0E65E06200486804 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		A72BC70A0E65EA1100486804 /* MLKListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKListenerController.m; sourceTree = "<group>"; };
 		A72BC70B0E65EA1100486804 /* MLKListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKListenerController.h; sourceTree = "<group>"; };
@@ -373,10 +388,16 @@
 		A7A860240E66FEFB00021916 /* MLKStreamStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamStream.m; sourceTree = "<group>"; };
 		A7A8603C0E6700D000021916 /* MLKToiletApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKToiletApplicationController.h; sourceTree = "<group>"; };
 		A7A8603D0E6700D000021916 /* MLKToiletApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKToiletApplicationController.m; sourceTree = "<group>"; };
+		A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKNoSuchSymbolError.h; sourceTree = "<group>"; };
+		A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKNoSuchSymbolError.m; sourceTree = "<group>"; };
+		A7A8628E0E6E776000021916 /* MLKStreamError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStreamError.h; sourceTree = "<group>"; };
+		A7A8628F0E6E776000021916 /* MLKStreamError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStreamError.m; sourceTree = "<group>"; };
+		A7A862900E6E776000021916 /* MLKUnboundVariableError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKUnboundVariableError.h; sourceTree = "<group>"; };
+		A7A862910E6E776000021916 /* MLKUnboundVariableError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKUnboundVariableError.m; sourceTree = "<group>"; };
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ToiletKit-Info.plist"; sourceTree = "<group>"; };
+		A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ToiletKit-Info.plist"; sourceTree = "<group>"; };
 		A7E5C3F30E21690200A01D81 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E5C3F80E21695700A01D81 /* MLKBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBinding.h; sourceTree = "<group>"; };
 		A7E5C3F90E21695700A01D81 /* MLKBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBinding.m; sourceTree = "<group>"; };
@@ -445,6 +466,15 @@
 		A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKNumber.h; sourceTree = "<group>"; };
 		A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKNumber.m; sourceTree = "<group>"; };
 		A7E5C55B0E21740C00A01D81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		A7EE013D0E850E010024E903 /* MLKContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKContinuation.h; sourceTree = "<group>"; };
+		A7EE013E0E850E010024E903 /* MLKContinuation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKContinuation.m; sourceTree = "<group>"; };
+		A7EEFFD20E84FF650024E903 /* continue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = continue.c; path = SCM/continue.c; sourceTree = "<group>"; };
+		A7EEFFD40E84FF7C0024E903 /* continue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = continue.h; path = SCM/continue.h; sourceTree = "<group>"; };
+		A7EEFFD50E84FF7C0024E903 /* scm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scm.h; path = SCM/scm.h; sourceTree = "<group>"; };
+		A7EEFFD60E84FF7C0024E903 /* scmfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scmfig.h; path = SCM/scmfig.h; sourceTree = "<group>"; };
+		A7EEFFD70E84FF7C0024E903 /* scmflags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scmflags.h; path = SCM/scmflags.h; sourceTree = "<group>"; };
+		A7EEFFD80E84FF7C0024E903 /* setjump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = setjump.h; path = SCM/setjump.h; sourceTree = "<group>"; };
+		A7EEFFEC0E85025A0024E903 /* toilet-scm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "toilet-scm.c"; path = "SCM/toilet-scm.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -595,12 +625,21 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A7EEFFD40E84FF7C0024E903 /* continue.h */,
+				A7EEFFD50E84FF7C0024E903 /* scm.h */,
+				A7EEFFD60E84FF7C0024E903 /* scmfig.h */,
+				A7EEFFD70E84FF7C0024E903 /* scmflags.h */,
+				A7EEFFD80E84FF7C0024E903 /* setjump.h */,
+				A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */,
+				A7A8628E0E6E776000021916 /* MLKStreamError.h */,
+				A7A862900E6E776000021916 /* MLKUnboundVariableError.h */,
 				A7A8601B0E66FEFB00021916 /* MLKBinaryStream.h */,
 				A7A8601D0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.h */,
 				A7A8601F0E66FEFB00021916 /* MLKCharacterStream.h */,
 				A7A860210E66FEFB00021916 /* MLKFileHandleStream.h */,
 				A7A860230E66FEFB00021916 /* MLKStreamStream.h */,
 				A72BC70B0E65EA1100486804 /* MLKListenerController.h */,
+				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
 				A72E9E6D0E5220B700BDE40F /* MLKLexicalContext-MLKLLVMCompilation.h */,
 				A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */,
 				A78713840E4EFF5D00A7191F /* MLKForm.h */,
@@ -617,7 +656,6 @@
 				A7A833910E476D0D005D64E0 /* MLKValuesFunction.h */,
 				A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */,
 				A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */,
-				A7E5C4840E21698100A01D81 /* MLKReadEvalPrintLoop.h */,
 				A7E5C3F80E21695700A01D81 /* MLKBinding.h */,
 				A7E5C3FA0E21695700A01D81 /* MLKCharacter.h */,
 				A7E5C3FC0E21695700A01D81 /* MLKClosure.h */,
@@ -660,6 +698,11 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7EEFFEC0E85025A0024E903 /* toilet-scm.c */,
+				A7EEFFD20E84FF650024E903 /* continue.c */,
+				A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */,
+				A7A8628F0E6E776000021916 /* MLKStreamError.m */,
+				A7A862910E6E776000021916 /* MLKUnboundVariableError.m */,
 				A7A8601C0E66FEFB00021916 /* MLKBinaryStream.m */,
 				A7A8601E0E66FEFB00021916 /* MLKBinaryStreamCharacterStream.m */,
 				A7A860200E66FEFB00021916 /* MLKCharacterStream.m */,
@@ -712,6 +755,8 @@
 				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
 				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
 				A72BC70A0E65EA1100486804 /* MLKListenerController.m */,
+				A7EE013D0E850E010024E903 /* MLKContinuation.h */,
+				A7EE013E0E850E010024E903 /* MLKContinuation.m */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -784,6 +829,15 @@
 				A7A860290E66FEFB00021916 /* MLKCharacterStream.h in Headers */,
 				A7A8602B0E66FEFB00021916 /* MLKFileHandleStream.h in Headers */,
 				A7A8602D0E66FEFB00021916 /* MLKStreamStream.h in Headers */,
+				A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */,
+				A7A862940E6E776000021916 /* MLKStreamError.h in Headers */,
+				A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */,
+				A7EEFFD90E84FF7C0024E903 /* continue.h in Headers */,
+				A7EEFFDA0E84FF7C0024E903 /* scm.h in Headers */,
+				A7EEFFDB0E84FF7C0024E903 /* scmfig.h in Headers */,
+				A7EEFFDC0E84FF7C0024E903 /* scmflags.h in Headers */,
+				A7EEFFDD0E84FF7C0024E903 /* setjump.h in Headers */,
+				A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,10 +941,12 @@
 		A7E5C3CE0E21682800A01D81 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = A7E5C3CC0E21682800A01D81;
 			productRefGroup = A7E5C3E00E21684000A01D81 /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				A7E5C3EA0E21689F00A01D81 /* ToiletKit */,
 				A7E5C3F20E21690200A01D81 /* toilet */,
@@ -991,6 +1047,12 @@
 				A7A8602A0E66FEFB00021916 /* MLKCharacterStream.m in Sources */,
 				A7A8602C0E66FEFB00021916 /* MLKFileHandleStream.m in Sources */,
 				A7A8602E0E66FEFB00021916 /* MLKStreamStream.m in Sources */,
+				A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */,
+				A7A862950E6E776000021916 /* MLKStreamError.m in Sources */,
+				A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */,
+				A7EEFFD30E84FF650024E903 /* continue.c in Sources */,
+				A7EEFFED0E85025A0024E903 /* toilet-scm.c in Sources */,
+				A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,6 +1101,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1048,8 +1111,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1094,6 +1158,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1101,8 +1166,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1147,6 +1213,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1154,8 +1222,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1201,6 +1270,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1209,8 +1279,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1255,6 +1326,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1262,8 +1334,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1308,6 +1381,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1315,8 +1390,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1363,6 +1439,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1371,10 +1448,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1399,16 +1477,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1433,16 +1513,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1468,6 +1551,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1475,10 +1559,11 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1503,16 +1588,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1537,16 +1624,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
+					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1573,6 +1663,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1582,7 +1673,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1605,6 +1699,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1615,7 +1710,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1638,7 +1736,8 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1649,7 +1748,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1677,6 +1779,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1685,7 +1788,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1713,6 +1819,7 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -1722,7 +1829,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1750,7 +1860,8 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -1760,7 +1871,10 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1786,6 +1900,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1798,7 +1913,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -1822,19 +1940,22 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1887,7 +2008,8 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
@@ -1900,7 +2022,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -1924,20 +2049,23 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1995,6 +2123,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -2006,7 +2135,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2038,7 +2170,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -2050,7 +2183,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2079,18 +2215,21 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2138,19 +2277,22 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2224,6 +2366,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2235,7 +2378,11 @@
 				INSTALL_PATH = /Library/Frameworks;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+					"-fno-omit-frame-pointer",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2267,6 +2414,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2277,7 +2425,10 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = "-DHAVE_FFI_H";
+				OTHER_CFLAGS = (
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/opt/local/include",
@@ -2301,18 +2452,21 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2360,17 +2514,20 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				"GCC_VERSION[arch=*]" = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_H",
+					"-DHAVE_FFI_FFI_H",
 					"-DUSE_LLVM",
+					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

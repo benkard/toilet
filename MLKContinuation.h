@@ -16,23 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "MLKSymbol.h"
+#import "MLKFuncallable.h"
+#import "SCM/continue.h"
 
-#import <Foundation/NSArray.h>
-#import <Foundation/NSException.h>
+#import <Foundation/Foundation.h>
 
 
-@interface MLKThrowException : NSException
+@interface MLKContinuation : NSObject <MLKFuncallable>
 {
-  MLKSymbol *_catchTag;
-  NSArray *_values;
+  CONTINUATION *_continuation;
 }
 
--(id) initWithCatchTag:(MLKSymbol *)catchTag
-                values:(NSArray *)values;
+- (id)init;
++ (id)continuation;
++ (NSArray *)callWithCurrentContinuation:(id <MLKFuncallable>)function;
 
--(MLKSymbol *) catchTag;
--(NSArray *) thrownValues;
+- (NSArray *)applyToArray:(NSArray *)arguments;
 
--(void) dealloc;
+- (void)dealloc;
 @end
