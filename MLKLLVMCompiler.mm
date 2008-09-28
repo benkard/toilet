@@ -615,7 +615,7 @@ static Constant
   builder.SetInsertPoint (outerBlock);
 
   NSArray *freeVariables = [[self freeVariables] allObjects];
-  Value *closure_data = builder.CreateMalloc (PointerTy,
+  Value *closure_data = builder.CreateAlloca (PointerTy,
                                               ConstantInt::get(Type::Int32Ty,
                                                                (uint32_t)[freeVariables count],
                                                                false));

@@ -45,18 +45,14 @@
 
 #ifdef __OBJC_GC__
   _data = NSAllocateCollectable (dataLength * sizeof(id), NSScannedOption);
-  for (i = 0; i < _dataLength; i++)
-    {
-      _data[i] = data[i];
-    }
-  free (data);
 #else
-  _data = data;
+  _data = malloc (dataLength * sizeof(id));
+#endif
+
   for (i = 0; i < _dataLength; i++)
     {
-      LRETAIN (_data[i]);
+      _data[i] = LRETAIN (data[i]);
     }
-#endif
 
   return self;
 }
