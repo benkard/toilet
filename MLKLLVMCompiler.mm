@@ -644,13 +644,14 @@ static Constant
                                                               false),
                                              PointerType::get(Type::Int8Ty, 0));
 
-  Value *ap = builder.CreateAlloca (Type::Int8Ty, NULL, "ap");
+  Value *ap = builder.CreateAlloca (PointerTy, NULL, "ap");
+  Value *ap2 = builder.CreateBitCast (ap, PointerTy);
 
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_start",
                                                    Type::VoidTy,
                                                    PointerTy,
                                                    NULL),
-                      ap);
+                      ap2);
 
   Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
 
@@ -707,7 +708,7 @@ static Constant
                                                    Type::VoidTy,
                                                    PointerTy,
                                                    NULL),
-                      ap);
+                      ap2);
 
   if ([_bodyContext variableHeapAllocationForSymbol:_lambdaListName])
     {
