@@ -77,6 +77,7 @@ using namespace llvm;
 +(Value *) insertClassLookup:(NSString *)className;
 
 +(void) insertTrace:(NSString *)message;
++(void) insertPointerTrace:(Value *)value;
 #endif
 @end
 

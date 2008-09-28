@@ -93,6 +93,7 @@
 //     }
 
   ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
+//  return_value = ((id (*)(void *, ...))_code) (_data, argpointers[0], argpointers[1], MLKEndOfArgumentsMarker);
 
   // FIXME: multiple values
   return [NSArray arrayWithObject:nullify((id)return_value)];

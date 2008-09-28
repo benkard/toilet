@@ -164,7 +164,7 @@ static Constant
   //module->dump();
   //NSLog (@"%p", fn);
 
-  [pool release];
+  LRELEASE (pool);
   //NSLog (@"Code compiled.");
 
 #if 1
@@ -537,6 +537,9 @@ static Constant
   closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
   closureDataPtr = builder.CreateLoad (closureDataCell);
 
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Call: %@", MLKPrintToString(_head)]];
+  //[_compiler insertPointerTrace:functionPtr];
+
   args.push_back (closureDataPtr);
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
@@ -556,7 +559,11 @@ static Constant
                                              PointerTy);
   args.push_back (endmarker);
 
-  //[_compiler insertTrace:[NSString stringWithFormat:@"Function call: %@.", MLKPrintToString(_head)]];
+  // If the pointer output here is different from the one above,
+  // there's some stack smashing going on.
+  //[_compiler insertTrace:[NSString stringWithFormat:@"Now calling: %@.", MLKPrintToString(_head)]];
+  //[_compiler insertPointerTrace:functionPtr];
+
   CallInst *call = builder.CreateCall (functionPtr,
                                        args.begin(),
                                        args.end(),
