@@ -27,6 +27,11 @@
 #import <Foundation/NSEnumerator.h>
 #import <Foundation/NSString.h>
 
+#ifdef __OBJC_GC__
+#import <Foundation/NSGarbageCollector.h>
+#endif
+
+
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/BasicBlock.h>
 #include <llvm/CallingConv.h>
@@ -834,7 +839,14 @@ static Constant
 {
   // FIXME: When to release _quotedData?  At the same time the code is
   // released, probably...
+  // FIXME: In garbage-collected code, _quotedData will be deleted even
+  // though it is referenced by compiled code!
   LRETAIN (_quotedData);
+#ifdef __OBJC_GC__
+  if (_quotedData && MLKInstanceP (_quotedData))
+    [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_quotedData];
+#endif
+
   return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                   (uint64_t)_quotedData,
                                                   false),
@@ -848,7 +860,14 @@ static Constant
 {
   // FIXME: When to release _form?  At the same time the code is
   // released, probably...
+  // FIXME: In garbage-collected code, _form will be deleted even
+  // though it is referenced by compiled code!
   LRETAIN (_form);
+#ifdef __OBJC_GC__
+  if (_form && MLKInstanceP (_form))
+    [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_form];
+#endif
+
   return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                   (uint64_t)_form,
                                                   false),
