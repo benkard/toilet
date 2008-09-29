@@ -55,6 +55,7 @@
 #include <vector>
 
 using namespace llvm;
+using namespace std;
 
 
 static ExecutionEngine *execution_engine;
@@ -141,7 +142,7 @@ static Constant
 
   Value *v = NULL;
   BasicBlock *block;
-  std::vector<const Type*> noargs (0, Type::VoidTy);
+  vector<const Type*> noargs (0, Type::VoidTy);
   FunctionType *function_type = FunctionType::get (VoidPointerTy,
                                                    noargs,
                                                    false);
@@ -175,7 +176,7 @@ static Constant
 
 #if 1
   // JIT-compile.
-  std::vector<GenericValue> nogenericargs;
+  vector<GenericValue> nogenericargs;
   lambdaForm = (id)execution_engine->runFunction (function, nogenericargs).PointerVal;
   //fn = (id (*)()) execution_engine->getPointerToFunction (function);
   // Execute.
@@ -266,7 +267,7 @@ static Constant
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv
+         withArgumentVector:(vector<Value*> *)argv
 {
   return [self insertMethodCall:messageName
                onObject:object
@@ -276,7 +277,7 @@ static Constant
 
 +(Value *) insertVoidMethodCall:(NSString *)messageName
                        onObject:(Value *)object
-             withArgumentVector:(std::vector<Value*> *)argv
+             withArgumentVector:(vector<Value*> *)argv
 {
   return [self insertMethodCall:messageName
                onObject:object
@@ -287,7 +288,7 @@ static Constant
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv
+         withArgumentVector:(vector<Value*> *)argv
                        name:(NSString *)name
 {
   return [self insertMethodCall:messageName
@@ -299,11 +300,11 @@ static Constant
 
 +(Value *) insertMethodCall:(NSString *)messageName
                    onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv
+         withArgumentVector:(vector<Value*> *)argv
                        name:(NSString *)name
                  returnType:(const Type *)returnType
 {
-  std::vector <const Type *> argtypes (2, VoidPointerTy);
+  vector <const Type *> argtypes (2, VoidPointerTy);
   FunctionType *ftype = FunctionType::get (returnType, argtypes, true);
 
   Value *sel = [self insertSelectorLookup:messageName];
@@ -312,7 +313,7 @@ static Constant
   Constant *function = 
     module->getOrInsertFunction ("objc_msgSend", ftype);
 #else
-  std::vector <const Type *> lookup_argtypes (2, VoidPointerTy);
+  vector <const Type *> lookup_argtypes (2, VoidPointerTy);
   FunctionType *lookup_ftype = FunctionType::get (PointerType::get (ftype, 0),
                                                   lookup_argtypes,
                                                   false);
@@ -323,14 +324,14 @@ static Constant
 #endif
 
   // XXX The following doesn't work.  Why?
-  //  std::deque <Value *> argd (*argv);
+  //  deque <Value *> argd (*argv);
   //  argd.push_front (sel);
   //  argd.push_front (object);
 
-  std::vector <Value *> argd;
+  vector <Value *> argd;
   argd.push_back (object);
   argd.push_back (sel);
-  std::vector<Value *>::iterator e;
+  vector<Value *>::iterator e;
   for (e = argv->begin(); e != argv->end(); e++)
     argd.push_back (*e);
 
@@ -341,7 +342,7 @@ static Constant
                    onObject:(Value *)object
                    withName:(NSString *)name
 {
-  std::vector<Value*> argv;
+  vector<Value*> argv;
   return [self insertMethodCall:messageName
                onObject:object
                withArgumentVector:&argv
@@ -499,7 +500,7 @@ static Constant
                                                                 false),
                                                VoidPointerTy);
 
-      std::vector<Value *> args (1, symbolV);
+      vector<Value *> args (1, symbolV);
       value = [_compiler insertMethodCall:@"valueForSymbol:"
                          onObject:dynctx
                          withArgumentVector:&args];
@@ -533,7 +534,7 @@ static Constant
   Value *functionPtr;
   Value *closureDataCell;
   Value *closureDataPtr;
-  std::vector<Value *> args;
+  vector<Value *> args;
 
   if (![_context symbolNamesFunction:_head])
     {
@@ -596,7 +597,7 @@ static Constant
 @implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
-  std::vector <const Type *> argtypes (1, PointerPointerTy);
+  vector <const Type *> argtypes (1, PointerPointerTy);
   FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
   Function *function = Function::Create (ftype,
                                          Function::InternalLinkage,
@@ -695,7 +696,7 @@ static Constant
 
   builder.SetInsertPoint (lambdaListNewBlock);
   function->getBasicBlockList().push_back (lambdaListNewBlock);
-  std::vector <Value *> argv (1, arg);
+  vector <Value *> argv (1, arg);
   argv.push_back (ConstantPointerNull::get (VoidPointerTy));
   Value *newLambdaList = [_compiler insertMethodCall:@"cons:with:"
                                     onObject:mlkcons
@@ -710,7 +711,7 @@ static Constant
   Value *newCons = [_compiler insertMethodCall:@"cons:with:"
                               onObject:mlkcons
                               withArgumentVector:&argv];
-  std::vector <Value *> setcdr_argv (1, newCons);
+  vector <Value *> setcdr_argv (1, newCons);
   [_compiler insertVoidMethodCall:@"setCdr:"
              onObject:builder.CreateLoad(lambdaListTail)
              withArgumentVector:&setcdr_argv];
@@ -730,7 +731,7 @@ static Constant
     {
       Value *mlkbinding = [_compiler insertClassLookup:@"MLKBinding"];
       Value *currentLambdaList = builder.CreateLoad (lambdaList);
-      std::vector<Value *> args (1, currentLambdaList);
+      vector<Value *> args (1, currentLambdaList);
       Value *lambdaBinding = [_compiler insertMethodCall:@"bindingWithValue:"
                                         onObject:mlkbinding
                                         withArgumentVector:&args];
@@ -807,7 +808,7 @@ static Constant
       if ([_bodyContext variableHeapAllocationForSymbol:[binding_form name]])
         {
           Value *mlkbinding = [_compiler insertClassLookup:@"MLKBinding"];
-          std::vector<Value *> args (1, binding_value);
+          vector<Value *> args (1, binding_value);
           Value *binding = [_compiler insertMethodCall:@"bindingWithValue:"
                                       onObject:mlkbinding
                                       withArgumentVector:&args];
@@ -942,7 +943,7 @@ static Constant
                                                                     false),
                                                    VoidPointerTy);
 
-          std::vector<Value *> args;
+          vector<Value *> args;
           args.push_back (symbolV);
           Value *binding = [_compiler insertMethodCall:@"bindingForSymbol:"
                                               onObject:dynctx
@@ -983,7 +984,7 @@ static Constant
       else if ([_context variableIsGlobal:variable])
         {
           Value *binding = builder.Insert ([_context globalBindingValueForSymbol:variable]);
-          std::vector<Value *> args (1, value);
+          vector<Value *> args (1, value);
 
           [_compiler insertVoidMethodCall:@"setValue:"
                      onObject:binding
@@ -992,7 +993,7 @@ static Constant
       else if ([_context variableHeapAllocationForSymbol:variable])
         {
           Value *binding = [_context bindingValueForSymbol:variable];
-          std::vector<Value *> args (1, value);
+          vector<Value *> args (1, value);
 
           [_compiler insertVoidMethodCall:@"setValue:"
                      onObject:binding
