@@ -37,6 +37,7 @@
 #include <llvm/CallingConv.h>
 #include <llvm/DerivedTypes.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/Instructions.h>
 //#include <llvm/Interpreter.h>
 #include <llvm/Module.h>
@@ -174,9 +175,11 @@ static Constant
 
 #if 1
   // JIT-compile.
-  fn = (id (*)()) execution_engine->getPointerToFunction (function);
+  std::vector<GenericValue> nogenericargs;
+  lambdaForm = (id)execution_engine->runFunction (function, nogenericargs).PointerVal;
+  //fn = (id (*)()) execution_engine->getPointerToFunction (function);
   // Execute.
-  lambdaForm = fn();
+  //lambdaForm = fn();
   // FIXME: Free machine code when appropriate.  (I.e. now?  But this crashes after a LOAD.)
   //execution_engine->freeMachineCodeForFunction (function);
 #else
