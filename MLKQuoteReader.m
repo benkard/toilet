@@ -55,7 +55,7 @@
 
   return [NSArray arrayWithObject:
                     [MLKCons cons:[cl intern:@"QUOTE"]
-                             with:[MLKCons cons:nullify(quoted_form)
+                             with:[MLKCons cons:quoted_form
                                            with:nil]]];
 }
 @end
