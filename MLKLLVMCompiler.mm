@@ -485,7 +485,7 @@ static Constant
   if (![_context variableIsLexical:_form])
     {
       //[_compiler insertTrace:@"Dynamic."];
-      Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+      Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKDynamicContext"];
       Value *dynctx = [_compiler insertMethodCall:@"currentContext"
                                  onObject:mlkdynamiccontext];
 
@@ -922,7 +922,7 @@ static Constant
       value = [valueForm processForLLVM];
       if (![_context variableIsLexical:variable])
         {
-          Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKCons"];
+          Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKDynamicContext"];
           Value *dynctx = [_compiler insertMethodCall:@"currentContext"
                                      onObject:mlkdynamiccontext];
 
