@@ -177,7 +177,8 @@ static Constant
   fn = (id (*)()) execution_engine->getPointerToFunction (function);
   // Execute.
   lambdaForm = fn();
-  execution_engine->freeMachineCodeForFunction (function);
+  // FIXME: Free machine code when appropriate.  (I.e. now?  But this crashes after a LOAD.)
+  //execution_engine->freeMachineCodeForFunction (function);
 #else
   Interpreter *i = Interpreter::create (module_provider);
   lambdaForm = i->runFunction (function)->PointerVal;
