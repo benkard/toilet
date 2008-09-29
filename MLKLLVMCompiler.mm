@@ -927,17 +927,54 @@ static Constant
                                      onObject:mlkdynamiccontext];
 
           LRETAIN (variable);  // FIXME: release
+#ifdef __OBJC_GC__
+          // FIXME: proper memory management
+          if (variable && MLKInstanceP (variable))
+            [[NSGarbageCollector defaultCollector] disableCollectorForPointer:variable];
+#endif
+
           Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
                                                                     (uint64_t)variable,
                                                                     false),
                                                    PointerTy);
 
           std::vector<Value *> args;
-          args.push_back (value);
           args.push_back (symbolV);
-          [_compiler insertMethodCall:@"setValue:forSymbol:"
-                     onObject:dynctx
-                     withArgumentVector:&args];          
+          Value *binding = [_compiler insertMethodCall:@"bindingForSymbol:"
+                                              onObject:dynctx
+                                    withArgumentVector:&args];
+
+          // Test whether the binding is non-null.  If so, set its value, else create a new one.
+
+          Function *function = builder.GetInsertBlock()->getParent();
+          BasicBlock *setBlock = BasicBlock::Create ("setq_set_existing_dynamic_binding", function);
+          BasicBlock *makeNewBlock = BasicBlock::Create ("setq_make_new_dynamic_binding");
+          BasicBlock *joinBlock = BasicBlock::Create ("setq_join");
+
+          Value *test = builder.CreateICmpNE (binding, ConstantPointerNull::get (PointerTy));
+          //Value *value = builder.CreateAlloca (PointerTy, NULL, "if_result");
+          builder.CreateCondBr (test, setBlock, makeNewBlock);
+
+          builder.SetInsertPoint (setBlock);
+          args[0] = value;
+          [_compiler insertMethodCall:@"setValue:"
+                             onObject:binding
+                   withArgumentVector:&args];
+          builder.CreateBr (joinBlock);
+
+          builder.SetInsertPoint (makeNewBlock);
+          function->getBasicBlockList().push_back (makeNewBlock);
+          Value *globalctx = [_compiler insertMethodCall:@"globalContext"
+                                                onObject:mlkdynamiccontext];
+          args[0] = value;
+          args.push_back (symbolV);
+          [_compiler insertMethodCall:@"addValue:forSymbol:"
+                             onObject:globalctx
+                   withArgumentVector:&args];
+          builder.CreateBr (joinBlock);
+
+          builder.SetInsertPoint (joinBlock);
+          function->getBasicBlockList().push_back (joinBlock);
         }
       else if ([_context variableIsGlobal:variable])
         {
