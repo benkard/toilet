@@ -99,6 +99,8 @@
 -(void) splitDeclarationsAndBody:(id)object;
 -(void) processBody:(id)object inContext:(MLKLexicalContext *)context;
 -(void) processBody:(id)object;
+-(NSArray *) bodyForms;
+-(MLKLexicalContext *) bodyContext;
 @end
 
 

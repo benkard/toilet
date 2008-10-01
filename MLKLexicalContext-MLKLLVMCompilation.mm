@@ -77,6 +77,15 @@ id MLKDummyUseLLVMLexicalContext = nil;
                             PointerType::get(PointerType::get(PointerType::get(Type::Int8Ty, 0), 0), 0)));
 }
 
+-(Instruction *) closureDataLengthValueForSymbol:(id)name
+{
+  // The length cell isn't really a void** but an intptr_t*.
+  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+                                             (uint64_t)[self closureDataLengthForSymbol:name],
+                                             false),
+                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
+}
+
 -(Instruction *) globalBindingValueForSymbol:(id)name
 {
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
@@ -111,6 +120,27 @@ id MLKDummyUseLLVMLexicalContext = nil;
   return (Value *) [[self propertyForVariable:name
                           key:@"LLVM.variable-value"]
                      pointerValue];
+}
+
+-(Value *) functionBindingValueForSymbol:(id)name
+{
+  return (Value *) [[self propertyForVariable:name
+                                          key:@"LLVM.function-binding"]
+                    pointerValue];
+}
+
+-(void) locallySetFunctionBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self addShallowProperty:[NSValue valueWithPointer:value]
+               forVariable:name
+                       key:@"LLVM.function-binding"];
+}
+
+-(void) setFunctionBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:value]
+            forVariable:name
+                    key:@"LLVM.function-binding"];
 }
 
 // -(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name

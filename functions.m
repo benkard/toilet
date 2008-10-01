@@ -196,9 +196,10 @@ void MLKSplitDeclarationsDocAndForms (id *decls, id *doc, id *forms, id body, BO
     *doc = nil;
 
   declarations = nil;
-  while (([[body car] isKindOfClass:[MLKCons class]]
-          && [[body car] car] == DECLARE)
-         || (docp && [[body car] isKindOfClass:[NSString class]]))
+  while (MLKInstanceP ([body car])
+         && (([[body car] isKindOfClass:[MLKCons class]]
+              && [[body car] car] == DECLARE)
+             || (docp && [[body car] isKindOfClass:[NSString class]])))
     {
       id thing = [body car];
 

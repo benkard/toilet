@@ -26,9 +26,10 @@
 
 @interface MLKCompiledClosure : NSObject <MLKFuncallable>
 {
-  int _dataLength;
-  id (*_code)();
-  id *_data;
+@public
+  int m_dataLength;
+  id (*m_code)();
+  id *m_data;
 }
 
 // Why intptr_t?  Because it makes it easier to call this method from

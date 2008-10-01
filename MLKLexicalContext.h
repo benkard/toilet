@@ -22,6 +22,9 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSSet.h>
 
+#include <stdint.h>
+
+
 @class MLKEnvironment, MLKLexicalEnvironment, MLKSymbol, NSSet,
        NSMutableDictionary, NSString, MLKCons;
 
@@ -95,6 +98,7 @@
 -(BOOL) variableIsLexical:(MLKSymbol *)symbol;
 -(BOOL) variableIsGlobal:(id)name;
 -(BOOL) functionIsInline:(MLKSymbol *)symbol;
+-(BOOL) functionIsGlobal:(id)name;
 
 -(id) propertyForVariable:(id)name key:(id)key;
 -(void) setDeepProperty:(id)object
@@ -111,6 +115,7 @@
 
 -(void *) functionCellForSymbol:(id)name;
 -(void *) closureDataPointerForSymbol:(id)name;
+-(intptr_t *) closureDataLengthForSymbol:(id)name;
 -(id) bindingForSymbol:(id)name;
 
 -(void) dealloc;

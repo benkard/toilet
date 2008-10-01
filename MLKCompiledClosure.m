@@ -40,18 +40,18 @@
 {
   int i;
 
-  _dataLength = dataLength;
-  _code = code;
+  m_dataLength = dataLength;
+  m_code = code;
 
 #ifdef __OBJC_GC__
-  _data = NSAllocateCollectable (dataLength * sizeof(id), NSScannedOption);
+  m_data = NSAllocateCollectable (dataLength * sizeof(id), NSScannedOption);
 #else
-  _data = malloc (dataLength * sizeof(id));
+  m_data = malloc (dataLength * sizeof(id));
 #endif
 
-  for (i = 0; i < _dataLength; i++)
+  for (i = 0; i < m_dataLength; i++)
     {
-      _data[i] = LRETAIN (data[i]);
+      m_data[i] = LRETAIN (data[i]);
     }
 
   return self;
@@ -76,7 +76,7 @@
   int i;
 
   arg_types[0] = &ffi_type_pointer;
-  argv[0] = &_data;
+  argv[0] = &m_data;
 
   for (i = 1; i < argc - 1; i++)
     {
@@ -101,7 +101,7 @@
 //       NSLog (@"Argument %d: %p", i, *((void**)argv[i]));
 //     }
 
-  ffi_call (&cif, FFI_FN (_code), &return_value, (void**)argv);
+  ffi_call (&cif, FFI_FN (m_code), &return_value, (void**)argv);
 //  return_value = ((id (*)(void *, ...))_code) (_data, argpointers[0], argpointers[1], MLKEndOfArgumentsMarker);
 
   // FIXME: multiple values
@@ -120,12 +120,12 @@
 
 -(id (*)()) code
 {
-  return _code;
+  return m_code;
 }
 
 -(void *) closureData
 {
-  return _data;
+  return m_data;
 }
 
 -(void) dealloc
@@ -135,10 +135,10 @@
   [super dealloc];
 
   // FIXME: Decrease refcount of _code.
-  for (i = 0; i < _dataLength; i++)
+  for (i = 0; i < m_dataLength; i++)
     {
-      LRELEASE (_data[i]);
+      LRELEASE (m_data[i]);
     }
-  free (_data);
+  free (m_data);
 }
 @end

@@ -760,7 +760,7 @@ apply (id *_data, id function, id arglist, id _marker)
                                             ? (id)[arglist array]
                                             : (id)[NSArray array])];
 
-  return ([values count] > 0 ? [values objectAtIndex:0] : nil);
+  return ([values count] > 0 ? denullify([values objectAtIndex:0]) : nil);
 }
 
 static id
@@ -774,7 +774,7 @@ eval (id *_data, id evaluand, id _marker)
                                     withEnvironment:
                                       [MLKLexicalEnvironment globalEnvironment]];
 
-  return ([values count] > 0 ? [values objectAtIndex:0] : nil);
+  return ([values count] > 0 ? denullify([values objectAtIndex:0]) : nil);
 }
 
 static void

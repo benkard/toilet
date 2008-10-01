@@ -316,6 +316,16 @@
   return _bodyForms;
 }
 
+-(NSArray *) bodyForms
+{
+  return _bodyForms;
+}
+
+-(MLKLexicalContext *) bodyContext
+{
+  return _bodyContext;
+}
+
 -(void) dealloc
 {
   LDESTROY (_body);
