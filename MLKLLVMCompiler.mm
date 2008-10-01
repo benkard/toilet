@@ -474,7 +474,7 @@ static Constant
 
   builder.CreateUnreachable ();
 
-  return NULL;
+  return ConstantPointerNull::get (VoidPointerTy);;
 }
 @end
 
