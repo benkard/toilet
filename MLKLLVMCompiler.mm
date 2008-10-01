@@ -594,15 +594,24 @@ static Constant
 @end
 
 
-@implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+static void
+build_simple_function_definition (MLKBodyForm *processed_form,
+                                  id _lambdaListName,
+                                  Function*& function,
+                                  Value*& closure_data,
+                                  intptr_t& closure_data_size)
 {
+  NSArray *_bodyForms = [processed_form bodyForms];
+  MLKLexicalContext *_bodyContext = [processed_form bodyContext];
+  MLKLexicalContext *_context = [processed_form context];
+  id _compiler = [MLKLLVMCompiler class];
+
   vector <const Type *> argtypes (1, PointerPointerTy);
   FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
-  Function *function = Function::Create (ftype,
-                                         Function::InternalLinkage,
-                                         "a_lisp_closure_body",
-                                         module);
+  function = Function::Create (ftype,
+                               Function::InternalLinkage,
+                               "a_lisp_closure_body",
+                               module);
 
   Function::arg_iterator args = function->arg_begin();
   Value *closure_data_arg = args++;
@@ -619,12 +628,12 @@ static Constant
   // ***** HANDLE CLOSURE VARIABLES *****
   builder.SetInsertPoint (outerBlock);
 
-  NSArray *freeVariables = [[self freeVariables] allObjects];
-  Value *closure_data = builder.CreateAlloca (VoidPointerTy,
-                                              ConstantInt::get(Type::Int32Ty,
-                                                               (uint32_t)[freeVariables count],
-                                                               false));
-  int closure_data_size = 0;
+  NSArray *freeVariables = [[processed_form freeVariables] allObjects];
+  closure_data = builder.CreateAlloca (VoidPointerTy,
+                                       ConstantInt::get(Type::Int32Ty,
+                                                        (uint32_t)[freeVariables count],
+                                                        false));
+  closure_data_size = 0;
   unsigned int i;
   for (i = 0; i < [freeVariables count]; i++)
     {
@@ -774,9 +783,21 @@ static Constant
   //NSLog (@"Function built.");
 
   builder.SetInsertPoint (outerBlock);
+}
 
-  argv[0] = function;
-  argv[1] = builder.CreateBitCast (closure_data, VoidPointerTy);
+
+@implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
+-(Value *) reallyProcessForLLVM
+{
+  intptr_t closure_data_size;
+  Function *function;
+  Value *closure_data;
+
+  build_simple_function_definition (self, _lambdaListName, function, closure_data, closure_data_size);
+
+  vector<Value *> argv;
+  argv.push_back (function);
+  argv.push_back (builder.CreateBitCast (closure_data, VoidPointerTy));
   argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
                                                            closure_data_size,
                                                            false),
