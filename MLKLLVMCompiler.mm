@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKCompiledClosure.h"
 #import "MLKDynamicContext.h"
 #import "MLKLLVMCompiler.h"
 #import "MLKPackage.h"
@@ -53,6 +54,9 @@
 
 #include <deque>
 #include <vector>
+
+#include <stddef.h>
+#include <objc/runtime.h>
 
 using namespace llvm;
 using namespace std;
@@ -530,9 +534,7 @@ static Constant
 @implementation MLKFunctionCallForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
-  Value *functionCell;
   Value *functionPtr;
-  Value *closureDataCell;
   Value *closureDataPtr;
   vector<Value *> args;
 
@@ -542,10 +544,42 @@ static Constant
       // XXX Issue a style warning.
     }
 
-  functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
-  functionPtr = builder.CreateLoad (functionCell);
-  closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
-  closureDataPtr = builder.CreateLoad (closureDataCell);
+  if ([_context functionIsGlobal:_head])
+    {
+      Value *functionCell;
+      Value *closureDataCell;
+
+      functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
+      functionPtr = builder.CreateLoad (functionCell);
+      closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
+      closureDataPtr = builder.CreateLoad (closureDataCell);
+    }
+  else
+    {
+      Value *binding = [_context functionBindingValueForSymbol:_head];
+      // It's important for closure to be an i8* because we need to calculate
+      // the GEP offset in terms of bytes.
+      Value *closure = builder.CreateBitCast ([_compiler insertMethodCall:@"value" onObject:binding], VoidPointerTy);
+
+      //offsetof (MLKCompiledClosure, _code);
+      ptrdiff_t code_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "_code"));
+      ptrdiff_t data_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "_data"));
+      Constant *code_offset_value = ConstantInt::get (Type::Int32Ty, code_offset, false);
+      Constant *data_offset_value = ConstantInt::get (Type::Int32Ty, data_offset, false);
+      Value *codeptr = builder.CreateGEP (closure, code_offset_value);
+      Value *dataptr = builder.CreateGEP (closure, data_offset_value);
+      codeptr = builder.CreateBitCast (codeptr, PointerPointerTy, "closure_code_ptr");
+      dataptr = builder.CreateBitCast (codeptr, PointerPointerTy, "closure_data_ptr");
+      Value *code = builder.CreateLoad (codeptr, "closure_code");
+      Value *data = builder.CreateLoad (dataptr, "closure_data");
+
+      std::vector<const Type *> types (1, PointerPointerTy);
+      functionPtr = builder.CreateBitCast (code, PointerType::get(FunctionType::get(VoidPointerTy,
+                                                                                    types,
+                                                                                    true),
+                                                                  0));
+      closureDataPtr = builder.CreateBitCast (data, PointerPointerTy);
+    }
 
   //[_compiler insertTrace:[NSString stringWithFormat:@"Call: %@", MLKPrintToString(_head)]];
   //[_compiler insertPointerTrace:functionPtr];
@@ -860,6 +894,58 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 @end
 
 
+@implementation MLKSimpleFletForm (MLKLLVMCompilation)
+-(Value *) reallyProcessForLLVM
+{
+  NSEnumerator *e = [_functionBindingForms objectEnumerator];
+  Value *value = ConstantPointerNull::get (VoidPointerTy);
+  MLKForm *form;
+  MLKSimpleFunctionBindingForm *binding_form;
+  
+  while ((binding_form = [e nextObject]))
+    {
+      intptr_t closure_data_size;
+      Function *function;
+      Value *closure_data;
+      
+      build_simple_function_definition (binding_form, [binding_form lambdaListName], function, closure_data, closure_data_size);
+      
+      vector<Value *> argv;
+      argv.push_back (function);
+      argv.push_back (builder.CreateBitCast (closure_data, VoidPointerTy));
+      argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
+                                                               closure_data_size,
+                                                               false),
+                                              VoidPointerTy));
+      Value *mlkcompiledclosure = [_compiler
+                                   insertClassLookup:@"MLKCompiledClosure"];
+      Value *closure =
+        [_compiler insertMethodCall:@"closureWithCode:data:length:"
+                           onObject:mlkcompiledclosure
+                 withArgumentVector:&argv];
+
+      Value *binding_value = closure;
+
+      Value *mlkbinding = [_compiler insertClassLookup:@"MLKBinding"];
+      vector<Value *> args (1, binding_value);
+      Value *binding = [_compiler insertMethodCall:@"bindingWithValue:"
+                                          onObject:mlkbinding
+                                withArgumentVector:&args];
+      [_bodyContext setFunctionBindingValue:binding
+                                  forSymbol:[binding_form name]];
+    }
+  
+  e = [_bodyForms objectEnumerator];
+  while ((form = [e nextObject]))
+    {
+      value = [form processForLLVM];
+    }
+  
+  return value;
+}
+@end
+
+
 @implementation MLKQuoteForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
@@ -1052,8 +1138,6 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 @implementation MLKSimpleFunctionForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVM
 {
-  // For global functions, this is easy.  For local functions, we need to create
-  // a new MLKCompiledClosure object.
   if ([_context functionIsGlobal:_functionName])
     {
       Value *mlklexicalenvironment = [_compiler insertClassLookup:@"MLKLexicalEnvironment"];
@@ -1081,27 +1165,8 @@ build_simple_function_definition (MLKBodyForm *processed_form,
     }
   else
     {
-      Value *functionCell, *functionPtr;
-      Value *closureDataCell, *closureDataPtr;
-      Value *closureDataLengthCell, *closureDataLength;
-
-      functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
-      functionPtr = builder.CreateLoad (functionCell);
-      closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
-      closureDataPtr = builder.CreateLoad (closureDataCell);
-      closureDataLengthCell = builder.Insert ([_context closureDataLengthValueForSymbol:_head]);
-      closureDataLength = builder.CreateLoad (closureDataLengthCell);
-
-      vector<Value *> argv;
-      argv.push_back (builder.CreateBitCast (functionPtr, VoidPointerTy));
-      argv.push_back (builder.CreateBitCast (closureDataPtr, VoidPointerTy));
-      argv.push_back (builder.CreateBitCast (closureDataLength, VoidPointerTy));
-      Value *mlkcompiledclosure = [_compiler
-                                   insertClassLookup:@"MLKCompiledClosure"];
-      Value *closure =
-        [_compiler insertMethodCall:@"closureWithCode:data:length:"
-                           onObject:mlkcompiledclosure
-                 withArgumentVector:&argv];
+      Value *binding = [_context functionBindingValueForSymbol:_functionName];
+      Value *closure = builder.CreateBitCast ([_compiler insertMethodCall:@"value" onObject:binding], VoidPointerTy);
 
       return closure;
     }

@@ -81,7 +81,7 @@ static MLKLexicalContext *global_context;
   self = [super init];
 
   LASSIGN (_parent, (aContext ? aContext : [MLKLexicalContext globalContext]));
-  
+
   LASSIGN (_variables, [NSMutableSet setWithSet:vars]);
   LASSIGN (_functions, [NSMutableSet setWithSet:functions]);
 

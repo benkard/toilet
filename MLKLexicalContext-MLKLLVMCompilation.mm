@@ -120,6 +120,27 @@ id MLKDummyUseLLVMLexicalContext = nil;
                      pointerValue];
 }
 
+-(Value *) functionBindingValueForSymbol:(id)name
+{
+  return (Value *) [[self propertyForVariable:name
+                                          key:@"LLVM.function-binding"]
+                    pointerValue];
+}
+
+-(void) locallySetFunctionBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self addShallowProperty:[NSValue valueWithPointer:value]
+               forVariable:name
+                       key:@"LLVM.function-binding"];
+}
+
+-(void) setFunctionBindingValue:(Value *)value forSymbol:(id)name
+{
+  [self setDeepProperty:[NSValue valueWithPointer:value]
+            forVariable:name
+                    key:@"LLVM.function-binding"];
+}
+
 // -(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name
 // {
 //   [self setDeepProperty:[NSValue valueWithPointer:cellPtr]
