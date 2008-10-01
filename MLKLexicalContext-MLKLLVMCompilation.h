@@ -39,6 +39,7 @@ extern id MLKDummyUseLLVMLexicalContext;
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
 -(Instruction *) functionCellValueForSymbol:(id)name;
 -(Instruction *) closureDataPointerValueForSymbol:(id)name;
+-(Instruction *) closureDataLengthValueForSymbol:(id)name;
 -(Value *) bindingValueForSymbol:(id)name; 
 -(void) locallySetBindingValue:(Value *)value forSymbol:(id)name;
 -(void) setBindingValue:(Value *)value forSymbol:(id)name;

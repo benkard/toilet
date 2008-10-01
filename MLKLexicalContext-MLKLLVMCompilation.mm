@@ -75,6 +75,15 @@ id MLKDummyUseLLVMLexicalContext = nil;
                             PointerType::get(PointerType::get(PointerType::get(Type::Int8Ty, 0), 0), 0)));
 }
 
+-(Instruction *) closureDataLengthValueForSymbol:(id)name
+{
+  // The length cell isn't really a void** but an intptr_t*.
+  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+                                             (uint64_t)[self closureDataLengthForSymbol:name],
+                                             false),
+                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
+}
+
 -(Instruction *) globalBindingValueForSymbol:(id)name
 {
   return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,

@@ -1026,3 +1026,71 @@ static Constant
                                  VoidPointerTy);
 }
 @end
+
+
+@implementation MLKSimpleFunctionForm (MLKLLVMCompilation)
+-(Value *) reallyProcessForLLVM
+{
+  // For global functions, this is easy.  For local functions, we need to create
+  // a new MLKCompiledClosure object.
+  if ([_context functionIsGlobal:_functionName])
+    {
+      Value *mlklexicalenvironment = [_compiler insertClassLookup:@"MLKLexicalEnvironment"];
+      Value *env = [_compiler insertMethodCall:@"globalEnvironment"
+                                      onObject:mlklexicalenvironment];
+
+      LRETAIN (_functionName);  // FIXME: release
+#ifdef __OBJC_GC__
+      // FIXME: proper memory management
+      if (_functionName && MLKInstanceP (_functionName))
+        [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_functionName];
+#endif
+      
+      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                                (uint64_t)_functionName,
+                                                                false),
+                                               VoidPointerTy);
+
+      vector<Value *> args;
+      args.push_back (symbolV);
+      Value *fun = [_compiler insertMethodCall:@"functionForSymbol:"
+                                      onObject:env
+                            withArgumentVector:&args];
+      return fun;
+    }
+  else
+    {
+      Value *functionCell, *functionPtr;
+      Value *closureDataCell, *closureDataPtr;
+      Value *closureDataLengthCell, *closureDataLength;
+
+      functionCell = builder.Insert ([_context functionCellValueForSymbol:_head]);
+      functionPtr = builder.CreateLoad (functionCell);
+      closureDataCell = builder.Insert ([_context closureDataPointerValueForSymbol:_head]);
+      closureDataPtr = builder.CreateLoad (closureDataCell);
+      closureDataLengthCell = builder.Insert ([_context closureDataLengthValueForSymbol:_head]);
+      closureDataLength = builder.CreateLoad (closureDataLengthCell);
+
+      vector<Value *> argv;
+      argv.push_back (builder.CreateBitCast (functionPtr, VoidPointerTy));
+      argv.push_back (builder.CreateBitCast (closureDataPtr, VoidPointerTy));
+      argv.push_back (builder.CreateBitCast (closureDataLength, VoidPointerTy));
+      Value *mlkcompiledclosure = [_compiler
+                                   insertClassLookup:@"MLKCompiledClosure"];
+      Value *closure =
+        [_compiler insertMethodCall:@"closureWithCode:data:length:"
+                           onObject:mlkcompiledclosure
+                 withArgumentVector:&argv];
+
+      return closure;
+    }
+}
+@end
+
+
+@implementation MLKLambdaFunctionForm (MLKLLVMCompilation)
+-(Value *) reallyProcessForLLVM
+{
+  return [_lambdaForm processForLLVM];
+}
+@end

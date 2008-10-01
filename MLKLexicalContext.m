@@ -297,6 +297,12 @@ static MLKLexicalContext *global_context;
           || [self contextForVariable:name] == [MLKLexicalContext globalContext]);
 }
 
+-(BOOL) functionIsGlobal:(id)name
+{
+  return (![self contextForFunction:name]
+          || [self contextForFunction:name] == [MLKLexicalContext globalContext]);
+}
+
 -(BOOL) functionIsInline:(MLKSymbol *)symbol
 {
   if ([_functions containsObject:symbol])
@@ -452,6 +458,26 @@ static MLKLexicalContext *global_context;
   else
     {
       return [prop pointerValue];
+    }
+}
+
+-(intptr_t *) closureDataLengthForSymbol:(id)name
+{
+  id prop = [self propertyForFunction:name
+                                  key:@"LEXCTX.closure-data-length"];
+  
+  if (!prop)
+    {
+      intptr_t *cell = malloc (sizeof(intptr_t));
+      prop = [NSValue valueWithPointer:cell];
+      [self setDeepProperty:prop
+                forFunction:name
+                        key:@"LEXCTX.closure-data-length"];
+      return cell;
+    }
+  else
+    {
+      return (intptr_t*)[prop pointerValue];
     }
 }
 
