@@ -56,7 +56,10 @@
 #include <vector>
 
 #include <stddef.h>
+#ifdef MACOSX
 #include <objc/runtime.h>
+#include <objc/objc-api.h>
+#endif
 
 using namespace llvm;
 using namespace std;
@@ -561,9 +564,13 @@ static Constant
       // the GEP offset in terms of bytes.
       Value *closure = builder.CreateBitCast ([_compiler insertMethodCall:@"value" onObject:binding], VoidPointerTy);
 
-      //offsetof (MLKCompiledClosure, _code);
-      ptrdiff_t code_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "_code"));
-      ptrdiff_t data_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "_data"));
+#if defined(OBJC_API_VERSION) && OBJC_API_VERSION >= 2
+      ptrdiff_t code_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "m_code"));
+      ptrdiff_t data_offset = ivar_getOffset (class_getInstanceVariable ([MLKCompiledClosure class], "m_data"));
+#else
+      ptrdiff_t code_offset = offsetof (MLKCompiledClosure, m_code);
+      ptrdiff_t data_offset = offsetof (MLKCompiledClosure, m_data);
+#endif
       Constant *code_offset_value = ConstantInt::get (Type::Int32Ty, code_offset, false);
       Constant *data_offset_value = ConstantInt::get (Type::Int32Ty, data_offset, false);
       Value *codeptr = builder.CreateGEP (closure, code_offset_value);
