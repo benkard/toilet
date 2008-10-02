@@ -17,6 +17,7 @@
  */
 
 #import "MLKCompiledClosure.h"
+#import "MLKCons.h"
 
 #import "functions.h"
 #import "globals.h"
@@ -66,23 +67,28 @@
 
 -(NSArray *) applyToArray:(NSArray *)arguments
 {
-  int argc = ([arguments count] + 2);
+  int argc = ([arguments count] + 3);
   ffi_cif cif;
   ffi_type *arg_types[argc];
   ffi_status status;
   void *argv[argc];
-  id argpointers[argc - 1];
+  id argpointers[argc - 2];
   ffi_arg return_value;
   int i;
+  id return_values = nil;
+  id *return_values_ptr = &return_values;
 
   arg_types[0] = &ffi_type_pointer;
   argv[0] = &m_data;
+  
+  arg_types[1] = &ffi_type_pointer;
+  argv[1] = &return_values_ptr;
 
-  for (i = 1; i < argc - 1; i++)
+  for (i = 2; i < argc - 1; i++)
     {
       arg_types[i] = &ffi_type_pointer;
-      argpointers[i-1] = denullify([arguments objectAtIndex:(i-1)]);
-      argv[i] = &argpointers[i-1];
+      argpointers[i-2] = denullify([arguments objectAtIndex:(i-2)]);
+      argv[i] = &argpointers[i-2];
     }
 
   arg_types[argc - 1] = &ffi_type_pointer;
@@ -104,8 +110,15 @@
   ffi_call (&cif, FFI_FN (m_code), &return_value, (void**)argv);
 //  return_value = ((id (*)(void *, ...))_code) (_data, argpointers[0], argpointers[1], MLKEndOfArgumentsMarker);
 
-  // FIXME: multiple values
-  return [NSArray arrayWithObject:nullify((id)return_value)];
+  if (return_values)
+    {
+      MLKCons *values = [return_values cdr];
+      return (values ? [values array] : [NSArray array]);
+    }
+  else
+    {
+      return [NSArray arrayWithObject:nullify((id)return_value)];
+    }
 }
 
 -(NSString *) description

@@ -225,7 +225,7 @@ static Constant
 
 +(Value *) processForm:(MLKForm *)form
 {
-  return [form processForLLVM];
+  return [form processForLLVMWithMultiValue:NULL];
 }
 
 +(void) markVariablesForHeapAllocationInForm:(MLKForm *)form
@@ -414,7 +414,7 @@ static Constant
 
 
 @implementation MLKForm (MLKLLVMCompilation)
--(Value *) processForLLVM
+-(Value *) processForLLVMWithMultiValue:(Value *)multiValue
 {
 #if 0
   [_compiler insertTrace:
@@ -422,7 +422,7 @@ static Constant
                            @"Executing: %@", MLKPrintToString(_form)]];
 #endif
 
-  Value *result = [self reallyProcessForLLVM];
+  Value *result = [self reallyProcessForLLVMWithMultiValue:multiValue];
 
 #if 0
   [_compiler insertTrace:
@@ -433,7 +433,7 @@ static Constant
   return result;
 }
 
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSLog (@"WARNING: Unrecognised form type: %@", self);
   return NULL;
@@ -442,15 +442,21 @@ static Constant
 
 
 @implementation MLKProgNForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
   Value *value = ConstantPointerNull::get (VoidPointerTy);
+  int i;
 
+  i = 0;
   while ((form = [e nextObject]))
     {
-      value = [form processForLLVM];
+      i++;
+      if (i == [_bodyForms count])
+        value = [form processForLLVMWithMultiValue:multiValue];
+      else
+        value = [form processForLLVMWithMultiValue:NULL];
     }
 
   return value;
@@ -459,7 +465,7 @@ static Constant
 
 
 @implementation MLKSimpleLoopForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
@@ -474,7 +480,7 @@ static Constant
 
   while ((form = [e nextObject]))
     {
-      [form processForLLVM];
+      [form processForLLVMWithMultiValue:NULL];
     }
 
   builder.CreateBr (loopBlock);
@@ -489,7 +495,7 @@ static Constant
 
 
 @implementation MLKSymbolForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   Value *value;
 
@@ -537,7 +543,7 @@ static Constant
 
 
 @implementation MLKFunctionCallForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   Value *functionPtr;
   Value *closureDataPtr;
@@ -582,7 +588,7 @@ static Constant
       Value *code = builder.CreateLoad (codeptr, "closure_code");
       Value *data = builder.CreateLoad (dataptr, "closure_data");
 
-      std::vector<const Type *> types (1, PointerPointerTy);
+      std::vector<const Type *> types (2, PointerPointerTy);
       functionPtr = builder.CreateBitCast (code, PointerType::get(FunctionType::get(VoidPointerTy,
                                                                                     types,
                                                                                     true),
@@ -594,13 +600,17 @@ static Constant
   //[_compiler insertPointerTrace:functionPtr];
 
   args.push_back (closureDataPtr);
+  if (multiValue)
+    args.push_back (multiValue);
+  else
+    args.push_back (ConstantPointerNull::get (PointerPointerTy));
 
   NSEnumerator *e = [_argumentForms objectEnumerator];
   MLKForm *form;
 
   while ((form = [e nextObject]))
     {
-      args.push_back ([form processForLLVM]);
+      args.push_back ([form processForLLVMWithMultiValue:NULL]);
     }
 
   //GlobalVariable *endmarker = module->getGlobalVariable ("MLKEndOfArgumentsMarker", false);
@@ -649,7 +659,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   MLKLexicalContext *_context = [processed_form context];
   id _compiler = [MLKLLVMCompiler class];
 
-  vector <const Type *> argtypes (1, PointerPointerTy);
+  vector <const Type *> argtypes (2, PointerPointerTy);
   FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
   function = Function::Create (ftype,
                                Function::InternalLinkage,
@@ -659,6 +669,9 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   Function::arg_iterator args = function->arg_begin();
   Value *closure_data_arg = args++;
   closure_data_arg->setName ("closure_data");
+  
+  Value *functionMultiValue = args++;
+  functionMultiValue->setName ("function_multiple_value_return_pointer");
 
   BasicBlock *outerBlock = builder.GetInsertBlock ();
   BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
@@ -803,10 +816,14 @@ build_simple_function_definition (MLKBodyForm *processed_form,
       value = ConstantPointerNull::get (VoidPointerTy);
     }
 
+  i = 0;
   while ((form = [e nextObject]))
     {
-      //NSLog (@"%LAMBDA: Processing subform.");
-      value = [form processForLLVM];
+      i++;
+      if (i == [_bodyForms count])
+        value = [form processForLLVMWithMultiValue:functionMultiValue];
+      else
+        value = [form processForLLVMWithMultiValue:NULL];
     }
 
   builder.CreateRet (value);
@@ -830,7 +847,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKSimpleLambdaForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   intptr_t closure_data_size;
   Function *function;
@@ -858,7 +875,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKLetForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSEnumerator *e = [_variableBindingForms objectEnumerator];
   Value *value = ConstantPointerNull::get (VoidPointerTy);
@@ -867,7 +884,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
   while ((binding_form = [e nextObject]))
     {
-      Value *binding_value = [[binding_form valueForm] processForLLVM];
+      Value *binding_value = [[binding_form valueForm] processForLLVMWithMultiValue:NULL];
 
       if ([_bodyContext variableHeapAllocationForSymbol:[binding_form name]])
         {
@@ -892,10 +909,15 @@ build_simple_function_definition (MLKBodyForm *processed_form,
         }
     }
 
+  int i = 0;
   e = [_bodyForms objectEnumerator];
   while ((form = [e nextObject]))
     {
-      value = [form processForLLVM];
+      i++;
+      if (i == [_bodyForms count])
+        value = [form processForLLVMWithMultiValue:multiValue];
+      else
+        value = [form processForLLVMWithMultiValue:NULL];
     }
 
   return value;
@@ -904,12 +926,13 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKSimpleFletForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSEnumerator *e = [_functionBindingForms objectEnumerator];
   Value *value = ConstantPointerNull::get (VoidPointerTy);
   MLKForm *form;
   MLKSimpleFunctionBindingForm *binding_form;
+  unsigned int i;
   
   while ((binding_form = [e nextObject]))
     {
@@ -943,11 +966,16 @@ build_simple_function_definition (MLKBodyForm *processed_form,
       [_bodyContext setFunctionBindingValue:binding
                                   forSymbol:[binding_form name]];
     }
-  
+
+  i = 0;
   e = [_bodyForms objectEnumerator];
   while ((form = [e nextObject]))
     {
-      value = [form processForLLVM];
+      i++;
+      if (i == [_bodyForms count])
+        value = [form processForLLVMWithMultiValue:multiValue];
+      else
+        value = [form processForLLVMWithMultiValue:NULL];
     }
   
   return value;
@@ -956,7 +984,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKQuoteForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   // FIXME: When to release _quotedData?  At the same time the code is
   // released, probably...
@@ -977,7 +1005,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKSelfEvaluatingForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   // FIXME: When to release _form?  At the same time the code is
   // released, probably...
@@ -998,25 +1026,25 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKIfForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   Function *function = builder.GetInsertBlock()->getParent();
   BasicBlock *thenBlock = BasicBlock::Create ("if_then", function);
   BasicBlock *elseBlock = BasicBlock::Create ("if_else");
   BasicBlock *joinBlock = BasicBlock::Create ("if_join");
 
-  Value *test = builder.CreateICmpNE ([_conditionForm processForLLVM],
+  Value *test = builder.CreateICmpNE ([_conditionForm processForLLVMWithMultiValue:NULL],
                                       ConstantPointerNull::get (VoidPointerTy));
   Value *value = builder.CreateAlloca (VoidPointerTy, NULL, "if_result");
   builder.CreateCondBr (test, thenBlock, elseBlock);
 
   builder.SetInsertPoint (thenBlock);
-  builder.CreateStore ([_consequentForm processForLLVM], value);
+  builder.CreateStore ([_consequentForm processForLLVMWithMultiValue:multiValue], value);
   builder.CreateBr (joinBlock);
 
   builder.SetInsertPoint (elseBlock);
   function->getBasicBlockList().push_back (elseBlock);
-  builder.CreateStore ([_alternativeForm processForLLVM], value);
+  builder.CreateStore ([_alternativeForm processForLLVMWithMultiValue:multiValue], value);
   builder.CreateBr (joinBlock);
 
   builder.SetInsertPoint (joinBlock);
@@ -1028,7 +1056,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKSetQForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   NSEnumerator *var_e, *value_e;
   MLKForm *valueForm;
@@ -1040,7 +1068,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   while ((valueForm = [value_e nextObject]))
     {
       variable = [var_e nextObject];
-      value = [valueForm processForLLVM];
+      value = [valueForm processForLLVMWithMultiValue:NULL];
       if (![_context variableIsLexical:variable])
         {
           Value *mlkdynamiccontext = [_compiler insertClassLookup:@"MLKDynamicContext"];
@@ -1127,7 +1155,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKInPackageForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   id package = [MLKPackage findPackage:stringify(_packageDesignator)];
 
@@ -1145,7 +1173,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKSimpleFunctionForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   if ([_context functionIsGlobal:_functionName])
     {
@@ -1184,8 +1212,8 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
 
 @implementation MLKLambdaFunctionForm (MLKLLVMCompilation)
--(Value *) reallyProcessForLLVM
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
-  return [_lambdaForm processForLLVM];
+  return [_lambdaForm processForLLVMWithMultiValue:multiValue];
 }
 @end
