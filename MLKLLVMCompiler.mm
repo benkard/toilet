@@ -57,8 +57,10 @@
 
 #include <stddef.h>
 #ifdef MACOSX
-#include <objc/runtime.h>
 #include <objc/objc-api.h>
+#if defined(OBJC_API_VERSION) && OBJC_API_VERSION >= 2
+#include <objc/runtime.h>
+#endif
 #endif
 
 using namespace llvm;
