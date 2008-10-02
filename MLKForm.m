@@ -185,7 +185,7 @@
   else if (car == _FLET) return [MLKSimpleFletForm class];
   else if (car == LET) return [MLKLetForm class];
   else if (car == _LOOP) return [MLKSimpleLoopForm class];
-  else if (car == MULTIPLE_VALUE_CALL) return [MLKMultipleValueCallForm class];
+  else if (car == MULTIPLE_VALUE_LIST) return [MLKMultipleValueListForm class];
   else if (car == PROGN) return [MLKProgNForm class];
   else if (car == PROGV) return [MLKProgVForm class];
   else if (car == QUOTE) return [MLKQuoteForm class];
@@ -898,25 +898,24 @@
 @end
 
 
-@implementation MLKMultipleValueCallForm
+@implementation MLKMultipleValueListForm
 -(id) complete
 {
   self = [super complete];
-  LASSIGN (_functionForm, [MLKForm formWithObject:[_tail car]
-                                   inContext:_context
-                                   forCompiler:_compiler]);
-  [self processBody:[_tail cdr]];
+  LASSIGN (_listForm, [MLKForm formWithObject:[_tail car]
+                                    inContext:_context
+                                  forCompiler:_compiler]);
   return self;
 }
 
 -(NSArray *) subforms
 {
-  return [[super subforms] arrayByAddingObject:_functionForm];
+  return [[super subforms] arrayByAddingObject:_listForm];
 }
 
 -(void) dealloc
 {
-  LDESTROY (_functionForm);
+  LDESTROY (_listForm);
   [super dealloc];
 }
 @end

@@ -473,20 +473,11 @@ PRIMARY (NSArray *array)
 @end
 
 
-@implementation MLKMultipleValueCallForm (MLKInterpretation)
+@implementation MLKMultipleValueListForm (MLKInterpretation)
 -(NSArray *) reallyInterpretWithEnvironment:(MLKLexicalEnvironment *)env
 {
-  NSMutableArray *results = [NSMutableArray array];
-  int i;
-  id <MLKFuncallable> function = PRIMARY ([_functionForm interpretWithEnvironment:env]);
-
-  for (i = 0; i < [_bodyForms count]; i++)
-    {
-      NSArray *values = [[_bodyForms objectAtIndex:i] interpretWithEnvironment:env];
-      [results addObjectsFromArray:values];
-    }
-  
-  return [function applyToArray:results];
+  NSArray *results = [_listForm interpretWithEnvironment:env];
+  return [NSArray arrayWithObject:[MLKCons listWithArray:results]];
 }
 @end
 

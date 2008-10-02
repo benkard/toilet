@@ -56,7 +56,7 @@ static MLKSymbol *COMPILE;
 static MLKSymbol *LOAD_TOPLEVEL;
 static MLKSymbol *LOAD;
 static MLKSymbol *EXECUTE;
-static MLKSymbol *MULTIPLE_VALUE_CALL;
+static MLKSymbol *MULTIPLE_VALUE_LIST;
 static MLKSymbol *INLINE;
 static MLKSymbol *NOTINLINE;
 static MLKSymbol *SPECIAL;
@@ -106,7 +106,7 @@ ensure_symbols ()
   _FOREIGN_LAMBDA = [sys intern:@"%FOREIGN-LAMBDA"];
   _LAMBDA = [sys intern:@"%LAMBDA"];
   V_INITP = [sys intern:@"*SYSTEM-INITIALISED-P*"];
-  MULTIPLE_VALUE_CALL = [cl intern:@"MULTIPLE-VALUE-CALL"];
+  MULTIPLE_VALUE_LIST = [cl intern:@"MULTIPLE-VALUE-LIST"];
   INLINE = [cl intern:@"INLINE"];
   NOTINLINE = [cl intern:@"NOTINLINE"];
   SPECIAL = [cl intern:@"INLINE"];
