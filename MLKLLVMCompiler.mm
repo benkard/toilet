@@ -1217,3 +1217,49 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   return [_lambdaForm processForLLVMWithMultiValue:multiValue];
 }
 @end
+
+
+@implementation MLKMultipleValueListForm (MLKLLVMCompilation)
+-(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
+{
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+                                                              (uint64_t)MLKEndOfArgumentsMarker,
+                                                              false),
+                                             VoidPointerTy);
+  Value *multi_tmp = builder.CreateAlloca (VoidPointerTy, NULL);
+  builder.CreateStore (endmarker, multi_tmp);
+
+  Value *value = [_listForm processForLLVMWithMultiValue:multi_tmp];
+  Value *return_value = builder.CreateAlloca (VoidPointerTy, NULL);
+
+  Function *function = builder.GetInsertBlock()->getParent();
+  BasicBlock *singleValueBlock = BasicBlock::Create ("single_value_block", function);
+  BasicBlock *multipleValueBlock = BasicBlock::Create ("multiple_value_block");
+  BasicBlock *joinBlock = BasicBlock::Create ("join_block");
+
+  Value *multi_tmp_content = builder.CreateLoad (multi_tmp);
+  Value *isSingleValue = builder.CreateICmpEQ (multi_tmp_content, endmarker);
+  builder.CreateCondBr (isSingleValue, singleValueBlock, multipleValueBlock);
+
+  builder.SetInsertPoint (singleValueBlock);
+  Value *mlkcons = [_compiler insertClassLookup:@"MLKCons"];
+  vector <Value *> argv;
+  argv.push_back (value);
+  argv.push_back (ConstantPointerNull::get (VoidPointerTy));
+  Value *newList = [_compiler insertMethodCall:@"cons:with:"
+                                      onObject:mlkcons
+                            withArgumentVector:&argv];
+  builder.CreateStore (newList, return_value);
+  builder.CreateBr (joinBlock);
+
+  function->getBasicBlockList().push_back (multipleValueBlock);
+  builder.SetInsertPoint (multipleValueBlock);
+  builder.CreateStore (multi_tmp_content, return_value);
+  builder.CreateBr (joinBlock);
+
+  function->getBasicBlockList().push_back (joinBlock);
+  builder.SetInsertPoint (joinBlock);
+
+  return builder.CreateLoad (return_value);
+}
+@end
