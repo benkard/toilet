@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 42;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -296,7 +296,7 @@
 /* Begin PBXFileReference section */
 		A720D3670E5B1CB700734638 /* GNUmakefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; languageSpecificationIdentifier = make; path = GNUmakefile; sourceTree = "<group>"; };
 		A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet Lisp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
+		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
 		A72BC6FC0E65E06200486804 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		A72BC70A0E65EA1100486804 /* MLKListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKListenerController.m; sourceTree = "<group>"; };
 		A72BC70B0E65EA1100486804 /* MLKListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKListenerController.h; sourceTree = "<group>"; };
@@ -397,7 +397,7 @@
 		A7B6D0C00E22094F006F6A21 /* MLKStringOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKStringOutputStream.h; sourceTree = "<group>"; };
 		A7B6D0C10E22094F006F6A21 /* MLKStringOutputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKStringOutputStream.m; sourceTree = "<group>"; };
 		A7E5C3EB0E21689F00A01D81 /* ToiletKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToiletKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ToiletKit-Info.plist"; sourceTree = "<group>"; };
+		A7E5C3EC0E21689F00A01D81 /* ToiletKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ToiletKit-Info.plist"; sourceTree = "<group>"; };
 		A7E5C3F30E21690200A01D81 /* toilet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = toilet; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E5C3F80E21695700A01D81 /* MLKBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKBinding.h; sourceTree = "<group>"; };
 		A7E5C3F90E21695700A01D81 /* MLKBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBinding.m; sourceTree = "<group>"; };
@@ -1107,13 +1107,14 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1162,13 +1163,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1218,13 +1220,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1275,13 +1278,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1330,13 +1334,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1386,13 +1391,14 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				INFOPLIST_FILE = "Toilet Lisp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1447,16 +1453,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1483,16 +1488,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1520,16 +1524,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1558,16 +1561,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1594,16 +1596,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1631,16 +1632,15 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
 					"-DLLVM_MAJOR_VERSION=2",
 					"-DLLVM_MINOR_VERSION=3",
-					"-DMACOSX",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
+					"$(inherited)",
 					"-D_DEBUG",
 					"-D_GNU_SOURCE",
 					"-D__STDC_LIMIT_MACROS",
@@ -1673,10 +1673,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1710,10 +1708,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1748,10 +1744,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1788,10 +1782,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1829,10 +1821,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1871,10 +1861,8 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1913,14 +1901,8 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1953,10 +1935,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1996,6 +1978,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = "Debug 10.4+ (fast)";
 		};
@@ -2022,14 +2014,8 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2063,10 +2049,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2106,6 +2092,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = "Debug 10.4+ (fast + GC)";
 		};
@@ -2135,14 +2131,8 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2183,14 +2173,8 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2227,10 +2211,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2290,10 +2274,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2333,6 +2317,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = "Release 10.4+ (fast)";
 		};
@@ -2340,6 +2334,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = "Release 10.4+ (fast + GC)";
 		};
@@ -2347,6 +2351,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = Debug;
 		};
@@ -2354,6 +2368,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-DMACOSX",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"$(OTHER_CFLAGS)",
+					"-I/opt/local/include",
+				);
 			};
 			name = Release;
 		};
@@ -2378,15 +2402,8 @@
 				INSTALL_PATH = /Library/Frameworks;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-					"-fno-omit-frame-pointer",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2425,14 +2442,8 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
-					"-DMACOSX",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I/opt/local/include",
-				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2464,10 +2475,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2525,10 +2536,10 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				OTHER_CFLAGS = (
-					"-DHAVE_FFI_FFI_H",
+					"$(inherited)",
 					"-DUSE_LLVM",
-					"-DMACOSX",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

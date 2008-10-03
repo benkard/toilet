@@ -215,8 +215,12 @@
      ,@body))
 
 
-(defmacro multiple-value-list (expression)
-  `(multiple-value-call #'list ,expression))
+(defmacro multiple-value-call (function-form &rest forms)
+  (let ((args `(mapcan 'identity (list ,@(mapcar (lambda (form) `(multiple-value-list ,form)))))))
+    `(apply ,function-form ,args)))
+
+;;(defmacro multiple-value-list (expression)
+;;  `(multiple-value-call #'list ,expression))
 
 (defmacro multiple-value-bind ((&rest vars) expression &body forms)
   `(destructuring-bind ,vars (multiple-value-list ,expression)

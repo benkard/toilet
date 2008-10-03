@@ -238,9 +238,9 @@
 @end
 
 
-@interface MLKMultipleValueCallForm : MLKBodyForm
+@interface MLKMultipleValueListForm : MLKCompoundForm
 {
-  MLKForm *_functionForm;
+  MLKForm *_listForm;
 }
 @end
 

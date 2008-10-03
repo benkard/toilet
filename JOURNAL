@@ -18,6 +18,47 @@ Context: [[http://matthias.benkard.de/toilet][The Toilet Lisp Project]].
 ----
 
 
+* 2008-10-02, 16:38:15 CEST
+
+** Multiple-Value Returns
+
+Multiple-value returns are now implemented in the most C-friendly way that I
+can imagine.  The way they work is:
+
+ - Every compiled function gets an additional argument that points to a cell
+   which the caller has allocated.  The cell may be set to point to a list
+   (i.e., either =nil= or an instance of =MLKCons=) by the callee, in which
+   case the caller will use the list as the list of return values.
+
+ - The argument that points to the return value list cell may be =NULL=, in
+   which case the callee must assume a single-return convention.
+
+ - Return-value setting may be delegated to a subform by simply passing the
+   pointer on.
+
+ - The compiler always passes =NULL= as the list pointer when it neither uses
+   nor delegates the return values.
+
+ - The compiler occasionally sets the =llvm:Value= that represents the list
+   pointer to =NULL=.  It thereby communicates to itself that no
+   multiple-return value handling is needed in the current lexical context.
+   This should speed some things up.
+
+ - A function implemented in C may choose to simply ignore the list pointer.
+   Similarly, it may choose to always pass a list pointer of =NULL= to callees
+   if it does not care about return values other than the primary one.
+
+ - A function that does not return multiple values simply ignores the list
+   pointer, which is guaranteed to contain a value that the caller can
+   identify as signifying that no multiple-value return has occurred.
+   In the current implementation, this role is filled by the
+   =MLKEndOfArgumentsMarker=.
+
+ - Regardless of multiple-value returns happening or not, the primary value of
+   a function call is always its normal return value.  When there is no
+   primary value, =nil= is to be used.
+
+
 * 2008-08-11, 02:09:21 CEST
 
 ** Function Calling, 2nd Take
