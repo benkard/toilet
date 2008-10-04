@@ -175,13 +175,6 @@
 		A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
 		A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EE013D0E850E010024E903 /* MLKContinuation.h */; };
 		A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EE013E0E850E010024E903 /* MLKContinuation.m */; };
-		A7EEFFD30E84FF650024E903 /* continue.c in Sources */ = {isa = PBXBuildFile; fileRef = A7EEFFD20E84FF650024E903 /* continue.c */; };
-		A7EEFFD90E84FF7C0024E903 /* continue.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD40E84FF7C0024E903 /* continue.h */; };
-		A7EEFFDA0E84FF7C0024E903 /* scm.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD50E84FF7C0024E903 /* scm.h */; };
-		A7EEFFDB0E84FF7C0024E903 /* scmfig.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD60E84FF7C0024E903 /* scmfig.h */; };
-		A7EEFFDC0E84FF7C0024E903 /* scmflags.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD70E84FF7C0024E903 /* scmflags.h */; };
-		A7EEFFDD0E84FF7C0024E903 /* setjump.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EEFFD80E84FF7C0024E903 /* setjump.h */; };
-		A7EEFFED0E85025A0024E903 /* toilet-scm.c in Sources */ = {isa = PBXBuildFile; fileRef = A7EEFFEC0E85025A0024E903 /* toilet-scm.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -468,13 +461,6 @@
 		A7E5C55B0E21740C00A01D81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		A7EE013D0E850E010024E903 /* MLKContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKContinuation.h; sourceTree = "<group>"; };
 		A7EE013E0E850E010024E903 /* MLKContinuation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKContinuation.m; sourceTree = "<group>"; };
-		A7EEFFD20E84FF650024E903 /* continue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = continue.c; path = SCM/continue.c; sourceTree = "<group>"; };
-		A7EEFFD40E84FF7C0024E903 /* continue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = continue.h; path = SCM/continue.h; sourceTree = "<group>"; };
-		A7EEFFD50E84FF7C0024E903 /* scm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scm.h; path = SCM/scm.h; sourceTree = "<group>"; };
-		A7EEFFD60E84FF7C0024E903 /* scmfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scmfig.h; path = SCM/scmfig.h; sourceTree = "<group>"; };
-		A7EEFFD70E84FF7C0024E903 /* scmflags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scmflags.h; path = SCM/scmflags.h; sourceTree = "<group>"; };
-		A7EEFFD80E84FF7C0024E903 /* setjump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = setjump.h; path = SCM/setjump.h; sourceTree = "<group>"; };
-		A7EEFFEC0E85025A0024E903 /* toilet-scm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "toilet-scm.c"; path = "SCM/toilet-scm.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -625,11 +611,6 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				A7EEFFD40E84FF7C0024E903 /* continue.h */,
-				A7EEFFD50E84FF7C0024E903 /* scm.h */,
-				A7EEFFD60E84FF7C0024E903 /* scmfig.h */,
-				A7EEFFD70E84FF7C0024E903 /* scmflags.h */,
-				A7EEFFD80E84FF7C0024E903 /* setjump.h */,
 				A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */,
 				A7A8628E0E6E776000021916 /* MLKStreamError.h */,
 				A7A862900E6E776000021916 /* MLKUnboundVariableError.h */,
@@ -698,8 +679,6 @@
 		A7E5C48D0E216A0E00A01D81 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
-				A7EEFFEC0E85025A0024E903 /* toilet-scm.c */,
-				A7EEFFD20E84FF650024E903 /* continue.c */,
 				A7A8628D0E6E776000021916 /* MLKNoSuchSymbolError.m */,
 				A7A8628F0E6E776000021916 /* MLKStreamError.m */,
 				A7A862910E6E776000021916 /* MLKUnboundVariableError.m */,
@@ -832,11 +811,6 @@
 				A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */,
 				A7A862940E6E776000021916 /* MLKStreamError.h in Headers */,
 				A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */,
-				A7EEFFD90E84FF7C0024E903 /* continue.h in Headers */,
-				A7EEFFDA0E84FF7C0024E903 /* scm.h in Headers */,
-				A7EEFFDB0E84FF7C0024E903 /* scmfig.h in Headers */,
-				A7EEFFDC0E84FF7C0024E903 /* scmflags.h in Headers */,
-				A7EEFFDD0E84FF7C0024E903 /* setjump.h in Headers */,
 				A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1050,8 +1024,6 @@
 				A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */,
 				A7A862950E6E776000021916 /* MLKStreamError.m in Sources */,
 				A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */,
-				A7EEFFD30E84FF650024E903 /* continue.c in Sources */,
-				A7EEFFED0E85025A0024E903 /* toilet-scm.c in Sources */,
 				A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
