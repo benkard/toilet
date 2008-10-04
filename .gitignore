@@ -10,6 +10,7 @@ ToiletLisp.app/
 .DS_Store
 _stamp.mm
 *~
+*.o
 a123
 debug*.sh
 gmon.out
