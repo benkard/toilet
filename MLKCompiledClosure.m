@@ -113,7 +113,7 @@
   if (return_values)
     {
       MLKCons *values = [return_values cdr];
-      return (values ? [values array] : [NSArray array]);
+      return (values ? (id)[values array] : (id)[NSArray array]);
     }
   else
     {

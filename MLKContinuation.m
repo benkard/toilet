@@ -27,6 +27,7 @@
   self = [super init];
   _continuation = make_continuation (MLKRootContinuation);
   setjump (_continuation->jmpbuf);
+  return self;
 }
 
 + (id)continuation

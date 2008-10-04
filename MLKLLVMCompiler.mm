@@ -160,7 +160,7 @@ static Constant
                                          "",
                                          module);
   id lambdaForm;
-  id (*fn)();
+  //id (*fn)();
   MLKForm *form = [MLKForm formWithObject:object
                            inContext:context
                            forCompiler:self];
@@ -447,7 +447,7 @@ static Constant
   NSEnumerator *e = [_bodyForms objectEnumerator];
   MLKForm *form;
   Value *value = ConstantPointerNull::get (VoidPointerTy);
-  int i;
+  unsigned int i;
 
   i = 0;
   while ((form = [e nextObject]))
@@ -909,7 +909,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
         }
     }
 
-  int i = 0;
+  unsigned int i = 0;
   e = [_bodyForms objectEnumerator];
   while ((form = [e nextObject]))
     {
