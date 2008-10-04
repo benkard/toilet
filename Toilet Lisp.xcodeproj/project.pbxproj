@@ -173,8 +173,6 @@
 		A7E5C4A10E216C0F00A01D81 /* MLKNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */; };
 		A7E5C55C0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
 		A7E5C55D0E21740C00A01D81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E5C55B0E21740C00A01D81 /* Foundation.framework */; };
-		A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = A7EE013D0E850E010024E903 /* MLKContinuation.h */; };
-		A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EE013E0E850E010024E903 /* MLKContinuation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -459,8 +457,6 @@
 		A7E5C49E0E216C0F00A01D81 /* MLKNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKNumber.h; sourceTree = "<group>"; };
 		A7E5C49F0E216C0F00A01D81 /* MLKNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKNumber.m; sourceTree = "<group>"; };
 		A7E5C55B0E21740C00A01D81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		A7EE013D0E850E010024E903 /* MLKContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLKContinuation.h; sourceTree = "<group>"; };
-		A7EE013E0E850E010024E903 /* MLKContinuation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKContinuation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -734,8 +730,6 @@
 				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
 				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
 				A72BC70A0E65EA1100486804 /* MLKListenerController.m */,
-				A7EE013D0E850E010024E903 /* MLKContinuation.h */,
-				A7EE013E0E850E010024E903 /* MLKContinuation.m */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -811,7 +805,6 @@
 				A7A862920E6E776000021916 /* MLKNoSuchSymbolError.h in Headers */,
 				A7A862940E6E776000021916 /* MLKStreamError.h in Headers */,
 				A7A862960E6E776000021916 /* MLKUnboundVariableError.h in Headers */,
-				A7EE013F0E850E010024E903 /* MLKContinuation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,7 +1017,6 @@
 				A7A862930E6E776000021916 /* MLKNoSuchSymbolError.m in Sources */,
 				A7A862950E6E776000021916 /* MLKStreamError.m in Sources */,
 				A7A862970E6E776000021916 /* MLKUnboundVariableError.m in Sources */,
-				A7EE01400E850E010024E903 /* MLKContinuation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,11 +17,9 @@
  */
 
 #import <Foundation/NSObject.h>
-#import "SCM/continue.h"
 
 
 extern id MLKEndOfArgumentsMarker;
-extern CONTINUATION *MLKRootContinuation;
 
 extern id MLKDefaultCompiler;
 extern BOOL MLKLoadCompilesP;

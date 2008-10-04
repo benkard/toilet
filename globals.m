@@ -20,8 +20,8 @@
 
 #import <Foundation/NSObject.h>
 
+
 id MLKEndOfArgumentsMarker;
-CONTINUATION *MLKRootContinuation;
 
 id MLKDefaultCompiler = nil;
 BOOL MLKLoadCompilesP = NO;
@@ -34,8 +34,6 @@ BOOL MLKLoadCompilesP = NO;
 @implementation MLKGlobalManager
 +(void) load
 {
-  STACKITEM i;
   MLKEndOfArgumentsMarker = [[NSObject alloc] init];
-  MLKRootContinuation = make_root_continuation (&i);
 }
 @end
