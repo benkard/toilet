@@ -1,6 +1,6 @@
 /* -*- mode: objc; coding: utf-8 -*- */
 /* Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
- * Copyright (C) 2008  Matthias Andreas Benkard.
+ * Copyright (C) 2008, 2009  Matthias Andreas Benkard.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ id MLKIntegerWithInt (intptr_t value);
 
    Test whether a Toilet Lisp integer is an MLKInteger that is too big,
    and if so, convert it to a fixnum. */
-id MLKCanoniseInteger (MLKInteger *x);
+id MLKCanoniseInteger (const MLKInteger *x);
 
 
 /* Section: Fixnum arithmetic */

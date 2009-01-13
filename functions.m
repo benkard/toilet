@@ -1,6 +1,6 @@
 /* -*- mode: objc; coding: utf-8 -*- */
 /* Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
- * Copyright (C) 2008  Matthias Andreas Benkard.
+ * Copyright (C) 2008, 2009  Matthias Andreas Benkard.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ BOOL MLKInstanceP (id thing)
   return !((intptr_t)thing & 1);
 }
 
-id MLKCanoniseInteger (MLKInteger *x)
+id MLKCanoniseInteger (const MLKInteger *x)
 {
   if (MLKFixnumP (x))
     {
