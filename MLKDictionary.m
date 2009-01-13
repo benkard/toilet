@@ -16,7 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "MLKCharacter.h"
+#import "MLKCons.h"
 #import "MLKDictionary.h"
+#import "MLKInteger.h"
 #import "functions.h"
 #import "globals.h"
 #import "util.h"
@@ -28,6 +31,7 @@
 #include <string.h>
 
 
+// http://developer.apple.com/DOCUMENTATION/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/Reference/reference.html#//apple_ref/doc/uid/20000055-BCIGHBEC
 static NSMapTableValueCallBacks value_callbacks;
 
 static NSMapTableKeyCallBacks
@@ -56,7 +60,12 @@ static BOOL eql (NSMapTable *table, const void *p_x, const void *p_y)
 
   if ((MLKInstanceP (x) && ![x isKindOfClass:[MLKInteger class]])
       || (MLKInstanceP (y) && ![x isKindOfClass:[MLKInteger class]]))
-    return x == y;
+    {
+      if ([x isKindOfClass:[MLKCharacter class]])
+        return [x isEqual:y];
+      else
+        return x == y;
+    }
   else
     {
       x = MLKCanoniseInteger (x);
@@ -71,32 +80,58 @@ static BOOL eql (NSMapTable *table, const void *p_x, const void *p_y)
     }
 }
 
-static unsigned eql_hash (NSMapTable *table, const void *x)
+static unsigned int eql_hash (NSMapTable *table, const void *x)
 {
   if (MLKInstanceP ((id) x))
-    return (unsigned) x;
+    return (unsigned int) x;
   else
-    return (unsigned) MLKCanoniseInteger(x);
+    return (unsigned int) MLKCanoniseInteger(x);
 }
 
-static BOOL equal (NSMapTable *table, const void *x, const void *y)
+static BOOL equal (NSMapTable *table, const void *p_x, const void *p_y)
 {
-  // FIXME
+  id x = (id)p_x, y = (id)p_y;
+
+  if (MLKFixnumP(x)
+      || MLKFixnumP(y)
+      || [x isKindOfClass:[MLKNumber class]]
+      || [x isKindOfClass:[MLKCharacter class]])
+    return eql (table, x, y);
+  else if ([x isKindOfClass:[MLKCons class]])
+    return ([y isKindOfClass:[MLKCons class]]
+            && equal(table, [x car], [y car])
+            && equal(table, [x cdr], [y cdr]));
+  else if ([x isKindOfClass:[NSString class]])
+    return [x isEqual:y];
+  // FIXME: Missing cases: pathname, bit vector
+  else
+    return (x == y);
 }
 
-static unsigned equal_hash (NSMapTable *table, const void *x)
+static unsigned int equal_hash (NSMapTable *table, const void *p_x)
 {
-  // FIXME
+  id x = (id)p_x;
+
+  if (MLKFixnumP(x))
+    return (unsigned int) x;
+  else if ([x isKindOfClass:[MLKCons class]]
+           || [x isKindOfClass:[NSString class]])
+    return [x hash];
+  // FIXME: Missing cases: pathname, bit vector
+  else
+    return (unsigned int) x;
 }
 
-static BOOL equalp (NSMapTable *table, const void *x, const void *y)
+static BOOL equalp (NSMapTable *table, const void *p_x, const void *p_y)
 {
   // FIXME
+  return equal(table, p_x, p_y);
 }
 
-static unsigned equalp_hash (NSMapTable *table, const void *x)
+static unsigned int equalp_hash (NSMapTable *table, const void *x)
 {
   // FIXME
+  return 0;
 }
 
 
@@ -146,15 +181,83 @@ static unsigned equalp_hash (NSMapTable *table, const void *x)
   return [self initEqlTable];
 }
 
+-(id) initWithCapacity:(unsigned int)numItems
+{
+  m_table = NSCreateMapTable (eql_callbacks, value_callbacks, numItems);
+  return self;
+}
+
+-(id) initEqTable
+{
+  m_table = NSCreateMapTable (eq_callbacks, value_callbacks, 0);
+  return self;
+}
+
 -(id) initEqlTable
 {
   m_table = NSCreateMapTable (eql_callbacks, value_callbacks, 0);
   return self;
 }
 
+-(id) initEqualTable
+{
+  m_table = NSCreateMapTable (equal_callbacks, value_callbacks, 0);
+  return self;
+}
+
+-(id) initEqualPTable
+{
+  m_table = NSCreateMapTable (equalp_callbacks, value_callbacks, 0);
+  return self;
+}
+
+
+-(NSUInteger) count
+{
+  return NSCountMapTable (m_table);
+}
+
+-(NSEnumerator *) keyEnumerator
+{
+  NSArray *keys = NSAllMapTableKeys (m_table);
+  return [keys objectEnumerator];
+}
+
+-(id) objectForKey:(id)key
+{
+  return NSMapGet (m_table, key);
+}
+
+-(void) setObject:(id)object forKey:(id)key
+{
+  NSMapInsert (m_table, key, object);
+}
+
+-(void) removeObjectForKey:(id)key
+{
+  NSMapRemove (m_table, key);
+}
+
+-(void) removeAllObjects
+{
+  NSResetMapTable (m_table);
+}
+
+-(NSArray *) allKeys
+{
+  return NSAllMapTableKeys (m_table);
+}
+
+-(NSArray *) allValues
+{
+  return NSAllMapTableValues (m_table);
+}
+
+
 -(void) dealloc
 {
   NSFreeMapTable (m_table);
+  [super dealloc];
 }
 
 -(void) finalize

@@ -29,7 +29,9 @@
 +(void) initialize;
 
 +(id) dictionary;
+
 -(id) init;
+-(id) initWithCapacity:(unsigned int)numItems;
 -(id) initEqTable;
 -(id) initEqlTable;
 -(id) initEqualTable;
@@ -42,6 +44,10 @@
 -(NSEnumerator *) keyEnumerator;
 -(id) objectForKey:(id)key;
 -(void) setObject:(id)object forKey:(id)key;
+-(void) removeObjectForKey:(id)key;
+-(void) removeAllObjects;
+-(NSArray *) allKeys;
+-(NSArray *) allValues;
 
 -(void) dealloc;
 -(void) finalize;

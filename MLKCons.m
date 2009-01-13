@@ -177,10 +177,16 @@
 -(BOOL) isEqual:(id)object
 {
   if ([object isKindOfClass:[MLKCons class]])
-    return ([((MLKCons*)object)->_car isEqual:_car]
-            && [((MLKCons*)object)->_cdr isEqual:_cdr]);
+    return ([nullify(((MLKCons*)object)->_car) isEqual:_car]
+            && [nullify(((MLKCons*)object)->_cdr) isEqual:_cdr]);
   else
     return NO;
+}
+
+-(unsigned int) hash
+{
+  // FIXME: Well...
+  return [nullify(_car) hash]/2 + [nullify(_cdr) hash]/2;
 }
 
 -(id) copyWithZone:(NSZone *)zone

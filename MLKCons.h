@@ -131,6 +131,7 @@
 
 -(id) copyWithZone:(NSZone *)zone;
 -(BOOL) isEqual:(id)object;
-  
+-(unsigned int) hash;
+
 -(void) dealloc;
 @end
