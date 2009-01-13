@@ -254,6 +254,17 @@ static unsigned int equalp_hash (NSMapTable *table, const void *x)
 }
 
 
++(Class) classForKeyedUnarchiver
+{
+  return [MLKDictionary class];
+}
+
+-(Class) classForKeyedArchiver
+{
+  return [MLKDictionary class];
+}
+
+
 -(void) dealloc
 {
   NSFreeMapTable (m_table);

@@ -49,6 +49,10 @@
 -(NSArray *) allKeys;
 -(NSArray *) allValues;
 
+// Why not?
++(Class) classForKeyedUnarchiver;
+-(Class) classForKeyedArchiver;
+
 -(void) dealloc;
 -(void) finalize;
 @end
