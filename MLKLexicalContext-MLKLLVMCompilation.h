@@ -23,6 +23,7 @@
 #import <Foundation/NSString.h>
 
 #ifdef __cplusplus
+#define __STDC_CONSTANT_MACROS
 #include <vector>
 #include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
