@@ -120,8 +120,8 @@ static = yes # This line is the reason for this whole “BUILD_TOILET_LLVM”
 LIBRARY_NAME += libtoilet-llvm
 
 ADDITIONAL_OBJCCFLAGS = $(ADDITIONAL_OBJCFLAGS)
-libtoilet-llvm_OBJC_FILES += MLKLexicalContext-MLKLLVMCompilation.m
-libtoilet-llvm_OBJCC_FILES = MLKLLVMCompiler.mm
+libtoilet-llvm_OBJCC_FILES = MLKLexicalContext-MLKLLVMCompilation.mm	\
+                             MLKLLVMCompiler.mm llvm_context.mm
 libtoilet-llvm_OBJCFLAGS = -DUSE_LLVM
 libtoilet-llvm_OBJCCFLAGS = -DUSE_LLVM `$(LLVM_CONFIG) --cxxflags` $(ToiletKit_OBJCFLAGS)
 endif
