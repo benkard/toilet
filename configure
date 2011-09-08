@@ -22,11 +22,11 @@ $darwin = (`uname -s` =~ "Darwin");
 $debian = !$darwin && (`apt-cache show llvm 2>/dev/null` =~ /.*llvm.*/);
 
 $CC = defined($ENV{'CC'}) ? $ENV{'CC'} : "gcc";
-$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : ($darwin ? "-I/opt/local/include" : "");
+$CFLAGS = defined($ENV{'CFLAGS'}) ? $ENV{'CFLAGS'} : ($darwin ? "-I/opt/local/include -I/opt/homebrew/include" : "");
 $OBJCFLAGS = defined($ENV{'OBJCFLAGS'}) ? $ENV{'OBJCFLAGS'} : $CFLAGS;
 $CXXFLAGS = defined($ENV{'CXXFLAGS'}) ? $ENV{'CXXFLAGS'} : $CFLAGS;
 $OBJCCFLAGS = defined($ENV{'OBJCCFLAGS'}) ? $ENV{'OBJCCFLAGS'} : "$CXXFLAGS $OBJCFLAGS";
-$LDFLAGS = defined($ENV{'LDFLAGS'}) ? $ENV{'LDFLAGS'} : ($darwin ? "-L/opt/local/lib" : "");
+$LDFLAGS = defined($ENV{'LDFLAGS'}) ? $ENV{'LDFLAGS'} : ($darwin ? "-L/opt/local/lib -L/opt/homebrew/include" : "");
 $MAKE = defined($ENV{'MAKE'}) ? $ENV{'MAKE'} : "make";
 $XCODEBUILD = defined($ENV{'XCODEBUILD'}) ? $ENV{'XCODEBUILD'} : "xcodebuild";
 $LLVM_CONFIG = defined($ENV{'LLVM_CONFIG'}) ? $ENV{'LLVM_CONFIG'} : "llvm-config";
