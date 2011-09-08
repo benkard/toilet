@@ -12,7 +12,7 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/LLVMContext.h> 
 
-extern llvm::LLVMContext llvm_context;
+extern llvm::LLVMContext* llvm_context;
 extern const llvm::Type* Int8Ty;
 extern const llvm::Type* Int16Ty;
 extern const llvm::Type* Int32Ty;
