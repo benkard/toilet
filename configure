@@ -170,7 +170,7 @@ if (!$installp && !@steps) {
     if ($xcode) {
         print " * In a shell, type:\n   $XCODEBUILD";
         print ' -configuration Debug';
-        if ($optionalp) {
+        unless ($optionalp) {
             print ' -target toilet';
         } else {
             print ' -target "toilet (no LLVM)"';
