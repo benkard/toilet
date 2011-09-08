@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7258887141971CE00E28CF8 /* llvm_context.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7258886141971CE00E28CF8 /* llvm_context.mm */; };
 		A72BC6FD0E65E06200486804 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = A72BC6FC0E65E06200486804 /* MainMenu.nib */; };
 		A72BC70C0E65EA1100486804 /* MLKListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72BC70A0E65EA1100486804 /* MLKListenerController.m */; };
 		A72E9E380E51CB0500BDE40F /* MLKCompiledClosure.h in Headers */ = {isa = PBXBuildFile; fileRef = A72E9E370E51CB0500BDE40F /* MLKCompiledClosure.h */; };
@@ -287,6 +288,7 @@
 
 /* Begin PBXFileReference section */
 		A720D3670E5B1CB700734638 /* GNUmakefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; languageSpecificationIdentifier = make; path = GNUmakefile; sourceTree = "<group>"; };
+		A7258886141971CE00E28CF8 /* llvm_context.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = llvm_context.mm; sourceTree = "<group>"; };
 		A72BC6EE0E65DE4600486804 /* Toilet Lisp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet Lisp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72BC6F00E65DE4600486804 /* Toilet Lisp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Toilet Lisp-Info.plist"; sourceTree = "<group>"; };
 		A72BC6FC0E65E06200486804 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
@@ -733,6 +735,7 @@
 				A7E5C4390E21695800A01D81 /* NSObject-MLKPrinting.m */,
 				A7E5C43B0E21695800A01D81 /* NSString-MLKPrinting.m */,
 				A72BC70A0E65EA1100486804 /* MLKListenerController.m */,
+				A7258886141971CE00E28CF8 /* llvm_context.mm */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -964,6 +967,7 @@
 			files = (
 				A745C35A0E607D6F00C43A04 /* MLKLLVMCompiler.mm in Sources */,
 				A745C3590E607D5A00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.mm in Sources */,
+				A7258887141971CE00E28CF8 /* llvm_context.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1102,26 +1106,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -1159,26 +1168,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -1217,26 +1231,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -1276,26 +1295,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -1333,26 +1357,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -1391,26 +1420,31 @@
 					"-ledit",
 					"-framework",
 					ToiletKit,
+					"-L/opt/homebrew/lib",
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMipo",
-					"-lLLVMLinker",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
-					/opt/local/lib/LLVMExecutionEngine.o,
-					/opt/local/lib/LLVMJIT.o,
-					/opt/local/lib/LLVMPowerPC.o,
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMMCParser",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMX86Info",
+					"-lLLVMJIT",
+					"-lLLVMExecutionEngine",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
+					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
 					"-lLLVMAnalysis",
 					"-lLLVMTarget",
+					"-lLLVMMC",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lLLVMSystem",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
@@ -2060,6 +2094,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2247,6 +2283,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2615,6 +2653,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2635,6 +2675,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2655,6 +2697,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2675,6 +2719,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
