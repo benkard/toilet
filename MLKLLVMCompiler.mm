@@ -18,9 +18,11 @@
 
 #import "MLKCompiledClosure.h"
 #import "MLKDynamicContext.h"
+#import "MLKLexicalContext-MLKLLVMCompilation.h"
 #import "MLKLLVMCompiler.h"
 #import "MLKPackage.h"
 #import "globals.h"
+#import "llvm_context.h"
 #import "util.h"
 
 #import <Foundation/NSArray.h>
@@ -42,7 +44,6 @@
 #include <llvm/Instructions.h>
 //#include <llvm/Interpreter.h>
 #include <llvm/Module.h>
-#include <llvm/ModuleProvider.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/IRBuilder.h>
 #include <llvm/Target/TargetData.h>
@@ -69,23 +70,17 @@ using namespace std;
 
 static ExecutionEngine *execution_engine;
 static llvm::Module *module;
-#if defined(LLVM_MAJOR_VERSION) && (LLVM_MAJOR_VERSION <= 2) && (LLVM_MINOR_VERSION <= 3)
-static IRBuilder builder;
-#else
-static IRBuilder<true, ConstantFolder> builder;
-#endif
+static IRBuilder<true, ConstantFolder> builder(llvm_context);
 static FunctionPassManager *fpm;
-static PointerType *VoidPointerTy, *PointerPointerTy;
-static ModuleProvider *module_provider;
 
 
 static Constant
 *createGlobalStringPtr (const char *string)
 {
   Constant *(indices[2]);
-  indices[0] = indices[1] = ConstantInt::get (Type::Int32Ty, 0);
+  indices[0] = indices[1] = ConstantInt::get (Int32Ty, 0);
 
-  Constant *str = ConstantArray::get (string);
+  Constant *str = ConstantArray::get (llvm_context, string);
   Constant *str2 = new GlobalVariable (str->getType(),
                                        true, 
                                        GlobalValue::InternalLinkage,
@@ -114,16 +109,12 @@ static Constant
 
 +(void) initialize
 {
-  module = new llvm::Module ("MLKLLVMModule");
-  module_provider = new ExistingModuleProvider (module);
+  module = new llvm::Module ("MLKLLVMModule", llvm_context);
 
-  //execution_engine = ExecutionEngine::create (module_provider, true);
-  execution_engine = ExecutionEngine::create (module_provider, false);
+  //execution_engine = ExecutionEngine::create (module, true);
+  execution_engine = ExecutionEngine::create (module, false);
 
-  VoidPointerTy = PointerType::get(Type::Int8Ty, 0);
-  PointerPointerTy = PointerType::get(VoidPointerTy, 0);
-
-  fpm = new FunctionPassManager (module_provider);
+  fpm = new FunctionPassManager (module);
   fpm->add (new TargetData (*execution_engine->getTargetData()));
   //fpm->add (new TargetData (module));
   fpm->add (createScalarReplAggregatesPass());
@@ -151,7 +142,7 @@ static Constant
 
   Value *v = NULL;
   BasicBlock *block;
-  vector<const Type*> noargs (0, Type::VoidTy);
+  vector<const Type*> noargs (0, VoidTy);
   FunctionType *function_type = FunctionType::get (VoidPointerTy,
                                                    noargs,
                                                    false);
@@ -166,7 +157,7 @@ static Constant
                            forCompiler:self];
   [self markVariablesForHeapAllocationInForm:form];
 
-  block = BasicBlock::Create ("entry", function);
+  block = BasicBlock::Create (llvm_context, "entry", function);
   builder.SetInsertPoint (block);
 
   v = [self processForm:form];
@@ -193,7 +184,7 @@ static Constant
   // FIXME: Free machine code when appropriate.  (I.e. now?  But this crashes after a LOAD.)
   //execution_engine->freeMachineCodeForFunction (function);
 #else
-  Interpreter *i = Interpreter::create (module_provider);
+  Interpreter *i = Interpreter::create (module);
   lambdaForm = i->runFunction (function)->PointerVal;
 #endif
 
@@ -292,7 +283,7 @@ static Constant
                onObject:object
                withArgumentVector:argv
                name:@""
-               returnType:(Type::VoidTy)];
+               returnType:(VoidTy)];
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
@@ -390,7 +381,7 @@ static Constant
 {
   Constant *function =
     module->getOrInsertFunction ("puts",
-                                 Type::Int32Ty,
+                                 Int32Ty,
                                  VoidPointerTy,
                                  NULL);
 
@@ -401,7 +392,7 @@ static Constant
 {
   Constant *function =
     module->getOrInsertFunction ("printf",
-                                 Type::Int32Ty,
+                                 Int32Ty,
                                  VoidPointerTy,
                                  VoidPointerTy,
                                  NULL);
@@ -472,8 +463,8 @@ static Constant
 
   Function *function = builder.GetInsertBlock()->getParent();
 
-  BasicBlock *loopBlock = BasicBlock::Create ("loop", function);
-  BasicBlock *joinBlock = BasicBlock::Create ("after_loop");
+  BasicBlock *loopBlock = BasicBlock::Create (llvm_context, "loop", function);
+  BasicBlock *joinBlock = BasicBlock::Create (llvm_context, "after_loop");
 
   builder.CreateBr (loopBlock);
   builder.SetInsertPoint (loopBlock);
@@ -510,7 +501,7 @@ static Constant
                                  onObject:mlkdynamiccontext];
 
       LRETAIN (_form);  // FIXME: release
-      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                                 (uint64_t)_form,
                                                                 false),
                                                VoidPointerTy);
@@ -579,8 +570,8 @@ static Constant
       ptrdiff_t code_offset = offsetof (MLKCompiledClosure, m_code);
       ptrdiff_t data_offset = offsetof (MLKCompiledClosure, m_data);
 #endif
-      Constant *code_offset_value = ConstantInt::get (Type::Int32Ty, code_offset, false);
-      Constant *data_offset_value = ConstantInt::get (Type::Int32Ty, data_offset, false);
+      Constant *code_offset_value = ConstantInt::get (Int32Ty, code_offset, false);
+      Constant *data_offset_value = ConstantInt::get (Int32Ty, data_offset, false);
       Value *codeptr = builder.CreateGEP (closure, code_offset_value);
       Value *dataptr = builder.CreateGEP (closure, data_offset_value);
       codeptr = builder.CreateBitCast (codeptr, PointerPointerTy, "closure_code_ptr");
@@ -616,7 +607,7 @@ static Constant
   //GlobalVariable *endmarker = module->getGlobalVariable ("MLKEndOfArgumentsMarker", false);
   //endmarker->setConstant (true);
   //GlobalVariable *endmarker = new GlobalVariable (VoidPointerTy, true, GlobalValue::ExternalWeakLinkage);
-  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
                                              VoidPointerTy);
@@ -637,7 +628,8 @@ static Constant
   // XXX
   if ([_context functionIsInline:_head])
     {
-      InlineFunction (call);
+      // FIXME: What to do here?
+      //InlineFunction (call);
     }
 
   //[_compiler insertTrace:[NSString stringWithFormat:@"%@ done.", MLKPrintToString(_head)]];
@@ -674,19 +666,19 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   functionMultiValue->setName ("function_multiple_value_return_pointer");
 
   BasicBlock *outerBlock = builder.GetInsertBlock ();
-  BasicBlock *initBlock = BasicBlock::Create ("init_function", function);
-  BasicBlock *loopBlock = BasicBlock::Create ("load_args");
-  BasicBlock *loopInitBlock = BasicBlock::Create ("load_args_prelude");
-  BasicBlock *joinBlock = BasicBlock::Create ("function_body");
-  BasicBlock *lambdaListNewBlock = BasicBlock::Create ("lambda_list_new");
-  BasicBlock *lambdaListUpdateBlock = BasicBlock::Create ("lambda_list_update");
+  BasicBlock *initBlock = BasicBlock::Create (llvm_context, "init_function", function);
+  BasicBlock *loopBlock = BasicBlock::Create (llvm_context, "load_args");
+  BasicBlock *loopInitBlock = BasicBlock::Create (llvm_context, "load_args_prelude");
+  BasicBlock *joinBlock = BasicBlock::Create (llvm_context, "function_body");
+  BasicBlock *lambdaListNewBlock = BasicBlock::Create (llvm_context, "lambda_list_new");
+  BasicBlock *lambdaListUpdateBlock = BasicBlock::Create (llvm_context, "lambda_list_update");
 
   // ***** HANDLE CLOSURE VARIABLES *****
   builder.SetInsertPoint (outerBlock);
 
   NSArray *freeVariables = [[processed_form freeVariables] allObjects];
   closure_data = builder.CreateAlloca (VoidPointerTy,
-                                       ConstantInt::get(Type::Int32Ty,
+                                       ConstantInt::get(Int32Ty,
                                                         (uint32_t)[freeVariables count],
                                                         false));
   closure_data_size = 0;
@@ -697,7 +689,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
       MLKSymbol *symbol = [freeVariables objectAtIndex:i];
       if (![_context variableIsGlobal:symbol])
         {
-          Constant *position = ConstantInt::get(Type::Int32Ty, closure_data_size, false);
+          Constant *position = ConstantInt::get(Int32Ty, closure_data_size, false);
 
           // Fill in the closure data array.
           builder.SetInsertPoint (outerBlock);
@@ -721,16 +713,16 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 
   // ***** HANDLE ARGUMENTS *****
   builder.SetInsertPoint (initBlock);
-  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
-                                             PointerType::get(Type::Int8Ty, 0));
+                                             PointerType::get(Int8Ty, 0));
 
   Value *ap = builder.CreateAlloca (VoidPointerTy, NULL, "ap");
   Value *ap2 = builder.CreateBitCast (ap, VoidPointerTy);
 
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_start",
-                                                   Type::VoidTy,
+                                                   VoidTy,
                                                    VoidPointerTy,
                                                    NULL),
                       ap2);
@@ -787,7 +779,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   function->getBasicBlockList().push_back (joinBlock);
 
   builder.CreateCall (module->getOrInsertFunction ("llvm.va_end",
-                                                   Type::VoidTy,
+                                                   VoidTy,
                                                    VoidPointerTy,
                                                    NULL),
                       ap2);
@@ -858,7 +850,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   vector<Value *> argv;
   argv.push_back (function);
   argv.push_back (builder.CreateBitCast (closure_data, VoidPointerTy));
-  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
+  argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Int32Ty,
                                                            closure_data_size,
                                                            false),
                                           VoidPointerTy));
@@ -945,7 +937,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
       vector<Value *> argv;
       argv.push_back (function);
       argv.push_back (builder.CreateBitCast (closure_data, VoidPointerTy));
-      argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Type::Int32Ty,
+      argv.push_back (builder.CreateIntToPtr (ConstantInt::get(Int32Ty,
                                                                closure_data_size,
                                                                false),
                                               VoidPointerTy));
@@ -996,7 +988,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
     [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_quotedData];
 #endif
 
-  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  return builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                   (uint64_t)_quotedData,
                                                   false),
                                  VoidPointerTy);
@@ -1017,7 +1009,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
     [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_form];
 #endif
 
-  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  return builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                   (uint64_t)_form,
                                                   false),
                                  VoidPointerTy);
@@ -1029,9 +1021,9 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 -(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
   Function *function = builder.GetInsertBlock()->getParent();
-  BasicBlock *thenBlock = BasicBlock::Create ("if_then", function);
-  BasicBlock *elseBlock = BasicBlock::Create ("if_else");
-  BasicBlock *joinBlock = BasicBlock::Create ("if_join");
+  BasicBlock *thenBlock = BasicBlock::Create (llvm_context, "if_then", function);
+  BasicBlock *elseBlock = BasicBlock::Create (llvm_context, "if_else");
+  BasicBlock *joinBlock = BasicBlock::Create (llvm_context, "if_join");
 
   Value *test = builder.CreateICmpNE ([_conditionForm processForLLVMWithMultiValue:NULL],
                                       ConstantPointerNull::get (VoidPointerTy));
@@ -1082,7 +1074,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
             [[NSGarbageCollector defaultCollector] disableCollectorForPointer:variable];
 #endif
 
-          Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+          Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                                     (uint64_t)variable,
                                                                     false),
                                                    VoidPointerTy);
@@ -1096,9 +1088,9 @@ build_simple_function_definition (MLKBodyForm *processed_form,
           // Test whether the binding is non-null.  If so, set its value, else create a new one.
 
           Function *function = builder.GetInsertBlock()->getParent();
-          BasicBlock *setBlock = BasicBlock::Create ("setq_set_existing_dynamic_binding", function);
-          BasicBlock *makeNewBlock = BasicBlock::Create ("setq_make_new_dynamic_binding");
-          BasicBlock *joinBlock = BasicBlock::Create ("setq_join");
+          BasicBlock *setBlock = BasicBlock::Create (llvm_context, "setq_set_existing_dynamic_binding", function);
+          BasicBlock *makeNewBlock = BasicBlock::Create (llvm_context, "setq_make_new_dynamic_binding");
+          BasicBlock *joinBlock = BasicBlock::Create (llvm_context, "setq_join");
 
           Value *test = builder.CreateICmpNE (binding, ConstantPointerNull::get (VoidPointerTy));
           //Value *value = builder.CreateAlloca (VoidPointerTy, NULL, "if_result");
@@ -1164,7 +1156,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
     forSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]
                 intern:@"*PACKAGE*"]];
 
-  return builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  return builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                   (uint64_t)package,
                                                   false),
                                  VoidPointerTy);
@@ -1188,7 +1180,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
         [[NSGarbageCollector defaultCollector] disableCollectorForPointer:_functionName];
 #endif
       
-      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+      Value *symbolV = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                                 (uint64_t)_functionName,
                                                                 false),
                                                VoidPointerTy);
@@ -1222,7 +1214,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
 @implementation MLKMultipleValueListForm (MLKLLVMCompilation)
 -(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue
 {
-  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Type::Int64Ty,
+  Value *endmarker = builder.CreateIntToPtr (ConstantInt::get(Int64Ty,
                                                               (uint64_t)MLKEndOfArgumentsMarker,
                                                               false),
                                              VoidPointerTy);
@@ -1233,9 +1225,9 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   Value *return_value = builder.CreateAlloca (VoidPointerTy, NULL);
 
   Function *function = builder.GetInsertBlock()->getParent();
-  BasicBlock *singleValueBlock = BasicBlock::Create ("single_value_block", function);
-  BasicBlock *multipleValueBlock = BasicBlock::Create ("multiple_value_block");
-  BasicBlock *joinBlock = BasicBlock::Create ("join_block");
+  BasicBlock *singleValueBlock = BasicBlock::Create (llvm_context, "single_value_block", function);
+  BasicBlock *multipleValueBlock = BasicBlock::Create (llvm_context, "multiple_value_block");
+  BasicBlock *joinBlock = BasicBlock::Create (llvm_context, "join_block");
 
   Value *multi_tmp_content = builder.CreateLoad (multi_tmp);
   Value *isSingleValue = builder.CreateICmpEQ (multi_tmp_content, endmarker);

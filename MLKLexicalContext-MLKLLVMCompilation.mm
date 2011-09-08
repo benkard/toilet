@@ -26,10 +26,11 @@
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
+#include <llvm/LLVMContext.h> 
 #include <llvm/Value.h>
+#include "llvm_context.h"
 using namespace llvm;
 using namespace std;
-
 
 id MLKDummyUseLLVMLexicalContext = nil;
 
@@ -57,11 +58,11 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Instruction *) functionCellValueForSymbol:(id)name
 {
-  std::vector<const Type *> types (2, PointerType::get(PointerType::get(Type::Int8Ty, 0), 0));
-  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+  std::vector<const Type *> types (2, PointerType::get(PointerType::get(Int8Ty, 0), 0));
+  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
                                              (uint64_t)[self functionCellForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(Type::Int8Ty,
+                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(Int8Ty,
                                                                                                  0),
                                                                                 types,
                                                                                 true),
@@ -71,27 +72,27 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Instruction *) closureDataPointerValueForSymbol:(id)name
 {
-  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
                                              (uint64_t)[self closureDataPointerForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(PointerType::get(Type::Int8Ty, 0), 0), 0)));
+                            PointerType::get(PointerType::get(PointerType::get(Int8Ty, 0), 0), 0)));
 }
 
 -(Instruction *) closureDataLengthValueForSymbol:(id)name
 {
   // The length cell isn't really a void** but an intptr_t*.
-  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
                                              (uint64_t)[self closureDataLengthForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(Type::Int8Ty, 0), 0)));
+                            PointerType::get(PointerType::get(Int8Ty, 0), 0)));
 }
 
 -(Instruction *) globalBindingValueForSymbol:(id)name
 {
-  return (new IntToPtrInst (ConstantInt::get(Type::Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
                                              (uint64_t)[self bindingForSymbol:name],
                                              false),
-                            PointerType::get(Type::Int8Ty, 0)));
+                            PointerType::get(Int8Ty, 0)));
 }
 
 -(Value *) bindingValueForSymbol:(id)name

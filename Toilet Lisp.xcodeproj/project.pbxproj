@@ -66,6 +66,7 @@
 		A787138E0E4EFF8A00A7191F /* ffi.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138B0E4EFF8A00A7191F /* ffi.lisp */; };
 		A787138F0E4EFF8A00A7191F /* package.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138C0E4EFF8A00A7191F /* package.lisp */; };
 		A78713900E4EFF8A00A7191F /* string.lisp in CopyFiles */ = {isa = PBXBuildFile; fileRef = A787138D0E4EFF8A00A7191F /* string.lisp */; };
+		A7900BC71419687C00FB74B8 /* llvm_context.h in Headers */ = {isa = PBXBuildFile; fileRef = A7900BC61419687C00FB74B8 /* llvm_context.h */; };
 		A7A833860E476CF3005D64E0 /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833800E476CF3005D64E0 /* functions.m */; };
 		A7A833870E476CF3005D64E0 /* MLKBackquoteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */; };
 		A7A833880E476CF3005D64E0 /* MLKCommaReader.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A833820E476CF3005D64E0 /* MLKCommaReader.m */; };
@@ -313,6 +314,7 @@
 		A787138B0E4EFF8A00A7191F /* ffi.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ffi.lisp; sourceTree = "<group>"; };
 		A787138C0E4EFF8A00A7191F /* package.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = package.lisp; sourceTree = "<group>"; };
 		A787138D0E4EFF8A00A7191F /* string.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = string.lisp; sourceTree = "<group>"; };
+		A7900BC61419687C00FB74B8 /* llvm_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llvm_context.h; sourceTree = "<group>"; };
 		A7A833800E476CF3005D64E0 /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
 		A7A833810E476CF3005D64E0 /* MLKBackquoteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKBackquoteReader.m; sourceTree = "<group>"; };
 		A7A833820E476CF3005D64E0 /* MLKCommaReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLKCommaReader.m; sourceTree = "<group>"; };
@@ -607,6 +609,7 @@
 		A7E5C48C0E2169CE00A01D81 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				A7900BC61419687C00FB74B8 /* llvm_context.h */,
 				A7A8628C0E6E775F00021916 /* MLKNoSuchSymbolError.h */,
 				A7A8628E0E6E776000021916 /* MLKStreamError.h */,
 				A7A862900E6E776000021916 /* MLKUnboundVariableError.h */,
@@ -743,6 +746,7 @@
 			files = (
 				A745C44E0E618B2C00C43A04 /* MLKLLVMCompiler.h in Headers */,
 				A745C44F0E618B2C00C43A04 /* MLKLexicalContext-MLKLLVMCompilation.h in Headers */,
+				A7900BC71419687C00FB74B8 /* llvm_context.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
