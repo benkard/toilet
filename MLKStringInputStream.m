@@ -33,14 +33,21 @@
 
 -(MLKStringInputStream *) initWithString:(NSString *)string
 {
+  // We used to use NSUnicodeStringEncoding here, but Mac OS X has
+  // the strange habit of using a byte-order mark in internal string
+  // representations.  This complicates matters: -readCharNoCache
+  // will correctly read the first character of a string, since the
+  // beginning of the string includes the BOM, but subsequent 
+  // characters may or may not be read correctly depending on the 
+  // host's default endianness.
   MLKStreamStream *binstream =
     LAUTORELEASE ([[MLKStreamStream alloc]
                     initWithInputStream:
                       [NSInputStream inputStreamWithData:
                                        [string dataUsingEncoding:
-                                                 NSUnicodeStringEncoding]]]);
+                                                 NSUTF8StringEncoding]]]);
   self = (id) [super initWithBinaryStream:binstream
-                     encoding:NSUnicodeStringEncoding];
+                     encoding:NSUTF8StringEncoding];
   return self;
 }
 
