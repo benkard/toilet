@@ -41,9 +41,9 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
+#include <llvm/ExecutionEngine/Interpreter.h>
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Instructions.h>
-//#include <llvm/Interpreter.h>
 #include <llvm/Module.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/IRBuilder.h>
@@ -82,14 +82,16 @@ static Constant
   Constant *(indices[2]);
   indices[0] = indices[1] = ConstantInt::get (Int32Ty, 0);
 
-  Constant *str = ConstantArray::get (*llvm_context, string);
-  Constant *str2 = new GlobalVariable (str->getType(),
+  Constant *str = ConstantArray::get (*llvm_context, string, true);
+  Constant *str2 = new GlobalVariable (*module,
+                                       str->getType(),
                                        true, 
                                        GlobalValue::InternalLinkage,
                                        str,
-                                       "",
-                                       module);
-  Constant *ptr = ConstantExpr::getGetElementPtr (str2, indices, 2);
+                                       "");
+    //  ArrayRef<Constant*> aindices(indices, 2);
+    //  Constant *ptr = ConstantExpr::getGetElementPtr (str2, aindices, false);
+  Constant *ptr = ConstantExpr::getGetElementPtr (str2, indices, 2, false);
   return ptr;
 }
 
@@ -125,9 +127,12 @@ static Constant
 
   module = new llvm::Module ("MLKLLVMModule", *llvm_context);
 
+  LLVMLinkInInterpreter();
+  LLVMLinkInJIT();
+
   InitializeNativeTarget();
   std::string error;
-  //execution_engine = ExecutionEngine::create (module, true);
+  //execution_engine = ExecutionEngine::create (module, true, &error);
   execution_engine = ExecutionEngine::create (module, false, &error);
   assert(execution_engine);
 
@@ -159,9 +164,7 @@ static Constant
 
   Value *v = NULL;
   BasicBlock *block;
-  vector<const Type*> noargs (0, VoidTy);
   FunctionType *function_type = FunctionType::get (VoidPointerTy,
-                                                   noargs,
                                                    false);
   Function *function = Function::Create (function_type,
                                          Function::ExternalLinkage,
@@ -174,6 +177,8 @@ static Constant
                            forCompiler:self];
   [self markVariablesForHeapAllocationInForm:form];
 
+  //NSLog(@"Compiling form: %@", MLKPrintToString(object));
+
   block = BasicBlock::Create (*llvm_context, "entry", function);
   builder->SetInsertPoint (block);
 
@@ -181,9 +186,10 @@ static Constant
 
   builder->CreateRet (v);
   verifyFunction (*function);
+  //NSLog(@"Running FPM...");
   fpm->run (*function);
+  //function->dump();           //!
 
-  //function->dump();
 
   //module->dump();
   //NSLog (@"%p", fn);
@@ -195,7 +201,7 @@ static Constant
   // JIT-compile.
   vector<GenericValue> nogenericargs;
   lambdaForm = (id)execution_engine->runFunction (function, nogenericargs).PointerVal;
-  //fn = (id (*)()) execution_engine->getPointerToFunction (function);
+  //id (*fn)() = (id (*)()) execution_engine->getPointerToFunction (function);
   // Execute.
   //lambdaForm = fn();
   // FIXME: Free machine code when appropriate.  (I.e. now?  But this crashes after a LOAD.)
@@ -635,7 +641,7 @@ static Constant
   //[_compiler insertTrace:[NSString stringWithFormat:@"Now calling: %@.", MLKPrintToString(_head)]];
   //[_compiler insertPointerTrace:functionPtr];
 
-  CallInst *call = builder->CreateCall (functionPtr,
+  CallInst *call = builder->CreateCall(functionPtr,
                                        args.begin(),
                                        args.end(),
                                        [MLKPrintToString(_head) UTF8String]);

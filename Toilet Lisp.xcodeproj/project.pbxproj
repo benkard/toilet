@@ -1538,17 +1538,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1574,17 +1581,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1611,17 +1625,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=5",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1649,17 +1670,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1685,17 +1713,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1722,17 +1757,24 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
-					"$(inherited)",
+					"-DHAVE_FFI_FFI_H",
+					"-I/opt/homebrew/include",
+					"-D_DEBUG",
+					"-D_GLIBCXX_DEBUG",
+					"-DXDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_CONSTANT_MACROS",
+					"-O3",
+					"-g",
+					"-fno-common",
 					"-DUSE_LLVM",
-					"-DLLVM_MAJOR_VERSION=2",
-					"-DLLVM_MINOR_VERSION=3",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(inherited)",
-					"-D_DEBUG",
-					"-D_GNU_SOURCE",
-					"-D__STDC_LIMIT_MACROS",
+					"$(OTHER_CFLAGS)",
 					"-Woverloaded-virtual",
+					"-I/opt/local/include",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

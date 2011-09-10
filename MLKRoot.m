@@ -163,6 +163,7 @@ load (id *_data, id *_multireturn, NSString *fileName, id _marker)
 static id
 require (id *_data, id *_multireturn, id moduleName, id _marker)
 {
+  NSLog(@"require...");
   NSBundle *toiletKit = [NSBundle bundleForClass:[MLKRoot class]];
   NSString *path = [[toiletKit resourcePath]
                     stringByAppendingPathComponent:stringify(moduleName)];

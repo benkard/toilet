@@ -60,9 +60,10 @@
       //NSLog (@"%@", _binaryStream);
       //NSLog(@"Read: 0x%x (%C)", buffer[i], buffer[i]);
 
-      tmpstr = [[NSString alloc] initWithBytes:buffer
-                                 length:(i+1)
-                                 encoding:_encoding];
+      tmpstr = [[NSString alloc] initWithBytesNoCopy:buffer
+                                              length:(i+1)
+                                            encoding:_encoding
+                                        freeWhenDone:NO];
       if ([tmpstr length] == 1)
         {
           retval = [tmpstr characterAtIndex:0];
