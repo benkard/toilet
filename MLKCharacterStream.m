@@ -41,7 +41,7 @@
 {
   if (_charCached)
     {
-      char ch;
+      unichar ch;
       ch = _cachedChar;
       _cachedChar = 0;
       _charCached = NO;

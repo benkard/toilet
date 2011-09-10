@@ -155,6 +155,7 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
           (escaped && (![readtable isMultipleEscapeCharacter:ch]
                        && ![readtable isSingleEscapeCharacter:ch])))
         {
+          //NSLog (@"Constituent: 0x%x (%C)", ch, ch);
           if (escaped)
             [token appendFormat:@"%C", ch];
           else
@@ -162,6 +163,7 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
         }
       else if ([readtable isSingleEscapeCharacter:ch])
         {
+          //NSLog (@"Escape");
           if ([stream isEOF])
             [NSException raise:@"MLKEndOfFileError"
                          format:@"Premature end of file on stream %@.", stream];
@@ -171,11 +173,13 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
         }
       else if ([readtable isMultipleEscapeCharacter:ch])
         {
+          //NSLog (@"Multi-Escape");
           ever_escaped = YES;
           escaped = !escaped;
         }
       else if ([readtable isTerminatingMacroCharacter:ch])
         {
+          //NSLog (@"Terminating macro char");
           [stream unreadChar:ch];
           break;
         }
@@ -188,10 +192,16 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
         }
       else if ([readtable isWhitespaceCharacter:ch])
         {
+          //NSLog (@"Whitespace");
           if (preserveWhitespace)
             [stream unreadChar:ch];
           break;
         }
+      else {
+        [NSException raise:@"MLKReaderError"
+                     format:@"'%c' is an unrecognized character.", ch];
+      }
+      //NSLog(@"Token now: %@", token);
     }
 
   //NSLog (@"--> Interpret token: %@", token);
@@ -271,6 +281,8 @@ readingUninternedSymbol:(BOOL)readingUninternedSymbol
              escaped:(BOOL)escaped
 {
   int base;
+    
+  //NSLog(@"Interpreting token: %@", token);
 
   base = [[[MLKDynamicContext currentContext]
             valueForSymbol:[[MLKPackage findPackage:@"COMMON-LISP"]

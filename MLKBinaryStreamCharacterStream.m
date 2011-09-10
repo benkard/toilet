@@ -54,10 +54,11 @@
     {
       NSString *tmpstr;
 
-      //NSLog (@"%@", _input);
-
       buffer = (uint8_t *) realloc (buffer, i+1);
       buffer[i] = [_binaryStream readOctet];
+
+      //NSLog (@"%@", _binaryStream);
+      //NSLog(@"Read: 0x%x (%C)", buffer[i], buffer[i]);
 
       tmpstr = [[NSString alloc] initWithBytes:buffer
                                  length:(i+1)
@@ -66,7 +67,8 @@
         {
           retval = [tmpstr characterAtIndex:0];
           [tmpstr release];
-          //FIXME: ? free (buffer);
+          //NSLog(@"Finished reading char: 0x%x (%C)", retval, retval);
+          //FIXME: ? free (butval);
           return retval;
         }
       else
