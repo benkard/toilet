@@ -20,6 +20,7 @@
 #import "MLKDynamicContext.h"
 #import "MLKLexicalContext-MLKLLVMCompilation.h"
 #import "MLKLLVMCompiler.h"
+#import "MLKRoot.h"
 #import "MLKPackage.h"
 #import "globals.h"
 #import "llvm_context.h"
@@ -132,7 +133,7 @@ static Constant
 
   InitializeNativeTarget();
   std::string error;
-  //execution_engine = ExecutionEngine::create (module, true, &error);
+    //execution_engine = ExecutionEngine::create (module, true, &error);
   execution_engine = ExecutionEngine::create (module, false, &error);
   assert(execution_engine);
 
@@ -188,7 +189,7 @@ static Constant
   verifyFunction (*function);
   //NSLog(@"Running FPM...");
   fpm->run (*function);
-  //function->dump();           //!
+  function->dump();           //!
 
 
   //module->dump();
@@ -569,7 +570,17 @@ static Constant
       // XXX Issue a style warning.
     }
 
-  if ([_context functionIsGlobal:_head])
+  const char *built_in_name;
+  if ((built_in_name = toilet_built_in_function_name(_head)))
+    {
+      //vector <const Type *> argtypes (2, VoidPointerTy);
+      vector <const Type *> argtypes;
+      FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
+      functionPtr =
+        module->getOrInsertFunction (built_in_name, ftype);
+      closureDataPtr = ConstantPointerNull::get (VoidPointerTy);
+    }
+  else if ([_context functionIsGlobal:_head])
     {
       Value *functionCell;
       Value *closureDataCell;

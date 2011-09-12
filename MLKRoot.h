@@ -23,6 +23,15 @@
 #import <Foundation/NSObject.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+const char *toilet_built_in_function_name(id lisp_name);
+#ifdef __cplusplus
+}
+#endif
+
+
 @interface MLKRoot : NSObject
 +(void) initialize;
 

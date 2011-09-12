@@ -54,48 +54,50 @@
 static NSMethodSignature *signature;
 static MLKPackage *sys;
 static MLKPackage *cl;
+static NSMutableDictionary *lisp_c_name_map;
 
 
-static id truify (BOOL value)
+static id
+truify (BOOL value)
 {
   return (value ? (id) [cl intern:@"T"] : nil);
 }
 
 
-static id
-car (id *_data, id *_multireturn, id cons, id _marker)
+id
+toilet_car (id *_data, id *_multireturn, id cons, id _marker)
 {
   return [cons car];
 }
 
-static id
-cdr (id *_data, id *_multireturn, id cons, id _marker)
+id
+toilet_cdr (id *_data, id *_multireturn, id cons, id _marker)
 {
   return [cons cdr];
 }
 
-static id
-rplaca (id *_data, id *_multireturn, id cons, id value, id _marker)
+id
+toilet_rplaca (id *_data, id *_multireturn, id cons, id value, id _marker)
 {
   [cons setCar:value];
   return cons;
 }
 
-static id
-rplacd (id *_data, id *_multireturn, id cons, id value, id _marker)
+id
+toilet_rplacd (id *_data, id *_multireturn, id cons, id value, id _marker)
 {
   [cons setCdr:value];
   return cons;
 }
 
-static id
-cons (id *_data, id *_multireturn, id car, id cdr, id _marker)
+id
+toilet_cons (id *_data, id *_multireturn, id car, id cdr, id _marker)
 {
   return [MLKCons cons:car with:cdr];
 }
 
-static id
-load (id *_data, id *_multireturn, NSString *fileName, id _marker)
+id
+toilet_load (id *_data, id *_multireturn, NSString *fileName, id _marker)
 {
   BOOL success;
   int l, i;
@@ -160,24 +162,24 @@ load (id *_data, id *_multireturn, NSString *fileName, id _marker)
   return truify (success);
 }
 
-static id
-require (id *_data, id *_multireturn, id moduleName, id _marker)
+id
+toilet_require (id *_data, id *_multireturn, id moduleName, id _marker)
 {
   NSLog(@"require...");
   NSBundle *toiletKit = [NSBundle bundleForClass:[MLKRoot class]];
   NSString *path = [[toiletKit resourcePath]
                     stringByAppendingPathComponent:stringify(moduleName)];
-  return load (NULL, _multireturn, path, MLKEndOfArgumentsMarker);
+  return toilet_load (NULL, _multireturn, path, MLKEndOfArgumentsMarker);
 }
 
-static id
-eq (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_eq (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return truify (x == y);
 }
 
-static id
-fixnum_eq (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_fixnum_eq (id *_data, id *_multireturn, id x, id y, id _marker)
 {
 #ifdef NO_FIXNUMS
   return truify ([x isEqual:y]);
@@ -186,96 +188,96 @@ fixnum_eq (id *_data, id *_multireturn, id x, id y, id _marker)
 #endif
 }
 
-static id
-symbolp (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_symbolp (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && (!arg0 || [arg0 isKindOfClass:[MLKSymbol class]]));
 }
 
-static id
-listp (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_listp (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && (!arg0 || [arg0 isKindOfClass:[MLKCons class]]));
 }
 
-static id
-consp (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_consp (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (MLKInstanceP(arg0)
                  && [arg0 isKindOfClass:[MLKCons class]]);
 }
 
-static id
-atom (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_atom (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (!MLKInstanceP(arg0)
                  || ![arg0 isKindOfClass:[MLKCons class]]);
 }
 
-static id
-null (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_null (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (!arg0);
 }
 
-static id
-fixnump (id *_data, id *_multireturn, id arg0, id _marker)
+id
+toilet_fixnump (id *_data, id *_multireturn, id arg0, id _marker)
 {
   return truify (MLKFixnumP(arg0));
 }
 
-static id
-add (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
+id
+toilet_add (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) add:nullify(y)];
 }
 
-static id
-subtract (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
+id
+toilet_subtract (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) subtract:nullify(y)];
 }
 
-static id
-multiply (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
+id
+toilet_multiply (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) multiplyWith:nullify(y)];
 }
 
-static id
-divide (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
+id
+toilet_divide (id *_data, id *_multireturn, MLKNumber *x, MLKNumber *y, id _marker)
 {
   return [nullify(x) divideBy:nullify(y)];
 }
 
-static id
-add_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_add_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return MLKAddFixnums (x, y);
 }
 
-static id
-subtract_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_subtract_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return MLKSubtractFixnums (x, y);
 }
 
-static id
-idivide_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_idivide_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return MLKIDivideFixnums (x, y);
 }
 
-static id
-multiply_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_multiply_fixnums (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return MLKMultiplyFixnums (x, y);
 }
 
-static id
-list (id *_data, id *_multireturn, ...)
+id
+toilet_list (id *_data, id *_multireturn, ...)
 {
   id arg;
   va_list ap;
@@ -312,8 +314,8 @@ list (id *_data, id *_multireturn, ...)
    ? (id)DEFAULT                                                \
    : (id)({ id __tmp = ARG; ARG = va_arg(AP, id); __tmp; }))
 
-static id
-macroexpand_1 (id *_data, id *_multireturn, id form, id arg, ...)
+id
+toilet_macroexpand_1 (id *_data, id *_multireturn, id form, id arg, ...)
 {
   va_list ap;
 
@@ -345,8 +347,8 @@ macroexpand_1 (id *_data, id *_multireturn, id form, id arg, ...)
   return form;
 }
 
-static id
-shadow_ (id *_data, id *_multireturn, id symbols, id arg, ...)
+id
+toilet_shadow_ (id *_data, id *_multireturn, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -369,8 +371,8 @@ shadow_ (id *_data, id *_multireturn, id symbols, id arg, ...)
   return [cl intern:@"T"];
 }
 
-static id
-export (id *_data, id *_multireturn, id symbols, id arg, ...)
+id
+toilet_export (id *_data, id *_multireturn, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -393,8 +395,8 @@ export (id *_data, id *_multireturn, id symbols, id arg, ...)
   return [cl intern:@"T"];
 }
 
-static id
-unexport (id *_data, id *_multireturn, id symbols, id arg, ...)
+id
+toilet_unexport (id *_data, id *_multireturn, id symbols, id arg, ...)
 {
   va_list ap;
 
@@ -417,8 +419,8 @@ unexport (id *_data, id *_multireturn, id symbols, id arg, ...)
   return [cl intern:@"T"];
 }
 
-static id
-find_package (id *_data, id *_multireturn, id name, id _marker)
+id
+toilet_find_package (id *_data, id *_multireturn, id name, id _marker)
 {
   MLKPackage *package = [MLKPackage findPackage:stringify(name)];
 
@@ -435,14 +437,14 @@ find_package (id *_data, id *_multireturn, id name, id _marker)
     }
 }
 
-static id
-string (id *_data, id *_multireturn, id x, id _marker)
+id
+toilet_string (id *_data, id *_multireturn, id x, id _marker)
 {
   return stringify (x);
 }
 
-static id
-gensym (id *_data, id *_multireturn, id arg, ...)
+id
+toilet_gensym (id *_data, id *_multireturn, id arg, ...)
 {
   va_list ap;
 
@@ -483,14 +485,14 @@ gensym (id *_data, id *_multireturn, id arg, ...)
                     package:nil];
 }
 
-static id
-make_symbol (id *_data, id *_multireturn, id name, id _marker)
+id
+toilet_make_symbol (id *_data, id *_multireturn, id name, id _marker)
 {
   return [MLKSymbol symbolWithName:name package:nil];
 }
 
-static id
-intern (id *_data, id *_multireturn, id name, id arg, ...)
+id
+toilet_intern (id *_data, id *_multireturn, id name, id arg, ...)
 {
   va_list ap;
 
@@ -504,8 +506,8 @@ intern (id *_data, id *_multireturn, id name, id arg, ...)
   return [package intern:name];
 }
 
-static id
-import (id *_data, id *_multireturn, id symbol, id arg, ...)
+id
+toilet_import (id *_data, id *_multireturn, id symbol, id arg, ...)
 {
   va_list ap;
 
@@ -521,40 +523,40 @@ import (id *_data, id *_multireturn, id symbol, id arg, ...)
   return [cl intern:@"T"];
 }
 
-static id
-objc_class_of (id *_data, id *_multireturn, id x, id _marker)
+id
+toilet_objc_class_of (id *_data, id *_multireturn, id x, id _marker)
 {
   return [x class];
 }
 
-static id
-objc_subclassp (id *_data, id *_multireturn, id x, id y, id _marker)
+id
+toilet_objc_subclassp (id *_data, id *_multireturn, id x, id y, id _marker)
 {
   return truify ([x isSubclassOfClass:y]);
 }
 
-static id
-find_objc_class (id *_data, id *_multireturn, id x, id _marker)
+id
+toilet_find_objc_class (id *_data, id *_multireturn, id x, id _marker)
 {
   return NSClassFromString (x);
 }
 
-static id
-ns_log (id *_data, id *_multireturn, id x, id _marker)
+id
+toilet_ns_log (id *_data, id *_multireturn, id x, id _marker)
 {
   NSString *description = MLKPrintToString(x);
   NSLog (@"%@", description);
   return x;
 }
 
-static id
-symbol_name (id *_data, id *_multireturn, id symbol, id _marker)
+id
+toilet_symbol_name (id *_data, id *_multireturn, id symbol, id _marker)
 {
   return (symbol ? (id)[symbol name] : (id)@"NIL");
 }
 
-static id
-primitive_type_of (id *_data, id *_multireturn, id object, id _marker)
+id
+toilet_primitive_type_of (id *_data, id *_multireturn, id object, id _marker)
 {
   if (!object)
     { return [cl intern:@"NULL"]; }
@@ -593,8 +595,8 @@ primitive_type_of (id *_data, id *_multireturn, id object, id _marker)
     { return [cl intern:@"T"]; }
 }
 
-static id
-send_by_name (id *_data, id *_multireturn, id object, NSString *methodName, id arg, ...)
+id
+toilet_send_by_name (id *_data, id *_multireturn, id object, NSString *methodName, id arg, ...)
 {
   NSInvocation *invocation;
   SEL selector;
@@ -674,8 +676,8 @@ as provided by method %@ of object %@",
 }
 
 
-static id
-declarations_and_doc_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id _marker)
+id
+toilet_declarations_and_doc_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
 
@@ -687,8 +689,8 @@ declarations_and_doc_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id
 }
 
 
-static id
-declarations_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id _marker)
+id
+toilet_declarations_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id _marker)
 {
   id decls, doc, forms;
   
@@ -698,8 +700,8 @@ declarations_and_forms (id *_data, id *_multireturn, id bodyAndDecls, id _marker
                   with:[MLKCons cons:forms with:nil]];
 }
 
-static id
-compile (id *_data, id *_multireturn, id object, id _marker)
+id
+toilet_compile (id *_data, id *_multireturn, id object, id _marker)
 {
   if (!MLKDefaultCompiler)
     [NSException raise:@"MLKNotImplementedException"
@@ -713,8 +715,8 @@ compile (id *_data, id *_multireturn, id object, id _marker)
   return thing;
 }
 
-static id
-fset (id *_data, id *_multireturn, id symbol, id value, id _marker)
+id
+toilet_fset (id *_data, id *_multireturn, id symbol, id value, id _marker)
 {
   [[MLKLexicalContext globalContext] addFunction:symbol];
   [[MLKLexicalEnvironment globalEnvironment] addFunction:value
@@ -723,8 +725,8 @@ fset (id *_data, id *_multireturn, id symbol, id value, id _marker)
   return value;
 }
 
-static id
-set (id *_data, id *_multireturn, id symbol, id value, id _marker)
+id
+toilet_set (id *_data, id *_multireturn, id symbol, id value, id _marker)
 {
   MLKDynamicContext *dynamicContext = [MLKDynamicContext currentContext];
 
@@ -737,8 +739,8 @@ set (id *_data, id *_multireturn, id symbol, id value, id _marker)
   return value;
 }
 
-static id
-macroset (id *_data, id *_multireturn, id symbol, id value, id _marker)
+id
+toilet_macroset (id *_data, id *_multireturn, id symbol, id value, id _marker)
 {
   [[MLKLexicalContext globalContext] addMacro:value
                                      forSymbol:symbol];
@@ -746,8 +748,8 @@ macroset (id *_data, id *_multireturn, id symbol, id value, id _marker)
   return value;
 }
 
-static id
-apply (id *_data, id *_multireturn, id function, id arglist, id _marker)
+id
+toilet_apply (id *_data, id *_multireturn, id function, id arglist, id _marker)
 {
   // FIXME: Multiple values.
 
@@ -764,8 +766,8 @@ apply (id *_data, id *_multireturn, id function, id arglist, id _marker)
   return ([values count] > 0 ? denullify([values objectAtIndex:0]) : nil);
 }
 
-static id
-eval (id *_data, id *_multireturn, id evaluand, id _marker)
+id
+toilet_eval (id *_data, id *_multireturn, id evaluand, id _marker)
 {
   // FIXME: Multiple values.
 
@@ -779,7 +781,7 @@ eval (id *_data, id *_multireturn, id evaluand, id _marker)
 }
 
 static void
-register_cl (NSString *name, id (*function)())
+register_cl (NSString *name, NSString *c_name, id (*function)())
 {
   MLKCompiledClosure *closure = [MLKCompiledClosure closureWithCode:function
                                                                data:NULL
@@ -789,10 +791,11 @@ register_cl (NSString *name, id (*function)())
   [[MLKLexicalEnvironment globalEnvironment]
     addFunction:closure
       forSymbol:[cl intern:name]];
+  [lisp_c_name_map setObject:c_name forKey:[cl intern:name]];
 }
 
 static void
-register_sys (NSString *name, id (*function)())
+register_sys (NSString *name, NSString *c_name, id (*function)())
 {
   MLKCompiledClosure *closure = [MLKCompiledClosure closureWithCode:function
                                                                data:NULL
@@ -801,65 +804,81 @@ register_sys (NSString *name, id (*function)())
     addFunction:[sys intern:name]];
   [[MLKLexicalEnvironment globalEnvironment]
     addFunction:closure
-      forSymbol:[sys intern:name]]; 
+      forSymbol:[sys intern:name]];
+  [lisp_c_name_map setObject:c_name forKey:[sys intern:name]];
+}
+
+const char *toilet_built_in_function_name(id lisp_name)
+{
+  NSString *name = [lisp_c_name_map objectForKey:lisp_name];
+  if (name) {
+    return [name UTF8String];
+  } else {
+    return NULL;
+  }
 }
 
 @implementation MLKRoot
 +(void) initialize
 {
+  lisp_c_name_map = [[NSMutableDictionary alloc] init];
+
   signature = LRETAIN ([self methodSignatureForSelector:@selector(car:)]);
   sys = [MLKPackage findPackage:@"TOILET-SYSTEM"];
   cl = [MLKPackage findPackage:@"COMMON-LISP"];
 
-  register_sys (@"CAR", car);
-  register_sys (@"CDR", cdr);
-  register_sys (@"RPLACA", rplaca);
-  register_sys (@"RPLACD", rplacd);
-  register_sys (@"CONS", cons);
-  register_sys (@"LOAD", load);
-  register_sys (@"REQUIRE", require);
-  register_sys (@"EQ", eq);
-  register_sys (@"FIXNUM-EQ", fixnum_eq);
-  register_sys (@"SYMBOLP", symbolp);
-  register_sys (@"LISTP", listp);
-  register_sys (@"CONSP", consp);
-  register_sys (@"ATOM", atom);
-  register_sys (@"NULL", null);
-  register_sys (@"FIXNUMP", fixnump);
-  register_sys (@"ADD", add);
-  register_sys (@"SUBTRACT", subtract);
-  register_sys (@"MULTIPLY", multiply);
-  register_sys (@"DIVIDE", divide);
-  register_sys (@"ADD-FIXNUMS", add_fixnums);
-  register_sys (@"SUBTRACT-FIXNUMS", subtract_fixnums);
-  register_sys (@"MULTIPLY-FIXNUMS", multiply_fixnums);
-  register_sys (@"IDIVIDE-FIXNUMS", idivide_fixnums);
-  register_sys (@"LIST", (id (*)())list);
-  register_sys (@"MACROEXPAND-1", (id (*)())macroexpand_1);
-  register_sys (@"SHADOW", (id (*)())shadow_);
-  register_sys (@"EXPORT", (id (*)())export);
-  register_sys (@"UNEXPORT", (id (*)())unexport);
-  register_sys (@"FIND-PACKAGE", find_package);
-  register_sys (@"STRING", string);
-  register_sys (@"GENSYM", (id (*)())gensym);
-  register_sys (@"MAKE-SYMBOL", make_symbol);
-  register_sys (@"INTERN", (id (*)())intern);
-  register_sys (@"IMPORT", (id (*)())import);
-  register_sys (@"OBJC-CLASS-OF", objc_class_of);
-  register_sys (@"OBJC-SUBCLASSP", objc_subclassp);
-  register_sys (@"FIND-OBJC-CLASS", find_objc_class);
-  register_sys (@"NS-LOG", ns_log);
-  register_sys (@"SYMBOL-NAME", symbol_name);
-  register_sys (@"PRIMITIVE-TYPE-OF", primitive_type_of);
-  register_sys (@"SEND-BY-NAME", (id (*)())send_by_name);
-  register_sys (@"DECLARATIONS-AND-DOC-AND-FORMS", declarations_and_doc_and_forms);
-  register_sys (@"DECLARATIONS-AND-FORMS", declarations_and_forms);
-  register_sys (@"COMPILE", compile);
-  register_sys (@"%FSET", fset);
-  register_sys (@"SET", set);
-  register_sys (@"%MACROSET", macroset);
-  register_sys (@"APPLY", apply);
-  register_sys (@"EVAL", eval);
+  // NOTE TO SELF: PREFIX NAMES WITH TOILET_ AND UN-STATIC-IZE THEM SO THAT
+  // LLVM MAY FIND AND INVOKE THEM!
+
+  register_sys (@"CAR", @"toilet_car", toilet_car);
+  register_sys (@"CDR", @"toilet_cdr", toilet_cdr);
+  register_sys (@"RPLACA", @"toilet_rplaca", toilet_rplaca);
+  register_sys (@"RPLACD", @"toilet_rplacd", toilet_rplacd);
+  register_sys (@"CONS", @"toilet_cons", toilet_cons);
+  register_sys (@"LOAD", @"toilet_load", toilet_load);
+  register_sys (@"REQUIRE", @"toilet_require", toilet_require);
+  register_sys (@"EQ", @"toilet_eq", toilet_eq);
+  register_sys (@"FIXNUM-EQ", @"toilet_fixnum_eq", toilet_fixnum_eq);
+  register_sys (@"SYMBOLP", @"toilet_symbolp", toilet_symbolp);
+  register_sys (@"LISTP", @"toilet_listp", toilet_listp);
+  register_sys (@"CONSP", @"toilet_consp", toilet_consp);
+  register_sys (@"ATOM", @"toilet_atom", toilet_atom);
+  register_sys (@"NULL", @"toilet_null", toilet_null);
+  register_sys (@"FIXNUMP", @"toilet_fixnump", toilet_fixnump);
+  register_sys (@"ADD", @"toilet_add", toilet_add);
+  register_sys (@"SUBTRACT", @"toilet_subtract", toilet_subtract);
+  register_sys (@"MULTIPLY", @"toilet_multiply", toilet_multiply);
+  register_sys (@"DIVIDE", @"toilet_divide", toilet_divide);
+  register_sys (@"ADD-FIXNUMS", @"toilet_add_fixnums", toilet_add_fixnums);
+  register_sys (@"SUBTRACT-FIXNUMS", @"toilet_subtract_fixnums", toilet_subtract_fixnums);
+  register_sys (@"MULTIPLY-FIXNUMS", @"toilet_multiply_fixnums", toilet_multiply_fixnums);
+  register_sys (@"IDIVIDE-FIXNUMS", @"toilet_idivide_fixnums", toilet_idivide_fixnums);
+  register_sys (@"LIST", @"toilet_list", (id (*)())toilet_list);
+  register_sys (@"MACROEXPAND-1", @"macroexpand_1", (id (*)())toilet_macroexpand_1);
+  register_sys (@"SHADOW", @"toilet_shadow_", (id (*)())toilet_shadow_);
+  register_sys (@"EXPORT", @"toilet_export", (id (*)())toilet_export);
+  register_sys (@"UNEXPORT", @"toilet_unexport", (id (*)())toilet_unexport);
+  register_sys (@"FIND-PACKAGE", @"toilet_find_package", toilet_find_package);
+  register_sys (@"STRING", @"toilet_string", toilet_string);
+  register_sys (@"GENSYM", @"toilet_gensym", (id (*)())toilet_gensym);
+  register_sys (@"MAKE-SYMBOL", @"toilet_make_symbol", toilet_make_symbol);
+  register_sys (@"INTERN", @"toilet_intern", (id (*)())toilet_intern);
+  register_sys (@"IMPORT", @"toilet_import", (id (*)())toilet_import);
+  register_sys (@"OBJC-CLASS-OF", @"toilet_objc_class_of", toilet_objc_class_of);
+  register_sys (@"OBJC-SUBCLASSP", @"toilet_objc_subclassp", toilet_objc_subclassp);
+  register_sys (@"FIND-OBJC-CLASS", @"toilet_find_objc_class", toilet_find_objc_class);
+  register_sys (@"NS-LOG", @"toilet_ns_log", toilet_ns_log);
+  register_sys (@"SYMBOL-NAME", @"toilet_symbol_name", toilet_symbol_name);
+  register_sys (@"PRIMITIVE-TYPE-OF", @"toilet_primitive_type_of", toilet_primitive_type_of);
+  register_sys (@"SEND-BY-NAME", @"toilet_send_by_name", (id (*)())toilet_send_by_name);
+  register_sys (@"DECLARATIONS-AND-DOC-AND-FORMS", @"toilet_declarations_and_doc_and_forms", toilet_declarations_and_doc_and_forms);
+  register_sys (@"DECLARATIONS-AND-FORMS", @"toilet_declarations_and_forms", toilet_declarations_and_forms);
+  register_sys (@"COMPILE", @"toilet_compile", toilet_compile);
+  register_sys (@"%FSET", @"toilet_fset", toilet_fset);
+  register_sys (@"SET", @"toilet_set", toilet_set);
+  register_sys (@"%MACROSET", @"toilet_macroset", toilet_macroset);
+  register_sys (@"APPLY", @"toilet_apply", toilet_apply);
+  register_sys (@"EVAL", @"toilet_eval", toilet_eval);
 }
 
 +(void) registerBuiltins
