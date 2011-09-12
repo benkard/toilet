@@ -133,7 +133,7 @@ static Constant
 
   InitializeNativeTarget();
   std::string error;
-    //execution_engine = ExecutionEngine::create (module, true, &error);
+  //execution_engine = ExecutionEngine::create (module, true, &error);
   execution_engine = ExecutionEngine::create (module, false, &error);
   assert(execution_engine);
 
@@ -574,8 +574,9 @@ static Constant
   if ((built_in_name = toilet_built_in_function_name(_head)))
     {
       //vector <const Type *> argtypes (2, VoidPointerTy);
-      vector <const Type *> argtypes;
-      FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
+      vector <const Type *> argtypes (2 + [_argumentForms count] + 1, VoidPointerTy);
+      argtypes[1] = PointerPointerTy;
+      FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, false);
       functionPtr =
         module->getOrInsertFunction (built_in_name, ftype);
       closureDataPtr = ConstantPointerNull::get (VoidPointerTy);
