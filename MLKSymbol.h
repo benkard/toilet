@@ -53,7 +53,7 @@
 // copying.  (The hack is called real_identity and it's an ivar of this
 // class.)  See the comment above copyWithZone: for why it even exists.
 -(BOOL) isEqual:(id)object;
--(unsigned) hash;
+-(NSUInteger) hash;
 
 -(void) dealloc;
 @end

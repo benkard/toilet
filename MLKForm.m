@@ -507,7 +507,8 @@
 #else
   _argumentTypes = malloc (_argc * sizeof (MLKForeignType));
 #endif
-
+    
+  i = 0;
   while (argtypes)
     {
       _argumentTypes[i] = MLKForeignTypeWithTypeDesignator ([argtypes car]);

@@ -915,7 +915,7 @@
 		A7E5C3CE0E21682800A01D81 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = A7E5C3CF0E21682800A01D81 /* Build configuration list for PBXProject "Toilet Lisp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1077,6 +1077,7 @@
 		A72BC6F20E65DE4900486804 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1110,39 +1111,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1154,6 +1205,7 @@
 		A72BC6F30E65DE4900486804 /* Debug 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1183,39 +1235,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1227,6 +1329,7 @@
 		A72BC6F40E65DE4900486804 /* Debug 10.4+ (fast + GC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_MODEL_TUNING = G5;
@@ -1257,39 +1360,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1301,6 +1454,7 @@
 		A72BC6F50E65DE4900486804 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1332,39 +1486,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1376,6 +1580,7 @@
 		A72BC6F60E65DE4900486804 /* Release 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1405,39 +1610,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1449,6 +1704,7 @@
 		A72BC6F70E65DE4900486804 /* Release 10.4+ (fast + GC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_MODEL_TUNING = G5;
@@ -1479,39 +1735,89 @@
 					"-L/opt/local/lib",
 					"-lpthread",
 					"-lm",
-					"-lLLVMObject",
-					"-lLLVMMCJIT",
-					"-lLLVMMCDisassembler",
-					"-lLLVMLinker",
-					"-lLLVMipo",
-					"-lLLVMInterpreter",
+					"-lstdc++",
+					"-lLLVMAsmParser",
 					"-lLLVMInstrumentation",
+					"-lLLVMLinker",
+					"-lLLVMArchive",
+					"-lLLVMBitReader",
+					"-lLLVMDebugInfo",
 					"-lLLVMJIT",
-					"-lLLVMExecutionEngine",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
 					"-lLLVMBitWriter",
-					"-lLLVMX86Disassembler",
+					"-lLLVMTableGen",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMHexagonAsmPrinter",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMMBlazeCodeGen",
+					"-lLLVMMBlazeDisassembler",
+					"-lLLVMMBlazeDesc",
+					"-lLLVMMBlazeAsmPrinter",
+					"-lLLVMMBlazeAsmParser",
+					"-lLLVMMBlazeInfo",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMCellSPUCodeGen",
+					"-lLLVMCellSPUDesc",
+					"-lLLVMCellSPUInfo",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMMipsInfo",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
 					"-lLLVMX86AsmParser",
+					"-lLLVMX86Disassembler",
 					"-lLLVMX86CodeGen",
 					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMX86Info",
 					"-lLLVMX86AsmPrinter",
 					"-lLLVMX86Utils",
-					"-lLLVMX86Info",
-					"-lLLVMAsmPrinter",
+					"-lLLVMMCDisassembler",
 					"-lLLVMMCParser",
+					"-lLLVMInterpreter",
 					"-lLLVMCodeGen",
 					"-lLLVMScalarOpts",
 					"-lLLVMInstCombine",
 					"-lLLVMTransformUtils",
 					"-lLLVMipa",
-					"-lLLVMAsmParser",
-					"-lLLVMArchive",
-					"-lLLVMBitReader",
 					"-lLLVMAnalysis",
+					"-lLLVMMCJIT",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMExecutionEngine",
 					"-lLLVMTarget",
 					"-lLLVMMC",
+					"-lLLVMObject",
 					"-lLLVMCore",
 					"-lLLVMSupport",
-					"-lstdc++",
 				);
 				PRODUCT_NAME = "Toilet Lisp";
 				USER_HEADER_SEARCH_PATHS = "/opt/homebrew/include /opt/local/include";
@@ -1523,6 +1829,7 @@
 		A745C3530E607C8700C43A04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1571,6 +1878,7 @@
 		A745C3540E607C8700C43A04 /* Debug 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1615,6 +1923,7 @@
 		A745C3550E607C8700C43A04 /* Debug 10.4+ (fast + GC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
@@ -1660,6 +1969,7 @@
 		A745C3560E607C8700C43A04 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1706,6 +2016,7 @@
 		A745C3570E607C8700C43A04 /* Release 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1750,6 +2061,7 @@
 		A745C3580E607C8700C43A04 /* Release 10.4+ (fast + GC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
@@ -2053,6 +2365,7 @@
 		A78711410E4C46FA00A7191F /* Debug 10.4+ (fast) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2174,10 +2487,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2195,6 +2515,7 @@
 		A78711440E4C473D00A7191F /* Debug 10.4+ (fast + GC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2318,10 +2639,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2345,6 +2673,7 @@
 					i386,
 					x86_64,
 				);
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2391,6 +2720,7 @@
 					i386,
 					x86_64,
 				);
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2598,10 +2928,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2620,10 +2957,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2642,10 +2986,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2664,10 +3015,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -2685,6 +3043,7 @@
 		A7E5C3EE0E2168A000A01D81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2732,6 +3091,7 @@
 					i386,
 					x86_64,
 				);
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

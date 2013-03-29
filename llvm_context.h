@@ -13,12 +13,12 @@
 #include <llvm/LLVMContext.h> 
 
 extern llvm::LLVMContext* llvm_context;
-extern const llvm::Type* Int8Ty;
-extern const llvm::Type* Int16Ty;
-extern const llvm::Type* Int32Ty;
-extern const llvm::Type* Int64Ty;
-extern const llvm::Type* VoidTy;
-extern const llvm::PointerType* VoidPointerTy;
-extern const llvm::PointerType* PointerPointerTy;
+extern llvm::Type* Int8Ty;
+extern llvm::Type* Int16Ty;
+extern llvm::Type* Int32Ty;
+extern llvm::Type* Int64Ty;
+extern llvm::Type* VoidTy;
+extern llvm::PointerType* VoidPointerTy;
+extern llvm::PointerType* PointerPointerTy;
 
 #endif

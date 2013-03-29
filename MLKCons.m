@@ -183,7 +183,7 @@
     return NO;
 }
 
--(unsigned int) hash
+-(NSUInteger) hash
 {
   // FIXME: Well...
   return [nullify(_car) hash]/2 + [nullify(_cdr) hash]/2;

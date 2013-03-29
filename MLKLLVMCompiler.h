@@ -28,7 +28,7 @@
 #include <vector>
 #include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
-using namespace llvm;
+//using namespace llvm;
 #endif
 
 @interface MLKLLVMCompiler : NSObject
@@ -48,43 +48,43 @@ using namespace llvm;
 +(void) markVariablesForHeapAllocationInForm:(MLKForm *)form;
 
 #ifdef __cplusplus
-+(Value *) processForm:(MLKForm *)form;
++(llvm::Value *) processForm:(MLKForm *)form;
 
-+(Value *) insertSelectorLookup:(NSString *)name;
++(llvm::Value *) insertSelectorLookup:(NSString *)name;
 
-+(Value *) insertMethodCall:(NSString *)messageName
-                   onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv;
-+(Value *) insertMethodCall:(NSString *)messageName
-                   onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv
++(llvm::Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(llvm::Value *)object
+         withArgumentVector:(std::vector<llvm::Value*> *)argv;
++(llvm::Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(llvm::Value *)object
+         withArgumentVector:(std::vector<llvm::Value*> *)argv
                        name:(NSString *)name;
-+(Value *) insertMethodCall:(NSString *)messageName
-                   onObject:(Value *)object
-         withArgumentVector:(std::vector<Value*> *)argv
++(llvm::Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(llvm::Value *)object
+         withArgumentVector:(std::vector<llvm::Value*> *)argv
                        name:(NSString *)name
-                 returnType:(const Type *)returnType;
-+(Value *) insertVoidMethodCall:(NSString *)messageName
-                       onObject:(Value *)object
-             withArgumentVector:(std::vector<Value*> *)argv;
+                 returnType:(llvm::Type *)returnType;
++(llvm::Value *) insertVoidMethodCall:(NSString *)messageName
+                       onObject:(llvm::Value *)object
+             withArgumentVector:(std::vector<llvm::Value*> *)argv;
 
-+(Value *) insertMethodCall:(NSString *)messageName
-                   onObject:(Value *)object;
-+(Value *) insertMethodCall:(NSString *)messageName
-                   onObject:(Value *)object
++(llvm::Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(llvm::Value *)object;
++(llvm::Value *) insertMethodCall:(NSString *)messageName
+                   onObject:(llvm::Value *)object
                    withName:(NSString *)name;
 
-+(Value *) insertClassLookup:(NSString *)className;
++(llvm::Value *) insertClassLookup:(NSString *)className;
 
 +(void) insertTrace:(NSString *)message;
-+(void) insertPointerTrace:(Value *)value;
++(void) insertPointerTrace:(llvm::Value *)value;
 #endif
 @end
 
 
 #ifdef __cplusplus
 @interface MLKForm (MLKLLVMCompilation)
--(Value *) processForLLVMWithMultiValue:(Value *)multiValue;
--(Value *) reallyProcessForLLVMWithMultiValue:(Value *)multiValue;
+-(llvm::Value *) processForLLVMWithMultiValue:(llvm::Value *)multiValue;
+-(llvm::Value *) reallyProcessForLLVMWithMultiValue:(llvm::Value *)multiValue;
 @end
 #endif

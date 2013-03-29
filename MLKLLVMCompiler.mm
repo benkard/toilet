@@ -47,9 +47,9 @@
 #include <llvm/Instructions.h>
 #include <llvm/Module.h>
 #include <llvm/PassManager.h>
-#include <llvm/Support/IRBuilder.h>
-#include <llvm/Target/TargetData.h>
-#include <llvm/Target/TargetSelect.h>
+#include <llvm/IRBuilder.h>
+//#include <llvm/Support/TargetData.h>
+#include <llvm/Support/TargetSelect.h>
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Transforms/IPO.h>
 #include <llvm/Transforms/Utils/Cloning.h>  // InlineFunction
@@ -83,7 +83,7 @@ static Constant
   Constant *(indices[2]);
   indices[0] = indices[1] = ConstantInt::get (Int32Ty, 0);
 
-  Constant *str = ConstantArray::get (*llvm_context, string, true);
+  Constant *str = ConstantDataArray::getString (*llvm_context, string, true);
   Constant *str2 = new GlobalVariable (*module,
                                        str->getType(),
                                        true, 
@@ -92,7 +92,7 @@ static Constant
                                        "");
     //  ArrayRef<Constant*> aindices(indices, 2);
     //  Constant *ptr = ConstantExpr::getGetElementPtr (str2, aindices, false);
-  Constant *ptr = ConstantExpr::getGetElementPtr (str2, indices, 2, false);
+  Constant *ptr = ConstantExpr::getGetElementPtr (str2, indices, false);
   return ptr;
 }
 
@@ -138,7 +138,9 @@ static Constant
   assert(execution_engine);
 
   fpm = new FunctionPassManager (module);
-  fpm->add (new TargetData (*execution_engine->getTargetData()));
+  //FIXME gone in 3.2??
+  // fpm->add (new TargetData (*execution_engine->getTargetData()));
+  
   //fpm->add (new TargetData (module));
   fpm->add (createScalarReplAggregatesPass());
   fpm->add (createInstructionCombiningPass());
@@ -326,9 +328,9 @@ static Constant
                    onObject:(Value *)object
          withArgumentVector:(vector<Value*> *)argv
                        name:(NSString *)name
-                 returnType:(const Type *)returnType
+                 returnType:(Type *)returnType
 {
-  vector <const Type *> argtypes (2, VoidPointerTy);
+  vector <Type *> argtypes (2, VoidPointerTy);
   FunctionType *ftype = FunctionType::get (returnType, argtypes, true);
 
   Value *sel = [self insertSelectorLookup:messageName];
@@ -337,7 +339,7 @@ static Constant
   Constant *function = 
     module->getOrInsertFunction ("objc_msgSend", ftype);
 #else
-  vector <const Type *> lookup_argtypes (2, VoidPointerTy);
+  vector <Type *> lookup_argtypes (2, VoidPointerTy);
   FunctionType *lookup_ftype = FunctionType::get (PointerType::get (ftype, 0),
                                                   lookup_argtypes,
                                                   false);
@@ -359,7 +361,7 @@ static Constant
   for (e = argv->begin(); e != argv->end(); e++)
     argd.push_back (*e);
 
-  return builder->CreateCall (function, argd.begin(), argd.end());
+  return builder->CreateCall (function, argd);
 }
 
 +(Value *) insertMethodCall:(NSString *)messageName
@@ -574,7 +576,7 @@ static Constant
   if ((built_in_name = toilet_built_in_function_name(_head)))
     {
       //vector <const Type *> argtypes (2, VoidPointerTy);
-      vector <const Type *> argtypes (2 + [_argumentForms count] + 1, VoidPointerTy);
+      vector <Type *> argtypes (2 + [_argumentForms count] + 1, VoidPointerTy);
       argtypes[1] = PointerPointerTy;
       FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, false);
       functionPtr =
@@ -614,7 +616,7 @@ static Constant
       Value *code = builder->CreateLoad (codeptr, "closure_code");
       Value *data = builder->CreateLoad (dataptr, "closure_data");
 
-      std::vector<const Type *> types (2, PointerPointerTy);
+      std::vector<Type *> types (2, PointerPointerTy);
       functionPtr = builder->CreateBitCast (code, PointerType::get(FunctionType::get(VoidPointerTy,
                                                                                     types,
                                                                                     true),
@@ -654,8 +656,7 @@ static Constant
   //[_compiler insertPointerTrace:functionPtr];
 
   CallInst *call = builder->CreateCall(functionPtr,
-                                       args.begin(),
-                                       args.end(),
+                                       args,
                                        [MLKPrintToString(_head) UTF8String]);
   call->setCallingConv(CallingConv::C);
   call->setTailCall(true);
@@ -686,7 +687,7 @@ build_simple_function_definition (MLKBodyForm *processed_form,
   MLKLexicalContext *_context = [processed_form context];
   id _compiler = [MLKLLVMCompiler class];
 
-  vector <const Type *> argtypes (2, PointerPointerTy);
+  vector <Type *> argtypes (2, PointerPointerTy);
   FunctionType *ftype = FunctionType::get (VoidPointerTy, argtypes, true);
   function = Function::Create (ftype,
                                Function::InternalLinkage,

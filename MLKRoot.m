@@ -657,8 +657,8 @@ toilet_send_by_name (id *_data, id *_multireturn, id object, NSString *methodNam
   if (returnType == MLKT_INVALID)
     {
       [NSException raise:@"MLKInvalidReturnTypeError"
-                   format:@"Cannot handle an Objective-C return type of \"%s\" \
-as provided by method %@ of object %@",
+                   format:@"Cannot handle an Objective-C return type of \"%@\" \
+as provided by method %@ of object %s",
                           methodName, object, [signature methodReturnType]];
       return nil;
     }

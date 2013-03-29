@@ -560,7 +560,7 @@ PRIMARY (NSArray *array)
 {
   id catchTag;
   NSArray *values;
-  NSDictionary *userInfo;
+  NSDictionary *userInfo = [NSDictionary dictionary];
 
   catchTag = PRIMARY([_tagForm interpretWithEnvironment:env]);
   values = [_valueForm interpretWithEnvironment:env];

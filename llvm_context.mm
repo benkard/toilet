@@ -17,11 +17,11 @@ using namespace llvm;
 
 LLVMContext *llvm_context;
 //const Type* IntPtrTy = IntegerType::getInt32Ty(C);
-const Type* Int8Ty;
-const Type* Int16Ty;
-const Type* Int32Ty;
-const Type* Int64Ty;
+Type* Int8Ty;
+Type* Int16Ty;
+Type* Int32Ty;
+Type* Int64Ty;
 //const Type* VoidTy = TypeBuilder<void, false>::get(llvm_context);
-const Type* VoidTy;
-const PointerType* VoidPointerTy;
-const PointerType* PointerPointerTy;
+Type* VoidTy;
+PointerType* VoidPointerTy;
+PointerType* PointerPointerTy;

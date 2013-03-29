@@ -19,17 +19,17 @@
 #import "MLKForm.h"
 #import "MLKLexicalContext.h"
 
-#import <Foundation/NSObject.h>
-#import <Foundation/NSString.h>
-
 #ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
+//#define __STDC_CONSTANT_MACROS
 #include <vector>
 #include <llvm/Value.h>
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
-using namespace llvm;
+//using namespace llvm;
 #endif
+
+#import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
 
 
 extern id MLKDummyUseLLVMLexicalContext;
@@ -38,20 +38,20 @@ extern id MLKDummyUseLLVMLexicalContext;
 #ifdef __cplusplus
 -(void) setVariableHeapAllocation:(BOOL)heapp forSymbol:(id)name;
 -(BOOL) variableHeapAllocationForSymbol:(id)name;
--(Instruction *) functionCellValueForSymbol:(id)name;
--(Instruction *) closureDataPointerValueForSymbol:(id)name;
--(Instruction *) closureDataLengthValueForSymbol:(id)name;
--(Value *) bindingValueForSymbol:(id)name; 
--(void) locallySetBindingValue:(Value *)value forSymbol:(id)name;
--(void) setBindingValue:(Value *)value forSymbol:(id)name;
--(Value *) functionBindingValueForSymbol:(id)name;
--(void) locallySetFunctionBindingValue:(Value *)value forSymbol:(id)name;
--(void) setFunctionBindingValue:(Value *)value forSymbol:(id)name;  
--(Instruction *) globalBindingValueForSymbol:(id)name;
--(Value *) valueValueForSymbol:(id)name;
-//-(void) setFunctionCellValue:(Value *)cellPtr forSymbol:(id)name;
-//-(void) setClosureDataPointerValue:(Value *)pointer forSymbol:(id)name;
-//-(void) setBindingValue:(Value *)binding forSymbol:(id)name;
--(void) setValueValue:(Value *)value forSymbol:(id)name;
+-(llvm::Instruction *) functionCellValueForSymbol:(id)name;
+-(llvm::Instruction *) closureDataPointerValueForSymbol:(id)name;
+-(llvm::Instruction *) closureDataLengthValueForSymbol:(id)name;
+-(llvm::Value *) bindingValueForSymbol:(id)name;
+-(void) locallySetBindingValue:(llvm::Value *)value forSymbol:(id)name;
+-(void) setBindingValue:(llvm::Value *)value forSymbol:(id)name;
+-(llvm::Value *) functionBindingValueForSymbol:(id)name;
+-(void) locallySetFunctionBindingValue:(llvm::Value *)value forSymbol:(id)name;
+-(void) setFunctionBindingValue:(llvm::Value *)value forSymbol:(id)name;
+-(llvm::Instruction *) globalBindingValueForSymbol:(id)name;
+-(llvm::Value *) valueValueForSymbol:(id)name;
+//-(void) setFunctionCellValue:(llvm::Value *)cellPtr forSymbol:(id)name;
+//-(void) setClosureDataPointerValue:(llvm::Value *)pointer forSymbol:(id)name;
+//-(void) setBindingValue:(llvm::Value *)binding forSymbol:(id)name;
+-(void) setValueValue:(llvm::Value *)value forSymbol:(id)name;
 #endif
 @end

@@ -170,7 +170,7 @@
                : self)));
 }
 
--(unsigned) hash
+-(NSUInteger) hash
 {
   if (real_identity)
     return [real_identity hash];
