@@ -1,6 +1,6 @@
 /* -*- mode: objc; coding: utf-8 -*- */
 /* Toilet Lisp, a Common Lisp subset for the Étoilé runtime.
- * Copyright (C) 2008  Matthias Andreas Benkard.
+ * Copyright (C) 2008, 2013  Matthias Andreas Benkard.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,11 +58,11 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Instruction *) functionCellValueForSymbol:(id)name
 {
-  std::vector<const Type *> types (2, PointerType::get(PointerType::get(Int8Ty, 0), 0));
-  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
+  std::vector<Type *> types (2, PointerType::get(PointerType::get(const_cast<Type*>(Int8Ty), 0), 0));
+  return (new IntToPtrInst (ConstantInt::get(const_cast<Type*>(Int64Ty),
                                              (uint64_t)[self functionCellForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(Int8Ty,
+                            PointerType::get(PointerType::get(FunctionType::get(PointerType::get(const_cast<Type*>(Int8Ty),
                                                                                                  0),
                                                                                 types,
                                                                                 true),
@@ -72,27 +72,27 @@ id MLKDummyUseLLVMLexicalContext = nil;
 
 -(Instruction *) closureDataPointerValueForSymbol:(id)name
 {
-  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(const_cast<Type*>(Int64Ty),
                                              (uint64_t)[self closureDataPointerForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(PointerType::get(Int8Ty, 0), 0), 0)));
+                            PointerType::get(PointerType::get(PointerType::get(const_cast<Type*>(Int8Ty), 0), 0), 0)));
 }
 
 -(Instruction *) closureDataLengthValueForSymbol:(id)name
 {
   // The length cell isn't really a void** but an intptr_t*.
-  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(const_cast<Type*>(Int64Ty),
                                              (uint64_t)[self closureDataLengthForSymbol:name],
                                              false),
-                            PointerType::get(PointerType::get(Int8Ty, 0), 0)));
+                            PointerType::get(PointerType::get(const_cast<Type*>(Int8Ty), 0), 0)));
 }
 
 -(Instruction *) globalBindingValueForSymbol:(id)name
 {
-  return (new IntToPtrInst (ConstantInt::get(Int64Ty,
+  return (new IntToPtrInst (ConstantInt::get(const_cast<Type*>(Int64Ty),
                                              (uint64_t)[self bindingForSymbol:name],
                                              false),
-                            PointerType::get(Int8Ty, 0)));
+                            PointerType::get(const_cast<Type*>(Int8Ty), 0)));
 }
 
 -(Value *) bindingValueForSymbol:(id)name

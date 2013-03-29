@@ -12,7 +12,7 @@
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/LLVMContext.h> 
-#include <llvm/Support/TypeBuilder.h>
+//#include <llvm/Support/TypeBuilder.h>
 using namespace llvm;
 
 LLVMContext *llvm_context;
